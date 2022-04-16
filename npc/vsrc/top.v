@@ -1,5 +1,4 @@
-module top
-(
+module top(
   input a,
   input b,
   output f
