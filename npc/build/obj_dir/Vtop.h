@@ -9,7 +9,6 @@
 #define VERILATED_VTOP_H_  // guard
 
 #include "verilated_heavy.h"
-#include "verilated_cov.h"
 
 class Vtop__Syms;
 class Vtop___024root;
