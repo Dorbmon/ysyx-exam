@@ -32,6 +32,7 @@ int main(int argc, char **argv, char **env) {
     contextp->timeInc(1);
     vcd->dump(time);
     time ++;
+    single_cycle();
     nvboard_update();
   }
   top->final();
