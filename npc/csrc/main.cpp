@@ -18,7 +18,7 @@ int main(int argc, char **argv, char **env) {
   top->trace(vcd, 0);
   vcd->open("data.vcd");
   int time = 0;
-  while (time < 20 && !contextp->gotFinish()) {
+  while (!contextp->gotFinish()) {
     contextp->timeInc(1);
     int a = rand() & 1;
     int b = rand() & 1;
