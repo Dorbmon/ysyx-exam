@@ -7,6 +7,15 @@ double sc_time_stamp() { return 0; }
 const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
 Vtop* top = new Vtop{contextp.get(), "TOP"};
 void nvboard_bind_all_pins(Vtop* top);
+void single_cycle() {
+  top->clk = 0; top->eval();
+  top->clk = 1; top->eval();
+}
+void reset(int n) {
+  top->rst = 1;
+  while (n -- > 0) single_cycle();
+  top->rst = 0;
+}
 int main(int argc, char **argv, char **env) {
   nvboard_bind_all_pins(top);
   nvboard_init();
@@ -18,15 +27,10 @@ int main(int argc, char **argv, char **env) {
   top->trace(vcd, 0);
   vcd->open("data.vcd");
   int time = 0;
+  reset(10);
   while (!contextp->gotFinish()) {
     contextp->timeInc(1);
-    int a = rand() & 1;
-    int b = rand() & 1;
-    top->a = a;top->b = b;
-    top->eval();
     vcd->dump(time);
-    printf("%d %d %d\n",a,b,top->f);
-    //std::cout << a << " " << b << " " << top->f << std::endl;
     time ++;
     nvboard_update();
   }
