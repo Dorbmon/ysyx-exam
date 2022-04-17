@@ -34,18 +34,15 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__3(Vtop___024root* vlSelf) {
     // Variables
     CData/*2:0*/ __Vtableidx1;
     CData/*2:0*/ __Vtableidx2;
-    CData/*6:0*/ __Vdly__top__DOT__s0;
     // Body
-    __Vdly__top__DOT__s0 = vlSelf->top__DOT__s0;
     vlSelf->top__DOT__count = (0x7fU & ((IData)(1U) 
                                         + (IData)(vlSelf->top__DOT__count)));
-    __Vdly__top__DOT__s0 = (0x7fU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__count), (IData)(0xaU)));
+    vlSelf->top__DOT__s0 = (0x7fU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__count), (IData)(0xaU)));
     vlSelf->top__DOT__s1 = (0x7fU & (VL_DIV_III(32, (IData)(vlSelf->top__DOT__count), (IData)(0xaU)) 
                                      - (IData)(vlSelf->top__DOT__s0)));
     if ((0x64U == (IData)(vlSelf->top__DOT__count))) {
         vlSelf->top__DOT__count = 0U;
     }
-    vlSelf->top__DOT__s0 = __Vdly__top__DOT__s0;
     __Vtableidx1 = (7U & (IData)(vlSelf->top__DOT__s0));
     vlSelf->HEX0 = Vtop__ConstPool__TABLE_3c94bc34_0
         [__Vtableidx1];

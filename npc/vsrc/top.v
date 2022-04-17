@@ -43,8 +43,8 @@ bcd7seg seg1(s1[2:0],HEX1);
 always @(posedge c) // 周期为1S
 begin
   count = count + 1;
-  s0 <= count % 10;
-  s1 <= (count / 10) - s0;
+  s0 = count % 10;
+  s1 = (count / 10) - s0;
   if (count == 100)
     count = 0;
 end
