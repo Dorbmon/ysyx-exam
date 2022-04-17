@@ -13,14 +13,10 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___combo__TOP__1\n"); );
     // Body
     vlSelf->top__DOT____Vcellinp__i0____pinNumber4 
-        = (0x48cU | ((vlSelf->a[0U] << 0xcU) | ((vlSelf->a
-                                                 [1U] 
-                                                 << 8U) 
-                                                | ((vlSelf->a
-                                                    [2U] 
-                                                    << 4U) 
-                                                   | vlSelf->a
-                                                   [3U]))));
+        = (0x48cU | (((IData)(vlSelf->x1) << 0xcU) 
+                     | (((IData)(vlSelf->x2) << 8U) 
+                        | (((IData)(vlSelf->x3) << 4U) 
+                           | (IData)(vlSelf->x4)))));
     vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[0U] 
         = (0xfU & (IData)(vlSelf->top__DOT____Vcellinp__i0____pinNumber4));
     vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[1U] 
@@ -146,6 +142,14 @@ void Vtop___024root___eval_debug_assertions(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_debug_assertions\n"); );
     // Body
+    if (VL_UNLIKELY((vlSelf->x1 & 0xfcU))) {
+        Verilated::overWidthError("x1");}
+    if (VL_UNLIKELY((vlSelf->x2 & 0xfcU))) {
+        Verilated::overWidthError("x2");}
+    if (VL_UNLIKELY((vlSelf->x3 & 0xfcU))) {
+        Verilated::overWidthError("x3");}
+    if (VL_UNLIKELY((vlSelf->x4 & 0xfcU))) {
+        Verilated::overWidthError("x4");}
     if (VL_UNLIKELY((vlSelf->s & 0xfcU))) {
         Verilated::overWidthError("s");}
 }

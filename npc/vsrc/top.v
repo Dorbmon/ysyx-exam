@@ -50,14 +50,17 @@ module MuxKeyWithDefault #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1) (
 );
   MuxKeyInternal #(NR_KEY, KEY_LEN, DATA_LEN, 1) i0 (out, key, default_out, lut);
 endmodule
-module top(a,s,y);
-  input  [1:0] a [3:0];
+module top(x1,x2,x3,x4,s,y);
+  input [1:0] x1;
+  input [1:0] x2 ;
+  input [1:0] x3 ;
+  input [1:0] x4;
   input  [1:0] s;
   output [1:0] y;
   MuxKeyWithDefault #(4, 2, 2) i0 (y, s, 2'b00, {
-    2'b00, a[0],
-    2'b01, a[1],
-    2'b10, a[2],
-    2'b11, a[3]
+    2'b00, x1,
+    2'b01, x2,
+    2'b10, x3,
+    2'b11, x4
   });
 endmodule

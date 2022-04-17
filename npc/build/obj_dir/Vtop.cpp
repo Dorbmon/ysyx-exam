@@ -10,7 +10,10 @@
 
 Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new Vtop__Syms(_vcontextp__, _vcname__, this)}
-    , a{vlSymsp->TOP.a}
+    , x1{vlSymsp->TOP.x1}
+    , x2{vlSymsp->TOP.x2}
+    , x3{vlSymsp->TOP.x3}
+    , x4{vlSymsp->TOP.x4}
     , s{vlSymsp->TOP.s}
     , y{vlSymsp->TOP.y}
     , rootp{&(vlSymsp->TOP)}

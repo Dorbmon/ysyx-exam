@@ -19,9 +19,12 @@ VL_MODULE(Vtop___024root) {
   public:
 
     // PORTS
+    VL_IN8(x1,1,0);
+    VL_IN8(x2,1,0);
+    VL_IN8(x3,1,0);
+    VL_IN8(x4,1,0);
     VL_IN8(s,1,0);
     VL_OUT8(y,1,0);
-    VL_IN8(a[4],1,0);
 
     // LOCAL SIGNALS
     CData/*1:0*/ top__DOT__i0__DOT__i0__DOT__lut_out;

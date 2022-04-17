@@ -22,12 +22,16 @@ void Vtop___024root__traceInitSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
     if (false && tracep && c) {}  // Prevent unused
     // Body
     {
-        {int i; for (i=0; i<4; i++) {
-                tracep->declBus(c+16+i*1,"a", true,(i+0), 1,0);}}
+        tracep->declBus(c+16,"x1", false,-1, 1,0);
+        tracep->declBus(c+17,"x2", false,-1, 1,0);
+        tracep->declBus(c+18,"x3", false,-1, 1,0);
+        tracep->declBus(c+19,"x4", false,-1, 1,0);
         tracep->declBus(c+20,"s", false,-1, 1,0);
         tracep->declBus(c+21,"y", false,-1, 1,0);
-        {int i; for (i=0; i<4; i++) {
-                tracep->declBus(c+16+i*1,"top a", true,(i+0), 1,0);}}
+        tracep->declBus(c+16,"top x1", false,-1, 1,0);
+        tracep->declBus(c+17,"top x2", false,-1, 1,0);
+        tracep->declBus(c+18,"top x3", false,-1, 1,0);
+        tracep->declBus(c+19,"top x4", false,-1, 1,0);
         tracep->declBus(c+20,"top s", false,-1, 1,0);
         tracep->declBus(c+21,"top y", false,-1, 1,0);
         tracep->declBus(c+22,"top i0 NR_KEY", false,-1, 31,0);
@@ -106,10 +110,10 @@ void Vtop___024root__traceFullSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
         tracep->fullCData(oldp+13,(vlSelf->top__DOT__i0__DOT__i0__DOT__data_list[3]),2);
         tracep->fullCData(oldp+14,(vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out),2);
         tracep->fullBit(oldp+15,(vlSelf->top__DOT__i0__DOT__i0__DOT__hit));
-        tracep->fullCData(oldp+16,(vlSelf->a[0]),2);
-        tracep->fullCData(oldp+17,(vlSelf->a[1]),2);
-        tracep->fullCData(oldp+18,(vlSelf->a[2]),2);
-        tracep->fullCData(oldp+19,(vlSelf->a[3]),2);
+        tracep->fullCData(oldp+16,(vlSelf->x1),2);
+        tracep->fullCData(oldp+17,(vlSelf->x2),2);
+        tracep->fullCData(oldp+18,(vlSelf->x3),2);
+        tracep->fullCData(oldp+19,(vlSelf->x4),2);
         tracep->fullCData(oldp+20,(vlSelf->s),2);
         tracep->fullCData(oldp+21,(vlSelf->y),2);
         tracep->fullIData(oldp+22,(4U),32);
