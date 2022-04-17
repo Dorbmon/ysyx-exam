@@ -18,6 +18,9 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
     CData/*2:0*/ __Vtableidx2;
     CData/*2:0*/ __Vtableidx3;
     // Body
+    if ((0U == (IData)(vlSelf->top__DOT__data))) {
+        vlSelf->top__DOT__data = 0xffU;
+    }
     vlSelf->top__DOT__data = ((0x80U & (VL_REDXOR_32(
                                                      (0x1dU 
                                                       & (IData)(vlSelf->top__DOT__data))) 

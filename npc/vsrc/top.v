@@ -28,6 +28,8 @@ bcd7seg seg1(s1[2:0],HEX1);
 bcd7seg seg2(s2[2:0],HEX2);
 always @(clk) // 周期为1S
 begin
+  if (data == 0)
+    data = 8'b11111111;
   // 移动
   data = {data[0]^data[2]^data[3]^data[4],data[6:0]};
   s0 = data % 10;
