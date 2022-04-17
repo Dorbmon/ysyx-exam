@@ -4,7 +4,7 @@ module bcd7seg(
   output reg [6:0] h
 );
 always @(b,e) begin
-  if (e)
+  if (~e)
     h = ~7'b0000000; 
   else 
   case (b) // 共阳极
