@@ -7,10 +7,14 @@
 
 //==========
 
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_255496f6_0;
+
 VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___combo__TOP__1\n"); );
+    // Variables
+    CData/*3:0*/ __Vtableidx1;
     // Body
     if (vlSelf->e) {
         vlSelf->top__DOT__i = 8U;
@@ -46,6 +50,9 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
     } else {
         vlSelf->y = 0U;
     }
+    __Vtableidx1 = (((IData)(vlSelf->y) << 1U) | (IData)(vlSelf->e));
+    vlSelf->HEX0 = Vtop__ConstPool__TABLE_255496f6_0
+        [__Vtableidx1];
 }
 
 void Vtop___024root___eval(Vtop___024root* vlSelf) {

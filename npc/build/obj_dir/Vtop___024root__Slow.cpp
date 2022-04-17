@@ -54,6 +54,7 @@ void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     // Body
     vlSelf->x = 0;
     vlSelf->e = 0;
+    vlSelf->HEX0 = 0;
     vlSelf->y = 0;
     vlSelf->indicator = 0;
     vlSelf->top__DOT__i = 0;

@@ -25,9 +25,10 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
     {
         tracep->chgCData(oldp+0,(vlSelf->x),8);
         tracep->chgBit(oldp+1,(vlSelf->e));
-        tracep->chgCData(oldp+2,(vlSelf->y),3);
-        tracep->chgBit(oldp+3,(vlSelf->indicator));
-        tracep->chgIData(oldp+4,(vlSelf->top__DOT__i),32);
+        tracep->chgCData(oldp+2,(vlSelf->HEX0),7);
+        tracep->chgCData(oldp+3,(vlSelf->y),3);
+        tracep->chgBit(oldp+4,(vlSelf->indicator));
+        tracep->chgIData(oldp+5,(vlSelf->top__DOT__i),32);
     }
 }
 
