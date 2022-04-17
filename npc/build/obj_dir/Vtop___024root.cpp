@@ -38,8 +38,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__3(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__count = (0x7fU & ((IData)(1U) 
                                         + (IData)(vlSelf->top__DOT__count)));
     vlSelf->top__DOT__s0 = (0x7fU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__count), (IData)(0xaU)));
-    vlSelf->top__DOT__s1 = (0x7fU & (VL_DIV_III(32, (IData)(vlSelf->top__DOT__count), (IData)(0xaU)) 
-                                     - (IData)(vlSelf->top__DOT__s0)));
+    vlSelf->top__DOT__s1 = (0x7fU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__count), (IData)(0xaU)));
     if ((0x64U == (IData)(vlSelf->top__DOT__count))) {
         vlSelf->top__DOT__count = 0U;
     }
