@@ -19,14 +19,23 @@ VL_MODULE(Vtop___024root) {
   public:
 
     // PORTS
-    VL_IN8(x,7,0);
-    VL_IN8(e,0,0);
+    VL_IN8(clk,0,0);
     VL_OUT8(HEX0,6,0);
-    VL_OUT8(y,2,0);
-    VL_OUT8(indicator,0,0);
+    VL_OUT8(HEX1,6,0);
 
     // LOCAL SIGNALS
-    IData/*31:0*/ top__DOT__i;
+    CData/*0:0*/ top__DOT__c;
+    CData/*6:0*/ top__DOT__s0;
+    CData/*6:0*/ top__DOT__s1;
+    CData/*6:0*/ top__DOT__count;
+    IData/*31:0*/ top__DOT__timer1__DOT__count;
+
+    // LOCAL VARIABLES
+    CData/*0:0*/ __VinpClk__TOP__top__DOT__c;
+    CData/*0:0*/ __Vclklast__TOP__clk;
+    CData/*0:0*/ __Vclklast__TOP____VinpClk__TOP__top__DOT__c;
+    CData/*0:0*/ __Vchglast__TOP__top__DOT__c;
+    VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
 
     // INTERNAL VARIABLES
     Vtop__Syms* vlSymsp;  // Symbol table

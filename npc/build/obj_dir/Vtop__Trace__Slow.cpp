@@ -22,20 +22,23 @@ void Vtop___024root__traceInitSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
     if (false && tracep && c) {}  // Prevent unused
     // Body
     {
-        tracep->declBus(c+1,"x", false,-1, 7,0);
-        tracep->declBit(c+2,"e", false,-1);
-        tracep->declBus(c+3,"HEX0", false,-1, 6,0);
-        tracep->declBus(c+4,"y", false,-1, 2,0);
-        tracep->declBit(c+5,"indicator", false,-1);
-        tracep->declBus(c+1,"top x", false,-1, 7,0);
-        tracep->declBit(c+2,"top e", false,-1);
-        tracep->declBus(c+3,"top HEX0", false,-1, 6,0);
-        tracep->declBus(c+4,"top y", false,-1, 2,0);
-        tracep->declBit(c+5,"top indicator", false,-1);
-        tracep->declBus(c+6,"top i", false,-1, 31,0);
-        tracep->declBus(c+4,"top seg7 b", false,-1, 2,0);
-        tracep->declBit(c+5,"top seg7 e", false,-1);
-        tracep->declBus(c+3,"top seg7 h", false,-1, 6,0);
+        tracep->declBus(c+6,"HEX0", false,-1, 6,0);
+        tracep->declBus(c+7,"HEX1", false,-1, 6,0);
+        tracep->declBit(c+8,"clk", false,-1);
+        tracep->declBus(c+6,"top HEX0", false,-1, 6,0);
+        tracep->declBus(c+7,"top HEX1", false,-1, 6,0);
+        tracep->declBit(c+8,"top clk", false,-1);
+        tracep->declBit(c+9,"top c", false,-1);
+        tracep->declBus(c+1,"top s0", false,-1, 6,0);
+        tracep->declBus(c+2,"top s1", false,-1, 6,0);
+        tracep->declBus(c+3,"top count", false,-1, 6,0);
+        tracep->declBit(c+8,"top timer1 clk", false,-1);
+        tracep->declBit(c+9,"top timer1 c", false,-1);
+        tracep->declBus(c+10,"top timer1 count", false,-1, 31,0);
+        tracep->declBus(c+4,"top seg0 b", false,-1, 2,0);
+        tracep->declBus(c+6,"top seg0 h", false,-1, 6,0);
+        tracep->declBus(c+5,"top seg1 b", false,-1, 2,0);
+        tracep->declBus(c+7,"top seg1 h", false,-1, 6,0);
     }
 }
 
@@ -72,11 +75,15 @@ void Vtop___024root__traceFullSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
     if (false && oldp) {}  // Prevent unused
     // Body
     {
-        tracep->fullCData(oldp+1,(vlSelf->x),8);
-        tracep->fullBit(oldp+2,(vlSelf->e));
-        tracep->fullCData(oldp+3,(vlSelf->HEX0),7);
-        tracep->fullCData(oldp+4,(vlSelf->y),3);
-        tracep->fullBit(oldp+5,(vlSelf->indicator));
-        tracep->fullIData(oldp+6,(vlSelf->top__DOT__i),32);
+        tracep->fullCData(oldp+1,(vlSelf->top__DOT__s0),7);
+        tracep->fullCData(oldp+2,(vlSelf->top__DOT__s1),7);
+        tracep->fullCData(oldp+3,(vlSelf->top__DOT__count),7);
+        tracep->fullCData(oldp+4,((7U & (IData)(vlSelf->top__DOT__s0))),3);
+        tracep->fullCData(oldp+5,((7U & (IData)(vlSelf->top__DOT__s1))),3);
+        tracep->fullCData(oldp+6,(vlSelf->HEX0),7);
+        tracep->fullCData(oldp+7,(vlSelf->HEX1),7);
+        tracep->fullBit(oldp+8,(vlSelf->clk));
+        tracep->fullBit(oldp+9,(vlSelf->top__DOT__c));
+        tracep->fullIData(oldp+10,(vlSelf->top__DOT__timer1__DOT__count),32);
     }
 }

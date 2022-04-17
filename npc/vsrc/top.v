@@ -1,56 +1,51 @@
 module bcd7seg(
   input  [2:0] b,
-  input e,
   output reg [6:0] h
 );
-/*
-assign segs[0] = 8'b1111110;
-assign segs[1] = 8'b0110000;
-assign segs[2] = 8'b1101101;
-assign segs[3] = 8'b1111001;
-assign segs[4] = 8'b0110011;
-assign segs[5] = 8'b1011011;
-assign segs[6] = 8'b1011111;
-assign segs[7] = 8'b1110000;
-*/
-always @(b,e) begin
-  if (~e)
-    h = ~7'b0000000; 
-  else 
+always @(b)
   case (b) // 共阳极
-  	3'b000 : h = ~7'b1111110;
-	  3'b001 : h = ~7'b0110000;
-	  3'b010 : h = ~7'b1101101;
-	  3'b011 : h = ~7'b1111001;
-	  3'b100 : h = ~7'b0110011;
-	  3'b101 : h = ~7'b1011011;
-	  3'b110 : h = ~7'b1011111;
-	  3'b111 : h = ~7'b1110000;
+    3'b000 : h = ~7'b1111110;
+    3'b001 : h = ~7'b0110000;
+    3'b010 : h = ~7'b1101101;
+    3'b011 : h = ~7'b1111001;
+    3'b100 : h = ~7'b0110011;
+    3'b101 : h = ~7'b1011011;
+    3'b110 : h = ~7'b1011111;
+    3'b111 : h = ~7'b1110000;
     default: h = ~7'b0000000;
   endcase
-end
 endmodule
-module top(x,e,y,indicator,HEX0);
-input [7:0] x;
-input e;
-output [6:0] HEX0;
-output reg [2:0] y;
-output reg indicator;
-integer i;
-bcd7seg seg7(y,indicator,HEX0);
-always @(x or e) begin
-  y = 0;
-  indicator = 0;
-  if (e) begin
-    for (i = 0;i <= 7;i ++) begin
-      if(x[i] == 1) begin
-        y = i[2:0];
-        indicator = 1;
-      end
-    end
+
+module clock(clk,c);
+input clk;
+output reg c;
+reg [31:0] count;
+always @(posedge clk) //只读取上行 若频率为50MHz 则25MHZ进行一次反转 即可做到每秒计时
+begin
+  if (count == 24999999) begin
+    count <= 0;
+    c <= ~c;
   end 
   else begin
-    y = 0;
+    count <= count + 1;
   end
-end 
+end
+endmodule
+module top(clk,HEX0,HEX1);
+output [6:0] HEX0, HEX1;
+input clk;
+reg c;
+reg [6:0] s0,s1;
+reg [6:0] count;
+clock timer1(clk,c);
+bcd7seg seg0(s0[2:0],HEX0);
+bcd7seg seg1(s1[2:0],HEX1);
+always @(posedge c) // 周期为1S
+begin
+  count = count + 1;
+  s0 <= count % 10;
+  s1 <= count - s0;
+  if (count == 100)
+    count = 0;
+end
 endmodule

@@ -7,30 +7,50 @@
 
 //==========
 
-extern const VlUnpacked<CData/*2:0*/, 512> Vtop__ConstPool__TABLE_2ab4c310_0;
-extern const VlUnpacked<CData/*0:0*/, 512> Vtop__ConstPool__TABLE_d484eecf_0;
-extern const VlUnpacked<CData/*2:0*/, 512> Vtop__ConstPool__TABLE_4c2bd713_0;
-extern const VlUnpacked<IData/*31:0*/, 512> Vtop__ConstPool__TABLE_508ee21b_0;
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_dcf69a87_0;
-
-VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
+VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___combo__TOP__1\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__1\n"); );
     // Variables
-    CData/*3:0*/ __Vtableidx2;
-    SData/*8:0*/ __Vtableidx1;
+    IData/*31:0*/ __Vdly__top__DOT__timer1__DOT__count;
     // Body
-    __Vtableidx1 = (((IData)(vlSelf->x) << 1U) | (IData)(vlSelf->e));
-    vlSelf->y = Vtop__ConstPool__TABLE_2ab4c310_0[__Vtableidx1];
-    vlSelf->indicator = Vtop__ConstPool__TABLE_d484eecf_0
-        [__Vtableidx1];
-    if ((4U & Vtop__ConstPool__TABLE_4c2bd713_0[__Vtableidx1])) {
-        vlSelf->top__DOT__i = Vtop__ConstPool__TABLE_508ee21b_0
-            [__Vtableidx1];
+    __Vdly__top__DOT__timer1__DOT__count = vlSelf->top__DOT__timer1__DOT__count;
+    if ((0x17d783fU == vlSelf->top__DOT__timer1__DOT__count)) {
+        vlSelf->top__DOT__c = (1U & (~ (IData)(vlSelf->top__DOT__c)));
+        __Vdly__top__DOT__timer1__DOT__count = 0U;
+    } else {
+        __Vdly__top__DOT__timer1__DOT__count = ((IData)(1U) 
+                                                + vlSelf->top__DOT__timer1__DOT__count);
     }
-    __Vtableidx2 = (((IData)(vlSelf->y) << 1U) | (IData)(vlSelf->indicator));
-    vlSelf->HEX0 = Vtop__ConstPool__TABLE_dcf69a87_0
+    vlSelf->top__DOT__timer1__DOT__count = __Vdly__top__DOT__timer1__DOT__count;
+}
+
+extern const VlUnpacked<CData/*6:0*/, 8> Vtop__ConstPool__TABLE_3c94bc34_0;
+
+VL_INLINE_OPT void Vtop___024root___sequent__TOP__3(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__3\n"); );
+    // Variables
+    CData/*2:0*/ __Vtableidx1;
+    CData/*2:0*/ __Vtableidx2;
+    CData/*6:0*/ __Vdly__top__DOT__s0;
+    // Body
+    __Vdly__top__DOT__s0 = vlSelf->top__DOT__s0;
+    vlSelf->top__DOT__count = (0x7fU & ((IData)(1U) 
+                                        + (IData)(vlSelf->top__DOT__count)));
+    __Vdly__top__DOT__s0 = (0x7fU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__count), (IData)(0xaU)));
+    vlSelf->top__DOT__s1 = (0x7fU & ((IData)(vlSelf->top__DOT__count) 
+                                     - (IData)(vlSelf->top__DOT__s0)));
+    if ((0x64U == (IData)(vlSelf->top__DOT__count))) {
+        vlSelf->top__DOT__count = 0U;
+    }
+    vlSelf->top__DOT__s0 = __Vdly__top__DOT__s0;
+    __Vtableidx1 = (7U & (IData)(vlSelf->top__DOT__s0));
+    vlSelf->HEX0 = Vtop__ConstPool__TABLE_3c94bc34_0
+        [__Vtableidx1];
+    __Vtableidx2 = (7U & (IData)(vlSelf->top__DOT__s1));
+    vlSelf->HEX1 = Vtop__ConstPool__TABLE_3c94bc34_0
         [__Vtableidx2];
 }
 
@@ -39,7 +59,19 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval\n"); );
     // Body
-    Vtop___024root___combo__TOP__1(vlSelf);
+    if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
+        Vtop___024root___sequent__TOP__1(vlSelf);
+    }
+    if (((IData)(vlSelf->__VinpClk__TOP__top__DOT__c) 
+         & (~ (IData)(vlSelf->__Vclklast__TOP____VinpClk__TOP__top__DOT__c)))) {
+        Vtop___024root___sequent__TOP__3(vlSelf);
+        vlSelf->__Vm_traceActivity[1U] = 1U;
+    }
+    // Final
+    vlSelf->__Vclklast__TOP__clk = vlSelf->clk;
+    vlSelf->__Vclklast__TOP____VinpClk__TOP__top__DOT__c 
+        = vlSelf->__VinpClk__TOP__top__DOT__c;
+    vlSelf->__VinpClk__TOP__top__DOT__c = vlSelf->top__DOT__c;
 }
 
 QData Vtop___024root___change_request_1(Vtop___024root* vlSelf);
@@ -59,6 +91,10 @@ VL_INLINE_OPT QData Vtop___024root___change_request_1(Vtop___024root* vlSelf) {
     // Body
     // Change detection
     QData __req = false;  // Logically a bool
+    __req |= ((vlSelf->top__DOT__c ^ vlSelf->__Vchglast__TOP__top__DOT__c));
+    VL_DEBUG_IF( if(__req && ((vlSelf->top__DOT__c ^ vlSelf->__Vchglast__TOP__top__DOT__c))) VL_DBG_MSGF("        CHANGE: /mnt/d/ysyx/ysyx-workbench/npc/vsrc/top.v:37: top.c\n"); );
+    // Final
+    vlSelf->__Vchglast__TOP__top__DOT__c = vlSelf->top__DOT__c;
     return __req;
 }
 
@@ -68,7 +104,7 @@ void Vtop___024root___eval_debug_assertions(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_debug_assertions\n"); );
     // Body
-    if (VL_UNLIKELY((vlSelf->e & 0xfeU))) {
-        Verilated::overWidthError("e");}
+    if (VL_UNLIKELY((vlSelf->clk & 0xfeU))) {
+        Verilated::overWidthError("clk");}
 }
 #endif  // VL_DEBUG

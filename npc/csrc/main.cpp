@@ -22,6 +22,7 @@ int main(int argc, char **argv, char **env) {
     //contextp->timeInc(1);
     //vcd->dump(time);
     //time ++;
+    top->clk = ~top->clk;
     top->eval();
     nvboard_update();
   }
