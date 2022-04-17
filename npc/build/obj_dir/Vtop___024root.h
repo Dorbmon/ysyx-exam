@@ -19,19 +19,19 @@ VL_MODULE(Vtop___024root) {
   public:
 
     // PORTS
-    VL_IN8(a,3,0);
     VL_IN8(s,1,0);
-    VL_OUT8(y,0,0);
+    VL_OUT8(y,1,0);
+    VL_IN8(a[4],1,0);
 
     // LOCAL SIGNALS
-    CData/*0:0*/ top__DOT__i0__DOT__i0__DOT__lut_out;
+    CData/*1:0*/ top__DOT__i0__DOT__i0__DOT__lut_out;
     CData/*0:0*/ top__DOT__i0__DOT__i0__DOT__hit;
-    VlUnpacked<CData/*2:0*/, 4> top__DOT__i0__DOT__i0__DOT__pair_list;
+    VlUnpacked<CData/*3:0*/, 4> top__DOT__i0__DOT__i0__DOT__pair_list;
     VlUnpacked<CData/*1:0*/, 4> top__DOT__i0__DOT__i0__DOT__key_list;
-    VlUnpacked<CData/*0:0*/, 4> top__DOT__i0__DOT__i0__DOT__data_list;
+    VlUnpacked<CData/*1:0*/, 4> top__DOT__i0__DOT__i0__DOT__data_list;
 
     // LOCAL VARIABLES
-    SData/*11:0*/ top__DOT____Vcellinp__i0____pinNumber4;
+    SData/*15:0*/ top__DOT____Vcellinp__i0____pinNumber4;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
 
     // INTERNAL VARIABLES
