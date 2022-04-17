@@ -25,7 +25,8 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
                                                      (0x1dU 
                                                       & (IData)(vlSelf->top__DOT__data))) 
                                         << 7U)) | (0x7fU 
-                                                   & (IData)(vlSelf->top__DOT__data)));
+                                                   & ((IData)(vlSelf->top__DOT__data) 
+                                                      >> 1U)));
     vlSelf->top__DOT__s0 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__data), (IData)(0xaU)));
     vlSelf->top__DOT__s1 = (0xffU & VL_MODDIV_III(32, 
                                                   VL_DIV_III(32, (IData)(vlSelf->top__DOT__data), (IData)(0xaU)), (IData)(0xaU)));
