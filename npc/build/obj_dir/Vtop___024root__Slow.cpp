@@ -39,8 +39,6 @@ void Vtop___024root___eval_settle(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_settle\n"); );
     // Body
     Vtop___024root___combo__TOP__1(vlSelf);
-    vlSelf->__Vm_traceActivity[1U] = 1U;
-    vlSelf->__Vm_traceActivity[0U] = 1U;
 }
 
 void Vtop___024root___final(Vtop___024root* vlSelf) {
@@ -54,25 +52,9 @@ void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ctor_var_reset\n"); );
     // Body
-    vlSelf->x1 = 0;
-    vlSelf->x2 = 0;
-    vlSelf->x3 = 0;
-    vlSelf->x4 = 0;
-    vlSelf->s = 0;
+    vlSelf->x = 0;
+    vlSelf->e = 0;
     vlSelf->y = 0;
-    vlSelf->top__DOT____Vcellinp__i0____pinNumber4 = 0;
-    for (int __Vi0=0; __Vi0<4; ++__Vi0) {
-        vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[__Vi0] = 0;
-    }
-    for (int __Vi0=0; __Vi0<4; ++__Vi0) {
-        vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[__Vi0] = 0;
-    }
-    for (int __Vi0=0; __Vi0<4; ++__Vi0) {
-        vlSelf->top__DOT__i0__DOT__i0__DOT__data_list[__Vi0] = 0;
-    }
-    vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out = 0;
-    vlSelf->top__DOT__i0__DOT__i0__DOT__hit = 0;
-    for (int __Vi0=0; __Vi0<2; ++__Vi0) {
-        vlSelf->__Vm_traceActivity[__Vi0] = 0;
-    }
+    vlSelf->indicator = 0;
+    vlSelf->top__DOT__i = 0;
 }
