@@ -15,37 +15,23 @@ always @(b)
     default: h = ~7'b0000000;
   endcase
 endmodule
-
-module clock(clk,c);
-input clk;
-output reg c;
-reg [31:0] count;
-always @(posedge clk) //只读取上行 若频率为50MHz 则25MHZ进行一次反转 即可做到每秒计时
-begin
-  if (count == 24999999) begin
-    count <= 0;
-    c <= ~c;
-  end 
-  else begin
-    count <= count + 1;
-  end
-end
-endmodule
-module top(clk,HEX0,HEX1);
-output [6:0] HEX0, HEX1;
+/* verilator lint_off UNOPTFLAT */
+module top(clk,HEX0,HEX1,HEX2);
+output [6:0] HEX0, HEX1, HEX2;
 input clk;
 reg c;
-reg [6:0] s0,s1;
-reg [6:0] count;
-clock timer1(clk,c);
+reg [7:0] s0,s1,s2;
+reg [7:0] count;
+reg [7:0] data;
 bcd7seg seg0(s0[2:0],HEX0);
 bcd7seg seg1(s1[2:0],HEX1);
-always @(posedge c) // 周期为1S
+bcd7seg seg2(s2[2:0],HEX2);
+always @(clk) // 周期为1S
 begin
-  count = count + 1;
-  s0 = count % 10;
-  s1 = (count / 10);
-  if (count == 100)
-    count = 0;
+  // 移动
+  data = {data[0]^data[2]^data[3]^data[4],data[6:0]};
+  s0 = data % 10;
+  s1 = (data / 10) % 10;
+  s2 = (data / 100) % 10;
 end
 endmodule

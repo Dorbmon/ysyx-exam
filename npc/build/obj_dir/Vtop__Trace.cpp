@@ -24,17 +24,18 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
     // Body
     {
         if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
-            tracep->chgCData(oldp+0,(vlSelf->top__DOT__s0),7);
-            tracep->chgCData(oldp+1,(vlSelf->top__DOT__s1),7);
-            tracep->chgCData(oldp+2,(vlSelf->top__DOT__count),7);
-            tracep->chgCData(oldp+3,((7U & (IData)(vlSelf->top__DOT__s0))),3);
-            tracep->chgCData(oldp+4,((7U & (IData)(vlSelf->top__DOT__s1))),3);
+            tracep->chgCData(oldp+0,(vlSelf->top__DOT__s0),8);
+            tracep->chgCData(oldp+1,(vlSelf->top__DOT__s1),8);
+            tracep->chgCData(oldp+2,(vlSelf->top__DOT__s2),8);
+            tracep->chgCData(oldp+3,(vlSelf->top__DOT__data),8);
+            tracep->chgCData(oldp+4,((7U & (IData)(vlSelf->top__DOT__s0))),3);
+            tracep->chgCData(oldp+5,((7U & (IData)(vlSelf->top__DOT__s1))),3);
+            tracep->chgCData(oldp+6,((7U & (IData)(vlSelf->top__DOT__s2))),3);
         }
-        tracep->chgCData(oldp+5,(vlSelf->HEX0),7);
-        tracep->chgCData(oldp+6,(vlSelf->HEX1),7);
-        tracep->chgBit(oldp+7,(vlSelf->clk));
-        tracep->chgBit(oldp+8,(vlSelf->top__DOT__c));
-        tracep->chgIData(oldp+9,(vlSelf->top__DOT__timer1__DOT__count),32);
+        tracep->chgCData(oldp+7,(vlSelf->HEX0),7);
+        tracep->chgCData(oldp+8,(vlSelf->HEX1),7);
+        tracep->chgCData(oldp+9,(vlSelf->HEX2),7);
+        tracep->chgBit(oldp+10,(vlSelf->clk));
     }
 }
 

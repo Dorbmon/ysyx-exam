@@ -22,23 +22,26 @@ void Vtop___024root__traceInitSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
     if (false && tracep && c) {}  // Prevent unused
     // Body
     {
-        tracep->declBus(c+6,"HEX0", false,-1, 6,0);
-        tracep->declBus(c+7,"HEX1", false,-1, 6,0);
-        tracep->declBit(c+8,"clk", false,-1);
-        tracep->declBus(c+6,"top HEX0", false,-1, 6,0);
-        tracep->declBus(c+7,"top HEX1", false,-1, 6,0);
-        tracep->declBit(c+8,"top clk", false,-1);
-        tracep->declBit(c+9,"top c", false,-1);
-        tracep->declBus(c+1,"top s0", false,-1, 6,0);
-        tracep->declBus(c+2,"top s1", false,-1, 6,0);
-        tracep->declBus(c+3,"top count", false,-1, 6,0);
-        tracep->declBit(c+8,"top timer1 clk", false,-1);
-        tracep->declBit(c+9,"top timer1 c", false,-1);
-        tracep->declBus(c+10,"top timer1 count", false,-1, 31,0);
-        tracep->declBus(c+4,"top seg0 b", false,-1, 2,0);
-        tracep->declBus(c+6,"top seg0 h", false,-1, 6,0);
-        tracep->declBus(c+5,"top seg1 b", false,-1, 2,0);
-        tracep->declBus(c+7,"top seg1 h", false,-1, 6,0);
+        tracep->declBus(c+8,"HEX0", false,-1, 6,0);
+        tracep->declBus(c+9,"HEX1", false,-1, 6,0);
+        tracep->declBus(c+10,"HEX2", false,-1, 6,0);
+        tracep->declBit(c+11,"clk", false,-1);
+        tracep->declBus(c+8,"top HEX0", false,-1, 6,0);
+        tracep->declBus(c+9,"top HEX1", false,-1, 6,0);
+        tracep->declBus(c+10,"top HEX2", false,-1, 6,0);
+        tracep->declBit(c+11,"top clk", false,-1);
+        tracep->declBit(c+12,"top c", false,-1);
+        tracep->declBus(c+1,"top s0", false,-1, 7,0);
+        tracep->declBus(c+2,"top s1", false,-1, 7,0);
+        tracep->declBus(c+3,"top s2", false,-1, 7,0);
+        tracep->declBus(c+13,"top count", false,-1, 7,0);
+        tracep->declBus(c+4,"top data", false,-1, 7,0);
+        tracep->declBus(c+5,"top seg0 b", false,-1, 2,0);
+        tracep->declBus(c+8,"top seg0 h", false,-1, 6,0);
+        tracep->declBus(c+6,"top seg1 b", false,-1, 2,0);
+        tracep->declBus(c+9,"top seg1 h", false,-1, 6,0);
+        tracep->declBus(c+7,"top seg2 b", false,-1, 2,0);
+        tracep->declBus(c+10,"top seg2 h", false,-1, 6,0);
     }
 }
 
@@ -75,15 +78,18 @@ void Vtop___024root__traceFullSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
     if (false && oldp) {}  // Prevent unused
     // Body
     {
-        tracep->fullCData(oldp+1,(vlSelf->top__DOT__s0),7);
-        tracep->fullCData(oldp+2,(vlSelf->top__DOT__s1),7);
-        tracep->fullCData(oldp+3,(vlSelf->top__DOT__count),7);
-        tracep->fullCData(oldp+4,((7U & (IData)(vlSelf->top__DOT__s0))),3);
-        tracep->fullCData(oldp+5,((7U & (IData)(vlSelf->top__DOT__s1))),3);
-        tracep->fullCData(oldp+6,(vlSelf->HEX0),7);
-        tracep->fullCData(oldp+7,(vlSelf->HEX1),7);
-        tracep->fullBit(oldp+8,(vlSelf->clk));
-        tracep->fullBit(oldp+9,(vlSelf->top__DOT__c));
-        tracep->fullIData(oldp+10,(vlSelf->top__DOT__timer1__DOT__count),32);
+        tracep->fullCData(oldp+1,(vlSelf->top__DOT__s0),8);
+        tracep->fullCData(oldp+2,(vlSelf->top__DOT__s1),8);
+        tracep->fullCData(oldp+3,(vlSelf->top__DOT__s2),8);
+        tracep->fullCData(oldp+4,(vlSelf->top__DOT__data),8);
+        tracep->fullCData(oldp+5,((7U & (IData)(vlSelf->top__DOT__s0))),3);
+        tracep->fullCData(oldp+6,((7U & (IData)(vlSelf->top__DOT__s1))),3);
+        tracep->fullCData(oldp+7,((7U & (IData)(vlSelf->top__DOT__s2))),3);
+        tracep->fullCData(oldp+8,(vlSelf->HEX0),7);
+        tracep->fullCData(oldp+9,(vlSelf->HEX1),7);
+        tracep->fullCData(oldp+10,(vlSelf->HEX2),7);
+        tracep->fullBit(oldp+11,(vlSelf->clk));
+        tracep->fullBit(oldp+12,(vlSelf->top__DOT__c));
+        tracep->fullCData(oldp+13,(vlSelf->top__DOT__count),8);
     }
 }
