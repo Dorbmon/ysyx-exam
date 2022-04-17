@@ -26,7 +26,7 @@ always @(b,e) begin
 	  3'b101 : h = ~7'b0110000;
 	  3'b110 : h = ~7'b0110000;
 	  3'b111 : h = ~7'b0110000;
-    default: h = ~7'b1111110;
+    default: h = ~7'b0000000;
   endcase
 end
 endmodule
