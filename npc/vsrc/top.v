@@ -44,7 +44,7 @@ always @(posedge c) // 周期为1S
 begin
   count = count + 1;
   s0 <= count % 10;
-  s1 <= count - s0;
+  s1 <= (count / 10) - s0;
   if (count == 100)
     count = 0;
 end
