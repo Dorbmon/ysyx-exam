@@ -27,15 +27,15 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
             tracep->chgCData(oldp+0,(vlSelf->top__DOT__s0),8);
             tracep->chgCData(oldp+1,(vlSelf->top__DOT__s1),8);
             tracep->chgCData(oldp+2,(vlSelf->top__DOT__s2),8);
-            tracep->chgCData(oldp+3,(vlSelf->top__DOT__data),8);
-            tracep->chgCData(oldp+4,((7U & (IData)(vlSelf->top__DOT__s0))),3);
-            tracep->chgCData(oldp+5,((7U & (IData)(vlSelf->top__DOT__s1))),3);
-            tracep->chgCData(oldp+6,((7U & (IData)(vlSelf->top__DOT__s2))),3);
+            tracep->chgCData(oldp+3,((7U & (IData)(vlSelf->top__DOT__s0))),3);
+            tracep->chgCData(oldp+4,((7U & (IData)(vlSelf->top__DOT__s1))),3);
+            tracep->chgCData(oldp+5,((7U & (IData)(vlSelf->top__DOT__s2))),3);
         }
-        tracep->chgCData(oldp+7,(vlSelf->HEX0),7);
-        tracep->chgCData(oldp+8,(vlSelf->HEX1),7);
-        tracep->chgCData(oldp+9,(vlSelf->HEX2),7);
-        tracep->chgBit(oldp+10,(vlSelf->clk));
+        tracep->chgCData(oldp+6,(vlSelf->HEX0),7);
+        tracep->chgCData(oldp+7,(vlSelf->HEX1),7);
+        tracep->chgCData(oldp+8,(vlSelf->HEX2),7);
+        tracep->chgBit(oldp+9,(vlSelf->clk));
+        tracep->chgCData(oldp+10,(vlSelf->top__DOT__data),8);
     }
 }
 
