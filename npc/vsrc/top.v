@@ -37,7 +37,7 @@ output [6:0] HEX0;
 output reg [2:0] y;
 output reg indicator;
 integer i;
-bcd7seg seg7(y,e,HEX0);
+bcd7seg seg7(y,indicator,HEX0);
 always @(x or e) begin
   y = 0;
   indicator = 0;
@@ -45,12 +45,9 @@ always @(x or e) begin
     for (i = 0;i <= 7;i ++) begin
       if(x[i] == 1) begin
         y = i[2:0];
+        indicator = 1;
       end
     end
-    if (y == 3'b000)
-      indicator = 0;
-    else
-      indicator = 1;
   end 
   else begin
     y = 0;

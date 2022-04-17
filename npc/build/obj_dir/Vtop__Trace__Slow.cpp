@@ -34,7 +34,7 @@ void Vtop___024root__traceInitSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declBit(c+5,"top indicator", false,-1);
         tracep->declBus(c+6,"top i", false,-1, 31,0);
         tracep->declBus(c+4,"top seg7 b", false,-1, 2,0);
-        tracep->declBit(c+2,"top seg7 e", false,-1);
+        tracep->declBit(c+5,"top seg7 e", false,-1);
         tracep->declBus(c+3,"top seg7 h", false,-1, 6,0);
     }
 }

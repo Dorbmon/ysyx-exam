@@ -7,6 +7,10 @@
 
 //==========
 
+extern const VlUnpacked<CData/*2:0*/, 512> Vtop__ConstPool__TABLE_2ab4c310_0;
+extern const VlUnpacked<CData/*0:0*/, 512> Vtop__ConstPool__TABLE_d484eecf_0;
+extern const VlUnpacked<CData/*2:0*/, 512> Vtop__ConstPool__TABLE_4c2bd713_0;
+extern const VlUnpacked<IData/*31:0*/, 512> Vtop__ConstPool__TABLE_508ee21b_0;
 extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_ad5609cf_0;
 
 VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
@@ -14,45 +18,20 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___combo__TOP__1\n"); );
     // Variables
-    CData/*3:0*/ __Vtableidx1;
+    CData/*3:0*/ __Vtableidx2;
+    SData/*8:0*/ __Vtableidx1;
     // Body
-    if (vlSelf->e) {
-        vlSelf->top__DOT__i = 8U;
-    }
-    vlSelf->y = 0U;
-    vlSelf->indicator = 0U;
-    if (vlSelf->e) {
-        if ((1U & (IData)(vlSelf->x))) {
-            vlSelf->y = 0U;
-        }
-        if ((2U & (IData)(vlSelf->x))) {
-            vlSelf->y = 1U;
-        }
-        if ((4U & (IData)(vlSelf->x))) {
-            vlSelf->y = 2U;
-        }
-        if ((8U & (IData)(vlSelf->x))) {
-            vlSelf->y = 3U;
-        }
-        if ((0x10U & (IData)(vlSelf->x))) {
-            vlSelf->y = 4U;
-        }
-        if ((0x20U & (IData)(vlSelf->x))) {
-            vlSelf->y = 5U;
-        }
-        if ((0x40U & (IData)(vlSelf->x))) {
-            vlSelf->y = 6U;
-        }
-        if ((0x80U & (IData)(vlSelf->x))) {
-            vlSelf->y = 7U;
-        }
-        vlSelf->indicator = (0U != (IData)(vlSelf->y));
-    } else {
-        vlSelf->y = 0U;
-    }
-    __Vtableidx1 = (((IData)(vlSelf->y) << 1U) | (IData)(vlSelf->e));
-    vlSelf->HEX0 = Vtop__ConstPool__TABLE_ad5609cf_0
+    __Vtableidx1 = (((IData)(vlSelf->x) << 1U) | (IData)(vlSelf->e));
+    vlSelf->y = Vtop__ConstPool__TABLE_2ab4c310_0[__Vtableidx1];
+    vlSelf->indicator = Vtop__ConstPool__TABLE_d484eecf_0
         [__Vtableidx1];
+    if ((4U & Vtop__ConstPool__TABLE_4c2bd713_0[__Vtableidx1])) {
+        vlSelf->top__DOT__i = Vtop__ConstPool__TABLE_508ee21b_0
+            [__Vtableidx1];
+    }
+    __Vtableidx2 = (((IData)(vlSelf->y) << 1U) | (IData)(vlSelf->indicator));
+    vlSelf->HEX0 = Vtop__ConstPool__TABLE_ad5609cf_0
+        [__Vtableidx2];
 }
 
 void Vtop___024root___eval(Vtop___024root* vlSelf) {
