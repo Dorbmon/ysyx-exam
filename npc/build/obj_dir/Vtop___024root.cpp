@@ -18,28 +18,28 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->y = 0U;
     vlSelf->indicator = 0U;
     if (vlSelf->e) {
-        if ((1U & (~ (IData)(vlSelf->x)))) {
+        if ((1U & (IData)(vlSelf->x))) {
             vlSelf->y = 0U;
         }
-        if ((1U & (~ ((IData)(vlSelf->x) >> 1U)))) {
+        if ((2U & (IData)(vlSelf->x))) {
             vlSelf->y = 1U;
         }
-        if ((1U & (~ ((IData)(vlSelf->x) >> 2U)))) {
+        if ((4U & (IData)(vlSelf->x))) {
             vlSelf->y = 2U;
         }
-        if ((1U & (~ ((IData)(vlSelf->x) >> 3U)))) {
+        if ((8U & (IData)(vlSelf->x))) {
             vlSelf->y = 3U;
         }
-        if ((1U & (~ ((IData)(vlSelf->x) >> 4U)))) {
+        if ((0x10U & (IData)(vlSelf->x))) {
             vlSelf->y = 4U;
         }
-        if ((1U & (~ ((IData)(vlSelf->x) >> 5U)))) {
+        if ((0x20U & (IData)(vlSelf->x))) {
             vlSelf->y = 5U;
         }
-        if ((1U & (~ ((IData)(vlSelf->x) >> 6U)))) {
+        if ((0x40U & (IData)(vlSelf->x))) {
             vlSelf->y = 6U;
         }
-        if ((1U & (~ ((IData)(vlSelf->x) >> 7U)))) {
+        if ((0x80U & (IData)(vlSelf->x))) {
             vlSelf->y = 7U;
         }
         vlSelf->indicator = (0U != (IData)(vlSelf->y));

@@ -9,7 +9,7 @@ always @(x or e) begin
   indicator = 0;
   if (e) begin
     for (i = 0;i <= 7;i ++) begin
-      if(x[i] == 0) begin
+      if(x[i] == 1) begin
         y = i[2:0];
       end
     end
