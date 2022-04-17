@@ -7,7 +7,7 @@
 
 //==========
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_f03047f0_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_ad5609cf_0;
 
 VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -51,7 +51,7 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__1(Vtop___024root* vlSelf) {
         vlSelf->y = 0U;
     }
     __Vtableidx1 = (((IData)(vlSelf->y) << 1U) | (IData)(vlSelf->e));
-    vlSelf->HEX0 = Vtop__ConstPool__TABLE_f03047f0_0
+    vlSelf->HEX0 = Vtop__ConstPool__TABLE_ad5609cf_0
         [__Vtableidx1];
 }
 

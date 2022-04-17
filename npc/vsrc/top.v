@@ -3,20 +3,30 @@ module bcd7seg(
   input e,
   output reg [6:0] h
 );
+/*
+assign segs[0] = 8'b1111110;
+assign segs[1] = 8'b0110000;
+assign segs[2] = 8'b1101101;
+assign segs[3] = 8'b1111001;
+assign segs[4] = 8'b0110011;
+assign segs[5] = 8'b1011011;
+assign segs[6] = 8'b1011111;
+assign segs[7] = 8'b1110000;
+*/
 always @(b,e) begin
   if (~e)
     h = ~7'b0000000; 
   else 
   case (b) // 共阳极
-  	3'b000 : h = ~7'b0111111;
-	  3'b001 : h = ~7'b0000011;
-	  3'b010 : h = ~7'b1011011;
-	  3'b011 : h = ~7'b1000111;
-	  3'b100 : h = ~7'b1100110;
-	  3'b101 : h = ~7'b1101101;
-	  3'b110 : h = ~7'b1111101;
-	  3'b111 : h = ~7'b0000111;
-  default: h = ~7'b0000000;
+  	3'b000 : h = ~7'b1111110;
+	  3'b001 : h = ~7'b0110000;
+	  3'b010 : h = ~7'b0110000;
+	  3'b011 : h = ~7'b0110000;
+	  3'b100 : h = ~7'b0110000;
+	  3'b101 : h = ~7'b0110000;
+	  3'b110 : h = ~7'b0110000;
+	  3'b111 : h = ~7'b0110000;
+    default: h = ~7'b1111110;
   endcase
 end
 endmodule
