@@ -7,9 +7,9 @@
 
 //==========
 
-extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_85aa089f_0;
-extern const VlUnpacked<CData/*1:0*/, 512> Vtop__ConstPool__TABLE_766cfd13_0;
-extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_c9223614_0;
+extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_1fe72eb9_0;
+extern const VlUnpacked<CData/*1:0*/, 512> Vtop__ConstPool__TABLE_07d9e6d5_0;
+extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_2ee235c6_0;
 extern const VlUnpacked<CData/*6:0*/, 8> Vtop__ConstPool__TABLE_3c94bc34_0;
 
 VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
@@ -21,12 +21,12 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
     CData/*2:0*/ __Vtableidx3;
     SData/*8:0*/ __Vtableidx1;
     // Body
-    __Vtableidx1 = (((IData)(vlSelf->top__DOT__data) 
-                     << 1U) | (IData)(vlSelf->top__DOT__ready));
-    vlSelf->top__DOT__s0 = Vtop__ConstPool__TABLE_85aa089f_0
+    __Vtableidx1 = (((IData)(vlSelf->top__DOT__ready) 
+                     << 8U) | (IData)(vlSelf->top__DOT__data));
+    vlSelf->top__DOT__s0 = Vtop__ConstPool__TABLE_1fe72eb9_0
         [__Vtableidx1];
-    if ((2U & Vtop__ConstPool__TABLE_766cfd13_0[__Vtableidx1])) {
-        vlSelf->top__DOT__s1 = Vtop__ConstPool__TABLE_c9223614_0
+    if ((2U & Vtop__ConstPool__TABLE_07d9e6d5_0[__Vtableidx1])) {
+        vlSelf->top__DOT__s1 = Vtop__ConstPool__TABLE_2ee235c6_0
             [__Vtableidx1];
     }
     __Vtableidx2 = (7U & (IData)(vlSelf->top__DOT__s0));
