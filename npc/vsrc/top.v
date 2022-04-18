@@ -84,6 +84,7 @@ bcd7seg seg0(s0[2:0],HEX0);
 bcd7seg seg1(s1[2:0],HEX1);
 always @(posedge clk)
 begin
+  $display("changed");
   if (ready) begin
     // 开始读取数据
     $display("receive %x", data[7:0]);
