@@ -65,7 +65,7 @@ static int readMemory(char *args) {
   sscanf(c_address ,"%x", &address);
   int byteNum = atoi(c_byteNum);
   for (int i = 0;i < byteNum;++ i) {
-    printf("%x 0x%x\n",address + i, byteNum);
+    printf("0x%x 0x%lx\n",address + i * 4, paddr_read(address + i * 4, 4));
   }
   
   return 0;
