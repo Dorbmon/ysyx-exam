@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **env) {
     //vcd->dump(time);
     //time ++;
     top->clk = ~top->clk;
-    std::cout << "Here" << std::endl;
+    //std::cout << "Here" << std::endl;
     top->eval();
     nvboard_update();
   }
