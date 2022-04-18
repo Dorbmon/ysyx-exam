@@ -4,6 +4,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <string.h>
 #include <utils.h>
 static int is_batch_mode = false;
 
@@ -48,6 +49,14 @@ static int simulate(char *args) {
   cpu_exec(N);
   return 0;
 }
+static int info(char *args) {
+  if (strcmp(args, "r") == 0) {  // register state
+    isa_reg_display();
+  } else if (strcmp(args, "w")) { //check point state
+
+  }
+  return 0;
+}
 static struct {
   const char *name;
   const char *description;
@@ -57,7 +66,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Run N lines of code", simulate},
-
+  { "info", "Get Program State", info},
   /* TODO: Add more commands */
 
 };
