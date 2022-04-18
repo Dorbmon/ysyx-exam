@@ -7,27 +7,34 @@
 
 //==========
 
-extern const VlUnpacked<CData/*1:0*/, 512> Vtop__ConstPool__TABLE_0ce0efea_0;
-extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_4f4a8edf_0;
+extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_85aa089f_0;
+extern const VlUnpacked<CData/*1:0*/, 512> Vtop__ConstPool__TABLE_766cfd13_0;
 extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_c9223614_0;
+extern const VlUnpacked<CData/*6:0*/, 8> Vtop__ConstPool__TABLE_3c94bc34_0;
 
 VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__1\n"); );
     // Variables
+    CData/*2:0*/ __Vtableidx2;
+    CData/*2:0*/ __Vtableidx3;
     SData/*8:0*/ __Vtableidx1;
     // Body
     __Vtableidx1 = (((IData)(vlSelf->top__DOT__data) 
                      << 1U) | (IData)(vlSelf->top__DOT__ready));
-    if ((1U & Vtop__ConstPool__TABLE_0ce0efea_0[__Vtableidx1])) {
-        vlSelf->top__DOT__s0 = Vtop__ConstPool__TABLE_4f4a8edf_0
-            [__Vtableidx1];
-    }
-    if ((2U & Vtop__ConstPool__TABLE_0ce0efea_0[__Vtableidx1])) {
+    vlSelf->top__DOT__s0 = Vtop__ConstPool__TABLE_85aa089f_0
+        [__Vtableidx1];
+    if ((2U & Vtop__ConstPool__TABLE_766cfd13_0[__Vtableidx1])) {
         vlSelf->top__DOT__s1 = Vtop__ConstPool__TABLE_c9223614_0
             [__Vtableidx1];
     }
+    __Vtableidx2 = (7U & (IData)(vlSelf->top__DOT__s0));
+    vlSelf->HEX0 = Vtop__ConstPool__TABLE_3c94bc34_0
+        [__Vtableidx2];
+    __Vtableidx3 = (7U & (IData)(vlSelf->top__DOT__s1));
+    vlSelf->HEX1 = Vtop__ConstPool__TABLE_3c94bc34_0
+        [__Vtableidx3];
 }
 
 void Vtop___024root___eval(Vtop___024root* vlSelf) {
@@ -37,6 +44,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
     // Body
     if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
         Vtop___024root___sequent__TOP__1(vlSelf);
+        vlSelf->__Vm_traceActivity[1U] = 1U;
     }
     // Final
     vlSelf->__Vclklast__TOP__clk = vlSelf->clk;
