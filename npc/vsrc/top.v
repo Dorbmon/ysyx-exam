@@ -86,6 +86,7 @@ always @(posedge clk)
 begin
   if (ready) begin
     // 开始读取数据
+    $display("receive %x", data[7:0]);
     s0 <= data % 10;
     s1 <= (data / 10) % 10;
   end
