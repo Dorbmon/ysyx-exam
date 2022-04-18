@@ -5,6 +5,7 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include <string.h>
+#include "memory/paddr.h"
 #include <utils.h>
 static int is_batch_mode = false;
 
@@ -57,6 +58,19 @@ static int info(char *args) {
   }
   return 0;
 }
+static int readMemory(char *args) {
+  char *c_byteNum = strtok(args, " ");
+  char *c_address = strtok(NULL," ");
+  paddr_t address = 0,c = 1;
+  size_t len = strlen(c_address);
+  for (int i = 0;i < len;++ i) {
+    address += (c_address [len - i - 1] - '0') * c;
+    c *= 16;
+  }
+  int byteNum = atoi(c_byteNum);
+  paddr_read(address,byteNum);
+  return 0;
+}
 static struct {
   const char *name;
   const char *description;
@@ -67,6 +81,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Run N lines of code", simulate},
   { "info", "Get Program State", info},
+  {"x", "Read Memory", readMemory},
   /* TODO: Add more commands */
 
 };
