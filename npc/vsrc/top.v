@@ -78,10 +78,10 @@ reg nextdata_n,overflow;
 reg [7:0] data;
 reg ready;
 output [6:0] HEX0,HEX1,HEX2;
-ps2_keyboard keyboard(clk,clrn,ps2_clk,ps2_data,data, ready, nextdata_n,overflow);
+//ps2_keyboard keyboard(clk,clrn,ps2_clk,ps2_data,data, ready, nextdata_n,overflow);
 reg [7:0] s0,s1;
-bcd7seg seg0(s0[2:0],HEX0);
-bcd7seg seg1(s1[2:0],HEX1);
+//bcd7seg seg0(s0[2:0],HEX0);
+//bcd7seg seg1(s1[2:0],HEX1);
 always @(posedge clk)
 begin
   $display("changed");

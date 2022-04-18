@@ -30,20 +30,13 @@ VL_MODULE(Vtop___024root) {
     // LOCAL SIGNALS
     CData/*0:0*/ top__DOT__nextdata_n;
     CData/*0:0*/ top__DOT__overflow;
+    CData/*7:0*/ top__DOT__data;
     CData/*0:0*/ top__DOT__ready;
     CData/*7:0*/ top__DOT__s0;
     CData/*7:0*/ top__DOT__s1;
-    CData/*2:0*/ top__DOT__keyboard__DOT__w_ptr;
-    CData/*2:0*/ top__DOT__keyboard__DOT__r_ptr;
-    CData/*3:0*/ top__DOT__keyboard__DOT__count;
-    CData/*2:0*/ top__DOT__keyboard__DOT__ps2_clk_sync;
-    SData/*9:0*/ top__DOT__keyboard__DOT__buffer;
-    VlUnpacked<CData/*7:0*/, 8> top__DOT__keyboard__DOT__fifo;
 
     // LOCAL VARIABLES
-    CData/*0:0*/ top__DOT__keyboard__DOT____Vlvbound1;
     CData/*0:0*/ __Vclklast__TOP__clk;
-    VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
 
     // INTERNAL VARIABLES
     Vtop__Syms* vlSymsp;  // Symbol table

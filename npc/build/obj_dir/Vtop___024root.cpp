@@ -10,34 +10,15 @@
 extern const VlUnpacked<CData/*1:0*/, 512> Vtop__ConstPool__TABLE_0ce0efea_0;
 extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_4f4a8edf_0;
 extern const VlUnpacked<CData/*7:0*/, 512> Vtop__ConstPool__TABLE_c9223614_0;
-extern const VlUnpacked<CData/*6:0*/, 8> Vtop__ConstPool__TABLE_3c94bc34_0;
 
 VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__1\n"); );
     // Variables
-    CData/*2:0*/ __Vtableidx2;
-    CData/*2:0*/ __Vtableidx3;
-    CData/*2:0*/ __Vdly__top__DOT__keyboard__DOT__ps2_clk_sync;
-    CData/*2:0*/ __Vdly__top__DOT__keyboard__DOT__r_ptr;
-    CData/*2:0*/ __Vdlyvdim0__top__DOT__keyboard__DOT__fifo__v0;
-    CData/*7:0*/ __Vdlyvval__top__DOT__keyboard__DOT__fifo__v0;
-    CData/*0:0*/ __Vdlyvset__top__DOT__keyboard__DOT__fifo__v0;
-    CData/*2:0*/ __Vdly__top__DOT__keyboard__DOT__w_ptr;
-    CData/*3:0*/ __Vdly__top__DOT__keyboard__DOT__count;
     SData/*8:0*/ __Vtableidx1;
     // Body
-    __Vdly__top__DOT__keyboard__DOT__ps2_clk_sync = vlSelf->top__DOT__keyboard__DOT__ps2_clk_sync;
-    __Vdly__top__DOT__keyboard__DOT__count = vlSelf->top__DOT__keyboard__DOT__count;
-    __Vdly__top__DOT__keyboard__DOT__w_ptr = vlSelf->top__DOT__keyboard__DOT__w_ptr;
-    __Vdly__top__DOT__keyboard__DOT__r_ptr = vlSelf->top__DOT__keyboard__DOT__r_ptr;
-    __Vdlyvset__top__DOT__keyboard__DOT__fifo__v0 = 0U;
-    __Vdly__top__DOT__keyboard__DOT__ps2_clk_sync = 
-        ((6U & ((IData)(vlSelf->top__DOT__keyboard__DOT__ps2_clk_sync) 
-                << 1U)) | (IData)(vlSelf->ps2_clk));
-    __Vtableidx1 = ((vlSelf->top__DOT__keyboard__DOT__fifo
-                     [vlSelf->top__DOT__keyboard__DOT__r_ptr] 
+    __Vtableidx1 = (((IData)(vlSelf->top__DOT__data) 
                      << 1U) | (IData)(vlSelf->top__DOT__ready));
     if ((1U & Vtop__ConstPool__TABLE_0ce0efea_0[__Vtableidx1])) {
         vlSelf->top__DOT__s0 = Vtop__ConstPool__TABLE_4f4a8edf_0
@@ -47,75 +28,6 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
         vlSelf->top__DOT__s1 = Vtop__ConstPool__TABLE_c9223614_0
             [__Vtableidx1];
     }
-    if (vlSelf->clrn) {
-        if (vlSelf->top__DOT__ready) {
-            if ((1U & (~ (IData)(vlSelf->top__DOT__nextdata_n)))) {
-                __Vdly__top__DOT__keyboard__DOT__r_ptr 
-                    = (7U & ((IData)(1U) + (IData)(vlSelf->top__DOT__keyboard__DOT__r_ptr)));
-                if (((IData)(vlSelf->top__DOT__keyboard__DOT__w_ptr) 
-                     == (7U & ((IData)(1U) + (IData)(vlSelf->top__DOT__keyboard__DOT__r_ptr))))) {
-                    vlSelf->top__DOT__ready = 0U;
-                }
-            }
-        }
-        if ((IData)((4U == (6U & (IData)(vlSelf->top__DOT__keyboard__DOT__ps2_clk_sync))))) {
-            if ((0xaU == (IData)(vlSelf->top__DOT__keyboard__DOT__count))) {
-                if ((((~ (IData)(vlSelf->top__DOT__keyboard__DOT__buffer)) 
-                      & (IData)(vlSelf->ps2_data)) 
-                     & VL_REDXOR_32((0x1ffU & ((IData)(vlSelf->top__DOT__keyboard__DOT__buffer) 
-                                               >> 1U))))) {
-                    __Vdlyvval__top__DOT__keyboard__DOT__fifo__v0 
-                        = (0xffU & ((IData)(vlSelf->top__DOT__keyboard__DOT__buffer) 
-                                    >> 1U));
-                    __Vdlyvset__top__DOT__keyboard__DOT__fifo__v0 = 1U;
-                    __Vdlyvdim0__top__DOT__keyboard__DOT__fifo__v0 
-                        = vlSelf->top__DOT__keyboard__DOT__w_ptr;
-                    vlSelf->top__DOT__ready = 1U;
-                    __Vdly__top__DOT__keyboard__DOT__w_ptr 
-                        = (7U & ((IData)(1U) + (IData)(vlSelf->top__DOT__keyboard__DOT__w_ptr)));
-                    vlSelf->top__DOT__overflow = ((IData)(vlSelf->top__DOT__overflow) 
-                                                  | ((IData)(vlSelf->top__DOT__keyboard__DOT__r_ptr) 
-                                                     == 
-                                                     (7U 
-                                                      & ((IData)(1U) 
-                                                         + (IData)(vlSelf->top__DOT__keyboard__DOT__w_ptr)))));
-                }
-                __Vdly__top__DOT__keyboard__DOT__count = 0U;
-            } else {
-                vlSelf->top__DOT__keyboard__DOT____Vlvbound1 
-                    = vlSelf->ps2_data;
-                if ((9U >= (IData)(vlSelf->top__DOT__keyboard__DOT__count))) {
-                    vlSelf->top__DOT__keyboard__DOT__buffer 
-                        = (((~ ((IData)(1U) << (IData)(vlSelf->top__DOT__keyboard__DOT__count))) 
-                            & (IData)(vlSelf->top__DOT__keyboard__DOT__buffer)) 
-                           | (0x3ffU & ((IData)(vlSelf->top__DOT__keyboard__DOT____Vlvbound1) 
-                                        << (IData)(vlSelf->top__DOT__keyboard__DOT__count))));
-                }
-                __Vdly__top__DOT__keyboard__DOT__count 
-                    = (0xfU & ((IData)(1U) + (IData)(vlSelf->top__DOT__keyboard__DOT__count)));
-            }
-        }
-    } else {
-        __Vdly__top__DOT__keyboard__DOT__count = 0U;
-        __Vdly__top__DOT__keyboard__DOT__w_ptr = 0U;
-        __Vdly__top__DOT__keyboard__DOT__r_ptr = 0U;
-        vlSelf->top__DOT__overflow = 0U;
-        vlSelf->top__DOT__ready = 0U;
-    }
-    vlSelf->top__DOT__keyboard__DOT__r_ptr = __Vdly__top__DOT__keyboard__DOT__r_ptr;
-    vlSelf->top__DOT__keyboard__DOT__ps2_clk_sync = __Vdly__top__DOT__keyboard__DOT__ps2_clk_sync;
-    vlSelf->top__DOT__keyboard__DOT__w_ptr = __Vdly__top__DOT__keyboard__DOT__w_ptr;
-    vlSelf->top__DOT__keyboard__DOT__count = __Vdly__top__DOT__keyboard__DOT__count;
-    if (__Vdlyvset__top__DOT__keyboard__DOT__fifo__v0) {
-        vlSelf->top__DOT__keyboard__DOT__fifo[__Vdlyvdim0__top__DOT__keyboard__DOT__fifo__v0] 
-            = __Vdlyvval__top__DOT__keyboard__DOT__fifo__v0;
-    }
-    __Vtableidx2 = (7U & (IData)(vlSelf->top__DOT__s0));
-    vlSelf->HEX0 = Vtop__ConstPool__TABLE_3c94bc34_0
-        [__Vtableidx2];
-    __Vtableidx3 = (7U & (IData)(vlSelf->top__DOT__s1));
-    vlSelf->HEX1 = Vtop__ConstPool__TABLE_3c94bc34_0
-        [__Vtableidx3];
 }
 
 void Vtop___024root___eval(Vtop___024root* vlSelf) {
@@ -125,7 +37,6 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
     // Body
     if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
         Vtop___024root___sequent__TOP__1(vlSelf);
-        vlSelf->__Vm_traceActivity[1U] = 1U;
     }
     // Final
     vlSelf->__Vclklast__TOP__clk = vlSelf->clk;
