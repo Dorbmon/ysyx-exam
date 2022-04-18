@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>
@@ -39,7 +40,14 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
-
+static int simulate(char *args) {
+  uint64_t N = 1;
+  if (args != NULL) {
+    N = atoi(args);
+  }
+  cpu_exec(N);
+  return 0;
+}
 static struct {
   const char *name;
   const char *description;
@@ -48,6 +56,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "Run N lines of code", simulate},
 
   /* TODO: Add more commands */
 
