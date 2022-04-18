@@ -27,14 +27,13 @@ Vtop___024root::~Vtop___024root() {
 
 extern const VlUnpacked<CData/*6:0*/, 8> Vtop__ConstPool__TABLE_3c94bc34_0;
 
-void Vtop___024root___settle__TOP__3(Vtop___024root* vlSelf) {
+void Vtop___024root___settle__TOP__2(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___settle__TOP__3\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___settle__TOP__2\n"); );
     // Variables
     CData/*2:0*/ __Vtableidx2;
     CData/*2:0*/ __Vtableidx3;
-    CData/*2:0*/ __Vtableidx4;
     // Body
     __Vtableidx2 = (7U & (IData)(vlSelf->top__DOT__s0));
     vlSelf->HEX0 = Vtop__ConstPool__TABLE_3c94bc34_0
@@ -42,9 +41,6 @@ void Vtop___024root___settle__TOP__3(Vtop___024root* vlSelf) {
     __Vtableidx3 = (7U & (IData)(vlSelf->top__DOT__s1));
     vlSelf->HEX1 = Vtop__ConstPool__TABLE_3c94bc34_0
         [__Vtableidx3];
-    __Vtableidx4 = (7U & (IData)(vlSelf->top__DOT__s2));
-    vlSelf->HEX2 = Vtop__ConstPool__TABLE_3c94bc34_0
-        [__Vtableidx4];
 }
 
 void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
@@ -60,7 +56,7 @@ void Vtop___024root___eval_settle(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_settle\n"); );
     // Body
-    Vtop___024root___settle__TOP__3(vlSelf);
+    Vtop___024root___settle__TOP__2(vlSelf);
 }
 
 void Vtop___024root___final(Vtop___024root* vlSelf) {
@@ -74,16 +70,27 @@ void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ctor_var_reset\n"); );
     // Body
+    vlSelf->clk = 0;
+    vlSelf->clrn = 0;
+    vlSelf->ps2_clk = 0;
+    vlSelf->ps2_data = 0;
     vlSelf->HEX0 = 0;
     vlSelf->HEX1 = 0;
     vlSelf->HEX2 = 0;
-    vlSelf->clk = 0;
-    vlSelf->top__DOT__c = 0;
+    vlSelf->top__DOT__nextdata_n = 0;
+    vlSelf->top__DOT__overflow = 0;
+    vlSelf->top__DOT__ready = 0;
     vlSelf->top__DOT__s0 = 0;
     vlSelf->top__DOT__s1 = 0;
-    vlSelf->top__DOT__s2 = 0;
-    vlSelf->top__DOT__count = 0;
-    vlSelf->top__DOT__data = 0;
+    vlSelf->top__DOT__keyboard__DOT__buffer = 0;
+    for (int __Vi0=0; __Vi0<8; ++__Vi0) {
+        vlSelf->top__DOT__keyboard__DOT__fifo[__Vi0] = 0;
+    }
+    vlSelf->top__DOT__keyboard__DOT__w_ptr = 0;
+    vlSelf->top__DOT__keyboard__DOT__r_ptr = 0;
+    vlSelf->top__DOT__keyboard__DOT__count = 0;
+    vlSelf->top__DOT__keyboard__DOT__ps2_clk_sync = 0;
+    vlSelf->top__DOT__keyboard__DOT____Vlvbound1 = 0;
     for (int __Vi0=0; __Vi0<2; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }

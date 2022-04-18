@@ -22,26 +22,46 @@ void Vtop___024root__traceInitSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
     if (false && tracep && c) {}  // Prevent unused
     // Body
     {
-        tracep->declBus(c+7,"HEX0", false,-1, 6,0);
-        tracep->declBus(c+8,"HEX1", false,-1, 6,0);
-        tracep->declBus(c+9,"HEX2", false,-1, 6,0);
-        tracep->declBit(c+10,"clk", false,-1);
-        tracep->declBus(c+7,"top HEX0", false,-1, 6,0);
-        tracep->declBus(c+8,"top HEX1", false,-1, 6,0);
-        tracep->declBus(c+9,"top HEX2", false,-1, 6,0);
-        tracep->declBit(c+10,"top clk", false,-1);
-        tracep->declBit(c+12,"top c", false,-1);
-        tracep->declBus(c+1,"top s0", false,-1, 7,0);
-        tracep->declBus(c+2,"top s1", false,-1, 7,0);
-        tracep->declBus(c+3,"top s2", false,-1, 7,0);
-        tracep->declBus(c+13,"top count", false,-1, 7,0);
-        tracep->declBus(c+11,"top data", false,-1, 7,0);
-        tracep->declBus(c+4,"top seg0 b", false,-1, 2,0);
-        tracep->declBus(c+7,"top seg0 h", false,-1, 6,0);
-        tracep->declBus(c+5,"top seg1 b", false,-1, 2,0);
-        tracep->declBus(c+8,"top seg1 h", false,-1, 6,0);
-        tracep->declBus(c+6,"top seg2 b", false,-1, 2,0);
-        tracep->declBus(c+9,"top seg2 h", false,-1, 6,0);
+        tracep->declBit(c+22,"clk", false,-1);
+        tracep->declBit(c+23,"clrn", false,-1);
+        tracep->declBit(c+24,"ps2_clk", false,-1);
+        tracep->declBit(c+25,"ps2_data", false,-1);
+        tracep->declBus(c+26,"HEX0", false,-1, 6,0);
+        tracep->declBus(c+27,"HEX1", false,-1, 6,0);
+        tracep->declBus(c+28,"HEX2", false,-1, 6,0);
+        tracep->declBit(c+22,"top clk", false,-1);
+        tracep->declBit(c+23,"top clrn", false,-1);
+        tracep->declBit(c+24,"top ps2_clk", false,-1);
+        tracep->declBit(c+25,"top ps2_data", false,-1);
+        tracep->declBit(c+29,"top nextdata_n", false,-1);
+        tracep->declBit(c+1,"top overflow", false,-1);
+        tracep->declBus(c+2,"top data", false,-1, 7,0);
+        tracep->declBit(c+3,"top ready", false,-1);
+        tracep->declBus(c+26,"top HEX0", false,-1, 6,0);
+        tracep->declBus(c+27,"top HEX1", false,-1, 6,0);
+        tracep->declBus(c+28,"top HEX2", false,-1, 6,0);
+        tracep->declBus(c+4,"top s0", false,-1, 7,0);
+        tracep->declBus(c+5,"top s1", false,-1, 7,0);
+        tracep->declBit(c+22,"top keyboard clk", false,-1);
+        tracep->declBit(c+23,"top keyboard clrn", false,-1);
+        tracep->declBit(c+24,"top keyboard ps2_clk", false,-1);
+        tracep->declBit(c+25,"top keyboard ps2_data", false,-1);
+        tracep->declBit(c+29,"top keyboard nextdata_n", false,-1);
+        tracep->declBus(c+2,"top keyboard data", false,-1, 7,0);
+        tracep->declBit(c+3,"top keyboard ready", false,-1);
+        tracep->declBit(c+1,"top keyboard overflow", false,-1);
+        tracep->declBus(c+6,"top keyboard buffer", false,-1, 9,0);
+        {int i; for (i=0; i<8; i++) {
+                tracep->declBus(c+7+i*1,"top keyboard fifo", true,(i+0), 7,0);}}
+        tracep->declBus(c+15,"top keyboard w_ptr", false,-1, 2,0);
+        tracep->declBus(c+16,"top keyboard r_ptr", false,-1, 2,0);
+        tracep->declBus(c+17,"top keyboard count", false,-1, 3,0);
+        tracep->declBus(c+18,"top keyboard ps2_clk_sync", false,-1, 2,0);
+        tracep->declBit(c+19,"top keyboard sampling", false,-1);
+        tracep->declBus(c+20,"top seg0 b", false,-1, 2,0);
+        tracep->declBus(c+26,"top seg0 h", false,-1, 6,0);
+        tracep->declBus(c+21,"top seg1 b", false,-1, 2,0);
+        tracep->declBus(c+27,"top seg1 h", false,-1, 6,0);
     }
 }
 
@@ -78,18 +98,36 @@ void Vtop___024root__traceFullSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
     if (false && oldp) {}  // Prevent unused
     // Body
     {
-        tracep->fullCData(oldp+1,(vlSelf->top__DOT__s0),8);
-        tracep->fullCData(oldp+2,(vlSelf->top__DOT__s1),8);
-        tracep->fullCData(oldp+3,(vlSelf->top__DOT__s2),8);
-        tracep->fullCData(oldp+4,((7U & (IData)(vlSelf->top__DOT__s0))),3);
-        tracep->fullCData(oldp+5,((7U & (IData)(vlSelf->top__DOT__s1))),3);
-        tracep->fullCData(oldp+6,((7U & (IData)(vlSelf->top__DOT__s2))),3);
-        tracep->fullCData(oldp+7,(vlSelf->HEX0),7);
-        tracep->fullCData(oldp+8,(vlSelf->HEX1),7);
-        tracep->fullCData(oldp+9,(vlSelf->HEX2),7);
-        tracep->fullBit(oldp+10,(vlSelf->clk));
-        tracep->fullCData(oldp+11,(vlSelf->top__DOT__data),8);
-        tracep->fullBit(oldp+12,(vlSelf->top__DOT__c));
-        tracep->fullCData(oldp+13,(vlSelf->top__DOT__count),8);
+        tracep->fullBit(oldp+1,(vlSelf->top__DOT__overflow));
+        tracep->fullCData(oldp+2,(vlSelf->top__DOT__keyboard__DOT__fifo
+                                  [vlSelf->top__DOT__keyboard__DOT__r_ptr]),8);
+        tracep->fullBit(oldp+3,(vlSelf->top__DOT__ready));
+        tracep->fullCData(oldp+4,(vlSelf->top__DOT__s0),8);
+        tracep->fullCData(oldp+5,(vlSelf->top__DOT__s1),8);
+        tracep->fullSData(oldp+6,(vlSelf->top__DOT__keyboard__DOT__buffer),10);
+        tracep->fullCData(oldp+7,(vlSelf->top__DOT__keyboard__DOT__fifo[0]),8);
+        tracep->fullCData(oldp+8,(vlSelf->top__DOT__keyboard__DOT__fifo[1]),8);
+        tracep->fullCData(oldp+9,(vlSelf->top__DOT__keyboard__DOT__fifo[2]),8);
+        tracep->fullCData(oldp+10,(vlSelf->top__DOT__keyboard__DOT__fifo[3]),8);
+        tracep->fullCData(oldp+11,(vlSelf->top__DOT__keyboard__DOT__fifo[4]),8);
+        tracep->fullCData(oldp+12,(vlSelf->top__DOT__keyboard__DOT__fifo[5]),8);
+        tracep->fullCData(oldp+13,(vlSelf->top__DOT__keyboard__DOT__fifo[6]),8);
+        tracep->fullCData(oldp+14,(vlSelf->top__DOT__keyboard__DOT__fifo[7]),8);
+        tracep->fullCData(oldp+15,(vlSelf->top__DOT__keyboard__DOT__w_ptr),3);
+        tracep->fullCData(oldp+16,(vlSelf->top__DOT__keyboard__DOT__r_ptr),3);
+        tracep->fullCData(oldp+17,(vlSelf->top__DOT__keyboard__DOT__count),4);
+        tracep->fullCData(oldp+18,(vlSelf->top__DOT__keyboard__DOT__ps2_clk_sync),3);
+        tracep->fullBit(oldp+19,((IData)((4U == (6U 
+                                                 & (IData)(vlSelf->top__DOT__keyboard__DOT__ps2_clk_sync))))));
+        tracep->fullCData(oldp+20,((7U & (IData)(vlSelf->top__DOT__s0))),3);
+        tracep->fullCData(oldp+21,((7U & (IData)(vlSelf->top__DOT__s1))),3);
+        tracep->fullBit(oldp+22,(vlSelf->clk));
+        tracep->fullBit(oldp+23,(vlSelf->clrn));
+        tracep->fullBit(oldp+24,(vlSelf->ps2_clk));
+        tracep->fullBit(oldp+25,(vlSelf->ps2_data));
+        tracep->fullCData(oldp+26,(vlSelf->HEX0),7);
+        tracep->fullCData(oldp+27,(vlSelf->HEX1),7);
+        tracep->fullCData(oldp+28,(vlSelf->HEX2),7);
+        tracep->fullBit(oldp+29,(vlSelf->top__DOT__nextdata_n));
     }
 }

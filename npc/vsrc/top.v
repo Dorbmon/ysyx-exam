@@ -2,7 +2,7 @@ module bcd7seg(
   input  [2:0] b,
   output reg [6:0] h
 );
-always @(b)
+always @(b) begin
   case (b) // 共阳极
     3'b000 : h = ~7'b1111110;
     3'b001 : h = ~7'b0110000;
@@ -14,29 +14,80 @@ always @(b)
     3'b111 : h = ~7'b1110000;
     default: h = ~7'b0000000;
   endcase
+end
 endmodule
-/* verilator lint_off UNOPTFLAT */
-module top(clk,HEX0,HEX1,HEX2);
-output [6:0] HEX0, HEX1, HEX2;
-input clk;
-reg c;
-reg [7:0] s0,s1,s2;
-reg [7:0] count;
+module ps2_keyboard(clk,clrn,ps2_clk,ps2_data,data,
+                    ready,nextdata_n,overflow);
+    input clk,clrn,ps2_clk,ps2_data;
+    input nextdata_n;
+    output [7:0] data;
+    output reg ready;
+    output reg overflow;     // fifo overflow
+    // internal signal, for test
+    reg [9:0] buffer;        // ps2_data bits
+    reg [7:0] fifo[7:0];     // data fifo
+    reg [2:0] w_ptr,r_ptr;   // fifo write and read pointers
+    reg [3:0] count;  // count ps2_data bits
+    // detect falling edge of ps2_clk
+    reg [2:0] ps2_clk_sync;
+
+    always @(posedge clk) begin
+        ps2_clk_sync <=  {ps2_clk_sync[1:0],ps2_clk};
+    end
+
+    wire sampling = ps2_clk_sync[2] & ~ps2_clk_sync[1];
+
+    always @(posedge clk) begin
+        if (clrn == 0) begin // reset
+            count <= 0; w_ptr <= 0; r_ptr <= 0; overflow <= 0; ready<= 0;
+        end
+        else begin
+            if ( ready ) begin // read to output next data
+                if(nextdata_n == 1'b0) //read next data
+                begin
+                    r_ptr <= r_ptr + 3'b1;
+                    if(w_ptr==(r_ptr+1'b1)) //empty
+                        ready <= 1'b0;
+                end
+            end
+            if (sampling) begin
+              if (count == 4'd10) begin
+                if ((buffer[0] == 0) &&  // start bit
+                    (ps2_data)       &&  // stop bit
+                    (^buffer[9:1])) begin      // odd  parity
+                    fifo[w_ptr] <= buffer[8:1];  // kbd scan code
+                    w_ptr <= w_ptr+3'b1;
+                    ready <= 1'b1;
+                    overflow <= overflow | (r_ptr == (w_ptr + 3'b1));
+                end
+                count <= 0;     // for next
+              end else begin
+                buffer[count] <= ps2_data;  // store ps2_data
+                count <= count + 3'b1;
+              end
+            end
+        end
+    end
+    assign data = fifo[r_ptr]; //always set output data
+
+endmodule
+
+module top(clk,clrn,ps2_clk,ps2_data,HEX0,HEX1,HEX2);
+input clk,clrn,ps2_clk,ps2_data;
+reg nextdata_n,overflow;
 reg [7:0] data;
+reg ready;
+output [6:0] HEX0,HEX1,HEX2;
+ps2_keyboard keyboard(clk,clrn,ps2_clk,ps2_data,data, ready, nextdata_n,overflow);
+reg [7:0] s0,s1;
 bcd7seg seg0(s0[2:0],HEX0);
 bcd7seg seg1(s1[2:0],HEX1);
-bcd7seg seg2(s2[2:0],HEX2);
-always @(posedge clk) // 周期为1S
+always @(posedge clk)
 begin
-  if (data == 0)
-    data = 8'b11111110;
-  // 移动
-  data = {data[0]^data[2]^data[3]^data[4],data[7:1]};
-end
-always @(negedge clk)
-begin
-  s0 <= data % 10;
-  s1 <= (data / 10) % 10;
-  s2 <= (data / 100) % 10;
+  if (ready) begin
+    // 开始读取数据
+    s0 <= data % 10;
+    s1 <= (data / 10) % 10;
+  end
 end
 endmodule
