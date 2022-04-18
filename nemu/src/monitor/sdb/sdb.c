@@ -61,14 +61,13 @@ static int info(char *args) {
 static int readMemory(char *args) {
   char *c_byteNum = strtok(args, " ");
   char *c_address = strtok(NULL," ");
-  paddr_t address = 0,c = 1;
-  size_t len = strlen(c_address);
-  for (int i = 0;i < len;++ i) {
-    address += (c_address [len - i - 1] - '0') * c;
-    c *= 16;
-  }
+  paddr_t address = 0;
+  sscanf(c_address ,"%x", &address);
   int byteNum = atoi(c_byteNum);
-  paddr_read(address,byteNum);
+  for (int i = 0;i < byteNum;++ i) {
+    printf("%x %x\n",address + i, byteNum);
+  }
+  
   return 0;
 }
 static struct {
