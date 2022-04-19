@@ -110,6 +110,7 @@ static bool make_token(char *e) {
 }
 uint32_t eval(int p, int q);
 uint32_t expr(char *e, bool *success) {
+  printf("got in\n");
   if (!make_token(e)) {
     *success = false;
     return 0;
@@ -137,7 +138,7 @@ bool check_parentheses(int p, int q, bool *fail) {
   return true;
 }
 uint32_t eval(int p, int q) {
-  printf("%d %d", p, q);
+  printf("%d %d\n", p, q);
   Assert(p <= q, "error sequence %d",p);
   bool fail = false;
   uint32_t sym = 1;
