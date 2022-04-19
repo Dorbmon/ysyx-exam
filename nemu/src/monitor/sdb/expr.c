@@ -1,5 +1,5 @@
-#include <stdint.h>
 #include <isa.h>
+#include <stdint.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -108,7 +108,7 @@ static bool make_token(char *e) {
 
   return true;
 }
-uint32_t eval(int p,int q);
+uint32_t eval(int p, int q);
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -137,12 +137,21 @@ bool check_parentheses(int p, int q, bool *fail) {
   }
   return true;
 }
-uint32_t eval(int p,int q) {
+uint32_t eval(int p, int q) {
   assert(p <= q);
   bool fail = false;
+  uint32_t sym = 1;
+  if (q == p + 1) {
+    if (tokens[p].type == '-') {
+      sym = -1;
+    } else if (tokens[p].type == '+') {
+      sym = +1;
+    }
+    p++;
+  }
   if (p == q) {
     assert(tokens[p].type == 'n');
-    return atoll(tokens[p].str);
+    return sym * atoll(tokens[p].str);
   } else if (check_parentheses(p, q, &fail) == true && !fail) {
     return eval(p + 1, q - 1);
   } else if (fail) {
