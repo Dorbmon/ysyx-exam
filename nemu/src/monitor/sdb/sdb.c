@@ -59,6 +59,7 @@ static int info(char *args) {
   return 0;
 }
 static int readMemory(char *args) {
+  printf("args:%s \n",args);
   char *c_byteNum = strtok(args, " ");
   char *c_address = args + strlen(c_byteNum);
   bool success = true;
