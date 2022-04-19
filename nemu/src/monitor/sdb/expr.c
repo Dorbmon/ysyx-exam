@@ -137,6 +137,7 @@ bool check_parentheses(int p, int q, bool *fail) {
   return true;
 }
 uint32_t eval(int p, int q) {
+  printf("%d %d", p, q);
   Assert(p <= q, "error sequence %d",p);
   bool fail = false;
   uint32_t sym = 1;
