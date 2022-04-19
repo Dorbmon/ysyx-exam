@@ -71,7 +71,6 @@ static int readMemory(char *args) {
   for (int i = 0;i < byteNum;++ i) {
     printf("0x%x 0x%lx\n",address + i * 4, paddr_read(address + i * 4, 4));
   }
-  
   return 0;
 }
 static struct {
