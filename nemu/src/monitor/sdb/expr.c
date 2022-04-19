@@ -25,7 +25,7 @@ static struct rule {
      * Pay attention to the precedence level of different rules.
      */
     {"==", TK_EQ, 0},                                   // equal
-    {"\\\\(", '(', 1},    {"\\\\)", ')', 1}, {" +", TK_NOTYPE}, // spaces
+    {"[(]", '(', 1},    {"[)]", ')', 1}, {" +", TK_NOTYPE}, // spaces
     {"\\+", '+', 2},                                    // plus
     {"\\-", '-', 2},                                    // 十进制数字
     {"\\", '\\', 3},  {"*", '*', 3}, {"[0-9]+", 'n', 4},
