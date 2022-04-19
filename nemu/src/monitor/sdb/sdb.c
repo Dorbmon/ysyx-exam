@@ -61,7 +61,7 @@ static int readMemory(char *args) {
   printf("args:%s \n", args);
   char *c_byteNum = strtok(args, " ");
   char *c_address = args + strlen(c_byteNum) + 1;
-  printf("c_address:%s \n", c_address);
+  printf("c_address:%s \n", args);
   bool success = true;
   paddr_t address = expr(c_address, &success);
   if (!success) {
