@@ -1,12 +1,15 @@
+#include <stdint.h>
 #include <isa.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-
+#include <stdlib.h>
+#include <string.h>
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256,
+  TK_EQ,
 
   /* TODO: Add more token types */
 
@@ -15,15 +18,17 @@ enum {
 static struct rule {
   const char *regex;
   int token_type;
+  int level;
 } rules[] = {
 
-  /* TODO: Add more rules.
-   * Pay attention to the precedence level of different rules.
-   */
-
-  {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ},        // equal
+    /* TODO: Add more rules.
+     * Pay attention to the precedence level of different rules.
+     */
+    {"==", TK_EQ, 0},                                   // equal
+    {"(", '(', 1},    {")", ')', 1}, {" +", TK_NOTYPE}, // spaces
+    {"\\+", '+', 2},                                    // plus
+    {"\\-", '-', 2},                                    // 十进制数字
+    {"\\", '\\', 3},  {"*", '*', 3}, {"[0-9]+", 'n', 4},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -38,7 +43,7 @@ void init_regex() {
   char error_msg[128];
   int ret;
 
-  for (i = 0; i < NR_REGEX; i ++) {
+  for (i = 0; i < NR_REGEX; i++) {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
@@ -53,7 +58,7 @@ typedef struct token {
 } Token;
 
 static Token tokens[32] __attribute__((used)) = {};
-static int nr_token __attribute__((used))  = 0;
+static int nr_token __attribute__((used)) = 0;
 
 static bool make_token(char *e) {
   int position = 0;
@@ -64,13 +69,14 @@ static bool make_token(char *e) {
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
-    for (i = 0; i < NR_REGEX; i ++) {
-      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+    for (i = 0; i < NR_REGEX; i++) {
+      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 &&
+          pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i,
+            rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
@@ -80,9 +86,16 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+        case TK_NOTYPE:
+          // 抛弃空格
+          break;
+        case 'n':
+          memcpy(tokens[nr_token].str, substr_start,
+                 substr_len + 1); //要拷贝 '/0'
+        default:
+          tokens[nr_token].type = rules[i].token_type;
+          nr_token++;
         }
-
         break;
       }
     }
@@ -95,16 +108,82 @@ static bool make_token(char *e) {
 
   return true;
 }
-
-
-word_t expr(char *e, bool *success) {
+uint32_t eval(int p,int q);
+uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
 
-  /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  // 执行表达式
 
   return 0;
+}
+bool check_parentheses(int p, int q, bool *fail) {
+  if (!(tokens[p].type == '(' && tokens[q].type == ')')) {
+    return false;
+  }
+  // 然后检查括号是否配对
+  int pN = 0;
+  for (int i = p; i <= q; ++i) {
+    if (tokens[i].type == '(')
+      pN++;
+    if (tokens[i].type == ')')
+      pN--;
+    if (pN < 0) {
+      *fail = true;
+      return false;
+    }
+  }
+  return true;
+}
+uint32_t eval(int p,int q) {
+  assert(p <= q);
+  bool fail = false;
+  if (p == q) {
+    assert(tokens[p].type == 'n');
+    return atoll(tokens[p].str);
+  } else if (check_parentheses(p, q, &fail) == true && !fail) {
+    return eval(p + 1, q - 1);
+  } else if (fail) {
+    assert(0);
+  } else {
+    /* We should do more things here. */
+    int pLevel = 0; //括号嵌套深度
+    int nowLow = 100;
+    int position = -1;
+    for (int i = p; i <= q; ++i) {
+      if (tokens[i].type == '(')
+        pLevel++;
+      else if (tokens[i].type == ')')
+        pLevel--;
+      else if (pLevel == 0) {
+        for (int j = 0; j < NR_REGEX; ++j) {
+          if (tokens[i].type == rules[j].token_type) {
+            if (position == -1) {
+              position = i;
+            } else if (nowLow >= rules[j].level) {
+              position = i;
+              nowLow = rules[j].level;
+            }
+          }
+        }
+      }
+    }
+    uint32_t val1 = eval(p, position - 1);
+    uint32_t val2 = eval(position + 1, q);
+
+    switch (tokens[position].type) {
+    case '+':
+      return val1 + val2;
+    case '-':
+      return val1 - val2;
+    case '*':
+      return val1 * val2;
+    case '/':
+      return val1 / val2;
+    default:
+      assert(0);
+    }
+  }
 }
