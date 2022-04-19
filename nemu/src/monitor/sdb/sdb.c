@@ -1,19 +1,20 @@
-#include <stdlib.h>
-#include <isa.h>
-#include <cpu/cpu.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "sdb.h"
-#include <string.h>
 #include "memory/paddr.h"
+#include <cpu/cpu.h>
+#include <isa.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdlib.h>
+#include <string.h>
 #include <utils.h>
 static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
 
-/* We use the `readline' library to provide more flexibility to read from stdin. */
-static char* rl_gets() {
+/* We use the `readline' library to provide more flexibility to read from stdin.
+ */
+static char *rl_gets() {
   static char *line_read = NULL;
 
   if (line_read) {
@@ -35,7 +36,6 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-
 static int cmd_q(char *args) {
   nemu_state.state = NEMU_QUIT;
   return -1;
@@ -51,41 +51,41 @@ static int simulate(char *args) {
   return 0;
 }
 static int info(char *args) {
-  if (strcmp(args, "r") == 0) {  // register state
+  if (strcmp(args, "r") == 0) { // register state
     isa_reg_display();
-  } else if (strcmp(args, "w")) { //check point state
-
+  } else if (strcmp(args, "w")) { // check point state
   }
   return 0;
 }
 static int readMemory(char *args) {
-  printf("args:%s \n",args);
+  printf("args:%s \n", args);
   char *c_byteNum = strtok(args, " ");
-  char *c_address = args + strlen(c_byteNum);
+  char *c_address = args + strlen(c_byteNum) + 1;
+  printf("c_address:%s \n", c_address);
   bool success = true;
-  paddr_t address = expr(c_address,&success);
+  paddr_t address = expr(c_address, &success);
   if (!success) {
     return -1;
   }
-  //sscanf(c_address ,"%x", &address);
+  // sscanf(c_address ,"%x", &address);
   int byteNum = atoi(c_byteNum);
-  for (int i = 0;i < byteNum;++ i) {
-    printf("0x%x 0x%lx\n",address + i * 4, paddr_read(address + i * 4, 4));
+  for (int i = 0; i < byteNum; ++i) {
+    printf("0x%x 0x%lx\n", address + i * 4, paddr_read(address + i * 4, 4));
   }
   return 0;
 }
 static struct {
   const char *name;
   const char *description;
-  int (*handler) (char *);
-} cmd_table [] = {
-  { "help", "Display informations about all supported commands", cmd_help },
-  { "c", "Continue the execution of the program", cmd_c },
-  { "q", "Exit NEMU", cmd_q },
-  { "si", "Run N lines of code", simulate},
-  { "info", "Get Program State", info},
-  {"x", "Read Memory", readMemory},
-  /* TODO: Add more commands */
+  int (*handler)(char *);
+} cmd_table[] = {
+    {"help", "Display informations about all supported commands", cmd_help},
+    {"c", "Continue the execution of the program", cmd_c},
+    {"q", "Exit NEMU", cmd_q},
+    {"si", "Run N lines of code", simulate},
+    {"info", "Get Program State", info},
+    {"x", "Read Memory", readMemory},
+    /* TODO: Add more commands */
 
 };
 
@@ -98,12 +98,11 @@ static int cmd_help(char *args) {
 
   if (arg == NULL) {
     /* no argument given */
-    for (i = 0; i < NR_CMD; i ++) {
+    for (i = 0; i < NR_CMD; i++) {
       printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
     }
-  }
-  else {
-    for (i = 0; i < NR_CMD; i ++) {
+  } else {
+    for (i = 0; i < NR_CMD; i++) {
       if (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
@@ -114,9 +113,7 @@ static int cmd_help(char *args) {
   return 0;
 }
 
-void sdb_set_batch_mode() {
-  is_batch_mode = true;
-}
+void sdb_set_batch_mode() { is_batch_mode = true; }
 
 void sdb_mainloop() {
   if (is_batch_mode) {
@@ -124,12 +121,14 @@ void sdb_mainloop() {
     return;
   }
 
-  for (char *str; (str = rl_gets()) != NULL; ) {
+  for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
 
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
-    if (cmd == NULL) { continue; }
+    if (cmd == NULL) {
+      continue;
+    }
 
     /* treat the remaining string as the arguments,
      * which may need further parsing
@@ -145,14 +144,18 @@ void sdb_mainloop() {
 #endif
 
     int i;
-    for (i = 0; i < NR_CMD; i ++) {
+    for (i = 0; i < NR_CMD; i++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        if (cmd_table[i].handler(args) < 0) {
+          return;
+        }
         break;
       }
     }
 
-    if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
+    if (i == NR_CMD) {
+      printf("Unknown command '%s'\n", cmd);
+    }
   }
 }
 
