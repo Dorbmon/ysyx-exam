@@ -116,8 +116,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   // 执行表达式
-
-  return 0;
+  return eval(0,nr_token- 1);
 }
 bool check_parentheses(int p, int q, bool *fail) {
   if (!(tokens[p].type == '(' && tokens[q].type == ')')) {

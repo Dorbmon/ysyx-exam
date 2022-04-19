@@ -61,8 +61,12 @@ static int info(char *args) {
 static int readMemory(char *args) {
   char *c_byteNum = strtok(args, " ");
   char *c_address = strtok(NULL," ");
-  paddr_t address = 0;
-  sscanf(c_address ,"%x", &address);
+  bool success = true;
+  paddr_t address = expr(c_address,&success);
+  if (!success) {
+    return -1;
+  }
+  //sscanf(c_address ,"%x", &address);
   int byteNum = atoi(c_byteNum);
   for (int i = 0;i < byteNum;++ i) {
     printf("0x%x 0x%lx\n",address + i * 4, paddr_read(address + i * 4, 4));
