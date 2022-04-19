@@ -1,6 +1,6 @@
 #include <isa.h>
 #include <stdint.h>
-
+#include <debug.h>
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -137,7 +137,7 @@ bool check_parentheses(int p, int q, bool *fail) {
   return true;
 }
 uint32_t eval(int p, int q) {
-  assert(p <= q);
+  Assert(p <= q, "error sequence %d",p);
   bool fail = false;
   uint32_t sym = 1;
   if (q == p + 1) {
@@ -149,12 +149,12 @@ uint32_t eval(int p, int q) {
     p++;
   }
   if (p == q) {
-    assert(tokens[p].type == 'n');
+    Assert(tokens[p].type == 'n', "It should be a number istead of %d", tokens[p].type);
     return sym * atoll(tokens[p].str);
   } else if (check_parentheses(p, q, &fail) == true && !fail) {
     return eval(p + 1, q - 1);
   } else if (fail) {
-    assert(0);
+    Assert(0, "load failed %s", "dead");
   } else {
     /* We should do more things here. */
     int pLevel = 0; //括号嵌套深度
@@ -191,7 +191,7 @@ uint32_t eval(int p, int q) {
     case '/':
       return val1 / val2;
     default:
-      assert(0);
+      Assert(0, "Unknown Opt: %c", tokens[position].type);
     }
   }
 }
