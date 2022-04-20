@@ -1,6 +1,7 @@
+#include <assert.h>
+#include <debug.h>
 #include <isa.h>
 #include <stdint.h>
-#include <debug.h>
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -10,7 +11,8 @@
 enum {
   TK_NOTYPE = 256,
   TK_EQ,
-
+  TK_DEREF,
+  TK_NEG,
   /* TODO: Add more token types */
 
 };
@@ -24,11 +26,11 @@ static struct rule {
     /* TODO: Add more rules.
      * Pay attention to the precedence level of different rules.
      */
-    {"==", TK_EQ, 0},                                   // equal
-    {"[(]", '(', 1},    {"[)]", ')', 1}, {" +", TK_NOTYPE}, // spaces
-    {"\\+", '+', 2},                                    // plus
-    {"\\-", '-', 2},                                    // 十进制数字
-    {"\\\\", '\\', 3},  {"\\*", '*', 3}, {"[0-9]+", 'n', 4},
+    {"==", TK_EQ, 0},                                      // equal
+    {"[(]", '(', 1},   {"[)]", ')', 1}, {" +", TK_NOTYPE}, // spaces
+    {"\\+", '+', 2},                                       // plus
+    {"\\-", '-', 2},                                       // 十进制数字
+    {"\\\\", '\\', 3}, {"\\*", '*', 3}, {"[0-9]+", 'n', 4},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -51,13 +53,13 @@ void init_regex() {
     }
   }
 }
-
+#define MAX_TOKEN_NUM 60
 typedef struct token {
   int type;
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[MAX_TOKEN_NUM] __attribute__((used)) = {};
 static int nr_token __attribute__((used)) = 0;
 
 static bool make_token(char *e) {
@@ -66,7 +68,6 @@ static bool make_token(char *e) {
   regmatch_t pmatch;
 
   nr_token = 0;
-  printf("e: %s\n", e);
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i++) {
@@ -109,14 +110,32 @@ static bool make_token(char *e) {
   return true;
 }
 uint32_t eval(int p, int q);
+void removeToken(int index) {
+  static Token tmp[MAX_TOKEN_NUM];
+  memcpy(tmp, tokens, sizeof(Token) * index);
+  memcpy(tmp + index, tokens + index + 1,
+         sizeof(Token) * (MAX_TOKEN_NUM - index - 1));
+  nr_token--;
+  memcpy(tokens, tmp, sizeof(tmp));
+}
+bool isS(char c) {
+  return (c == '+') || (c == '-') || (c == '*') || (c == '/');
+}
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-
+  for (int i = 0; i < nr_token; i++) {
+    if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == 'n')) {
+      tokens[i].type = TK_DEREF;
+    }
+    if (tokens[i].type == '-' && (i == 0 || isS(tokens[i - 1].type))) {
+      tokens[i].type = TK_NEG;
+    }
+  }
   // 执行表达式
-  return eval(0,nr_token- 1);
+  return eval(0, nr_token - 1);
 }
 bool check_parentheses(int p, int q, bool *fail) {
   if (!(tokens[p].type == '(' && tokens[q].type == ')')) {
@@ -138,20 +157,22 @@ bool check_parentheses(int p, int q, bool *fail) {
 }
 uint32_t eval(int p, int q) {
   printf("%d %d\n", p, q);
-  Assert(p <= q, "error sequence %d",p);
+  Assert(p <= q, "error sequence %d", p);
   bool fail = false;
-  uint32_t sym = 1;
-  if (q == p + 1) {
-    if (tokens[p].type == '-') {
-      sym = -1;
-    } else if (tokens[p].type == '+') {
-      sym = +1;
+  if (p + 1 == q) {
+    if (tokens[p].type == TK_NEG) {
+      return -eval(p + 1, q);
     }
-    p++;
-  }
-  if (p == q) {
-    Assert(tokens[p].type == 'n', "It should be a number istead of %d", tokens[p].type);
-    return sym * atoll(tokens[p].str);
+    if (tokens[p].type == TK_DEREF) {
+      bool success;
+      word_t value = isa_reg_str2val(tokens[q].str, &success);
+      assert(success);
+      return value;
+    }
+  } else if (p == q) {
+    Assert(tokens[p].type == 'n', "It should be a number istead of %d",
+           tokens[p].type);
+    return atoll(tokens[p].str);
   } else if (check_parentheses(p, q, &fail) == true && !fail) {
     return eval(p + 1, q - 1);
   } else if (fail) {
@@ -195,4 +216,5 @@ uint32_t eval(int p, int q) {
       Assert(0, "Unknown Opt: %c", tokens[position].type);
     }
   }
+  return 0;
 }
