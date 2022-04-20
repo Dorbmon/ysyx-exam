@@ -94,6 +94,8 @@ static bool make_token(char *e) {
         case 'n':
           memcpy(tokens[nr_token].str, substr_start,
                  substr_len); //要拷贝 '/0'
+        case TK_REG:
+          memcpy(tokens[nr_token].str, substr_start,substr_len);
         default:
           tokens[nr_token].type = rules[i].token_type;
           nr_token++;
