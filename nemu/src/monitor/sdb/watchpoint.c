@@ -26,14 +26,20 @@ WP* new_wp(char* order) {
   ret->lastValue = expr(order, &success);
   assert(success);
   free_ = free_->next;
+  if (head == NULL) {
+    head = ret;
+  } else {
+    ret->next = head;
+    head = ret;
+  }
   return ret;
 }
 void free_wp(WP *wp) {
-  if (head == NULL) {
-    head = wp;
+  if (free_ == NULL) {
+    free_ = wp;
   } else {
-    wp->next = head;
-    head = wp;
+    wp->next = free_;
+    free_ = wp;
   }
   // 然后从原列表中删除
   if (wp == head) {

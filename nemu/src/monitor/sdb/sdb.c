@@ -83,6 +83,10 @@ static int d(char *args) {
   removeCheckPoint(id);
   return 0;
 }
+static int w(char *args) {
+  printf("the ID of new watch point:%d", new_wp(args)->NO);
+  return 0;
+}
 static struct {
   const char *name;
   const char *description;
@@ -94,8 +98,9 @@ static struct {
     {"si", "Run N lines of code", simulate},
     {"info", "Get Program State", info},
     {"x", "Read Memory", readMemory},
-    {"r" , "Run ", runS},
+    {"r", "Run ", runS},
     {"d", "Remove checkpoint", d},
+    {"w", "Add a watch point", w},
     /* TODO: Add more commands */
 
 };
