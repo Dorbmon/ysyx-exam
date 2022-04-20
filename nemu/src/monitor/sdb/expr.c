@@ -180,7 +180,7 @@ uint32_t eval(int p, int q) {
           break;
         }
       }
-      word_t value = isa_reg_str2val(tokens[q].str + 1, &success);
+      word_t value = isa_reg_str2val(tokens[q].str, &success);
       assert(success);
       return value;
     }
