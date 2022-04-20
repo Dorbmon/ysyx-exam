@@ -59,7 +59,7 @@ static int info(char *args) {
 }
 static int runS(char *args) {
   bool success;
-  printf("%lu", expr(args, &success));
+  printf("%lu \n", expr(args, &success));
   return 0;
 }
 static int readMemory(char *args) {
