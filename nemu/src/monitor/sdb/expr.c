@@ -169,6 +169,15 @@ uint32_t eval(int p, int q) {
     }
     if (tokens[p].type == TK_DEREF) {
       bool success;
+      printf("reg:%s;", tokens[q].str);
+      int ind = strlen(tokens[q].str) - 1;
+      while (ind > 0) {
+        if (tokens [q].str[q] == ' ') {
+          tokens [q].str[q] = '\0';
+        } else {
+          break;
+        }
+      }
       word_t value = isa_reg_str2val(tokens[q].str + 1, &success);
       assert(success);
       return value;
