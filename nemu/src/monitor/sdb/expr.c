@@ -13,6 +13,7 @@ enum {
   TK_EQ,
   TK_DEREF,
   TK_NEG,
+  TK_REG,
   /* TODO: Add more token types */
 
 };
@@ -26,12 +27,12 @@ static struct rule {
     /* TODO: Add more rules.
      * Pay attention to the precedence level of different rules.
      */
-    {"==", TK_EQ, 0},                                      // equal
-    {"[(]", '(', 1},   {"[)]", ')', 1}, {" +", TK_NOTYPE}, // spaces
-    {"\\+", '+', 2},                                       // plus
-    {"\\-", '-', 2},                                       // 十进制数字
-    {"\\\\", '\\', 3}, {"\\*", '*', 3}, {"[0-9]+", 'n', 4},
-};
+    {"==", TK_EQ, 0},                                              // equal
+    {"[(]", '(', 1},           {"[)]", ')', 1}, {" +", TK_NOTYPE}, // spaces
+    {"\\+", '+', 2},                                               // plus
+    {"\\-", '-', 2}, // 十进制数字
+    {"\\\\", '\\', 3},         {"\\*", '*', 3}, {"\\$*?\\s", TK_REG, 4},
+    {"0x[0-9a-fA-F]+", 'n', 4}};
 
 #define NR_REGEX ARRLEN(rules)
 
@@ -119,7 +120,8 @@ void removeToken(int index) {
   memcpy(tokens, tmp, sizeof(tmp));
 }
 bool isS(char c) {
-  return (c == '+') || (c == '-') || (c == '*') || (c == '/') || (c == '(') || (c == ')');
+  return (c == '+') || (c == '-') || (c == '*') || (c == '/') || (c == '(') ||
+         (c == ')');
 }
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -156,18 +158,18 @@ bool check_parentheses(int p, int q, bool *fail) {
   return true;
 }
 uint32_t eval(int p, int q) {
-  //printf("%d %d\n", p, q);
+  // printf("%d %d\n", p, q);
   Assert(p <= q, "error sequence %d", p);
   bool fail = false;
   if (p + 1 == q) {
     if (tokens[p].type == TK_NEG) {
       uint32_t v = -eval(p + 1, q);
-      //printf("%d %d %d\n", p, q, v);
+      // printf("%d %d %d\n", p, q, v);
       return v;
     }
     if (tokens[p].type == TK_DEREF) {
       bool success;
-      word_t value = isa_reg_str2val(tokens[q].str, &success);
+      word_t value = isa_reg_str2val(tokens[q].str + 1, &success);
       assert(success);
       return value;
     }
