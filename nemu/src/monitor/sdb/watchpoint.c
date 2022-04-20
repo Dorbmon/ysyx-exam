@@ -60,3 +60,16 @@ bool checkCheckPoints() {
   }
   return false;
 }
+void showCheckPoints() {
+  for (WP* r = head;r != NULL;r = r->next) {
+    printf("checkpoint %d,value:%lx, expr:%s\n",r->NO,r->lastValue,r->order);
+  }
+}
+void removeCheckPoint(int id) {
+  for (WP* r = head;r != NULL;r = r->next) {
+    if (r->NO == id) {
+      free_wp(r);
+      return;
+    }
+  }
+}

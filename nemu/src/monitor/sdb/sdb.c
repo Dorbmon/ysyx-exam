@@ -54,6 +54,7 @@ static int info(char *args) {
   if (strcmp(args, "r") == 0) { // register state
     isa_reg_display();
   } else if (strcmp(args, "w")) { // check point state
+    showCheckPoints();
   }
   return 0;
 }
@@ -77,6 +78,11 @@ static int readMemory(char *args) {
   }
   return 0;
 }
+static int d(char *args) {
+  int id = atoi(args);
+  removeCheckPoint(id);
+  return 0;
+}
 static struct {
   const char *name;
   const char *description;
@@ -89,6 +95,7 @@ static struct {
     {"info", "Get Program State", info},
     {"x", "Read Memory", readMemory},
     {"r" , "Run ", runS},
+    {"d", "Remove checkpoint", d},
     /* TODO: Add more commands */
 
 };

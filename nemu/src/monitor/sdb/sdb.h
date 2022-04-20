@@ -13,4 +13,6 @@ WP* new_wp();
 void free_wp(WP *wp);
 word_t expr(char *e, bool *success);
 bool checkCheckPoints();
+void showCheckPoints();
+void removeCheckPoint(int id);
 #endif
