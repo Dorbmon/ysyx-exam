@@ -119,7 +119,7 @@ void removeToken(int index) {
   memcpy(tokens, tmp, sizeof(tmp));
 }
 bool isS(char c) {
-  return (c == '+') || (c == '-') || (c == '*') || (c == '/');
+  return (c == '+') || (c == '-') || (c == '*') || (c == '/') || (c == '(') || (c == ')');
 }
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
