@@ -161,7 +161,9 @@ uint32_t eval(int p, int q) {
   bool fail = false;
   if (p + 1 == q) {
     if (tokens[p].type == TK_NEG) {
-      return -eval(p + 1, q);
+      uint32_t v = -eval(p + 1, q);
+      printf("%d %d %d\n", p, q, v);
+      return v;
     }
     if (tokens[p].type == TK_DEREF) {
       bool success;
