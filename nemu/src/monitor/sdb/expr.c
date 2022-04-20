@@ -169,7 +169,7 @@ uint32_t eval(int p, int q) {
     }
     if (tokens[p].type == TK_DEREF) {
       bool success;
-      printf("reg:%s;", tokens[q].str);
+      printf("reg:%s;\n", tokens[q].str);
       int ind = strlen(tokens[q].str) - 1;
       while (ind > 0) {
         if (tokens [q].str[q] == ' ') {
