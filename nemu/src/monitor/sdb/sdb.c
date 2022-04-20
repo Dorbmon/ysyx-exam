@@ -57,6 +57,11 @@ static int info(char *args) {
   }
   return 0;
 }
+static int runS(char *args) {
+  bool success;
+  printf("%lu", expr(args, &success));
+  return 0;
+}
 static int readMemory(char *args) {
   char *c_byteNum = strtok(args, " ");
   char *c_address = args + strlen(c_byteNum) + 1;
@@ -83,6 +88,7 @@ static struct {
     {"si", "Run N lines of code", simulate},
     {"info", "Get Program State", info},
     {"x", "Read Memory", readMemory},
+    {"r" , "Run ", runS},
     /* TODO: Add more commands */
 
 };
