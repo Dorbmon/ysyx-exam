@@ -162,7 +162,7 @@ uint32_t eval(int p, int q) {
   if (p + 1 == q) {
     if (tokens[p].type == TK_NEG) {
       uint32_t v = -eval(p + 1, q);
-      printf("%d %d %d\n", p, q, v);
+      //printf("%d %d %d\n", p, q, v);
       return v;
     }
     if (tokens[p].type == TK_DEREF) {
