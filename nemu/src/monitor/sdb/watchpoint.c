@@ -59,7 +59,7 @@ bool checkCheckPoints() {
     bool success;
     word_t value = expr(r->order, &success);
     if (value != r->lastValue) {
-      printf("check point:%d changed.It used to be %lx but now %lx", r->NO ,r->lastValue, value);
+      printf("check point:%d changed.It used to be %lx but now %lx\n", r->NO ,r->lastValue, value);
       r->lastValue = value;
       return true;
     }

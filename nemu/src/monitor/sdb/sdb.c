@@ -84,7 +84,6 @@ static int d(char *args) {
   return 0;
 }
 static int w(char *args) {
-  printf("%s\n", args);
   printf("the ID of new watch point:%d\n", new_wp(args)->NO);
   return 0;
 }
