@@ -35,7 +35,7 @@ void pBin(long int x)
   x>>=1;  // shift right 1 bit
  } while( x > 0);
  while(i>=0) s[i--]='0';    // fill with fillChar 
- printf("%s\n",s+i); // stick it in the temp string string
+ printf("%s\n",s); // stick it in the temp string string
  return ;
 }
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
