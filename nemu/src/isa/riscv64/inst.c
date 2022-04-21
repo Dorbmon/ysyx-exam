@@ -35,6 +35,7 @@ void pBin(long int x)
   x>>=1;  // shift right 1 bit
  } while( x > 0);
  i++;   // point to last valid character
+ while(i>=0) s[i--]='0';    // fill with fillChar 
  printf("%s\n",s+i); // stick it in the temp string string
  return ;
 }
