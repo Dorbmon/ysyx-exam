@@ -22,20 +22,20 @@ enum {
 static word_t immI(uint32_t i) { return SEXT(BITS(i, 31, 20), 12); }
 static word_t immU(uint32_t i) { return SEXT(BITS(i, 31, 12), 20) << 12; }
 static word_t immS(uint32_t i) { return (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); }
-static word_t immJ(uint32_t i) {return (BITS(i, 31, 31) << 20) | (BITS(i, 30, 21) << 1) | (BITS(i, 20, 20) << 11) | (BITS(i, 19, 12) << 12); }
+static word_t immJ(uint32_t i) {return (SEXT(BITS(i, 31, 31), 1) << 20) | (BITS(i, 30, 21) << 1) | (BITS(i, 20, 20) << 11) | (BITS(i, 19, 12) << 12); }
 #define kDisplayWidth 32
 void pBin(long int x)
 {
  char s[kDisplayWidth+1];
  int  i=kDisplayWidth;
- s[i--]=0x00;   // terminate string
+ s[i--]=0x00;
  do
- { // fill in array from right to left
-  s[i--]=(x & 1) ? '1':'0';  // determine bit
-  x>>=1;  // shift right 1 bit
+ {
+  s[i--]=(x & 1) ? '1':'0';
+  x>>=1;
  } while( x > 0);
- while(i>=0) s[i--]='0';    // fill with fillChar 
- printf("%s\n",s); // stick it in the temp string string
+ while(i>=0) s[i--]='0';
+ printf("%s\n",s);
  return ;
 }
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
@@ -68,7 +68,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 011 ????? 00000 11", ld     , I, R(dest) = Mr(src1 + src2, 8));
   INSTPAT("??????? ????? ????? 011 ????? 01000 11", sd     , S, Mw(src1 + dest, 8, src2));
 
-  INSTPAT("??????? ????? ????? 000 ????? 00100 11", addi   , I, R(dest) = src1 + src2);
+  INSTPAT("??????? ????? ????? 000 ????? 00100 11", addi   , I, printf("src2:%ld\n", src2), R(dest) = src1 + src2);
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(dest) = s->pc + 4, s->pc += src1);
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(dest) = s->pc + 4, s->pc = src1 + src2);
   
