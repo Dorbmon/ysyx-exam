@@ -22,24 +22,9 @@ enum {
 static word_t immI(uint32_t i) { return SEXT(BITS(i, 31, 20), 12); }
 static word_t immU(uint32_t i) { return BITS(i, 31, 12) << 12; }
 static word_t immS(uint32_t i) { return (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); }
-#define kDisplayWidth 32
-void pBin(long int x)
-{
- char s[kDisplayWidth+1];
- int  i=kDisplayWidth;
- s[i--]=0x00;   // terminate string
- do
- { // fill in array from right to left
-  s[i--]=(x & 1) ? '1':'0';  // determine bit
-  x>>=1;  // shift right 1 bit
- } while( x > 0);
- i++;   // point to last valid character
- printf("%s",s+i); // stick it in the temp string string
- return ;
-}
+
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
   uint32_t i = s->isa.inst.val;
-  pBin(i);
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
   int rs2 = BITS(i, 24, 20);
