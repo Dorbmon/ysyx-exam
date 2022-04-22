@@ -56,7 +56,7 @@ void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
   R(dest) = s->pc + 4; s->pc += src1;
 }
 void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
-  R(dest) = s->pc + 4; s->pc = (src1 + src2) & -1;
+  R(dest) = s->pc + 4; s->pc = src1 + src2;
 }
 static int decode_exec(Decode *s) {
   word_t dest = 0, src1 = 0, src2 = 0;
