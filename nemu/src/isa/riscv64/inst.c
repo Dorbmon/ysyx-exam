@@ -40,20 +40,20 @@ void pBin(long int x)
 }
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
   uint32_t i = s->isa.inst.val;
-  pBin(i);
+  //pBin(i);
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
   int rs2 = BITS(i, 24, 20);
   destR(rd);
   switch (type) {
-    case TYPE_I: printf("I: %d %d\n",rd, rs1); src1R(rs1);     src2I(immI(i)); break;
+    case TYPE_I: src1R(rs1);     src2I(immI(i)); break;
     case TYPE_U: src1I(immU(i)); break;
     case TYPE_S: destI(immS(i)); src1R(rs1); src2R(rs2); break;
     case TYPE_J: src1I(immJ(i)); break;
   }
 }
 void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
-  printf("jal: %lx, %lx\n",s->pc , s->pc + src1);
+  //printf("jal: %lx, %lx\n",s->pc , s->pc + src1);
   R(dest) = s->pc + 4; s->dnpc = s->pc + src1;
 }
 void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
@@ -61,7 +61,7 @@ void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
   word_t t =s->pc+4; s->dnpc=(src1+src2)&~1; R(dest)=t;
 }
 void raddi(Decode* s,word_t dest,word_t src1,word_t src2) {
-  printf("addi:%ld %ld %ld \n", dest, src1, src2);
+  //printf("addi:%ld %ld %ld \n", dest, src1, src2);
   R(dest) = src1 + src2;
 }
 static int decode_exec(Decode *s) {
