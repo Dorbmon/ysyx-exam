@@ -53,7 +53,8 @@ static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, 
   }
 }
 void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
-  R(dest) = s->pc + 4; s->pc = src1;
+  printf("jal: %lx", src1);
+  R(dest) = s->pc + 4; s->pc += src1;
 }
 void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
   //R(dest) = s->pc + 4; s->pc = src1 + src2;
