@@ -58,7 +58,7 @@ void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
 }
 void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
   //R(dest) = s->pc + 4; s->pc = src1 + src2;
-  word_t t =s->pc+4; s->dnpc=(src1+src2)&~1; R(dest)=t;
+  s->dnpc=(src1+src2)&~1; R(dest)=s->pc+4;
 }
 void raddi(Decode* s,word_t dest,word_t src1,word_t src2) {
   //printf("addi:%ld %ld %ld \n", dest, src1, src2);
