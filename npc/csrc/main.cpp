@@ -1,16 +1,19 @@
 #include <memory>
 #include <nvboard.h>
-#include <Vtop.h>
+#include <Vysyx_22041207_top.h>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
 #include <iostream>
+#include "memory.h"
 double sc_time_stamp() { return 0; }
 const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
-Vtop* top = new Vtop{contextp.get(), "TOP"};
-void nvboard_bind_all_pins(Vtop* top);
+Vysyx_22041207_top* top = new Vysyx_22041207_top{contextp.get(), "TOP"};
+void nvboard_bind_all_pins(Vysyx_22041207_top* top);
+
+
 int main(int argc, char **argv, char **env) {
-  nvboard_bind_all_pins(top);
-  nvboard_init();
+  //nvboard_bind_all_pins(top);
+  //nvboard_init();
   
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
@@ -23,10 +26,10 @@ int main(int argc, char **argv, char **env) {
     //contextp->timeInc(1);
     //vcd->dump(time);
     //time ++;
-    top->clk = ~top->clk;
+    top->inst = pmem_read(top->pc, 4);
     //std::cout << "Here" << std::endl;
     top->eval();
-    nvboard_update();
+    //nvboard_update();
   }
   top->final();
   vcd->close();
