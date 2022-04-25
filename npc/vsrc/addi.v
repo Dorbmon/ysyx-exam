@@ -1,16 +1,12 @@
 module ysyx_22041207_addi(
-    input clk,
+    input isAdd,
     input [31:0] inst,
-    input [63:0] regReaddata,
-    output [74:0] data
+    input [63:0] rs1,
+    output wen,
+    output reg [4:0] waddr,
+    output reg [63:0] wdata
 );
-wire [11:0] imm;
-assign imm = inst [31:20];
-assign data [74:74] = 1'b1;
-assign data [73:69] = inst [19:15];   //读入指定寄存器
-always @ (posedge clk) begin
-    data [68:64] = inst [11:7];
-    data [63:0]  = {52'b0 ,imm} + regReaddata;
-end
-
+assign wen = isAdd;
+assign waddr = inst [11:7];
+assign wdata = $signed({52'b0, inst [31:20]}) + rs1;
 endmodule

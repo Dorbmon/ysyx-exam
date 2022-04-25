@@ -14,7 +14,7 @@ void nvboard_bind_all_pins(Vysyx_22041207_top* top);
 int main(int argc, char **argv, char **env) {
   //nvboard_bind_all_pins(top);
   //nvboard_init();
-  
+  initMemory();
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
   VerilatedVcdC *vcd = new VerilatedVcdC();
@@ -26,15 +26,18 @@ int main(int argc, char **argv, char **env) {
   top->eval();
   top->rst = 1;
   top->eval();
-  while (!contextp->gotFinish()) {
+  top->rst = 0;
+  top->clk = 0;
+  while (!contextp->gotFinish() && time <= 5) {
     //contextp->timeInc(1);
     //vcd->dump(time);
-    //time ++;
+    time ++;
     printf("pc:%u\n", top->pc);
     top->clk = ~top->clk;
     top->inst = pmem_read(top->pc, 4);
     //std::cout << "Here" << std::endl;
     top->eval();
+
     //nvboard_update();
   }
   top->final();
