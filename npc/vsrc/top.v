@@ -17,7 +17,7 @@ always @ (posedge rst or posedge clk) begin
     pc <= 32'h80000000;
   end
   else begin
-    pc <= pc + 32'h00000004;
+    pc <= pc + 32'h00000001;
   end
 end
 ControlUnit cu(inst, r1addr, r2addr, rwaddr, rwdata, r1data, r2data, wen);

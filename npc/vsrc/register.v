@@ -13,6 +13,6 @@ module RegisterFile #(REGISTER_NUM = 2, ADDR_WIDTH = 1, DATA_WIDTH = 1) (
   assign r2data = rf[r2addr];
   always @(posedge clk) begin
     if (wen && waddr != 0) rf[waddr] <= wdata;
-    $display("a1:%b", rf [1]);
+    //$display("a1:%b", rf [1]);
   end
 endmodule
