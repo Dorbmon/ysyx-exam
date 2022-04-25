@@ -22,10 +22,16 @@ int main(int argc, char **argv, char **env) {
   top->trace(vcd, 0);
   vcd->open("data.vcd");
   int time = 0;
+  top->rst = 0;
+  top->eval();
+  top->rst = 1;
+  top->eval();
   while (!contextp->gotFinish()) {
     //contextp->timeInc(1);
     //vcd->dump(time);
     //time ++;
+    printf("pc:%u\n", top->pc);
+    top->clk = ~top->clk;
     top->inst = pmem_read(top->pc, 4);
     //std::cout << "Here" << std::endl;
     top->eval();
