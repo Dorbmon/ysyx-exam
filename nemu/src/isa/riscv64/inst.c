@@ -8,7 +8,7 @@
 #define Mw vaddr_write
 
 enum {
-  TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_B,
+  TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_B, TYPE_R,
   TYPE_N, // none
 };
 
@@ -53,6 +53,7 @@ static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, 
     case TYPE_S: destI(immS(i)); src1R(rs1); src2R(rs2); break;
     case TYPE_J: src1I(immJ(i)); break;
     case TYPE_B: destI(immB(i)); src1R(rs1); src2R(rs2); break;
+    case TYPE_R: src1R(rs1); src2R(rs2); break;
   }
 }
 void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
@@ -87,7 +88,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, rjalr(s, dest, src1, src2));
   INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq    , B, if (src1 == src2) s->dnpc += dest;);
   INSTPAT("??????? ????? ????? 100 ????? 00000 11", lbu    , I, printf("rs1:%lx", src1); R(dest) = Mr(src1 + src2, 1));
-  INSTPAT("0000000 ????? ????? 000 ????? 01100 11", add    , N, R(dest) = src1 + src2);
+  INSTPAT("0000000 ????? ????? 000 ????? 01100 11", add    , R, R(dest) = src1 + src2);
   
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
