@@ -5,9 +5,9 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
-  size_t len = 0;
-  while (*(s + len) != '\0') len++;
-  return len;
+  for (size_t i = 0;;i ++) {
+    if (s [i] == '\0') return i;
+  }
 }
 
 char *strcpy(char *dst, const char *src) {
