@@ -33,9 +33,9 @@ int strcmp(const char *s1, const char *s2) {
   if (l1 != l2) {
     return l1 - l2;
   }
-  for (size_t index = 0;index < l1;++ index) {
-    if (s1 [index] != s2 [index]) return s1 [index] - s2 [index];
-  }
+  // for (size_t index = 0;index < l1;++ index) {
+  //   if (s1 [index] != s2 [index]) return s1 [index] - s2 [index];
+  // }
   return 0;
 }
 
