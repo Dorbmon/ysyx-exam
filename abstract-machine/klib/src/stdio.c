@@ -93,9 +93,7 @@ int sprintf(char *str, const char *fmt, ...) {
       case 'c': /*字符型*/
       {
         c = va_arg(ap, int);
-        *str = c;
-        str++;
-
+        *(str++) = c;
         break;
       }
       case 'x': /*16进制*/
