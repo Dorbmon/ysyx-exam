@@ -29,7 +29,8 @@ char *strcat(char *dst, const char *src) {
 }
 
 int strcmp(const char *s1, const char *s2) {
-  size_t l1 = strlen(s1),l2 = strlen(s2);
+  //size_t l1 = strlen(s1),l2 = strlen(s2);
+  size_t l1 = 1,l2 = 1;
   if (l1 != l2) {
     return l1 - l2;
   }
