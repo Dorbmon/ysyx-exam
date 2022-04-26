@@ -74,7 +74,6 @@ int sprintf(char *str, const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   while (*fmt != '\0') {
-    printf("*fmt=[%c]\n", *fmt);
     if (*fmt == '%') {
       fmt++;
       switch (*fmt) {
