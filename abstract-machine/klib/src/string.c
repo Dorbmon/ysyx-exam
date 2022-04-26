@@ -61,10 +61,10 @@ void *memmove(void *dst, const void *src, size_t n) {
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
-  char *ci = (char *)out; // 一个字节一个字节赋值
-  char *co = (char *)in;
+  char *co = (char *)out; // 一个字节一个字节赋值
+  char *ci = (char *)in;
   for (int i = 0; i < n; i++) {
-    ci[i] = co[i];
+    co[i] = ci[i];
   }
   return out;
 }
