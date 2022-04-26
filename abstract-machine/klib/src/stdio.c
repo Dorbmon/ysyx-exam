@@ -115,9 +115,7 @@ int sprintf(char *str, const char *fmt, ...) {
       }
       case '%': /*输出%*/
       {
-        *str = '%';
-        str++;
-
+        *(str++) = '%';
         break;
       }
       case '0': /*位不足的左补0*/
@@ -199,11 +197,7 @@ int sprintf(char *str, const char *fmt, ...) {
         break;
       }
     } else {
-      *str = *fmt;
-      str++;
-
-      if (*fmt == '\n') {
-      }
+      *(str++) = *fmt;
     }
     fmt++;
   }
