@@ -151,14 +151,13 @@ void init_elf() {
     if (fgets(&c, 1, elf_fp) == NULL) {
       assert(0);
     }
+    printf("%c",c );
   }
   for (int i = 0x1408;i <= 0x2000;++ i) {
     char c;
     if (fgets(&c, 1, elf_fp) == NULL) {
       assert(0);
     }
-    putc(c, stdout);
-    printf("t%c", c);
   }
   printf("readddde\n");
 }
