@@ -26,7 +26,9 @@ void insertIRINGBuf(char* str,char* end) {
 }
 void printIRINGBuf() {
   for (int i = 0;i < IRINGBUF_SIZE;++ i) {
-    printf("%s\n", iringbuf[(nowIndex + i) % IRINGBUF_SIZE]);
+    size_t index = (nowIndex + i) % IRINGBUF_SIZE;
+    if (strlen(iringbuf[index]) == 0) continue;
+    printf("%s\n", iringbuf[index]);
   }
 }
 void device_update();
