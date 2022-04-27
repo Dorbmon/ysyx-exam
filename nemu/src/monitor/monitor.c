@@ -220,7 +220,7 @@ void init_elf() {
         uint8_t *sign_data=(uint8_t*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
 		// 依据此段在文件中的偏移读取出
 		fseek(elf_fp, shdr[i].sh_offset, SEEK_SET);
-		assert(fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, elf_fp) == sizeof(uint8_t)*shdr[i].sh_size);
+		assert(fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, elf_fp) <= sizeof(uint8_t)*shdr[i].sh_size);
 		// 显示读取的内容
 		uint8_t *p = sign_data;
 		int j = 0;
