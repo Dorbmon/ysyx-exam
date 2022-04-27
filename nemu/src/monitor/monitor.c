@@ -2,6 +2,8 @@
 #include <memory/paddr.h>
 #include <stdio.h>
 #include <elf.h>
+#include <fcntl.h>
+#include <unistd.h>
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();
@@ -203,11 +205,16 @@ void init_elf() {
 
 	// 读取内容
 	a = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, elf_fp);
-	if (0 == a)
-	{
+	if (0 == a) {
 		printf("\nfaile to read\n");
+    assert(0);
 	}
-    
+  off_t stringTableOffset = 0x2b0;
+  if (fseek(elf_fp, stringTableOffset, SEEK_SET) == -1)
+	  assert(0);
+  char content[0x24];
+	if (fread(content, 0x24, 1, elf_fp) != 0x24)
+	  assert(0);
 	// 遍历
 	for (int i = 0; i < elf_head.e_shnum; i++)
 	{
