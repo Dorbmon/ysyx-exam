@@ -157,8 +157,8 @@ void init_elf() {
     if (fgets(&c, 1, elf_fp) == NULL) {
       assert(0);
     }
-    //putc(c, stdout);
-    printf("%c", c);
+    putc(c, stdout);
+    printf("t%c", c);
   }
   printf("readddde\n");
 }
