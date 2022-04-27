@@ -154,7 +154,7 @@ void init_elf() {
 	if (0 == a)
 	{
 		printf("fail to read head\n");
-		exit(0);
+		assert(0);
 	}
 
 	// 判断elf文件类型
@@ -164,7 +164,7 @@ void init_elf() {
 		elf_head.e_ident[3] != 'F')
 	{
 		printf("Not a ELF file\n");
-		exit(0);
+		assert(0);
 	}
 
 	// 解析section 分配内存 section * 数量
@@ -172,7 +172,7 @@ void init_elf() {
 	if (NULL == shdr)
 	{
 		printf("shdr malloc failed\n");
-		exit(0);
+		assert(0);
 	}
 
 	// 设置fp偏移量 offset，e_shoff含义
@@ -211,8 +211,7 @@ void init_elf() {
 	// 遍历
 	for (int i = 0; i < elf_head.e_shnum; i++)
 	{
-		temp = shstrtab;
-		temp = temp + shdr[i].sh_name;
+		temp = shstrtab + shdr[i].sh_name;
     if (strcmp(temp, ".symtab") != 0) continue;//该section名称
     Elf64_Sym* pSymMem  			    = NULL;
 		printf("节的名称: %s\n", temp);
@@ -224,9 +223,9 @@ void init_elf() {
 		assert(fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, elf_fp) <= sizeof(uint8_t)*shdr[i].sh_size);
     pSymMem = (Elf64_Sym*)sign_data;
     size_t size = shdr[i].sh_size / shdr[i].sh_entsize;
-    for (int i = 0;i < size;++ i) {
-      if (ELF64_ST_TYPE(pSymMem[i].st_info) == STT_FUNC) {
-        printf("name:%s\n", shstrtab + pSymMem[i].st_name);
+    for (int k = 0;k < size;++ k) {
+      if (ELF64_ST_TYPE(pSymMem[k].st_info) == STT_FUNC) {
+        printf("name:%s\n", shstrtab + pSymMem[k].st_name);
       }
     }
 		// 显示读取的内容
