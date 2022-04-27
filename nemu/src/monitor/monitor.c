@@ -226,7 +226,7 @@ void init_elf() {
 		int j = 0;
 		for (j=0; j<shdr[i].sh_size; j++)
 		{
-		    printf("%x", *p);
+		    printf("%c", *p);
             p++;
 		}
     free(sign_data);
