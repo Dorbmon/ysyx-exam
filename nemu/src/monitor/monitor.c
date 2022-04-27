@@ -213,7 +213,7 @@ void init_elf() {
 	{
 		temp = shstrtab;
 		temp = temp + shdr[i].sh_name;
-    if (strcmp(temp, ".symtab") != 0) continue;//该section名称
+    //if (strcmp(temp, ".symtab") != 0) continue;//该section名称
     Elf32_Sym* pSymMem  			    = NULL;
 		printf("节的名称: %s\n", temp);
 		printf("节首的偏移: %lx\n", shdr[i].sh_offset);
