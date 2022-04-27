@@ -15,8 +15,14 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 #define IRINGBUF_SIZE 16
-char* iringbuf[IRINGBUF_SIZE];
+char iringbuf[IRINGBUF_SIZE][128];
 int nowIndex = 0;
+void insertIRINGBuf(char* str,char* end) {
+  //strcpy(iringbuf[(nowIndex++) % IRINGBUF_SIZE], str);
+  size_t index = (nowIndex++) % IRINGBUF_SIZE;
+  memcpy(iringbuf[index], str, end - str);
+  iringbuf[index][end - str + 1] = '\0';
+}
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
@@ -40,6 +46,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   cpu.pc = s->dnpc;
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
+  char* begin = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   int ilen = s->snpc - s->pc;
   int i;
@@ -53,10 +60,10 @@ static void exec_once(Decode *s, vaddr_t pc) {
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
   p += space_len;
-
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+  insertIRINGBuf(begin, s->logbuf);
 #endif
 }
 
