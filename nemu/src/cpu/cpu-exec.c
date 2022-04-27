@@ -20,9 +20,9 @@ int nowIndex = 0;
 void insertIRINGBuf(char* str,char* end) {
   //strcpy(iringbuf[(nowIndex++) % IRINGBUF_SIZE], str);
   size_t index = (nowIndex++) % IRINGBUF_SIZE;
-  memcpy(iringbuf[index], str, end - str);
-  iringbuf[index][end - str + 1] = '\0';
-  printf("insert: %s\n", str);
+  // memcpy(iringbuf[index], str, end - str);
+  // iringbuf[index][end - str + 1] = '\0';
+  strcpy(iringbuf[index], str);
 }
 void printIRINGBuf() {
   for (int i = 0;i < IRINGBUF_SIZE;++ i) {
