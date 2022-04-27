@@ -23,6 +23,11 @@ void insertIRINGBuf(char* str,char* end) {
   memcpy(iringbuf[index], str, end - str);
   iringbuf[index][end - str + 1] = '\0';
 }
+void printIRINGBuf() {
+  for (int i = 0;i < IRINGBUF_SIZE;++ i) {
+    printf("%s\n", iringbuf[(nowIndex + i) % IRINGBUF_SIZE]);
+  }
+}
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
@@ -76,6 +81,7 @@ static void execute(uint64_t n) {
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }
+  printIRINGBuf();
 }
 
 static void statistic() {
