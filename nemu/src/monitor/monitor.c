@@ -230,4 +230,5 @@ void init_elf() {
             p++;
 		}
 	 }
+   free(shdr);
 }
