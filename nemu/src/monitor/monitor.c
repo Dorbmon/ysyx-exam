@@ -159,4 +159,5 @@ void init_elf() {
     }
     putc(c, stdout);
   }
+  printf("readddde\n");
 }
