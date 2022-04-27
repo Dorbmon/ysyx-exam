@@ -22,7 +22,7 @@ void insertIRINGBuf(char* str,char* end) {
   size_t index = (nowIndex++) % IRINGBUF_SIZE;
   memcpy(iringbuf[index], str, end - str);
   iringbuf[index][end - str + 1] = '\0';
-  printf("insert: %s\n", iringbuf[index]);
+  printf("insert: %s\n", str);
 }
 void printIRINGBuf() {
   for (int i = 0;i < IRINGBUF_SIZE;++ i) {
