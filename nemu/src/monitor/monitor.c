@@ -1,5 +1,6 @@
 #include <isa.h>
 #include <memory/paddr.h>
+#include <stdio.h>
 
 void init_rand();
 void init_log(const char *log_file);
@@ -8,7 +9,7 @@ void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
 void init_sdb();
 void init_disasm(const char *triple);
-
+void init_elf();
 static void welcome() {
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ANSI_FMT("ON", ANSI_FG_GREEN), ANSI_FMT("OFF", ANSI_FG_RED)));
   IFDEF(CONFIG_TRACE, Log("If trace is enabled, a log file will be generated "
@@ -28,7 +29,7 @@ static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
-
+static char *elf_file = NULL;
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
@@ -57,6 +58,7 @@ static int parse_args(int argc, char *argv[]) {
     {"log"      , required_argument, NULL, 'l'},
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
+    {"elf"      , required_argument, NULL, 'e'},
     {"help"     , no_argument      , NULL, 'h'},
     {0          , 0                , NULL,  0 },
   };
@@ -67,6 +69,7 @@ static int parse_args(int argc, char *argv[]) {
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
+      case 'e': elf_file = optarg; break;
       case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
@@ -139,3 +142,21 @@ void am_init_monitor() {
   welcome();
 }
 #endif
+FILE *elf_fp = NULL;
+void init_elf() {
+  if (elf_file == NULL) return ;
+  elf_fp = fopen(elf_file, "w");
+  for (int i = 0;i < 0x1408;++ i) {
+    char c;
+    if (fgets(&c, 1, elf_fp) == NULL) {
+      assert(0);
+    }
+  }
+  for (int i = 0x1408;i <= 0x2000;++ i) {
+    char c;
+    if (fgets(&c, 1, elf_fp) == NULL) {
+      assert(0);
+    }
+    putc(c, stdout);
+  }
+}
