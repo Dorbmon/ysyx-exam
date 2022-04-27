@@ -209,12 +209,18 @@ void init_elf() {
 		printf("\nfaile to read\n");
     assert(0);
 	}
-  off_t stringTableOffset = 0x2b0;
-  if (fseek(elf_fp, stringTableOffset, SEEK_SET) == -1)
-	  assert(0);
-  char content[0x24];
-	if (fread(content, 0x24, 1, elf_fp) != 0x24)
-	  assert(0);
+  char* textTab = NULL;
+  for (int i = 0; i < elf_head.e_shnum; i++) {
+    temp = shstrtab + shdr[i].sh_name;
+    if (strcmp(temp, ".strtab") != 0) continue;//该section名称
+    textTab = malloc(sizeof(uint8_t) * shdr[i].sh_size);
+    fseek(elf_fp, shdr[i].sh_offset, SEEK_SET);
+    a = fread(textTab, shdr[i].sh_size, 1, elf_fp);
+    if (0 == a) {
+		  printf("\nfaile to read\n");
+      assert(0);
+	  }
+  }
 	// 遍历
 	for (int i = 0; i < elf_head.e_shnum; i++)
 	{
@@ -232,17 +238,9 @@ void init_elf() {
     size_t size = shdr[i].sh_size / shdr[i].sh_entsize;
     for (int k = 0;k < size;++ k) {
       if (ELF64_ST_TYPE(pSymMem[k].st_info) == STT_FUNC) {
-        printf("name:%s\n", shstrtab + pSymMem[k].st_name);
+        printf("name:%s\n", textTab + pSymMem[k].st_name);
       }
     }
-		// 显示读取的内容
-		// uint8_t *p = sign_data;
-		// int j = 0;
-		// for (j=0; j<shdr[i].sh_size; j++)
-		// {
-		//     printf("%x", *p);
-    //         p++;
-		// }
     free(sign_data);
 	 }
    free(shdr);
