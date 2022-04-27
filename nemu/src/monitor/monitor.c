@@ -214,7 +214,7 @@ void init_elf() {
 		temp = shstrtab;
 		temp = temp + shdr[i].sh_name;
     if (strcmp(temp, ".symtab") != 0) continue;//该section名称
-    Elf32_Sym* pSymMem  			    = NULL;
+    Elf64_Sym* pSymMem  			    = NULL;
 		printf("节的名称: %s\n", temp);
 		printf("节首的偏移: %lx\n", shdr[i].sh_offset);
 		printf("节的大小: %lx\n", shdr[i].sh_size);
@@ -222,7 +222,7 @@ void init_elf() {
 		// 依据此段在文件中的偏移读取出
 		fseek(elf_fp, shdr[i].sh_offset, SEEK_SET);
 		assert(fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, elf_fp) <= sizeof(uint8_t)*shdr[i].sh_size);
-    pSymMem = (Elf32_Sym*)sign_data;
+    pSymMem = (Elf64_Sym*)sign_data;
     size_t size = shdr[i].sh_size / shdr[i].sh_entsize;
     for (int i = 0;i < size;++ i) {
       if (ELF64_ST_TYPE(pSymMem[i].st_info) == STT_FUNC) {
