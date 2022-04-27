@@ -217,7 +217,7 @@ void init_elf() {
 		printf("节的名称: %s\n", temp);
 		printf("节首的偏移: %lx\n", shdr[i].sh_offset);
 		printf("节的大小: %lx\n", shdr[i].sh_size);
-        uint8_t *sign_data=(uint8_t*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
+    uint8_t *sign_data=(uint8_t*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
 		// 依据此段在文件中的偏移读取出
 		fseek(elf_fp, shdr[i].sh_offset, SEEK_SET);
 		assert(fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, elf_fp) <= sizeof(uint8_t)*shdr[i].sh_size);
@@ -229,6 +229,7 @@ void init_elf() {
 		    printf("%x", *p);
             p++;
 		}
+    free(sign_data);
 	 }
    free(shdr);
 }
