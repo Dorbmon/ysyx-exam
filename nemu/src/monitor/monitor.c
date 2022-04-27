@@ -145,7 +145,7 @@ void am_init_monitor() {
 FILE *elf_fp = NULL;
 void init_elf() {
   if (elf_file == NULL) return ;
-  elf_fp = fopen(elf_file, "w");
+  elf_fp = fopen(elf_file, "r");
   Elf64_Ehdr elf_head;
 	int a;
 
