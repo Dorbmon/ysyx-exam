@@ -244,4 +244,5 @@ void init_elf() {
     free(sign_data);
 	 }
    free(shdr);
+   free(textTab);
 }
