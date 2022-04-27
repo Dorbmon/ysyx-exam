@@ -84,7 +84,6 @@ static void execute(uint64_t n) {
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }
-  printIRINGBuf();
 }
 
 static void statistic() {
@@ -99,6 +98,7 @@ static void statistic() {
 void assert_fail_msg() {
   isa_reg_display();
   statistic();
+  printIRINGBuf();
 }
 
 /* Simulate how the CPU works. */
