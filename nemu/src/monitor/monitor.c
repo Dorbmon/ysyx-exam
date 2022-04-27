@@ -229,13 +229,13 @@ void init_elf() {
       }
     }
 		// 显示读取的内容
-		uint8_t *p = sign_data;
-		int j = 0;
-		for (j=0; j<shdr[i].sh_size; j++)
-		{
-		    printf("%x", *p);
-            p++;
-		}
+		// uint8_t *p = sign_data;
+		// int j = 0;
+		// for (j=0; j<shdr[i].sh_size; j++)
+		// {
+		//     printf("%x", *p);
+    //         p++;
+		// }
     free(sign_data);
 	 }
    free(shdr);
