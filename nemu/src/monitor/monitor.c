@@ -145,16 +145,24 @@ void am_init_monitor() {
 }
 #endif
 FILE *elf_fp = NULL;
+size_t funcNum = 0;
+struct func {
+  char funcName[20];
+  uint64_t address, size;
+} funcs[5000];
+char* getBelongFunction(uint64_t addr) {
+  for (int i = 0;i < funcNum;++ i) {
+    if (funcs[i].address <= addr && addr < funcs[i].address + funcs[i].size) return funcs[i].funcName;
+  }
+  return NULL;
+}
 void init_elf() {
   if (elf_file == NULL) return ;
   elf_fp = fopen(elf_file, "r");
   Elf64_Ehdr elf_head;
 	int a;
-
-	// 读取 head 到elf_head
-	a = fread(&elf_head, sizeof(Elf64_Ehdr), 1, elf_fp);   //fread参数1：读取内容存储地址，参数2：读取内容大小，参数3：读取次数，参数4：文件读取引擎
-	if (0 == a)
-	{
+	a = fread(&elf_head, sizeof(Elf64_Ehdr), 1, elf_fp); 
+  if (0 == a) {
 		printf("fail to read head\n");
 		assert(0);
 	}
@@ -163,43 +171,28 @@ void init_elf() {
 	if (elf_head.e_ident[0] != 0x7F ||
 		elf_head.e_ident[1] != 'E' ||
 		elf_head.e_ident[2] != 'L' ||
-		elf_head.e_ident[3] != 'F')
-	{
+		elf_head.e_ident[3] != 'F') {
 		printf("Not a ELF file\n");
 		assert(0);
 	}
-
-	// 解析section 分配内存 section * 数量
 	Elf64_Shdr *shdr = (Elf64_Shdr*)malloc(sizeof(Elf64_Shdr) * elf_head.e_shnum);
-	if (NULL == shdr)
-	{
+	if (NULL == shdr) {
 		printf("shdr malloc failed\n");
 		assert(0);
 	}
-
-	// 设置fp偏移量 offset，e_shoff含义
-	a = fseek(elf_fp, elf_head.e_shoff, SEEK_SET); //fseek调整指针的位置，采用参考位置+偏移量
+	a = fseek(elf_fp, elf_head.e_shoff, SEEK_SET);
 	if (0 != a)
 	{
 		printf("\nfaile to fseek\n");
 		exit(0);
 	}
-
-	// 读取section 到 shdr, 大小为shdr * 数量
 	a = fread(shdr, sizeof(Elf64_Shdr) * elf_head.e_shnum, 1, elf_fp);
-	if (0 == a)
-	{
+	if (0 == a) {
 		printf("\nfail to read section\n");
 		exit(0);
 	}
-
-	// 重置指针位置到文件流开头
 	rewind(elf_fp);
-
-	// 将fp指针移到 字符串表偏移位置处
 	fseek(elf_fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
-
-	// 第e_shstrndx项是字符串表 定义 字节 长度 char类型 数组
 	char shstrtab[shdr[elf_head.e_shstrndx].sh_size];
 	char *temp = shstrtab;
 
@@ -217,7 +210,7 @@ void init_elf() {
     fseek(elf_fp, shdr[i].sh_offset, SEEK_SET);
     a = fread(textTab, shdr[i].sh_size, 1, elf_fp);
     if (0 == a) {
-		  printf("\nfaile to read\n");
+		  printf("faile to read\n");
       assert(0);
 	  }
   }
@@ -225,20 +218,19 @@ void init_elf() {
 	for (int i = 0; i < elf_head.e_shnum; i++)
 	{
 		temp = shstrtab + shdr[i].sh_name;
-    if (strcmp(temp, ".symtab") != 0) continue;//该section名称
-    Elf64_Sym* pSymMem  			    = NULL;
-		printf("节的名称: %s\n", temp);
-		printf("节首的偏移: %lx\n", shdr[i].sh_offset);
-		printf("节的大小: %lx\n", shdr[i].sh_size);
+    if (strcmp(temp, ".symtab") != 0) continue;
+    Elf64_Sym* pSymMem = NULL;
     uint8_t *sign_data=(uint8_t*)malloc(sizeof(uint8_t)*shdr[i].sh_size);
-		// 依据此段在文件中的偏移读取出
 		fseek(elf_fp, shdr[i].sh_offset, SEEK_SET);
 		assert(fread(sign_data, sizeof(uint8_t)*shdr[i].sh_size, 1, elf_fp) <= sizeof(uint8_t)*shdr[i].sh_size);
     pSymMem = (Elf64_Sym*)sign_data;
     size_t size = shdr[i].sh_size / shdr[i].sh_entsize;
     for (int k = 0;k < size;++ k) {
       if (ELF64_ST_TYPE(pSymMem[k].st_info) == STT_FUNC) {
-        printf("name:%s %lx\n", textTab + pSymMem[k].st_name, pSymMem[k].st_value);
+        strcpy(funcs[funcNum].funcName, textTab + pSymMem[k].st_name);
+        funcs[funcNum].address = pSymMem[k].st_value;
+        funcs[funcNum].size = pSymMem[k].st_size;
+        funcNum ++;
       }
     }
     free(sign_data);
