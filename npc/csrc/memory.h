@@ -2,6 +2,8 @@
 #include <memory>
 #include <assert.h>
 #define CONFIG_MBASE 0x80000000
+#define RESET_VECTOR 0x80000000
+
 typedef uint64_t word_t;
 typedef uint64_t paddr_t;
 static uint32_t pmem[0x2000000] __attribute((aligned(4096))) = {};

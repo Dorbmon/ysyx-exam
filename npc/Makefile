@@ -2,6 +2,7 @@ TOPNAME = ysyx_22041207_top
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 
+RUN_ARGS ?=
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
 				-O3 --x-assign fast --x-initial fast --noassert --trace
@@ -37,6 +38,7 @@ all: $(BIN)
 sim: $(BIN)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@$^
+	build/ysyx_22041207_top $(RUN_ARGS)
 	#gtkwave data.vcd
 clean: 
 	rm -rf $(BUILD_DIR)

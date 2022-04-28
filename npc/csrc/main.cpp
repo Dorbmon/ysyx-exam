@@ -17,6 +17,18 @@ void ebreak(int is) {
 }
 
 int main(int argc, char **argv, char **env) {
+  // 读入程序
+  assert(argc == 2);
+  char *img_file = argv[1];
+  FILE *fp = fopen(img_file, "rb");
+  assert(fp != NULL);
+  fseek(fp, 0, SEEK_END);
+  long size = ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+  int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
+  assert(ret == 1);
+  fclose(fp);
+
   //nvboard_bind_all_pins(top);
   //nvboard_init();
   initMemory();
