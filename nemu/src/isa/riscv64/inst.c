@@ -60,12 +60,12 @@ char* getBelongFunction(uint64_t addr);
 void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
   //printf("jal: %lx, %lx\n",s->pc , s->pc + src1);
   R(dest) = s->pc + 4; s->dnpc = s->pc + src1;
-  printf("call Function:%s", getBelongFunction(s->dnpc));
+  printf("call:%s\n", getBelongFunction(s->dnpc));
 }
 void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
   //R(dest) = s->pc + 4; s->pc = src1 + src2;
   s->dnpc=(src1+src2)&~1; R(dest)=s->pc+4;
-  printf("ret Function:%s", getBelongFunction(s->dnpc));
+  printf("ret:%s\n", getBelongFunction(s->dnpc));
 }
 static int decode_exec(Decode *s) {
   word_t dest = 0, src1 = 0, src2 = 0;
