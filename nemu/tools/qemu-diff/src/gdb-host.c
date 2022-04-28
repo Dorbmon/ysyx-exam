@@ -75,7 +75,7 @@ bool gdb_setregs(union isa_gdb_regs *r) {
   int p = 1;
   int i;
   for (i = 0; i < len; i ++) {
-    printf("%s\n",  hex_encode(((uint8_t *)src)[i] >> 4));
+    printf("%c\n",  hex_encode(((uint8_t *)src)[i] >> 4));
     p += sprintf(buf + p, "%c%c", hex_encode(((uint8_t *)src)[i] >> 4), hex_encode(((uint8_t *)src)[i] & 0xf));
   }
 
