@@ -152,7 +152,7 @@ struct func {
 } funcs[5000];
 char* getBelongFunction(uint64_t addr) {
   for (int i = 0;i < funcNum;++ i) {
-    if (funcs[i].address <= addr && addr < funcs[i].address + funcs[i].size) return funcs[i].funcName;
+    if (funcs[i].address <= addr && addr <= funcs[i].address + funcs[i].size) return funcs[i].funcName;
   }
   return NULL;
 }
