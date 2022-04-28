@@ -20,5 +20,7 @@ image: $(IMAGE).elf
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
+
 run: $(IMAGE).elf
-    
+	echo $(NPC_HOME)
+	cd $(NPC_HOME) && make RUN_ARGS=$(IMAGE).elf sim
