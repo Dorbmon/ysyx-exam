@@ -4,11 +4,11 @@
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   for (int i = 0;i < 32;++ i) {
+    printf("%lx %lxx\n", ref_r->gpr [i], cpu.gpr [i]);
     if (ref_r->gpr [i] != cpu.gpr [i]) return false;
   }
-  printf("%lx %lx %lx\n", pc, ref_r->pc, cpu.pc);
-  //return ref_r->pc == cpu.pc;
-  return true;
+  //printf("%lx %lx %lx\n", pc, ref_r->pc, cpu.pc);
+  return ref_r->pc == cpu.pc;
 }
 
 void isa_difftest_attach() {
