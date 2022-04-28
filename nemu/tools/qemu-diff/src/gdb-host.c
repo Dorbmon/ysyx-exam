@@ -67,6 +67,7 @@ bool gdb_getregs(union isa_gdb_regs *r) {
 
 bool gdb_setregs(union isa_gdb_regs *r) {
   int len = sizeof(union isa_gdb_regs);
+  printf("%d\n", len);
   char *buf = malloc(len * 2 + 128);
   assert(buf != NULL);
   buf[0] = 'G';
@@ -75,7 +76,6 @@ bool gdb_setregs(union isa_gdb_regs *r) {
   int p = 1;
   int i;
   for (i = 0; i < len; i ++) {
-    printf("%c%c\n",  hex_encode(((uint8_t *)src)[i] >> 4), hex_encode(((uint8_t *)src)[i] & 0xf));
     p += sprintf(buf + p, "%c%c", hex_encode(((uint8_t *)src)[i] >> 4), hex_encode(((uint8_t *)src)[i] & 0xf));
   }
 
