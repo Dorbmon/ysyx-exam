@@ -24,13 +24,16 @@ static word_t pmem_read(paddr_t addr, int len) {
   return ret;
 }
 static char *img_file = NULL;
-void initMemory() {
-  // 11111111110000010000000100010011
-  //       imm111111111100
-  //                    rs00010
-  //                            rd00001s
-  pmem[0] = 0b11111111110000000000000010010011;
-  pmem[1] = 0b11111111110000010000000010010011;
-  pmem[2] = 0b00000000000000000000000001110011;
+static void initMemory(int argc,char** argv) {
+  assert(argc == 2);
+  char *img_file = argv[1];
+  FILE *fp = fopen(img_file, "rb");
+  assert(fp != NULL);
+  fseek(fp, 0, SEEK_END);
+  long size = ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+  int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
+  assert(ret == 1);
+  fclose(fp);
 }
 #endif
