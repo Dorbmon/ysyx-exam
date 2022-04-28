@@ -56,8 +56,8 @@ bool gdb_getregs(union isa_gdb_regs *r) {
     c = p[8];
     p[8] = '\0';
     r->array[i] = gdb_decode_hex_str(p);
-    printf("%s\n", p);
     p[8] = c;
+    printf("%s\n", p);
     p += 8;
   }
 
