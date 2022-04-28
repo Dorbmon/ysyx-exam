@@ -125,7 +125,7 @@ menu "Testing and Debugging"
 config TRACE
   bool "Enable tracer"
   default y
-confg MTRACE
+config MTRACE
   depends on TRACE
   string "When MTrace is enabled, the program will output the memory visiting and writing."
   default "false"
