@@ -151,10 +151,13 @@ struct func {
   uint64_t address, size;
 } funcs[5000];
 char* getBelongFunction(uint64_t addr) {
-  for (int i = 0;i < funcNum;++ i) {
-    if (funcs[i].address <= addr && addr <= funcs[i].address + funcs[i].size) return funcs[i].funcName;
+  for (int i = 0;i < funcNum - 1;++ i) {
+    if (addr >= funcs[i].address && addr < funcs[i + 1].address) return funcs[i].funcName;
   }
-  return NULL;
+  return funcs[funcNum - 1].funcName;
+}
+int comp(const void*a, const void*b) {
+  return ((struct func*)a)->address - ((struct func*)b)->address;
 }
 void init_elf() {
   if (elf_file == NULL) return ;
@@ -237,4 +240,5 @@ void init_elf() {
 	 }
    free(shdr);
    free(textTab);
+   qsort(funcs, funcNum, sizeof(struct func), comp);
 }
