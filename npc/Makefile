@@ -38,8 +38,7 @@ all: $(BIN)
 sim: $(BIN)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@$^
-	#build/ysyx_22041207_top $(RUN_ARGS)
-	#gtkwave data.vcd
+	
 clean: 
 	rm -rf $(BUILD_DIR)
 include ../Makefile
