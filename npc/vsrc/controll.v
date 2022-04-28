@@ -20,5 +20,6 @@ wire [2:0] funct3 = inst [14:12];
 assign r1addr = rs1;
 assign r2addr = rs2;
 ysyx_22041207_addi addi((inst[6:0] == 7'b0010011),inst, r1data, wen, rwaddr, rwdata);
+
 Vysyx_22041207_EBreak ebreak((inst[6:0] == 7'b1110011 && funct3 == 3'b0));
 endmodule

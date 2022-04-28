@@ -17,12 +17,9 @@ void ebreak(int is) {
 }
 
 int main(int argc, char **argv, char **env) {
-  // 读入程序
-  
-
   //nvboard_bind_all_pins(top);
   //nvboard_init();
-  initMemory(argc, argv);
+  initMemory(argc, argv); // 会自动加载程序
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
   VerilatedVcdC *vcd = new VerilatedVcdC();
