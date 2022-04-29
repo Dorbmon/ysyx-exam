@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **env) {
   top->eval();
   top->rst = 0;
   top->clk = 0;
-  while (!contextp->gotFinish() && !sebreak && time < 10) {
+  while (!contextp->gotFinish() && !sebreak && time < 50) {
     //contextp->timeInc(1);
     //vcd->dump(time);
     time ++;
