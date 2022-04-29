@@ -4,6 +4,7 @@
 #include <elf.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <cpu/cpu.h>
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();
@@ -47,6 +48,7 @@ static void pBin(long int x)
  printf("%s\n",s);
  return ;
 }
+word_t pmem_read(paddr_t addr, int len) ;
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
