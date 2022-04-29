@@ -38,8 +38,8 @@ word_t pmem_read(paddr_t addr, int len) {
 static char *img_file = NULL;
 void initMemory(int argc,char** argv) {
   assert(argc == 2);
-  //char *img_file = argv[1];
-  char* img_file = "/home/dorbmon/ysyx/ysyx-workbench/am-kernels/tests/cpu-tests/build/dummy-riscv64-nemu.bin";
+  char *img_file = argv[1];
+  //char* img_file = "/home/dorbmon/ysyx/ysyx-workbench/am-kernels/tests/cpu-tests/build/dummy-riscv64-nemu.bin";
   printf("load img file:%s\n", img_file);
   FILE *fp = fopen(img_file, "rb");
   assert(fp != NULL);
