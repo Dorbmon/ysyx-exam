@@ -21,7 +21,7 @@ always @ (posedge rst or posedge clk) begin
     pc <= newPcValue;
   end
   else begin
-    pc <= pc + 64'h00000001;
+    pc <= pc + 64'h00000004;
   end
 end
 ysyx_22041207_ALU alu(pc, inst, r1data, r2data, wen, rwdata, newPcValue);
