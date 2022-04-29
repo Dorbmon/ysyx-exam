@@ -49,8 +49,9 @@ void initMemory(int argc,char** argv) {
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
   assert(ret == 1);
   fclose(fp);
-  for (paddr_t addr = 0x80000000; addr <= 0x8000002c; addr += 4) {
-    pBin(pmem_read(addr, 4));
+  for (paddr_t addr = 0; addr <= 1000; addr += 4) {
+    //pBin(pmem_read(addr, 4));
+    pBin(*(uint32_t*)(pmem + addr));
   }
 }
 #endif
