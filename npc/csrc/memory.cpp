@@ -1,6 +1,5 @@
 #ifndef RMemory
-#include <memory>
-#include <assert.h>
+#include "memory.h"
 #define CONFIG_MBASE 0x80000000
 #define RESET_VECTOR 0x80000000
 #define kDisplayWidth 32
@@ -18,8 +17,7 @@ static void pBin(long int x)
  printf("%s\n",s);
  return ;
 }
-typedef uint64_t word_t;
-typedef uint64_t paddr_t;
+
 static uint32_t pmem[0x2000000] __attribute((aligned(4096))) = {};
 static inline word_t host_read(void *addr, int len) {
   switch (len) {
@@ -33,12 +31,12 @@ static inline word_t host_read(void *addr, int len) {
 static uint32_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 static paddr_t host_to_guest(uint32_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
-static word_t pmem_read(paddr_t addr, int len) {
+word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
   return ret;
 }
 static char *img_file = NULL;
-static void initMemory(int argc,char** argv) {
+void initMemory(int argc,char** argv) {
   assert(argc == 2);
   char *img_file = argv[1];
   printf("load img file:%s\n", img_file);
