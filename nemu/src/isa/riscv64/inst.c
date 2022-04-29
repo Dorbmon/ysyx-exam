@@ -60,7 +60,6 @@ char* getBelongFunction(uint64_t addr);
 int depth = 0;
 void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
   //printf("jal: %lx, %lx\n",s->pc , s->pc + src1);
-  printf("imm:%lx\n", src1);
   R(dest) = s->pc + 4; s->dnpc = s->pc + src1;
   if (strcmp(getBelongFunction(s->dnpc), getBelongFunction(s->pc)) != 0) {
     printf("%lx:%*scall [%s@%lx]\n",s->pc,(depth++) * 2, "", getBelongFunction(s->dnpc), s->dnpc);
