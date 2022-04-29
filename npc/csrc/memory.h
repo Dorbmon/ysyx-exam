@@ -3,7 +3,21 @@
 #include <assert.h>
 #define CONFIG_MBASE 0x80000000
 #define RESET_VECTOR 0x80000000
-
+#define kDisplayWidth 32
+static void pBin(long int x)
+{
+ char s[kDisplayWidth+1];
+ int  i=kDisplayWidth;
+ s[i--]=0x00;
+ do
+ {
+  s[i--]=(x & 1) ? '1':'0';
+  x>>=1;
+ } while( x > 0);
+ while(i>=0) s[i--]='0';
+ printf("%s\n",s);
+ return ;
+}
 typedef uint64_t word_t;
 typedef uint64_t paddr_t;
 static uint32_t pmem[0x2000000] __attribute((aligned(4096))) = {};
@@ -38,7 +52,8 @@ static void initMemory(int argc,char** argv) {
   assert(ret == 1);
   fclose(fp);
   for (paddr_t addr = 0x80000000; addr <= 0x8000002c; addr += 4) {
-    printf("%lx\n", pmem_read(addr, 4));
+    //printf("%lx\n", pmem_read(addr, 4));
+    pBin(pmem_read(addr, 4));
   }
 }
 #endif
