@@ -52,7 +52,6 @@ static void initMemory(int argc,char** argv) {
   assert(ret == 1);
   fclose(fp);
   for (paddr_t addr = 0x80000000; addr <= 0x8000002c; addr += 4) {
-    //printf("%lx\n", pmem_read(addr, 4));
     pBin(pmem_read(addr, 4));
   }
 }

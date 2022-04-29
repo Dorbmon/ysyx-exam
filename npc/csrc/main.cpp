@@ -23,7 +23,6 @@ int main(int argc, char **argv, char **env) {
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
   VerilatedVcdC *vcd = new VerilatedVcdC();
-  
   top->trace(vcd, 0);
   vcd->open("data.vcd");
   int time = 0;
