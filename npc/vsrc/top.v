@@ -24,8 +24,9 @@ always @ (posedge rst or posedge clk) begin
     pc <= pc + 64'h00000004;
   end
 end
-ysyx_22041207_ALU alu(pc, inst, r1data, r2data, wen, rwdata, newPcValue);
+assign r1addr = inst [19:15];
+assign r2addr = inst [24:20];
+assign rwaddr = inst [11:7];
+ysyx_22041207_ALU alu(pc, inst, r1data, r2data, wen, rwaddr, rwdata, newPcValue);
 Vysyx_22041207_System system(inst);
-// ControlUnit cu(inst, r1addr, r2addr, rwaddr, rwdata, r1data, r2data, wen, pc);
-//end
 endmodule

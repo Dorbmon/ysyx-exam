@@ -4,6 +4,7 @@ module ysyx_22041207_ALU(
     input [63:0] rs1,
     input [63:0] rs2,
     output wen,
+    output [4:0]  rwaddr,
     output [63:0] wdata,
     output [63:0] newPcValue
 );
@@ -15,6 +16,7 @@ wire [63:0] immJ;
 wire [6:0]  funct7;
 wire [2:0]  funct3;
 ysyx_22041207_ext ext(inst, immI, immS, immB, immU, immJ, funct7, funct3); 
+
 ysyx_22041207_MuxKeyWithDefault #(5, 7, 129) rmux ({wen, wdata, newPcValue}, inst[6:0], 129'b0, {
     7'b0010011, {1'b1, rs1 + immI, 64'b0},   // addi
     7'b0010111, {1'b0, 64'b0, pc + immU},   // auipc
