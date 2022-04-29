@@ -32,6 +32,21 @@ static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
 static char *elf_file = NULL;
+#define kDisplayWidth 32
+static void pBin(long int x)
+{
+ char s[kDisplayWidth+1];
+ int  i=kDisplayWidth;
+ s[i--]=0x00;
+ do
+ {
+  s[i--]=(x & 1) ? '1':'0';
+  x>>=1;
+ } while( x > 0);
+ while(i>=0) s[i--]='0';
+ printf("%s\n",s);
+ return ;
+}
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
@@ -49,7 +64,9 @@ static long load_img() {
   fseek(fp, 0, SEEK_SET);
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
   assert(ret == 1);
-
+  for (paddr_t addr = 0x80000000; addr <= 0x8000002c; addr += 4) {
+    pBin(pmem_read(addr, 4));
+  }
   fclose(fp);
   return size;
 }
