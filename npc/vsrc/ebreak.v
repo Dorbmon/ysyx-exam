@@ -15,7 +15,5 @@ always @(*) begin
     if (inst[6:0] == 7'b1110011 && funct3 == 0) begin
         ebreak();
     end
-    
-    
 end
 endmodule

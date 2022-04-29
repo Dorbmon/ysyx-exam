@@ -23,4 +23,4 @@ image: $(IMAGE).elf
 
 run: $(IMAGE).elf
 	echo $(NPC_HOME)
-	cd $(NPC_HOME) && make RUN_ARGS=$(IMAGE).elf sim
+	cd $(NPC_HOME) && make RUN_ARGS=$(IMAGE).bin sim
