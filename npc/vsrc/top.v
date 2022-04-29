@@ -12,9 +12,13 @@ wire [4:0] r1addr,r2addr,rwaddr;
 wire [63:0] r1data,r2data,rwdata;
 wire wen;
 RegisterFile #(32, 5, 64) r(clk, rwdata, rwaddr, r1addr, r1data, r2addr, r2data, wen);
+wire [31:0] addValue;
 always @ (posedge rst or posedge clk) begin
   if (rst) begin
     pc <= 32'h80000000;
+  end
+  else if (addValue != 32'b0) begin
+    pc <= pc + addValue;
   end
   else begin
     pc <= pc + 32'h00000001;
