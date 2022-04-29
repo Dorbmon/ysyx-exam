@@ -4,7 +4,7 @@
 #include <elf.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <cpu/cpu.h>
+#include <memory/vaddr.h>
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();
@@ -48,7 +48,6 @@ static void pBin(long int x)
  printf("%s\n",s);
  return ;
 }
-word_t pmem_read(paddr_t addr, int len) ;
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
@@ -67,7 +66,7 @@ static long load_img() {
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
   assert(ret == 1);
   for (paddr_t addr = 0x80000000; addr <= 0x8000002c; addr += 4) {
-    pBin(pmem_read(addr, 4));
+    pBin(vaddr_read(addr, 4));
   }
   fclose(fp);
   return size;
