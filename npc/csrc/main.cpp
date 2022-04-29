@@ -33,10 +33,10 @@ int main(int argc, char **argv, char **env) {
   top->eval();
   top->rst = 0;
   top->clk = 0;
-  while (!contextp->gotFinish() && !sebreak) {
+  while (!contextp->gotFinish() && !sebreak && time < 10) {
     //contextp->timeInc(1);
     //vcd->dump(time);
-    //time ++;
+    time ++;
     printf("pc:%lx\n", top->pc);
     top->clk = ~top->clk;
     top->inst = pmem_read(top->pc, 4);
