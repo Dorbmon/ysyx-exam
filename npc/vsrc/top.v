@@ -25,7 +25,7 @@ always @ (posedge rst or posedge clk) begin
   end
 end
 ysyx_22041207_ALU alu(pc, inst, r1data, r2data, wen, rwdata, newPcValue);
-
+Vysyx_22041207_System system(inst);
 // ControlUnit cu(inst, r1addr, r2addr, rwaddr, rwdata, r1data, r2data, wen, pc);
 //end
 endmodule

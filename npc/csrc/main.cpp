@@ -12,8 +12,8 @@ const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
 Vysyx_22041207_top* top = new Vysyx_22041207_top{contextp.get(), "TOP"};
 void nvboard_bind_all_pins(Vysyx_22041207_top* top);
 bool sebreak = false;
-void ebreak(int is) {
-  sebreak = is;
+void ebreak() {
+  sebreak = true;
 }
 
 int main(int argc, char **argv, char **env) {
@@ -44,6 +44,9 @@ int main(int argc, char **argv, char **env) {
     top->eval();
 
     //nvboard_update();
+  }
+  if (sebreak) {
+    printf("EBreak.\n");
   }
   top->final();
   vcd->close();

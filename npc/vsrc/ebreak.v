@@ -1,9 +1,20 @@
-import "DPI-C" function void ebreak (input int is);
-module Vysyx_22041207_EBreak(
-    input isEBreak
+import "DPI-C" function void ebreak ();
+module Vysyx_22041207_System(
+    input [31:0] inst
 );
+wire [63:0] immI;
+wire [63:0] immS;
+wire [63:0] immB;
+wire [63:0] immU;
+wire [63:0] immJ;
+wire [6:0]  funct7;
+wire [2:0]  funct3;
+ysyx_22041207_ext ext(inst, immI, immS, immB, immU, immJ, funct7, funct3); 
 always @(*) begin
+    if (inst[6:0] == 7'b1110011 && funct3 == 0) begin
+        ebreak();
+    end
     //$display("ebreak:%b", isEBreak);
-    ebreak({31'b0,isEBreak});
+    
 end
 endmodule
