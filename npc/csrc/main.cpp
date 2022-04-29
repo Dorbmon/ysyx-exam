@@ -36,8 +36,8 @@ int main(int argc, char **argv, char **env) {
   while (!contextp->gotFinish() && !sebreak && time < 10) {
     //contextp->timeInc(1);
     //vcd->dump(time);
+    time ++;
     if (time & 1) {
-      time ++;
       printf("pc:%lx\n", top->pc);
     }
     top->clk = ~top->clk;
