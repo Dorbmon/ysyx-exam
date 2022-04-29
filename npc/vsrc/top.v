@@ -20,15 +20,17 @@ always @ (posedge rst or posedge clk) begin
     pc <= pc + 32'h00000001;
   end
 end
-wire [31:0] immI;
-wire [31:0] immS;
-wire [31:0] immB;
-wire [31:0] immU;
-wire [31:0] immJ;
+wire [63:0] immI;
+wire [63:0] immS;
+wire [63:0] immB;
+wire [63:0] immU;
+wire [63:0] immJ;
+assign rwaddr = inst[11:7];
+assign r1addr = inst[19:15];
+assign r2addr = inst[24:20];
 ysyx_22041207_ext ext(inst, immI, immS, immB, immU, immJ);
-wire [4:0] rs1;
-wire [4:0] rs2;
-wire [4:0] rd;
+ysyx_22041207_ALU alu(inst, r1data, r2data, wen, rwdata);
+
 // ControlUnit cu(inst, r1addr, r2addr, rwaddr, rwdata, r1data, r2data, wen, pc);
 //end
 endmodule
