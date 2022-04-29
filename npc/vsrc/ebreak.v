@@ -11,10 +11,11 @@ wire [6:0]  funct7;
 wire [2:0]  funct3;
 ysyx_22041207_ext ext(inst, immI, immS, immB, immU, immJ, funct7, funct3); 
 always @(*) begin
+    $display("inst:%b", inst);
     if (inst[6:0] == 7'b1110011 && funct3 == 0) begin
         ebreak();
     end
-    //$display("ebreak:%b", isEBreak);
+    
     
 end
 endmodule
