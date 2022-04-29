@@ -18,7 +18,7 @@ static void pBin(long int x)
  return ;
 }
 
-static uint32_t pmem[0x2000000] __attribute((aligned(4096))) = {};
+static uint8_t pmem[0x2000000] __attribute((aligned(4096))) = {};
 static inline word_t host_read(void *addr, int len) {
   switch (len) {
     case 1: return *(uint8_t  *)addr;
@@ -28,8 +28,8 @@ static inline word_t host_read(void *addr, int len) {
     default: assert(0);
   }
 }
-static uint32_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
-static paddr_t host_to_guest(uint32_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
+static uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
+static paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
@@ -49,9 +49,5 @@ void initMemory(int argc,char** argv) {
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
   assert(ret == 1);
   fclose(fp);
-  for (paddr_t addr = 0; addr <= 30; addr += 1) {
-    //pBin(pmem_read(addr, 4));
-    pBin(*(uint32_t*)(pmem + addr));
-  }
 }
 #endif
