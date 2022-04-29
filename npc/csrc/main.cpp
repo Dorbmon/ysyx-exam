@@ -37,7 +37,7 @@ int main(int argc, char **argv, char **env) {
     //contextp->timeInc(1);
     //vcd->dump(time);
     //time ++;
-    printf("pc:%u\n", top->pc);
+    printf("pc:%lx\n", top->pc);
     top->clk = ~top->clk;
     top->inst = pmem_read(top->pc, 4);
     //std::cout << "Here" << std::endl;
