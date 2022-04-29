@@ -21,6 +21,6 @@ image: $(IMAGE).elf
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
-run: $(IMAGE).elf
-	echo $(NPC_HOME)
+run:
+	@$^
 	cd $(NPC_HOME) && make RUN_ARGS=$(IMAGE).bin sim
