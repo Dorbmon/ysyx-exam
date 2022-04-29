@@ -32,6 +32,7 @@ static void initMemory(int argc,char** argv) {
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
   fseek(fp, 0, SEEK_SET);
+  printf("size:%d\n", size);
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
   assert(ret == 1);
   fclose(fp);
