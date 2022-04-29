@@ -27,6 +27,7 @@ static char *img_file = NULL;
 static void initMemory(int argc,char** argv) {
   assert(argc == 2);
   char *img_file = argv[1];
+  printf("load img file:%s\n", img_file);
   FILE *fp = fopen(img_file, "rb");
   assert(fp != NULL);
   fseek(fp, 0, SEEK_END);
