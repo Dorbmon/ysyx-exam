@@ -36,5 +36,8 @@ static void initMemory(int argc,char** argv) {
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
   assert(ret == 1);
   fclose(fp);
+  for (paddr_t addr = 0x80000000; addr <= 0x8000002c; addr += 4) {
+    printf("%lx\n", pmem_read(addr, 4));
+  }
 }
 #endif
