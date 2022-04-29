@@ -4,7 +4,9 @@ module ysyx_22041207_ext(
     output [63:0] immS,
     output [63:0] immB,
     output [63:0] immU,
-    output [63:0] immJ
+    output [63:0] immJ,
+    output [6:0]  funct7,
+    output [2:0]  funct3
 );
 assign immI = $signed({52'b0, instr[31:20]});
 assign immS = $signed({52'b0, instr[31:25], instr[11:7]});
