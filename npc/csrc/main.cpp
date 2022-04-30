@@ -51,7 +51,12 @@ int main(int argc, char **argv, char **env) {
     //nvboard_update();printf("gpr[%d] = 0x%lx\n", i, cpu_gpr[i]);
   }
   if (sebreak) {
-    printf("Code:%ld,EBreak.\n", cpu_gpr [10]);
+    if (cpu_gpr [10] == 0) {
+      printf("HIT GOOD TRAP.\n");
+    } else {
+      printf("HIT BAD TRAP. code is %lx\n", cpu_gpr [10]);
+      return cpu_gpr [10];
+    }
   }
   top->final();
   vcd->close();
