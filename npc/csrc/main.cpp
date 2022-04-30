@@ -11,6 +11,8 @@
 #include "verilated_dpi.h"
 #include <readline/history.h>
 #include <readline/readline.h>
+#include "isa.h"
+#include "expr.h"
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 double sc_time_stamp() { return 0; }
 const std::unique_ptr<VerilatedContext> contextp = std::make_unique<VerilatedContext>();
@@ -20,7 +22,8 @@ bool sebreak = false;
 void ebreak() {
   sebreak = true;
 }
-uint64_t *cpu_gpr = NULL;
+
+
 extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
   cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
 }
@@ -53,6 +56,21 @@ static int simulate(char *args) {
       printf("HIT BAD TRAP. code is %lx\n", cpu_gpr [10]);
       return cpu_gpr [10];
     }
+  }
+  return 0;
+}
+static int readMemory(char *args) {
+  char *c_byteNum = strtok(args, " ");
+  char *c_address = args + strlen(c_byteNum) + 1;
+  bool success = true;
+  paddr_t address = expr(c_address, &success);
+  if (!success) {
+    return -1;
+  }
+  // sscanf(c_address ,"%x", &address);
+  int byteNum = atoi(c_byteNum);
+  for (uint64_t i = 0; i < byteNum; ++i) {
+    printf("0x%lx 0x%lx\n", address + i * 4, pmem_read(address + i * 4, 4));
   }
   return 0;
 }
