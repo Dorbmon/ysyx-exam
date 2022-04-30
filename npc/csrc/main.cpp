@@ -46,6 +46,14 @@ static int simulate(char *args) {
     N = atoi(args);
   }
   runN(N);
+  if (sebreak) {
+    if (cpu_gpr [10] == 0) {
+      printf("HIT GOOD TRAP.\n");
+    } else {
+      printf("HIT BAD TRAP. code is %lx\n", cpu_gpr [10]);
+      return cpu_gpr [10];
+    }
+  }
   return 0;
 }
 static struct {
@@ -99,8 +107,9 @@ int main(int argc, char **argv, char **env) {
     int i;
     for (i = 0; i < NR_CMD; i++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) {
-          return 0;
+        int res = cmd_table[i].handler(args);
+        if (res < 0) {
+          return res;
         }
         break;
       }
@@ -108,15 +117,6 @@ int main(int argc, char **argv, char **env) {
 
     if (i == NR_CMD) {
       printf("Unknown command '%s'\n", cmd);
-    }
-  }
-  
-  if (sebreak) {
-    if (cpu_gpr [10] == 0) {
-      printf("HIT GOOD TRAP.\n");
-    } else {
-      printf("HIT BAD TRAP. code is %lx\n", cpu_gpr [10]);
-      return cpu_gpr [10];
     }
   }
   top->final();
