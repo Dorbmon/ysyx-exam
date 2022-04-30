@@ -79,7 +79,8 @@ static struct {
   const char *description;
   int (*handler)(char *);
 } cmd_table[] = {
-    {"si", "Run N lines of code", simulate}
+    {"si", "Run N lines of code", simulate},
+    {"x", "Read Memory", readMemory},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
