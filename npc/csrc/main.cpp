@@ -7,15 +7,19 @@
 #include "memory.h"
 #include "svdpi.h"
 #include "Vysyx_22041207_top__Dpi.h"
+#include "verilated_dpi.h"
 double sc_time_stamp() { return 0; }
-const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
+const std::unique_ptr<VerilatedContext> contextp = std::make_unique<VerilatedContext>();
 Vysyx_22041207_top* top = new Vysyx_22041207_top{contextp.get(), "TOP"};
 void nvboard_bind_all_pins(Vysyx_22041207_top* top);
 bool sebreak = false;
 void ebreak() {
   sebreak = true;
 }
-
+uint64_t *cpu_gpr = NULL;
+extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
+  cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
+}
 int main(int argc, char **argv, char **env) {
   //nvboard_bind_all_pins(top);
   //nvboard_init();
@@ -44,10 +48,10 @@ int main(int argc, char **argv, char **env) {
     //std::cout << "Here" << std::endl;
     top->eval();
 
-    //nvboard_update();
+    //nvboard_update();printf("gpr[%d] = 0x%lx\n", i, cpu_gpr[i]);
   }
   if (sebreak) {
-    printf("EBreak.\n");
+    printf("Code:%ld,EBreak.\n", cpu_gpr [10]);
   }
   top->final();
   vcd->close();
