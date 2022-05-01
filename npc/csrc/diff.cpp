@@ -44,6 +44,7 @@ void initDiffset() {
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, 1);
   printf("loaded s23132132o.\n");
   sync_cpu();
+  printf("lo2o.\n");
   ref_difftest_regcpy(&cpu, 1);
   printf("loaded s23132132o.\n");
 }
