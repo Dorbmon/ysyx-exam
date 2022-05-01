@@ -100,6 +100,7 @@ static char *rl_gets() {
 int main(int argc, char **argv, char **env) {
   //nvboard_bind_all_pins(top);
   //nvboard_init();
+  init_regex();
   initMemory(argc, argv); // 会自动加载程序
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
