@@ -190,7 +190,10 @@ uint32_t eval(int p, int q) {
   } else if (p == q) {
     Assert(tokens[p].type == 'n', "It should be a number istead of %d",
            tokens[p].type);
-    return atoll(tokens[p].str);
+    //return atoll(tokens[p].str + 2);
+    uint64_t value;
+    sscanf(tokens[p].str, "%lx", &value);
+    return value;
   } else if (check_parentheses(p, q, &fail) == true && !fail) {
     return eval(p + 1, q - 1);
   } else if (fail) {
