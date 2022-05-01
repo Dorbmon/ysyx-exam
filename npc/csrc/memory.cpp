@@ -1,7 +1,6 @@
 #ifndef RMemory
 #include "memory.h"
-#define CONFIG_MBASE 0x80000000
-#define RESET_VECTOR 0x80000000
+
 #define kDisplayWidth 32
 static void pBin(long int x)
 {
