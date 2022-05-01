@@ -35,7 +35,7 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 all: $(BIN)
 sim: $(BIN)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	echo $(RUN_ARGS)
+	echo $(DIFFTEST)
 	export LD_PRELOAD=$(DIFFTEST)
 	@$^ $(RUN_ARGS)
 clean: 
