@@ -151,7 +151,7 @@ int main(int argc, char **argv, char **env) {
   top->trace(vcd, 0);
   vcd->open("data.vcd");
   int time = 0;
-  top->clk = 1;
+  top->clk = 0;
   top->rst = 0;
   top->eval();
   top->rst = 1;
