@@ -14,7 +14,7 @@ void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   }
 }
 struct diff_context_t {
-  word_t gpr[32];
+  word_t* gpr;
   word_t pc;
 };
 void difftest_regcpy(void *dut, bool direction) {
