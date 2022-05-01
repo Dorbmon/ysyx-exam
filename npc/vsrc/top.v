@@ -15,10 +15,10 @@ RegisterFile #(32, 5, 64) r(clk, rwdata, rwaddr, r1addr, r1data, r2addr, r2data,
 wire [63:0] newPcValue;
 always @ (posedge rst or posedge clk) begin
 if (newPcValue != 64'b0) begin
-    pc <= newPcValue;
+    pc = newPcValue;
 end
 else begin
-    pc <= pc + 64'h00000004;
+    pc = pc + 64'h00000004;
     pmem_read(pc, origin);
 end
 end
