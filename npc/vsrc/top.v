@@ -10,27 +10,23 @@ RegisterFile #(32, 5, 64) r(clk, rwdata, rwaddr, r1addr, r1data, r2addr, r2data,
 wire [63:0] newPcValue;
 always @ (posedge clk) begin
 if (newPcValue != 64'b0) begin
-    pc = newPcValue;
-    pmem_read(pc, origin);
+    pc <= newPcValue;
 end
 else begin
-    pc = pc + 64'h00000004;
-    $display("wraread:%x", pc);
-    pmem_read(pc, origin);
+    pc <= pc + 64'h00000004;
 end
 end
 initial begin
   pc = 64'h80000000;
-  pmem_read(pc, origin);
 end
 wire  [31:0] inst;
 wire  [63:0] origin;
-assign inst = origin [31:0];
+assign inst = ((pc & 64'b111) == 64'b0)?origin [31:0]:origin [63:32];
 //ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask(8'b0));
 import "DPI-C" function void pmem_read(
   input longint raddr, output longint rdata);
 always @(*) begin
-  
+  pmem_read(pc, origin);
 end
 always @(*) begin
 
