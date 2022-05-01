@@ -12,6 +12,7 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 #include "isa.h"
+#include "itrace.h"
 #include "expr.h"
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 double sc_time_stamp() { return 0; }
@@ -34,11 +35,13 @@ static void runN(uint64_t n) {
     //contextp->timeInc(1);
     //vcd->dump(time);
     count ++;
-    if (count & 1) {
-      printf("pc:%lx\n", top->pc);
-    }
+    
     top->clk = ~top->clk;
     top->inst = pmem_read(top->pc, 4);
+    if (count & 1) {
+      printf("pc:%lx\n", top->pc);
+      loadINST(top->inst, top->pc);
+    }
     //std::cout << "Here" << std::endl;
     top->eval();
   }
@@ -101,6 +104,7 @@ int main(int argc, char **argv, char **env) {
   //nvboard_bind_all_pins(top);
   //nvboard_init();
   init_regex();
+  init_disasm("riscv64");
   initMemory(argc, argv); // 会自动加载程序
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
