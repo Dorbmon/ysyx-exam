@@ -36,9 +36,11 @@ void initDiffset() {
   ref_difftest_regcpy(&cpu, 0);
 }
 bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {
+    printf("here\n");
   for (int i = 0;i < 32;++ i) {
     if (ref_r->gpr [i] != cpu.gpr [i]) return false;
   }
+  printf("out\n");
   return ref_r->pc == cpu.pc;
 }
 static void checkregs(diff_context_t *ref, uint64_t pc) {
@@ -69,11 +71,8 @@ void difftest_step(vaddr_t pc, vaddr_t npc) {
     is_skip_ref = false;
     return;
   }
-  printf("here1\n");
   ref_difftest_exec(1);
   
   ref_difftest_regcpy(&ref_r, 0);
-    printf("here\n");
   checkregs(&ref_r, pc);
-  printf("here\n");
 }
