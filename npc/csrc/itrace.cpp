@@ -15,5 +15,9 @@ void loadINST(uint8_t rinst, uint32_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, logbuf + sizeof(logbuf) - p,
       pc, (uint8_t *)&rinst, 4);
-  printf("%s \n", logbuf);
+  //printf("%s \n", logbuf);
+  #ifdef ENABLE_FTRACE
+
+
+  #endif
 }

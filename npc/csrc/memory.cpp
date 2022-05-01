@@ -34,11 +34,8 @@ word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
   return ret;
 }
-static char *img_file = NULL;
-void initMemory(int argc,char** argv) {
-  assert(argc == 2);
-  char *img_file = argv[1];
-  //char* img_file = "/home/dorbmon/ysyx/ysyx-workbench/am-kernels/tests/cpu-tests/build/dummy-riscv64-nemu.bin";
+void initMemory(const char *img_file) {
+  //img_file = "/home/dorbmon/ysyx/ysyx-workbench/am-kernels/tests/cpu-tests/build/dummy-riscv64-nemu.bin";
   printf("load img file:%s\n", img_file);
   FILE *fp = fopen(img_file, "rb");
   assert(fp != NULL);

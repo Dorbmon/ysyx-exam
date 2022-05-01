@@ -6,4 +6,6 @@ extern "C" {
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 }
 void loadINST(uint8_t inst, uint32_t pc);
+#define OUPUT_INST
+#define ENABLE_FTRACE
 #endif

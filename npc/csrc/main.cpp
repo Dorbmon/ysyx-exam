@@ -14,6 +14,11 @@
 #include "isa.h"
 #include "itrace.h"
 #include "expr.h"
+#include "elf.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <getopt.h>
+
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 double sc_time_stamp() { return 0; }
 const std::unique_ptr<VerilatedContext> contextp = std::make_unique<VerilatedContext>();
@@ -23,7 +28,7 @@ bool sebreak = false;
 void ebreak() {
   sebreak = true;
 }
-
+char* img_file = NULL;
 
 extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
   cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
@@ -100,12 +105,29 @@ static char *rl_gets() {
   }
   return line_read;
 }
+static int parse_args(int argc, char *argv[]) {
+  const struct option table[] = {
+    {"elf"      , required_argument, NULL, 'e'},
+    {0          , 0                , NULL,  0 },
+  };
+  int o;
+  while ( (o = getopt_long(argc, argv, "-bhl:d:p:e:", table, NULL)) != -1) {
+    switch (o) {
+      case 'e': elf_file = optarg; break;
+      case 1: img_file = optarg; return 0;
+      default:
+        exit(0);
+    }
+  }
+  return 0;
+}
 int main(int argc, char **argv, char **env) {
   //nvboard_bind_all_pins(top);
   //nvboard_init();
   init_regex();
   init_disasm("riscv64");
-  initMemory(argc, argv); // 会自动加载程序
+  initMemory(img_file); // 会自动加载程序
+  init_elf();
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
   VerilatedVcdC *vcd = new VerilatedVcdC();
