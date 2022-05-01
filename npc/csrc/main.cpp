@@ -62,6 +62,7 @@ static int simulate(char *args) {
 static int readMemory(char *args) {
   char *c_byteNum = strtok(args, " ");
   char *c_address = args + strlen(c_byteNum) + 1;
+  printf("here \n");
   bool success = true;
   paddr_t address = expr(c_address, &success);
   if (!success) {
