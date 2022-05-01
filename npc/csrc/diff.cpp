@@ -1,6 +1,7 @@
 #include "diff.h"
 
 #include <cstdint>
+#include <cstdlib>
 #include <dlfcn.h>
 #include "common.h"
 #include "isa.h"
@@ -9,10 +10,11 @@ void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n,
                             bool direction) = NULL;
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
 void (*ref_difftest_exec)(uint64_t n) = NULL;
-
+diff_context_t ref_r;
 static bool is_skip_ref = false;
 static int skip_dut_nr_inst = 0;
 void initDiffset() {
+  ref_r.gpr = (word_t*)malloc(sizeof(word_t) * 32);
   assert(diff_so != NULL);
   void *handle;
   handle = dlopen(diff_so, RTLD_LAZY);
@@ -36,7 +38,6 @@ void initDiffset() {
   ref_difftest_regcpy(&cpu, 0);
 }
 bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {
-    printf("in\n");
   for (int i = 0;i < 32;++ i) {
     if (ref_r->gpr [i] != cpu.gpr [i]) return false;
   }
@@ -51,7 +52,7 @@ static void checkregs(diff_context_t *ref, uint64_t pc) {
 }
 
 void difftest_step(vaddr_t pc, vaddr_t npc) {
-  diff_context_t ref_r;
+  
 
   if (skip_dut_nr_inst > 0) {   // 当前这条指令dut不执行
     ref_difftest_regcpy(&ref_r, 0);
