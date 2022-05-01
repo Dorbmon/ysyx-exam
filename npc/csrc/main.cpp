@@ -144,7 +144,7 @@ int main(int argc, char **argv, char **env) {
   VerilatedVcdC *vcd = new VerilatedVcdC();
   top->trace(vcd, 0);
   vcd->open("data.vcd");
-  top->clk = 0;
+  top->clk = 1;
   top->eval();
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
