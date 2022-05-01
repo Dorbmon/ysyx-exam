@@ -49,7 +49,7 @@ static void runN(uint64_t n) {
     //std::cout << "Here" << std::endl;
     cpu.pc = top->pc;
     top->eval();
-    if (!top->clk) {
+    if (top->clk) {
       difftest_step(bpc, top->pc);
     }
   }
@@ -154,7 +154,7 @@ int main(int argc, char **argv, char **env) {
   top->rst = 1;
   top->eval();
   top->rst = 0;
-  top->clk = 0;
+  top->clk = 1;
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
     char *cmd = strtok(str, " ");
