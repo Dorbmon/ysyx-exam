@@ -22,4 +22,4 @@ image: $(IMAGE).elf
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 run: image
-	cd $(NPC_HOME) && make RUN_ARGS=-e $(IMAGE).elf $(IMAGE).bin sim
+	cd $(NPC_HOME) && make RUN_ARGS=$(IMAGE).bin -e $(IMAGE).elf sim
