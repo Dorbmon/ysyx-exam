@@ -155,6 +155,7 @@ int main(int argc, char **argv, char **env) {
   top->eval();
   top->rst = 0;
   top->clk = 1;
+  top->eval();
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
     char *cmd = strtok(str, " ");
