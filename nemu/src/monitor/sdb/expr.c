@@ -98,10 +98,9 @@ static bool make_token(char *e) {
         case TK_REG:
           memcpy(tokens[nr_token].str, substr_start,substr_len);
           break;
-        default:
-          tokens[nr_token].type = rules[i].token_type;
-          nr_token++;
         }
+        tokens[nr_token].type = rules[i].token_type;
+        nr_token++;
         break;
       }
     }
