@@ -45,7 +45,7 @@ static void runN(uint64_t n) {
     }
     cpu.pc = top->pc;
     top->eval();
-    if (top->clk) { //上升沿才会计算
+    if (top->clk) { //上升沿才会计算 如果top->clk = true 说明刚刚是一个上升沿，已经完成了一次计算
       difftest_step(bpc, top->pc);
     }
   }
@@ -144,7 +144,7 @@ int main(int argc, char **argv, char **env) {
   VerilatedVcdC *vcd = new VerilatedVcdC();
   top->trace(vcd, 0);
   vcd->open("data.vcd");
-  top->clk = 1;
+  top->clk = 0;
   top->eval();
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
