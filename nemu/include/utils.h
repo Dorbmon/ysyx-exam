@@ -6,7 +6,6 @@
 // ----------- state -----------
 
 enum { NEMU_RUNNING, NEMU_STOP, NEMU_END, NEMU_ABORT, NEMU_QUIT };
-
 typedef struct {
   int state;
   vaddr_t halt_pc;
@@ -57,6 +56,4 @@ uint64_t get_time();
     printf(__VA_ARGS__); \
     log_write(__VA_ARGS__); \
   } while (0)
-
-
 #endif
