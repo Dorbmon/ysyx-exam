@@ -36,18 +36,14 @@ static void runN(uint64_t n) {
   uint64_t count = 0;
   n <<= 1;
   while (!contextp->gotFinish() && !sebreak && count < n) {
-    //contextp->timeInc(1);
-    //vcd->dump(time);
     count ++;
     
     top->clk = ~top->clk;
-    //top->inst = pmem_read(top->pc, 4);
     uint32_t bpc = top->pc;
     if (count & 1) {
       printf("pc:%lx\n", top->pc);
       loadINST(pmem_read(top->pc, 4), top->pc);
     }
-    //std::cout << "Here" << std::endl;
     cpu.pc = top->pc;
     top->eval();
     if (top->clk) { //上升沿才会计算
