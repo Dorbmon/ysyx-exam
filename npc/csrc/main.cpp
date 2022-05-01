@@ -1,12 +1,12 @@
 #include <memory>
 #include <nvboard.h>
 #include <Vysyx_22041207_top.h>
-#include <sys/types.h>
+// #include <sys/types.h>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
-#include <iostream>
+// #include <iostream>
 #include "memory.h"
-#include "svdpi.h"
+// #include "svdpi.h"
 #include "Vysyx_22041207_top__Dpi.h"
 #include "verilated_dpi.h"
 #include <readline/history.h>
@@ -18,6 +18,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <getopt.h>
+//#include <bits/getopt_ext.h>
 
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 double sc_time_stamp() { return 0; }
@@ -105,22 +106,7 @@ static char *rl_gets() {
   }
   return line_read;
 }
-static int parse_args(int argc, char *argv[]) {
-  const struct option table[] = {
-    {"elf"      , required_argument, NULL, 'e'},
-    {0          , 0                , NULL,  0 },
-  };
-  int o;
-  while ( (o = getopt_long(argc, argv, "-bhl:d:p:e:", table, NULL)) != -1) {
-    switch (o) {
-      case 'e': elf_file = optarg; break;
-      case 1: img_file = optarg; return 0;
-      default:
-        exit(0);
-    }
-  }
-  return 0;
-}
+
 int main(int argc, char **argv, char **env) {
   //nvboard_bind_all_pins(top);
   //nvboard_init();
