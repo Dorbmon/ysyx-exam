@@ -7,7 +7,7 @@ void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   if (direction) {
     for (size_t i = 0;i < n;++ i) {
       //*(uint8_t*)(buf+i) = paddr_read(addr, 1);
-      paddr_write(addr + i, 1, buf + i);
+      paddr_write(addr + i, 1,*((uint8_t*)buf + i));
     }
   } else {
     assert(0);
