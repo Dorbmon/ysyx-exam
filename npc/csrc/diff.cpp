@@ -24,7 +24,7 @@ void initDiffset() {
   void *handle;
   handle = dlopen(diff_so, RTLD_LAZY);
   assert(handle);
-
+  printf("load so.\n");
   ref_difftest_memcpy =
       (void (*)(paddr_t, void *, size_t, bool))dlsym(handle, "difftest_memcpy");
   assert(ref_difftest_memcpy);
