@@ -154,7 +154,7 @@ int main(int argc, char **argv, char **env) {
   top->rst = 1;
   top->eval();
   top->rst = 0;
-  top->clk = 1;
+  top->clk = 0;
   top->eval();
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
