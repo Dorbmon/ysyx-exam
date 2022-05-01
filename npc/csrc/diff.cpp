@@ -75,4 +75,5 @@ void difftest_step(vaddr_t pc, vaddr_t npc) {
   ref_difftest_regcpy(&ref_r, 0);
     printf("here\n");
   checkregs(&ref_r, pc);
+  printf("here\n");
 }
