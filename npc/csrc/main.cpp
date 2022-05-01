@@ -49,7 +49,7 @@ static void runN(uint64_t n) {
     //std::cout << "Here" << std::endl;
     cpu.pc = top->pc;
     top->eval();
-    if (!(count & 1)) {
+    if (!top->clk) {
       difftest_step(bpc, top->pc);
     }
   }
