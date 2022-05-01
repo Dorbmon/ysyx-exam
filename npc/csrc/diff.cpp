@@ -57,7 +57,6 @@ static void checkregs(diff_context_t *ref, uint64_t pc) {
 }
 
 void difftest_step(vaddr_t pc, vaddr_t npc) {
-  return ;
   diff_context_t ref_r;
 
   if (skip_dut_nr_inst > 0) {   // 当前这条指令dut不执行
