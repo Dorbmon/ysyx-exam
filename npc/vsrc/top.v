@@ -30,14 +30,12 @@ assign inst = origin [31:0];
 //ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask(8'b0));
 import "DPI-C" function void pmem_read(
   input longint raddr, output longint rdata);
-import "DPI-C" function void pmem_write(
-  input longint waddr, input longint wdata, input byte wmask);
 always @(*) begin
   pmem_read(pc, origin);
-  //$display("pc:%x,here:%b", pc, inst[6:0]);
 end
-always @(pc) begin
-    //$display("pc:%x,here:%b", pc, inst[6:0]);
+always @(*) begin
+
+  $display("pc:%x,here:%b", pc, inst[6:0]);
 end
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
