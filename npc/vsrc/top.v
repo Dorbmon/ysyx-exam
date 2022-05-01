@@ -16,6 +16,7 @@ wire [63:0] newPcValue;
 always @ (posedge rst or posedge clk) begin
 if (newPcValue != 64'b0) begin
     pc = newPcValue;
+    pmem_read(pc, origin);
 end
 else begin
     pc = pc + 64'h00000004;
