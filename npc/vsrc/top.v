@@ -24,6 +24,7 @@ end
 end
 initial begin
   pc = 64'h80000000;
+  pmem_read(pc, origin);
 end
 wire  [31:0] inst;
 wire  [63:0] origin;
