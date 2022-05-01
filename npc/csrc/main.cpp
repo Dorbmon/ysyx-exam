@@ -51,7 +51,6 @@ static void runN(uint64_t n) {
     cpu.pc = top->pc;
     top->eval();
     if (top->clk) { //上升沿才会计算
-      isa_reg_display();
       difftest_step(bpc, top->pc);
     }
   }
