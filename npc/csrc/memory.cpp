@@ -42,6 +42,7 @@ uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 word_t pmem_read(paddr_t addr, int len) {
+  printf("real address: %lx\n", addr - CONFIG_MBASE);
   word_t ret = host_read(guest_to_host(addr), len);
   return ret;
 }
@@ -60,9 +61,11 @@ void initMemory(const char *img_file) {
 }
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
+  printf("mem: 0x%llx\n", raddr & ~0x7ull);
   *rdata = pmem_read(raddr & ~0x7ull, 8);
 }
 extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
+  if (wmask == 0) return ;
   // 总是往地址为`waddr & ~0x7ull`的8字节按写掩码`wmask`写入`wdata`
   // `wmask`中每比特表示`wdata`中1个字节的掩码,
   // 如`wmask = 0x3`代表只写入最低2个字节, 内存中的其它字节保持不变

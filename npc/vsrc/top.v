@@ -14,20 +14,20 @@ wire wen;
 RegisterFile #(32, 5, 64) r(clk, rwdata, rwaddr, r1addr, r1data, r2addr, r2data, wen);
 wire [63:0] newPcValue;
 always @ (posedge rst or posedge clk) begin
-  if (rst) begin
-    pc <= 64'h80000000;
-  end
-  else if (newPcValue != 64'b0) begin
+if (newPcValue != 64'b0) begin
     pc <= newPcValue;
   end
   else begin
     pc <= pc + 64'h00000004;
   end
 end
+initial begin
+  pc = 64'h80000000;
+end
 wire  [31:0] inst;
 wire  [63:0] origin;
 assign inst = origin [31:0];
-ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask());
+ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask(8'b0));
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
 assign rwaddr = inst [11:7];
