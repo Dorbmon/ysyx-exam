@@ -94,6 +94,7 @@ static bool make_token(char *e) {
         case 'n':
           memcpy(tokens[nr_token].str, substr_start,
                  substr_len); //要拷贝 '/0'
+          printf("sn::%s\n", tokens[nr_token].str);
           break;
         case TK_REG:
           memcpy(tokens[nr_token].str, substr_start,substr_len);
