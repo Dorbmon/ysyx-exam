@@ -106,7 +106,7 @@ static char *rl_gets() {
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {
     {"elf"      , required_argument, NULL, 'e'},
-    {"img"        , required_argument, NULL, 'i'},
+    {"img"      , required_argument, NULL, 'i'},
     {0          , 0                , NULL,  0 },
   };
   int o;
@@ -128,6 +128,7 @@ static int parse_args(int argc, char *argv[]) {
   return 0;
 }
 int main(int argc, char **argv, char **env) {
+  parse_args(argc, argv);
   //nvboard_bind_all_pins(top);
   //nvboard_init();
   init_regex();
