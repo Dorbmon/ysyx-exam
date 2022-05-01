@@ -42,7 +42,6 @@ uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 word_t pmem_read(paddr_t addr, int len) {
-  printf("real address: %lx\n", addr - CONFIG_MBASE);
   word_t ret = host_read(guest_to_host(addr), len);
   return ret;
 }
@@ -61,7 +60,6 @@ void initMemory(const char *img_file) {
 }
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
-  printf("mem: 0x%llx\n", raddr & ~0x7ull);
   *rdata = pmem_read(raddr & ~0x7ull, 8);
 }
 extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
