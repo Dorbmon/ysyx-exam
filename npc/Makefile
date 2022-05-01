@@ -34,6 +34,7 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 all: $(BIN)
 sim: $(BIN)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	echo $(RUN_ARGS)
 	@$^ $(RUN_ARGS)
 clean: 
 	rm -rf $(BUILD_DIR)
