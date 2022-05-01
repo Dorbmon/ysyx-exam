@@ -145,6 +145,7 @@ int main(int argc, char **argv, char **env) {
   top->trace(vcd, 0);
   vcd->open("data.vcd");
   top->clk = 0;
+  top->eval();
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
     char *cmd = strtok(str, " ");
