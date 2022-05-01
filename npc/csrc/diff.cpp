@@ -40,8 +40,9 @@ void initDiffset() {
   ref_difftest_regcpy(&cpu, 0);
 }
 bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {
-      printf("%lx %lx\n",ref_r->pc, pc);
+      //printf("%lx %lx\n",ref_r->pc, pc);
   for (int i = 0;i < 32;++ i) {
+      printf("%lx %lx\n",ref_r->gpr[i], cpu.gpr[i]);
     if (ref_r->gpr [i] != cpu.gpr [i]) return false;
   }
 
