@@ -14,6 +14,7 @@ diff_context_t ref_r;
 static bool is_skip_ref = false;
 static int skip_dut_nr_inst = 0;
 void initDiffset() {
+  cpu.gpr = (word_t*)malloc(sizeof(word_t) * 32);
   ref_r.gpr = (word_t*)malloc(sizeof(word_t) * 32);
   assert(diff_so != NULL);
   void *handle;
@@ -52,8 +53,6 @@ static void checkregs(diff_context_t *ref, uint64_t pc) {
 }
 
 void difftest_step(vaddr_t pc, vaddr_t npc) {
-  
-
   if (skip_dut_nr_inst > 0) {   // 当前这条指令dut不执行
     ref_difftest_regcpy(&ref_r, 0);
     if (ref_r.pc == npc) {
