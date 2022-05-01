@@ -15,6 +15,7 @@ if (newPcValue != 64'b0) begin
 end
 else begin
     pc = pc + 64'h00000004;
+    $display("wraread:%x", pc);
     pmem_read(pc, origin);
 end
 end
