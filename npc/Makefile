@@ -36,7 +36,7 @@ all: $(BIN)
 sim: $(BIN)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	echo $(DIFFTEST)
-	#export LD_PRELOAD=$(DIFFTEST)
+
 	@$^ $(RUN_ARGS)
 clean: 
 	rm -rf $(BUILD_DIR)
