@@ -34,9 +34,10 @@ import "DPI-C" function void pmem_write(
   input longint waddr, input longint wdata, input byte wmask);
 always @(*) begin
   pmem_read(pc, origin);
+  //$display("pc:%x,here:%b", pc, inst[6:0]);
 end
 always @(pc) begin
-    $display("pc:%x,here:%b", pc, inst[6:0]);
+    //$display("pc:%x,here:%b", pc, inst[6:0]);
 end
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
