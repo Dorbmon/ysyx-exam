@@ -3,6 +3,7 @@
 #include <Vysyx_22041207_top.h>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
+#include "diff.h"
 #include "memory.h"
 #include "Vysyx_22041207_top__Dpi.h"
 #include "verilated_dpi.h"
@@ -15,7 +16,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <getopt.h>
-//#include <bits/getopt_ext.h>
 
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 double sc_time_stamp() { return 0; }
@@ -41,12 +41,16 @@ static void runN(uint64_t n) {
     
     top->clk = ~top->clk;
     top->inst = pmem_read(top->pc, 4);
+    uint32_t bpc = top->pc;
     if (count & 1) {
       printf("pc:%lx\n", top->pc);
       loadINST(top->inst, top->pc);
     }
     //std::cout << "Here" << std::endl;
     top->eval();
+    if (!(count & 1)) {
+      difftest_step(bpc, top->pc);
+    }
   }
 }
 static int simulate(char *args) {
@@ -107,6 +111,7 @@ static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {
     {"elf"      , required_argument, NULL, 'e'},
     {"img"      , required_argument, NULL, 'i'},
+    {"diff"     , required_argument, NULL, 'd'},
     {0          , 0                , NULL,  0 },
   };
   int o;
@@ -114,6 +119,7 @@ static int parse_args(int argc, char *argv[]) {
     switch (o) {
       case 'e': elf_file = optarg; break;
       case 'i': img_file = optarg;break;
+      case 'd': diff_so = optarg;break;
       //case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
@@ -135,6 +141,7 @@ int main(int argc, char **argv, char **env) {
   init_disasm("riscv64");
   initMemory(img_file); // 会自动加载程序
   init_elf();
+  initDiffset();
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
   VerilatedVcdC *vcd = new VerilatedVcdC();

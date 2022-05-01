@@ -27,22 +27,23 @@ static inline word_t host_read(void *addr, int len) {
     default: assert(0);
   }
 }
-static uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
-static paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
+uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
+paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
   return ret;
 }
+long img_size = 0;
 void initMemory(const char *img_file) {
   //img_file = "/home/dorbmon/ysyx/ysyx-workbench/am-kernels/tests/cpu-tests/build/dummy-riscv64-nemu.bin";
   printf("load img file:%s\n", img_file);
   FILE *fp = fopen(img_file, "rb");
   assert(fp != NULL);
   fseek(fp, 0, SEEK_END);
-  long size = ftell(fp);
+  img_size = ftell(fp);
   fseek(fp, 0, SEEK_SET);
-  int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
+  int ret = fread(guest_to_host(RESET_VECTOR), img_size, 1, fp);
   assert(ret == 1);
   fclose(fp);
 }
