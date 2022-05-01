@@ -41,11 +41,11 @@ static void runN(uint64_t n) {
     count ++;
     
     top->clk = ~top->clk;
-    top->inst = pmem_read(top->pc, 4);
+    //top->inst = pmem_read(top->pc, 4);
     uint32_t bpc = top->pc;
     if (count & 1) {
       printf("pc:%lx\n", top->pc);
-      loadINST(top->inst, top->pc);
+      loadINST(pmem_read(top->pc, 4), top->pc);
     }
     //std::cout << "Here" << std::endl;
     cpu.pc = top->pc;

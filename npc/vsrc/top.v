@@ -2,7 +2,7 @@
 //`include "vsrc/register.v"
 //`include "vsrc/addi.v"
 module ysyx_22041207_top (
-  input [31:0] inst,
+  //input [31:0] inst,
   input rst,  // 复位信号
   input clk,
   output reg [63:0] pc
@@ -24,6 +24,10 @@ always @ (posedge rst or posedge clk) begin
     pc <= pc + 64'h00000004;
   end
 end
+wire  [31:0] inst;
+wire  [63:0] origin;
+assign inst = origin [31:0];
+ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask());
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
 assign rwaddr = inst [11:7];

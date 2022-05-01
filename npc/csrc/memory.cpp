@@ -27,6 +27,17 @@ static inline word_t host_read(void *addr, int len) {
     default: assert(0);
   }
 }
+static inline void host_write(void *addr, int len, word_t data) {
+  switch (len) {
+    case 1: *(uint8_t  *)addr = data; return;
+    case 2: *(uint16_t *)addr = data; return;
+    case 4: *(uint32_t *)addr = data; return;
+    case 8: *(uint64_t *)addr = data; return;
+  }
+}
+static void rpmem_write(paddr_t addr, int len, word_t data) {
+  host_write(guest_to_host(addr), len, data);
+}
 uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
@@ -46,5 +57,24 @@ void initMemory(const char *img_file) {
   int ret = fread(guest_to_host(RESET_VECTOR), img_size, 1, fp);
   assert(ret == 1);
   fclose(fp);
+}
+extern "C" void pmem_read(long long raddr, long long *rdata) {
+  // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
+  *rdata = pmem_read(raddr & ~0x7ull, 8);
+}
+extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
+  // 总是往地址为`waddr & ~0x7ull`的8字节按写掩码`wmask`写入`wdata`
+  // `wmask`中每比特表示`wdata`中1个字节的掩码,
+  // 如`wmask = 0x3`代表只写入最低2个字节, 内存中的其它字节保持不变
+  word_t v = pmem_read(waddr & ~0x7ull, 8);
+  word_t nv = 0;
+  for (int i = 0;i < 8;++ i) {
+    if (wmask & (1 << i)) { // 第i个字节需要写入
+      nv |= ((wdata >> (i * 8)) & ((1 << 8) - 1)) << (i * 8);
+    } else {
+      nv |= ((v >> (i * 8)) & ((1 << 8) - 1)) << (i * 8);
+    }
+  }
+  rpmem_write(waddr, 8, nv);
 }
 #endif

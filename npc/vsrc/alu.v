@@ -18,7 +18,7 @@ wire [2:0]  funct3;
 ysyx_22041207_ext ext(inst, immI, immS, immB, immU, immJ, funct7, funct3); 
 ysyx_22041207_MuxKeyWithDefault #(5, 7, 129) rmux ({wen, wdata, newPcValue}, inst[6:0], 129'b0, {
     7'b0010011, {1'b1, rs1 + immI, 64'b0},   // addi
-    7'b0010111, {1'b1, 64'b100,  64'b0},   // auipc
+    7'b0010111, {1'b1, pc + immU,  64'b0},   // auipc
     7'b0110111, {1'b1, immU, 64'b0},        // lui
     7'b1101111, {1'b1, pc + 64'b100, pc + immJ},   //jal
     7'b1100111, (funct3==0)?{1'b1, pc + 64'b100, rs1 + immI}:129'b0  //jalr
