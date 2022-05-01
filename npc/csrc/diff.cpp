@@ -22,7 +22,7 @@ void sync_cpu() {
 void initDiffset() {
   assert(diff_so != NULL);
   void *handle;
-  printf("load so1.\n");
+  printf("so:%s\n", diff_so);
   handle = dlopen(diff_so, RTLD_LAZY);
   assert(handle);
   printf("load so.\n");
