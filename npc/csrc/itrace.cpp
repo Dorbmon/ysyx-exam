@@ -1,6 +1,12 @@
 #include "itrace.h"
 #include "elf.h"
-void loadINST(uint8_t rinst, uint32_t pc) {
+static word_t immI(uint32_t i) { return SEXT(BITS(i, 31, 20), 12); }
+static word_t immU(uint32_t i) { return SEXT(BITS(i, 31, 12) << 12, 32) ; }
+static word_t immS(uint32_t i) { return SEXT((BITS(i, 31, 25) << 5) | BITS(i, 11, 7), 12); }
+static word_t immJ(uint32_t i) {return  SEXT((BITS(i, 31, 31) << 20) | (BITS(i, 30, 21) << 1) | (BITS(i, 20, 20) << 11) | (BITS(i, 19, 12) << 12), 21); }
+static word_t immB(uint32_t i) {return SEXT((BITS(i, 31, 31) << 12) | (BITS(i, 30, 25) << 5) | (BITS(i, 11, 8) << 1) | (BITS(i, 7, 7) << 11), 13);}
+
+void loadINST(uint32_t rinst, uint32_t pc) {
   char logbuf [128];
   char *p = logbuf;
   char* begin = logbuf;
@@ -19,7 +25,7 @@ void loadINST(uint8_t rinst, uint32_t pc) {
   #ifdef ENABLE_FTRACE
     uint32_t opcode = rinst & ((1 << 7) - 1);
     if (opcode == 0b1101111) {  // jal
-
+      printf("new pc:%lx\n", immJ(rinst) + pc);
     }
 
   #endif
