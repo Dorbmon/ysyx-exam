@@ -22,4 +22,4 @@ image: $(IMAGE).elf
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 run: image
-	cd $(NPC_HOME) && make RUN_ARGS="-i $(IMAGE).bin -e $(IMAGE).elf -d $(NEMU_HOME)/build/riscv64-nemu-interpreter-so" sim
+	cd $(NPC_HOME) && make RUN_ARGS="-i $(IMAGE).bin -e $(IMAGE).elf -d $(NEMU_HOME)/build/riscv64-nemu-interpreter-so" DIFFTEST="$(NEMU_HOME)/build/riscv64-nemu-interpreter-so" sim
