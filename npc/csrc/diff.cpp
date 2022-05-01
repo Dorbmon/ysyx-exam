@@ -12,13 +12,6 @@ void (*ref_difftest_exec)(uint64_t n) = NULL;
 
 static bool is_skip_ref = false;
 static int skip_dut_nr_inst = 0;
-void sync_cpu() {
-  if (cpu_gpr == NULL) return;
-  for (int i = 0; i < 32; ++i) {
-    cpu.gpr[i] = cpu_gpr[i];
-  }
-  cpu.pc = top->pc;
-}
 void initDiffset() {
   assert(diff_so != NULL);
   void *handle;
@@ -40,7 +33,6 @@ void initDiffset() {
   assert(ref_difftest_init);
   ref_difftest_init(0); // 端口不影响 NEMU
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, 1);
-  sync_cpu();
   ref_difftest_regcpy(&cpu, 1);
 }
 bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {

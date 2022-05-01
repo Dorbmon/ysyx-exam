@@ -2,6 +2,7 @@
 #include "elf.h"
 #include <cstring>
 #include "isa.h"
+#include "diff.h"
 static word_t immI(uint32_t i) { return SEXT(BITS(i, 31, 20), 12); }
 static word_t immU(uint32_t i) { return SEXT(BITS(i, 31, 12) << 12, 32) ; }
 static word_t immS(uint32_t i) { return SEXT((BITS(i, 31, 25) << 5) | BITS(i, 11, 7), 12); }
@@ -34,7 +35,7 @@ void loadINST(uint32_t rinst, uint32_t pc) {
       }
     } else if (opcode == 0b1100111) {
       uint32_t src1 = BITS(rinst, 19, 15);
-      uint32_t dnpc = cpu_gpr[src1] + immI(rinst);
+      uint32_t dnpc = cpu.gpr[src1] + immI(rinst);
       if (strcmp(getBelongFunction(dnpc), getBelongFunction(pc)) != 0) {
         printf("%x:%*sret [%s@%x]\n",pc,(--depth) * 2, "", getBelongFunction(dnpc), dnpc);
       }

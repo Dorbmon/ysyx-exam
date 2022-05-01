@@ -61,11 +61,11 @@ static int simulate(char *args) {
   }
   runN(N);
   if (sebreak) {
-    if (cpu_gpr [10] == 0) {
+    if (cpu.gpr [10] == 0) {
       printf("HIT GOOD TRAP.\n");
     } else {
-      printf("HIT BAD TRAP. code is %lx\n", cpu_gpr [10]);
-      return cpu_gpr [10];
+      printf("HIT BAD TRAP. code is %lx\n", cpu.gpr [10]);
+      return cpu.gpr [10];
     }
   }
   return 0;
