@@ -8,4 +8,5 @@ void loadINST(uint8_t inst, uint32_t pc) {
   disassemble(p, logbuf + sizeof(logbuf) - p,
               pc,
               (uint8_t *)&inst, 4);
+  printf("%s\n", logbuf);
 }
