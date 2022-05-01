@@ -1,12 +1,9 @@
 #include <memory>
 #include <nvboard.h>
 #include <Vysyx_22041207_top.h>
-// #include <sys/types.h>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
-// #include <iostream>
 #include "memory.h"
-// #include "svdpi.h"
 #include "Vysyx_22041207_top__Dpi.h"
 #include "verilated_dpi.h"
 #include <readline/history.h>
@@ -106,7 +103,30 @@ static char *rl_gets() {
   }
   return line_read;
 }
-
+static int parse_args(int argc, char *argv[]) {
+  const struct option table[] = {
+    {"elf"      , required_argument, NULL, 'e'},
+    {"i"        , required_argument, NULL, 'i'},
+    {0          , 0                , NULL,  0 },
+  };
+  int o;
+  while ( (o = getopt_long(argc, argv, "", table, NULL)) != -1) {
+    switch (o) {
+      case 'e': elf_file = optarg; break;
+      case 'i': img_file = optarg;break;
+      //case 1: img_file = optarg; return 0;
+      default:
+        printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
+        printf("\t-b,--batch              run with batch mode\n");
+        printf("\t-l,--log=FILE           output log to FILE\n");
+        printf("\t-d,--diff=REF_SO        run DiffTest with reference REF_SO\n");
+        printf("\t-p,--port=PORT          run DiffTest with port PORT\n");
+        printf("\n");
+        exit(0);
+    }
+  }
+  return 0;
+}
 int main(int argc, char **argv, char **env) {
   //nvboard_bind_all_pins(top);
   //nvboard_init();
