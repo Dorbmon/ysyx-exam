@@ -41,10 +41,10 @@ void initDiffset() {
   assert(ref_difftest_init);
   printf("loaded so.\n");
   ref_difftest_init(0); // 端口不影响 NEMU
-  printf("loaded s23132132o.\n");
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, 1);
   sync_cpu();
   ref_difftest_regcpy(&cpu, 1);
+  printf("loaded s23132132o.\n");
 }
 bool isa_difftest_checkregs(diff_context_t *ref_r) {
   for (int i = 0;i < 32;++ i) {
