@@ -22,10 +22,9 @@ void sync_cpu() {
 void initDiffset() {
   assert(diff_so != NULL);
   void *handle;
-  printf("so:%s\n", diff_so);
   handle = dlopen(diff_so, RTLD_LAZY);
   assert(handle);
-  printf("load so.\n");
+  printf("loaded so.\n");
   ref_difftest_memcpy =
       (void (*)(paddr_t, void *, size_t, bool))dlsym(handle, "difftest_memcpy");
   assert(ref_difftest_memcpy);
@@ -40,7 +39,7 @@ void initDiffset() {
   void (*ref_difftest_init)(int) =
       (void (*)(int))dlsym(handle, "difftest_init");
   assert(ref_difftest_init);
-
+  printf("loaded so.\n");
   ref_difftest_init(0); // 端口不影响 NEMU
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, 1);
   sync_cpu();
