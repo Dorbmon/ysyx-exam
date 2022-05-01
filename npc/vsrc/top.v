@@ -19,6 +19,7 @@ if (newPcValue != 64'b0) begin
 end
 else begin
     pc <= pc + 64'h00000004;
+    pmem_read(pc, origin);
 end
 end
 initial begin
@@ -31,7 +32,7 @@ assign inst = origin [31:0];
 import "DPI-C" function void pmem_read(
   input longint raddr, output longint rdata);
 always @(*) begin
-  pmem_read(pc, origin);
+  
 end
 always @(*) begin
 
