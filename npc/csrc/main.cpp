@@ -29,7 +29,7 @@ void ebreak() {
 char* img_file = NULL;
 
 extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
-  cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
+  cpu.gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
 }
 static void runN(uint64_t n) {
   uint64_t count = 0;
@@ -47,6 +47,7 @@ static void runN(uint64_t n) {
       loadINST(top->inst, top->pc);
     }
     //std::cout << "Here" << std::endl;
+    cpu.pc = top->pc;
     top->eval();
     if (!(count & 1)) {
       difftest_step(bpc, top->pc);
