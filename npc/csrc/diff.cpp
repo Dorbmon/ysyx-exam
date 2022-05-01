@@ -33,7 +33,7 @@ void initDiffset() {
   assert(ref_difftest_init);
   ref_difftest_init(0); // 端口不影响 NEMU
   ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, 1);
-  ref_difftest_regcpy(&cpu, 1);
+  ref_difftest_regcpy(&cpu, 0);
 }
 bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {
   for (int i = 0;i < 32;++ i) {
