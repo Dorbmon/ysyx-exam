@@ -8,8 +8,7 @@ const char *regs[] = {
   "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
-void isa_reg_display(diff_context_t* tcpu) {
-  printf("test2:%lx\n", tcpu->gpr[0]);
+void isa_reg_display() {
   for (int i = 0;i < 32;++ i) {
     printf("%s %lx \n",regs[i], cpu.gpr[i]);
   }

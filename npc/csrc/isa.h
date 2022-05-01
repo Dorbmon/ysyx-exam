@@ -6,5 +6,5 @@
 word_t isa_reg_str2val(const char *name, bool *success);
 extern Vysyx_22041207_top* top;
 class diff_context_t;
-void isa_reg_display(diff_context_t* tcpu);
+void isa_reg_display();
 #endif
