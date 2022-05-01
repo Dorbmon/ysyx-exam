@@ -26,6 +26,7 @@ void loadINST(uint32_t rinst, uint32_t pc) {
   printf("%s \n", logbuf);
   #ifdef ENABLE_FTRACE
     uint32_t opcode = BITS(rinst, 6, 0);
+    printf("opcode:%x\n", opcode);
     if (opcode == 0b1101111) {  // jal
       uint32_t dnpc = pc + immJ(rinst);
       if (strcmp(getBelongFunction(dnpc), getBelongFunction(pc)) != 0) {
