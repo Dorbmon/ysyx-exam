@@ -31,7 +31,7 @@ static struct rule {
     {"[(]", '(', 1},           {"[)]", ')', 1}, {" +", TK_NOTYPE}, // spaces
     {"\\+", '+', 2},                                               // plus
     {"\\-", '-', 2}, // 十进制数字
-    {"\\\\", '\\', 3},         {"\\*", '*', 3}, {"\\$([0-9a-zA-Z]+) ", TK_REG, 4},{"([\\$0-9a-zA-Z]+)", TK_REG, 4},
+    {"\\\\", '\\', 3},         {"\\*", '*', 3}, {"\\$([0-9a-zA-Z]+) ", TK_REG, 4},{"\\$([0-9a-zA-Z]+)", TK_REG, 4},
     {"0x[0-9a-fA-F]+", 'n', 4}};
 
 #define NR_REGEX ARRLEN(rules)
@@ -182,7 +182,10 @@ uint32_t eval(int p, int q) {
   } else if (p == q) {
     Assert(tokens[p].type == 'n', "It should be a number istead of %d",
            tokens[p].type);
-    return atoll(tokens[p].str);
+    //return atoll(tokens[p].str);
+    uint64_t value;
+    sscanf(tokens[p].str, "%lx", &value);
+    return value;
   } else if (check_parentheses(p, q, &fail) == true && !fail) {
     return eval(p + 1, q - 1);
   } else if (fail) {
