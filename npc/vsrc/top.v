@@ -26,7 +26,7 @@ initial begin
 end
 wire  [31:0] inst;
 wire  [63:0] origin;
-assign inst = origin [63:32];
+assign inst = origin [31:0];
 ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask(8'b0));
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
