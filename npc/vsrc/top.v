@@ -29,7 +29,7 @@ wire  [63:0] origin;
 assign inst = origin [31:0];
 ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask(8'b0));
 always @(pc) begin
-    $display("pc:%b,here:%b", pc, inst[6:0]);
+    $display("pc:%x,here:%b", pc, inst[6:0]);
 end
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
