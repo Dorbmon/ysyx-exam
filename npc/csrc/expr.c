@@ -182,7 +182,6 @@ uint32_t eval(int p, int q) {
   } else if (p == q) {
     Assert(tokens[p].type == 'n', "It should be a number istead of %d",
            tokens[p].type);
-    //return atoll(tokens[p].str);
     uint64_t value;
     sscanf(tokens[p].str, "%lx", &value);
     return value;
