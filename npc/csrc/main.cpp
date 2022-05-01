@@ -106,11 +106,11 @@ static char *rl_gets() {
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {
     {"elf"      , required_argument, NULL, 'e'},
-    {"i"        , required_argument, NULL, 'i'},
+    {"img"        , required_argument, NULL, 'i'},
     {0          , 0                , NULL,  0 },
   };
   int o;
-  while ( (o = getopt_long(argc, argv, "", table, NULL)) != -1) {
+  while ( (o = getopt_long(argc, argv, "i:e:", table, NULL)) != -1) {
     switch (o) {
       case 'e': elf_file = optarg; break;
       case 'i': img_file = optarg;break;
