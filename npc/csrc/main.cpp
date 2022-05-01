@@ -144,14 +144,7 @@ int main(int argc, char **argv, char **env) {
   VerilatedVcdC *vcd = new VerilatedVcdC();
   top->trace(vcd, 0);
   vcd->open("data.vcd");
-  int time = 0;
   top->clk = 0;
-  top->rst = 0;
-  top->eval();
-  top->rst = 1;
-  top->eval();
-  top->rst = 0;
-  top->eval();
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
     char *cmd = strtok(str, " ");
