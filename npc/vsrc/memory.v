@@ -12,7 +12,7 @@ always_latch @(readAddr) begin
     //s$display("read:%x", readAddr);
     //if (readAddr & )
     pmem_read(readAddr, data1);
-    pmem_read(readAddr + 64'b1000, data2);
+    pmem_read(readAddr + 64'b1000, data2);  // 读取八个字节之后的内容
     if (readAddr[2:0] == 3'b000) begin
         data = data1;
     end
