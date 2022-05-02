@@ -32,7 +32,7 @@ extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
   cpu.gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
 }
 static void runN(uint64_t n) {
-  uint64_t count = 0;
+  static uint64_t count = 0;
   n <<= 1;
   while (!contextp->gotFinish() && !sebreak && count < n) {
     count ++;
