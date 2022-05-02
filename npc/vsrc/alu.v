@@ -12,6 +12,7 @@ function [63:0] low32;
     input [63:0] data;
     low32 = {32'b0, data[31:0]};
 endfunction
+`define SEXT(x, bit) {(63 - bit){{x}[bit - 1], {x}[bit:0]}}
 wire [63:0] immI;
 wire [63:0] immS;
 wire [63:0] immB;
@@ -53,7 +54,7 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
     7'b0011011, (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 >> immI)}:  //srliw
                 (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, ($signed(rs1) >>> immI[5:0])}: //sraiw
                 (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 << immI)}:   //slliw
-                (funct3 == 3'b000)?{1'b1, $signed(low32(rs1 + immI))}:  //addiw
+                //(funct3 == 3'b000)?{1'b1, `SEXT(low32(rs1 + immI), 32)}:  //addiw
                 65'b0,
     7'b0111011, (funct3 == 3'b000 && funct7 == 7'b0100000)?{1'b1, $signed(low32(srs1 - srs2))}://subw
                 (funct3 == 3'b110 && funct7 == 7'b0000001)?{1'b1, $signed(low32(srs1 % srs2))}://remw
