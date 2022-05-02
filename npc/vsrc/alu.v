@@ -81,7 +81,7 @@ ysyx_22041207_MuxKeyWithDefault #(3, 7, 64) rmuxB (newPcValue, opCode, 64'b0, {
                 (funct3 == 3'b001)?((rs1 != rs2)?(pc + immB):64'b0):    //bne
                 (funct3 == 3'b100)?(($signed(rs1) < $signed(rs2))?(pc + immB):64'b0):  //blt
                 (funct3 == 3'b101)?(($signed(rs1) >= $signed(rs2))?(pc + immB):64'b0):  //bge
-                (funct3 == 3'b101)?((rs1 < rs2)?(pc + immB):64'b0):  //bltu
+                (funct3 == 3'b110)?((rs1 < rs2)?(pc + immB):64'b0):  //bltu
                 64'b0,
     7'b1101111, pc + immJ,   //jal
     7'b1100111, (funct3==0)?(rs1 + immI):64'b0  //jalr
