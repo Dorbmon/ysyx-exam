@@ -87,7 +87,7 @@ ysyx_22041207_MuxKeyWithDefault #(3, 7, 64) rmuxB (newPcValue, opCode, 64'b0, {
     7'b1100111, (funct3==0)?(rs1 + immI):64'b0  //jalr
 });
 ysyx_22041207_MuxKeyWithDefault #(1, 7, 136) mmuxM ({mwmask, mwaddr, mwdata}, opCode, 136'b0, {
-    7'b0100011, (funct3 == 3'b011)?{8'b11111111, rs1 + immS, rs2}:  // sd
+    7'b0100011, (funct3 == 3'b011)?{8'b11111111, rs1 + immS, rs2}:  //sd
                 (funct3 == 3'b000)?{8'b00000001, rs1 + immS, rs2}:  //sb
                 (funct3 == 3'b001)?{8'b00000011, rs1 + immS, rs2}:  //sh
                 (funct3 == 3'b010)?{8'b00001111, rs1 + immS, rs2}:  //sw

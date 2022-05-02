@@ -43,7 +43,7 @@ bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {
       //printf("%lx %lx\n",ref_r->pc, pc);
   for (int i = 0;i < 32;++ i) {
     if (ref_r->gpr [i] != cpu.gpr [i]) {
-      printf("error occured on register: %s\n", regs [i]);
+      printf("\nError occured on register: %s\n", regs [i]);
       printf("%lx %lx\n",ref_r->gpr[i], cpu.gpr[i]);
       return false;
     }
