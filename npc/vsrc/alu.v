@@ -64,7 +64,7 @@ ysyx_22041207_MuxKeyWithDefault #(10, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, 
                 65'b0,   
     7'b0000011, (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:  //lbu
                 (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}: //lhu  
-                (funct3 == 3'b010)?{1'b1, $signed({32'b0, LValue[31:0]})}:
+                (funct3 == 3'b010)?{1'b1, $signed({32'b0, LValue[31:0]})}:  //lw
                 65'b0,
     7'b0110011, (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, rs1 * rs2}: //mul
                 (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, rs1 + rs2}: //add
