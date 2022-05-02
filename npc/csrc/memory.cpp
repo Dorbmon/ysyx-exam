@@ -61,7 +61,7 @@ void initMemory(const char *img_file) {
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
   if ((raddr & ~0x7ull) < CONFIG_MBASE) return ;
-  *rdata = pmem_read(raddr & ~0x7ull, 8);
+  *rdata = pmem_read(raddr & ~0x7ull, 8); //111
   printf("read:%llx:opcode:%lld", raddr & ~0x7ull, *rdata & ((1 << 7) - 1));
   
 }
