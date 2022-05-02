@@ -30,15 +30,18 @@ wire [63:0] mwaddr;
 wire [63:0] mwdata;
 wire [7:0] mwmask;
 ysyx_22041207_MW mw(mwaddr, mwdata, mwmask);
-ysyx_22041207_MuxKeyWithDefault #(10, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
+ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
     7'b0000011, (funct3 == 3'b011)?{1'b1, $signed(LValue)}:             //ld
                 (funct3 == 3'b001)?{1'b1, $signed({48'b0, LValue[15:0]})}:    //lh
+                (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:  //lbu
+                (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}: //lhu  
+                (funct3 == 3'b010)?{1'b1, $signed({32'b0, LValue[31:0]})}:  //lw
                 65'b0,
     7'b0010111, {1'b1, pc + immU},   // auipc
     7'b0110111, {1'b1, immU},        // lui
     7'b1101111, {1'b1, pc + 64'b100},   //jal
-    7'b1100111, (funct3==0)?{1'b1, pc + 64'b100}:65'b0,  //jalr
-    
+    7'b1100111, (funct3 == 3'b000)?{1'b1, pc + 64'b100}:  //jalr
+                65'b0,
     7'b0010011, (funct3 == 3'b011)?{1'b1, (rs1 < immI)?64'b1:64'b0}: //sltiu
                 (funct3 == 3'b000)?{1'b1, rs1 + immI}:    //addi
                 (funct3 == 3'b111)?{1'b1, rs1 & immI}:    //andi
@@ -63,10 +66,6 @@ ysyx_22041207_MuxKeyWithDefault #(10, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, 
                 (funct3 == 3'b100 && funct7 == 7'b0000001)?{1'b1, $signed({32'b0, $signed(rs1[31:0]) / $signed(rs2[31:0])})}:   //divw
                 (funct3 == 3'b101 && funct7 == 7'b0000001)?{1'b1, $signed({32'b0, rs1[31:0] / rs2[31:0]})}://divuw
                 65'b0,   
-    7'b0000011, (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:  //lbu
-                (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}: //lhu  
-                (funct3 == 3'b010)?{1'b1, $signed({32'b0, LValue[31:0]})}:  //lw
-                65'b0,
     7'b0110011, (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, rs1 * rs2}: //mul
                 (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, rs1 + rs2}: //add
                 (funct3 == 3'b010 && funct7 == 7'b0000000)?{1'b1, $signed(rs1)<$signed(rs2)?64'b1:64'b0}://slt
