@@ -8,11 +8,12 @@ module ysyx_22041207_ALU(
     output [63:0] wdata,
     output [63:0] newPcValue
 );
-function [63:0] low32;
+function [31:0] low32;
     input [63:0] data;
-    low32 = {32'b0, data[31:0]};
+    //low32 = {32'b0, data[31:0]};
+    low32 = data[31:0];
 endfunction
-`define SEXT(x, bit) {(63 - bit){{x}[bit - 1], {x}[bit:0]}}
+`define SEXT(x, bit) {{(64 - bit){{x}[bit - 1]}}, {x}[bit- 1:0]}
 wire [63:0] immI;
 wire [63:0] immS;
 wire [63:0] immB;
@@ -32,11 +33,11 @@ wire [63:0] mwdata;
 wire [7:0] mwmask;
 ysyx_22041207_MW mw(mwaddr, mwdata, mwmask);
 ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
-    7'b0000011, (funct3 == 3'b011)?{1'b1, $signed(LValue)}:             //ld
-                (funct3 == 3'b001)?{1'b1, $signed({48'b0, LValue[15:0]})}:    //lh
+    7'b0000011, (funct3 == 3'b011)?{1'b1,  LValue}:             //ld
+                (funct3 == 3'b001)?{1'b1, `SEXT(LValue[15:0], 16)}:    //lh
                 (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:  //lbu
                 (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}: //lhu  
-                (funct3 == 3'b010)?{1'b1, $signed({32'b0, LValue[31:0]})}:  //lw
+                (funct3 == 3'b010)?{1'b1, `SEXT(LValue[31:0], 32)}:  //lw
                 65'b0,
     7'b0010111, {1'b1, pc + immU},   // auipc
     7'b0110111, {1'b1, immU},        // lui
@@ -51,21 +52,21 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
                 (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, rs1 >> immI}:  //srai
                 (funct3 == 3'b001 && funct7[6:1] == 6'b000000)?{1'b1, rs1 << immI}:  //slli
                 65'b0,
-    7'b0011011, (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 >> immI)}:  //srliw
-                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, ($signed(rs1) >>> immI[5:0])}: //sraiw
-                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 << immI)}:   //slliw
-                //(funct3 == 3'b000)?{1'b1, `SEXT(low32(rs1 + immI), 32)}:  //addiw
+    7'b0011011, (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, `SEXT(rs1 >> immI, 32)}:  //srliw
+                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, `SEXT($signed(rs1[31:0]) >>> immI[5:0], 32)}: //sraiw
+                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, `SEXT(rs1 << immI, 32)}:   //slliw
+                (funct3 == 3'b000)?{1'b1, `SEXT(low32(rs1 + immI), 32)}:  //addiw
                 65'b0,
-    7'b0111011, (funct3 == 3'b000 && funct7 == 7'b0100000)?{1'b1, $signed(low32(srs1 - srs2))}://subw
-                (funct3 == 3'b110 && funct7 == 7'b0000001)?{1'b1, $signed(low32(srs1 % srs2))}://remw
-                (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, $signed(low32(srs1 * srs2))}://mulw
-                (funct3 == 3'b111 && funct7 == 7'b0000001)?{1'b1, $signed(low32(rs1) %  low32(rs2))}://remuw
-                (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, $signed(low32(rs1) >> rs2)}://srlw
-                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, $signed(low32(rs1)) >>> rs2}://sraw
-                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, $signed(low32(rs1 << rs2))}:  //sllw
-                (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, $signed({32'b0, $signed(rs1[31:0]) + $signed(rs2[31:0])})}:   //addw
-                (funct3 == 3'b100 && funct7 == 7'b0000001)?{1'b1, $signed({32'b0, $signed(rs1[31:0]) / $signed(rs2[31:0])})}:   //divw
-                (funct3 == 3'b101 && funct7 == 7'b0000001)?{1'b1, $signed({32'b0, rs1[31:0] / rs2[31:0]})}://divuw
+    7'b0111011, (funct3 == 3'b000 && funct7 == 7'b0100000)?{1'b1, `SEXT(low32(srs1 - srs2), 32)}://subw
+                (funct3 == 3'b110 && funct7 == 7'b0000001)?{1'b1, `SEXT(low32(srs1 % srs2), 32)}://remw
+                (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, `SEXT(low32(srs1 * srs2), 32)}://mulw
+                (funct3 == 3'b111 && funct7 == 7'b0000001)?{1'b1, `SEXT(low32(rs1) %  low32(rs2), 32)}://remuw
+                (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, `SEXT(low32(rs1) >> rs2, 32)}://srlw
+                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, `SEXT(low32(rs1) >>> rs2, 32)}://sraw
+                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, `SEXT(low32(rs1 << rs2), 32)}:  //sllw
+                (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, `SEXT(rs1[31:0] + rs2[31:0], 32)}:   //addw
+                (funct3 == 3'b100 && funct7 == 7'b0000001)?{1'b1, `SEXT(rs1[31:0] / rs2[31:0], 32)}:   //divw
+                (funct3 == 3'b101 && funct7 == 7'b0000001)?{1'b1, `SEXT(rs1[31:0] / rs2[31:0], 32)}://divuw
                 65'b0,   
     7'b0110011, (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, rs1 * rs2}: //mul
                 (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, rs1 + rs2}: //add
