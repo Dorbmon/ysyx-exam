@@ -104,19 +104,22 @@ static char *rl_gets() {
   }
   return line_read;
 }
+bool batchMode = false;
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {
     {"elf"      , required_argument, NULL, 'e'},
     {"img"      , required_argument, NULL, 'i'},
     {"diff"     , required_argument, NULL, 'd'},
+    {"batch"    , no_argument, NULL, 'b'},
     {0          , 0                , NULL,  0 },
   };
   int o;
-  while ( (o = getopt_long(argc, argv, "i:e:d:", table, NULL)) != -1) {
+  while ( (o = getopt_long(argc, argv, "bi:e:d:", table, NULL)) != -1) {
     switch (o) {
       case 'e': elf_file = optarg; break;
       case 'i': img_file = optarg;break;
       case 'd': diff_so = optarg;break;
+      case 'b': batchMode = true;break;
       //case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
@@ -146,6 +149,10 @@ int main(int argc, char **argv, char **env) {
   vcd->open("data.vcd");
   top->clk = 0;
   top->eval();
+  if (batchMode) {
+    simulate("1000000");
+    return 0;
+  }
   for (char *str; (str = rl_gets()) != NULL;) {
     char *str_end = str + strlen(str);
     char *cmd = strtok(str, " ");
