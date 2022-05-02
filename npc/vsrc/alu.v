@@ -10,7 +10,7 @@ module ysyx_22041207_ALU(
 );
 function [63:0] low32;
     input [63:0] data;
-    low32 = data & ((1 << 32) - 1);
+    low32 = {32'b0, data[31:0]};
 endfunction
 wire [63:0] immI;
 wire [63:0] immS;
