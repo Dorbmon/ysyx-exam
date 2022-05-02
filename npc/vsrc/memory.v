@@ -7,6 +7,7 @@ import "DPI-C" function void pmem_read(
   input longint raddr, output longint rdata);
 always @(*) begin
   if (wen) begin
+    $display("read:%x", readAddr);
     pmem_read(readAddr, data);
   end
   else begin
