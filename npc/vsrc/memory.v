@@ -5,7 +5,7 @@ module ysyx_22041207_MR (
 );
 import "DPI-C" function void pmem_read(
   input longint raddr, output longint rdata);
-always_latch @(readAddr) begin
+always @(readAddr) begin
   reg [63:0] data1;
   reg [63:0] data2;
   if (wen) begin
@@ -39,10 +39,14 @@ always_latch @(readAddr) begin
     end
     else begin
         data = 0;
+        data1 = 0;
+        data2 = 0;
     end
   end
   else begin
     data = 0;
+    data1 = 0;
+    data2 = 0;
   end
 end
 endmodule
