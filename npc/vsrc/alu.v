@@ -25,7 +25,7 @@ wire [6:0] opCode;
 assign opCode = inst[6:0];
 wire [63:0] srs1 = $signed(rs1);
 wire [63:0] srs2 = $signed(rs2);
-ysyx_22041207_MR mr(opCode == 7'b0000011,rs1 + immI, LValue);
+ysyx_22041207_MR mr(1'b1, rs1 + immI, LValue);
 wire [63:0] mwaddr;
 wire [63:0] mwdata;
 wire [7:0] mwmask;
