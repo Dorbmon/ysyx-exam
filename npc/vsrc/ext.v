@@ -15,6 +15,9 @@ assign funct3 = instr [14:12];
 // assign immB = $signed({51'b0, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0});
 // assign immU = $signed({32'b0, instr[31:12], 12'b0});
 // assign immJ = $signed({43'b0, instr[31], instr[19:12], instr[20], instr[30:21], 1'b0});
+always @(instr) begin
+    $display("inst:%b immI:%d\n", instr, immI);
+end
 assign immI = {{(53){instr[31]}}, instr[30:20]};
 assign immS = {{(53){instr[31]}}, instr[30:25], instr[11:7]};
 assign immB = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
