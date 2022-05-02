@@ -22,7 +22,7 @@ end
 wire  [31:0] inst;
 wire  [63:0] origin;
 ysyx_22041207_MR pc_mr(1'b1, pc, origin);
-assign inst = ((pc & 64'b111) == 64'b0)?origin [31:0]:origin [63:32];
+assign inst = origin [31:0];
 // always @(*) begin
 //   $display("pc:%x,here:%b", pc, inst[6:0]);
 // end
