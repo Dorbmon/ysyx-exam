@@ -62,7 +62,7 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
                 (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, `SEXT(low32(srs1 * srs2), 32)}://mulw
                 (funct3 == 3'b111 && funct7 == 7'b0000001)?{1'b1, `SEXT(low32(rs1) %  low32(rs2), 32)}://remuw
                 (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, `SEXT(low32(rs1) >> rs2, 32)}://srlw
-                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, `SEXT(low32(rs1) >>> rs2, 32)}://sraw
+                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, `SEXT($signed(low32(rs1)) >>> rs2, 32)}://sraw
                 (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, `SEXT(low32(rs1 << rs2), 32)}:  //sllw
                 (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, `SEXT(rs1[31:0] + rs2[31:0], 32)}:   //addw
                 (funct3 == 3'b100 && funct7 == 7'b0000001)?{1'b1, `SEXT(rs1[31:0] / rs2[31:0], 32)}:   //divw
