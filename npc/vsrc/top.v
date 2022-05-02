@@ -22,7 +22,6 @@ end
 wire  [31:0] inst;
 wire  [63:0] origin;
 assign inst = ((pc & 64'b111) == 64'b0)?origin [31:0]:origin [63:32];
-//ysyx_22041207_Memory instReader(.raddr(pc), .rdata(origin), .waddr(), .wdata(), .wmask(8'b0));
 import "DPI-C" function void pmem_read(
   input longint raddr, output longint rdata);
 always @(*) begin

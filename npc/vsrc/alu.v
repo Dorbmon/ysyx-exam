@@ -8,6 +8,10 @@ module ysyx_22041207_ALU(
     output [63:0] wdata,
     output [63:0] newPcValue
 );
+function [63:0] low32;
+    input [63:0] data;
+    low32 = data & ((1 << 32) - 1);
+endfunction
 wire [63:0] immI;
 wire [63:0] immS;
 wire [63:0] immB;
@@ -16,12 +20,47 @@ wire [63:0] immJ;
 wire [6:0]  funct7;
 wire [2:0]  funct3;
 ysyx_22041207_ext ext(inst, immI, immS, immB, immU, immJ, funct7, funct3); 
+wire [63:0] LValue;
+wire [6:0] opCode;
+assign opCode = inst[6:0];
+wire [63:0] srs1 = $signed(rs1);
+wire [63:0] srs2 = $signed(rs2);
+ysyx_22041207_MR mr(opCode == 7'b0000011,rs1 + immI, LValue);
+wire [63:0] mwaddr;
+wire [63:0] mwdata;
+wire [7:0] mwmask;
+ysyx_22041207_MW mw(mwaddr, mwdata, mwmask);
 
-ysyx_22041207_MuxKeyWithDefault #(5, 7, 129) rmux ({wen, wdata, newPcValue}, inst[6:0], 129'b0, {
-    7'b0010011, {1'b1, rs1 + immI, 64'b0},   // addi
-    7'b0010111, {1'b1, pc + immU,  64'b0},   // auipc
-    7'b0110111, {1'b1, immU, 64'b0},        // lui
-    7'b1101111, {1'b1, pc + 64'b100, pc + immJ},   //jal
-    7'b1100111, (funct3==0)?{1'b1, pc + 64'b100, rs1 + immI}:129'b0  //jalr
+ysyx_22041207_MuxKeyWithDefault #(10, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
+    7'b0010111, {1'b1, pc + immU},   // auipc
+    7'b0110111, {1'b1, immU},        // lui
+    7'b1101111, {1'b1, pc + 64'b100},   //jal
+    7'b1100111, (funct3==0)?{1'b1, pc + 64'b100}:65'b0,  //jalr
+    7'b0000011, (funct3 == 3'b011)?{1'b1, $signed(LValue)}:             //ld
+                (funct3 == 3'b001)?{1'b1, $signed({48'b0, LValue[15:0]})}:65'b0,    //lh
+    7'b0010011, (funct3 == 3'b011)?{1'b1, (rs1 < immI)?64'b1:64'b0}: //sltiu
+                (funct3 == 3'b000)?{1'b1, rs1 + immI}:    //addi
+                (funct3 == 3'b111)?{1'b1, rs1 & immI}:65'b0,   //andi
+    7'b0011011, (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 >> immI)}:  //srliw
+                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, $signed(rs1 >> immI[5:0])}:65'b0,
+    7'b0111011, (funct3 == 3'b000 && funct7 == 7'b0100000)?{1'b1, $signed(low32(srs1 - srs2))}://subw
+                (funct3 == 3'b110 && funct7 == 7'b0000001)?{1'b1, $signed(low32(srs1 % srs2))}://remw
+                (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, $signed(low32(srs1 * srs2))}://mulw
+                (funct3 == 3'b111 && funct7 == 7'b0000001)?{1'b1, $signed(low32(rs1) %  low32(rs2))}://remuw
+                65'b0,   
+    7'b0000011, (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:   //lbu
+                (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}:65'b0, //lhu
+    7'b0110011, (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, rs1 * rs2}:65'b0 //mul
+    
+});
+ysyx_22041207_MuxKeyWithDefault #(3, 7, 64) rmuxB (newPcValue, opCode, 64'b0, {
+    7'b1100011, (funct3 == 3'b000)?((rs1 == rs2)?(pc + immB):64'b0):    //beq
+                (funct3 == 3'b001)?((rs1 != rs2)?(pc + immB):64'b0):64'b0,    //bne
+    7'b1101111, pc + immJ,   //jal
+    7'b1100111, (funct3==0)?(rs1 + immI):64'b0  //jalr
+});
+ysyx_22041207_MuxKeyWithDefault #(1, 7, 136) mmuxM ({mwmask, mwaddr, mwdata}, opCode, 136'b0, {
+    7'b0100011, (funct3 == 3'b011)?{8'b11111111, rs1 + immS, rs2}:   // sd
+                (funct3 == 3'b000)?{8'b00000001, rs1 + immS, {56'B0, rs2[7:0]}}:136'b0    //sb
 });
 endmodule
