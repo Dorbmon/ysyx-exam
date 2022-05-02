@@ -41,7 +41,7 @@ static void runN(uint64_t n) {
     uint32_t bpc = top->pc;
     if (count & 1) {
       printf("pc:%lx\n", top->pc);
-      pBin(pmem_read(top->pc, 4));
+      //pBin(pmem_read(top->pc, 4));
       loadINST(pmem_read(top->pc, 4), top->pc);
     }
     cpu.pc = top->pc;
