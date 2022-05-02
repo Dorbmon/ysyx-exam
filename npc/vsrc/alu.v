@@ -48,7 +48,7 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
                 (funct3 == 3'b100)?{1'b1, rs1 ^ immI}:    //xori
                 (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, rs1 >> immI}:  //srli
                 (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, rs1 >> immI}:  //srai
-                (funct3 == 3'b001 && funct7[6:1] == 6'b000000)?{1'b1, rs1 << rs2}:  //slli
+                (funct3 == 3'b001 && funct7[6:1] == 6'b000000)?{1'b1, rs1 << immI}:  //slli
                 65'b0,
     7'b0011011, (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 >> immI)}:  //srliw
                 (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, ($signed(rs1) >>> immI[5:0])}: //sraiw
