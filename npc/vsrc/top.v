@@ -27,10 +27,9 @@ import "DPI-C" function void pmem_read(
 always @(*) begin
   pmem_read(pc, origin);
 end
-always @(*) begin
-
-  $display("pc:%x,here:%b", pc, inst[6:0]);
-end
+// always @(*) begin
+//   $display("pc:%x,here:%b", pc, inst[6:0]);
+// end
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
 assign rwaddr = inst [11:7];
