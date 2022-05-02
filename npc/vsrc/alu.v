@@ -40,27 +40,58 @@ ysyx_22041207_MuxKeyWithDefault #(10, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, 
                 (funct3 == 3'b001)?{1'b1, $signed({48'b0, LValue[15:0]})}:65'b0,    //lh
     7'b0010011, (funct3 == 3'b011)?{1'b1, (rs1 < immI)?64'b1:64'b0}: //sltiu
                 (funct3 == 3'b000)?{1'b1, rs1 + immI}:    //addi
-                (funct3 == 3'b111)?{1'b1, rs1 & immI}:65'b0,   //andi
+                (funct3 == 3'b111)?{1'b1, rs1 & immI}:    //andi
+                (funct3 == 3'b100)?{1'b1, rs1 ^ immI}:    //xori
+                (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, rs1 >> immI}:  //srli
+                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, rs1 >> immI}:  //srai
+                (funct3 == 3'b001 && funct7[6:1] == 6'b000000)?{1'b1, rs1 << rs2}:  //slli
+                65'b0,
     7'b0011011, (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 >> immI)}:  //srliw
-                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, $signed(rs1 >> immI[5:0])}:65'b0,
+                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, ($signed(rs1) >>> immI[5:0])}: //sraiw
+                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, $signed(rs1 << rs2)}:   //slliw
+                (funct3 == 3'b000)?{1'b1, $signed(low32(rs1 + immI))}:  //addiw
+                65'b0,
     7'b0111011, (funct3 == 3'b000 && funct7 == 7'b0100000)?{1'b1, $signed(low32(srs1 - srs2))}://subw
                 (funct3 == 3'b110 && funct7 == 7'b0000001)?{1'b1, $signed(low32(srs1 % srs2))}://remw
                 (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, $signed(low32(srs1 * srs2))}://mulw
                 (funct3 == 3'b111 && funct7 == 7'b0000001)?{1'b1, $signed(low32(rs1) %  low32(rs2))}://remuw
+                (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, $signed(low32(rs1) >> rs2)}://srlw
+                (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, $signed(low32(rs1)) >>> rs2}://sraw
+                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, $signed(low32(rs1 << rs2))}:  //sllw
+                (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, $signed({32'b0, $signed(rs1[31:0]) + $signed(rs2[31:0])})}:   //addw
+                (funct3 == 3'b100 && funct7 == 7'b0000001)?{1'b1, $signed({32'b0, $signed(rs1[31:0]) / $signed(rs2[31:0])})}:   //divw
+                (funct3 == 3'b101 && funct7 == 7'b0000001)?{1'b1, $signed({32'b0, rs1[31:0] / rs2[31:0]})}://divuw
                 65'b0,   
-    7'b0000011, (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:   //lbu
-                (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}:65'b0, //lhu
-    7'b0110011, (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, rs1 * rs2}:65'b0 //mul
+    7'b0000011, (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:  //lbu
+                (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}: //lhu  
+                (funct3 == 3'b010)?{1'b1, $signed({32'b0, LValue[31:0]})}:
+                65'b0,
+    7'b0110011, (funct3 == 3'b000 && funct7 == 7'b0000001)?{1'b1, rs1 * rs2}: //mul
+                (funct3 == 3'b000 && funct7 == 7'b0000000)?{1'b1, rs1 + rs2}: //add
+                (funct3 == 3'b010 && funct7 == 7'b0000000)?{1'b1, $signed(rs1)<$signed(rs2)?64'b1:64'b0}://slt
+                (funct3 == 3'b110 && funct7 == 7'b0000000)?{1'b1, rs1 | rs2}://or
+                (funct3 == 3'b111 && funct7 == 7'b0000000)?{1'b1, rs1 & rs2}://and
+                (funct3 == 3'b011 && funct7 == 7'b0000000)?{1'b1, (rs1 < rs2)?64'b1:64'b0}://sltu
+                (funct3 == 3'b000 && funct7 == 7'b0100000)?{1'b1, rs1 - rs2}://sub
+                65'b0
     
 });
 ysyx_22041207_MuxKeyWithDefault #(3, 7, 64) rmuxB (newPcValue, opCode, 64'b0, {
     7'b1100011, (funct3 == 3'b000)?((rs1 == rs2)?(pc + immB):64'b0):    //beq
-                (funct3 == 3'b001)?((rs1 != rs2)?(pc + immB):64'b0):64'b0,    //bne
+                (funct3 == 3'b001)?((rs1 != rs2)?(pc + immB):64'b0):    //bne
+                (funct3 == 3'b100)?(($signed(rs1) < $signed(rs2))?(pc + immB):64'b0):  //blt
+                (funct3 == 3'b101)?(($signed(rs1) >= $signed(rs2))?(pc + immB):64'b0):  //bge
+                (funct3 == 3'b101)?((rs1 < rs2)?(pc + immB):64'b0):  //bltu
+                64'b0,
     7'b1101111, pc + immJ,   //jal
     7'b1100111, (funct3==0)?(rs1 + immI):64'b0  //jalr
 });
 ysyx_22041207_MuxKeyWithDefault #(1, 7, 136) mmuxM ({mwmask, mwaddr, mwdata}, opCode, 136'b0, {
-    7'b0100011, (funct3 == 3'b011)?{8'b11111111, rs1 + immS, rs2}:   // sd
-                (funct3 == 3'b000)?{8'b00000001, rs1 + immS, {56'B0, rs2[7:0]}}:136'b0    //sb
+    7'b0100011, (funct3 == 3'b011)?{8'b11111111, rs1 + immS, rs2}:  // sd
+                (funct3 == 3'b000)?{8'b00000001, rs1 + immS, rs2}:  //sb
+                (funct3 == 3'b001)?{8'b00000011, rs1 + immS, rs2}:  //sh
+                (funct3 == 3'b010)?{8'b00001111, rs1 + immS, rs2}:  //sw
+                (funct3 == 3'b011)?{8'b11111111, rs1 + immS, rs2}://sd
+                136'b0
 });
 endmodule
