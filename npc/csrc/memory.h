@@ -11,4 +11,5 @@ void initMemory(const char* img_file);
 word_t pmem_read(paddr_t addr, int len);
 uint8_t* guest_to_host(paddr_t paddr);
 extern long img_size;
+void pBin(long int x);
 #endif

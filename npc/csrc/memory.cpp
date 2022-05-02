@@ -2,7 +2,7 @@
 #include "memory.h"
 
 #define kDisplayWidth 32
-static void pBin(long int x)
+void pBin(long int x)
 {
  char s[kDisplayWidth+1];
  int  i=kDisplayWidth;
