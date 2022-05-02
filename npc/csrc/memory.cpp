@@ -61,7 +61,6 @@ void initMemory(const char *img_file) {
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
   if ((raddr & ~0x7ull) < CONFIG_MBASE) return ;
-  printf("\nshould be:%lx\n", pmem_read (0x80000173, 1));
   *rdata = pmem_read(raddr & ~0x7ull, 8); //111
   printf("read:%llx, but:%llx", raddr, raddr & ~0x7ull);
 }
@@ -80,6 +79,6 @@ extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
       nv |= ((v >> (i * 8)) & ((1 << 8) - 1)) << (i * 8);
     }
   }
-  rpmem_write(waddr, 8, nv);
+  rpmem_write(waddr & ~0x7ull, 8, nv);
 }
 #endif
