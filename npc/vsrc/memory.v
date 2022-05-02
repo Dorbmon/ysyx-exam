@@ -53,9 +53,9 @@ module ysyx_22041207_MW (
 );
 import "DPI-C" function void pmem_write(
   input longint waddr, input longint wdata, input byte wmask);
-wire [3:0] num = 4'b1000 - waddr [2:0];
+wire [3:0] num = 4'b1000 - waddr [2:0]; // 在一个字节内写入的数量
 always @(*) begin
-  pmem_write(waddr, wdata << (num * 8'b1000), wmask << num);
+  pmem_write(waddr, wdata << waddr [2:0], wmask << waddr [2:0]);
   pmem_write(waddr + 64'b1000, wdata >> (num * 8'b1000), wmask >> num);
 end
 endmodule
