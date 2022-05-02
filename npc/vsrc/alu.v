@@ -32,6 +32,9 @@ wire [63:0] mwaddr;
 wire [63:0] mwdata;
 wire [7:0] mwmask;
 ysyx_22041207_MW mw(mwaddr, mwdata, mwmask);
+always @(*) begin
+    $display("immU %x", immU);
+end
 ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
     7'b0000011, (funct3 == 3'b011)?{1'b1,  LValue}:             //ld
                 (funct3 == 3'b001)?{1'b1, `SEXT(LValue[15:0], 16)}:    //lh
