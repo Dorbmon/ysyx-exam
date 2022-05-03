@@ -9,10 +9,10 @@ extern char _pmem_start;
 #define PMEM_END  ((uintptr_t)&_pmem_start + PMEM_SIZE)
 
 Area heap = RANGE(&_heap_start, PMEM_END);
-#ifndef mainargs
-#define mainargs ""
+#ifndef MAINARGS
+#define MAINARGS ""
 #endif
-static const char tmainargs[] = mainargs;
+static const char mainargs[] = MAINARGS;
 
 void putch(char ch) {
 }
@@ -23,6 +23,6 @@ void halt(int code) {
 }
 
 void _trm_init() {
-  int ret = main(tmainargs);
+  int ret = main(mainargs);
   halt(ret);
 }
