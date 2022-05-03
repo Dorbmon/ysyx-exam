@@ -65,9 +65,7 @@ static long load_img() {
   fseek(fp, 0, SEEK_SET);
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
   assert(ret == 1);
-  for (paddr_t addr = 0x80000000; addr <= 0x8000002c; addr += 4) {
-    pBin(vaddr_read(addr, 4));
-  }
+  pBin(vaddr_read(0x80000000, 4));
   fclose(fp);
   return size;
 }
