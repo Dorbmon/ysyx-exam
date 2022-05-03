@@ -13,6 +13,8 @@ int printf(const char *fmt, ...) {
   for (int i = 0;;++ i) {
     if (buf [i] != '\0') {
       putch(buf [i]);
+    } else {
+      break;
     }
   }
   return ret;
