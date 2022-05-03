@@ -42,6 +42,7 @@ word_t map_read(paddr_t addr, int len, IOMap *map) {
   check_bound(map, addr);
   paddr_t offset = addr - map->low;
   invoke_callback(map->callback, offset, len, false); // prepare data to read
+  MUXDEF(CONFIG_DTRACE, printf("device[%s] read at 0x%x\n", map->name, addr), );
   word_t ret = host_read(map->space + offset, len);
   return ret;
 }
@@ -51,5 +52,6 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   check_bound(map, addr);
   paddr_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
+  MUXDEF(CONFIG_DTRACE, printf("device[%s] write at 0x%x\n", map->name, addr), );
   invoke_callback(map->callback, offset, len, true);
 }

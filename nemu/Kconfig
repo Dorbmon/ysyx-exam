@@ -129,6 +129,10 @@ config MTRACE
   depends on TRACE
   string "When MTrace is enabled, the program will output the memory visiting and writing."
   default "false"
+config DTRACE
+  depends on TRACE
+  string "When DTrace is enabled, te program will trace the device visiting."
+  default n
 config TRACE_START
   depends on TRACE
   int "When tracing is enabled (unit: number of instructions)"
