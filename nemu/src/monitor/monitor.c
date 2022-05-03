@@ -246,6 +246,7 @@ void init_elf() {
     size_t size = shdr[i].sh_size / shdr[i].sh_entsize;
     for (int k = 0;k < size;++ k) {
       if (ELF64_ST_TYPE(pSymMem[k].st_info) == STT_FUNC) {
+        printf("name:%s\n", textTab + pSymMem[k].st_name);
         strcpy(funcs[funcNum].funcName, textTab + pSymMem[k].st_name);
         funcs[funcNum].address = pSymMem[k].st_value;
         funcs[funcNum].size = pSymMem[k].st_size;
