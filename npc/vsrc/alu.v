@@ -85,6 +85,7 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
                 (funct3 == 3'b100 && funct7 == 7'b0000000)?{1'b1, rs1 ^ rs2}://xor
                 (funct3 == 3'b111 && funct7 == 7'b0000001)?{1'b1, rs1 % rs2}://remu
                 (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, rs1 << rs2}://sll
+                (funct3 == 3'b110 && funct7 == 7'b0000001)?{1'b1, $signed(rs1) % rs2}:
                 65'b0
     
 });
