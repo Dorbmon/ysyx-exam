@@ -7,6 +7,7 @@ SHARE = $(if $(CONFIG_TARGET_SHARE),1,0)
 LIBS += $(if $(CONFIG_TARGET_NATIVE_ELF),-lreadline -ldl -pie,)
 
 ifdef mainargs
+$(info "info here sa sadsafsafsf")
 #echo "Here:%(mainargs)"
 ASFLAGS += -DBIN_PATH=\"$(mainargs)\"
 endif
