@@ -163,7 +163,7 @@ void am_init_monitor() {
 FILE *elf_fp = NULL;
 size_t funcNum = 0;
 struct func {
-  char funcName[20];
+  char* funcName;
   uint64_t address, size;
 } funcs[5000];
 char* getBelongFunction(uint64_t addr) {
@@ -246,7 +246,8 @@ void init_elf() {
     size_t size = shdr[i].sh_size / shdr[i].sh_entsize;
     for (int k = 0;k < size;++ k) {
       if (ELF64_ST_TYPE(pSymMem[k].st_info) == STT_FUNC) {
-        printf("name:%s\n", textTab + pSymMem[k].st_name);
+        //printf("name:%s\n", textTab + pSymMem[k].st_name);
+        funcs[funcNum].funcName = (char*) malloc(strlen(textTab + pSymMem[k].st_name) + 1);
         strcpy(funcs[funcNum].funcName, textTab + pSymMem[k].st_name);
         funcs[funcNum].address = pSymMem[k].st_value;
         funcs[funcNum].size = pSymMem[k].st_size;
