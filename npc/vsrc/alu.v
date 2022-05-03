@@ -42,6 +42,7 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
                 (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:  //lbu
                 (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}: //lhu  
                 (funct3 == 3'b010)?{1'b1, `SEXT(LValue[31:0], 32)}:  //lw
+                (funct3 == 3'b110)?{1'b1, {32'b0, LValue[31:0]}}:   //lwu
                 65'b0,
     7'b0010111, {1'b1, pc + immU},   // auipc
     7'b0110111, {1'b1, immU},        // lui
