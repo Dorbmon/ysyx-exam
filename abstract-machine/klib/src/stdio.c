@@ -9,7 +9,7 @@ int printf(const char *fmt, ...) {
   static char buf [256];
   va_list args;
 	va_start(args, fmt);
-  int ret = sprintf(buf, fmt, args);
+  int ret = vsprintf(buf, fmt, args);
   for (int i = 0;;++ i) {
     if (buf [i] != '\0') {
       putch(buf [i]);
@@ -58,18 +58,7 @@ void itoa(unsigned int n, char *buf) {
   buf[i] = (n % 10) + '0';
   buf[i + 1] = '\0';
 }
-int vsprintf(char *out, const char *fmt, va_list ap) {
-  panic("Not implemented");
-}
-
-int snprintf(char *out, size_t n, const char *fmt, ...) {
-  panic("Not implemented");
-}
-
-int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
-  panic("Not implemented");
-}
-int sprintf(char *str, const char *fmt, ...) {
+int vsprintf(char *str, const char *fmt, va_list ap) {
   int count = 0;
   char c;
   char *s;
@@ -78,8 +67,6 @@ int sprintf(char *str, const char *fmt, ...) {
   char digit[16];
   memset(buf, 0, sizeof(buf));
   memset(digit, 0, sizeof(digit));
-  va_list ap;
-  va_start(ap, fmt);
   while (*fmt != '\0') {
     if (*fmt == '%') {
       fmt++;
@@ -95,12 +82,14 @@ int sprintf(char *str, const char *fmt, ...) {
         itoa(n, buf);
         memcpy(str, buf, strlen(buf));
         str += strlen(buf);
+        ++ count;
         break;
       }
       case 'c': /*字符型*/
       {
         c = va_arg(ap, int);
         *(str++) = c;
+        ++ count;
         break;
       }
       case 'x': /*16进制*/
@@ -109,6 +98,7 @@ int sprintf(char *str, const char *fmt, ...) {
         xtoa(n, buf);
         memcpy(str, buf, strlen(buf));
         str += strlen(buf);
+        ++ count;
         break;
       }
       case 's': /*字符串*/
@@ -116,6 +106,7 @@ int sprintf(char *str, const char *fmt, ...) {
         s = va_arg(ap, char *);
         memcpy(str, s, strlen(s));
         str += strlen(s);
+        ++ count;
         break;
       }
       case '%': /*输出%*/
@@ -129,10 +120,23 @@ int sprintf(char *str, const char *fmt, ...) {
     }
     fmt++;
   }
+  return count;
+}
+
+int snprintf(char *out, size_t n, const char *fmt, ...) {
+  panic("Not implemented");
+}
+
+int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
+  panic("Not implemented");
+}
+int sprintf(char *str, const char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+  int ret = vsprintf(str, fmt, ap);
   *str = '\0';
   va_end(ap);
-
-  return count;
+  return ret;
 }
 
 #endif
