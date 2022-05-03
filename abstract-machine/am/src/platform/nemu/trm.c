@@ -22,6 +22,7 @@ void halt(int code) {
 }
 
 void _trm_init() {
+  halt(0);
   int ret = main(mainargs);
   halt(ret);
 }
