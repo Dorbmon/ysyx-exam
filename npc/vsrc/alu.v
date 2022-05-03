@@ -55,6 +55,7 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
                 (funct3 == 3'b101 && funct7[6:1] == 6'b000000)?{1'b1, rs1 >> immI[5:0]}:  //srli
                 (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, rs1 >> immI[4:0]}:  //srai
                 (funct3 == 3'b001 && funct7[6:1] == 6'b000000)?{1'b1, rs1 << immI[5:0]}:  //slli
+                (funct3 == 3'b110)?{1'b1, rs1 | immI}:
                 65'b0,
     7'b0011011, (funct3 == 3'b101 && funct7 == 7'b0000000)?{1'b1, `SEXT(rs1 >> immI, 32)}:  //srliw
                 (funct3 == 3'b101 && funct7 == 7'b0100000)?{1'b1, `SEXT($signed(rs1[31:0]) >>> $signed(immI[5:0]), 32)}: //sraiw
@@ -82,7 +83,7 @@ ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
                 (funct3 == 3'b101 && funct7 == 7'b0000001)?{1'b1, rs1 / rs2}://divu
                 (funct3 == 3'b100 && funct7 == 7'b0000000)?{1'b1, rs1 ^ rs2}://xor
                 (funct3 == 3'b111 && funct7 == 7'b0000001)?{1'b1, rs1 % rs2}://remu
-                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, rs1 << rs2}:
+                (funct3 == 3'b001 && funct7 == 7'b0000000)?{1'b1, rs1 << rs2}://sll
                 65'b0
     
 });
