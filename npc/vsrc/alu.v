@@ -37,6 +37,7 @@ always @(*) begin
 end
 ysyx_22041207_MuxKeyWithDefault #(9, 7, 65) rmux ({wen, wdata}, opCode, 65'b0, {
     7'b0000011, (funct3 == 3'b011)?{1'b1,  LValue}:             //ld
+                (funct3 == 3'b000)?{1'b1,  `SEXT(LVALUE[7:0], 8)}:  //lb
                 (funct3 == 3'b001)?{1'b1, `SEXT(LValue[15:0], 16)}:    //lh
                 (funct3 == 3'b100)?{1'b1, {56'b0, LValue[7:0]}}:  //lbu
                 (funct3 == 3'b101)?{1'b1, {48'b0, LValue[15:0]}}: //lhu  
