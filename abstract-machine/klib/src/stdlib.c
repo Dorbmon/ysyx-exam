@@ -30,7 +30,7 @@ int atoi(const char* nptr) {
 }
 static void* lastBegin = NULL;
 void *malloc(size_t size) {
-  if (lastBegin == NULL) lastBegin = heap.begin;
+  if (lastBegin == NULL) lastBegin = heap.start;
   // On native, malloc() will be called during initializaion of C runtime.
   // Therefore do not call panic() here, else it will yield a dead recursion:
   //   panic() -> putchar() -> (glibc) -> malloc() -> panic()
