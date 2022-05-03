@@ -5,7 +5,18 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-int printf(const char *fmt, ...) { panic("Not implemented"); }
+int printf(const char *fmt, ...) { 
+  static char buf [256];
+  va_list args;
+	va_start(args, fmt);
+  int ret = sprintf(buf, fmt, args);
+  for (int i = 0;;++ i) {
+    if (buf [i] != '\0') {
+      putch(buf [i]);
+    }
+  }
+  return ret;
+}
 int isDigit(unsigned char c) {
   if (c >= '0' && c <= '9')
     return 1;
