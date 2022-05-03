@@ -62,14 +62,14 @@ void rjal(Decode *s, word_t dest,word_t src1,word_t src2) {
   //printf("jal: %lx, %lx\n",s->pc , s->pc + src1);
   R(dest) = s->pc + 4; s->dnpc = s->pc + src1;
   if (strcmp(getBelongFunction(s->dnpc), getBelongFunction(s->pc)) != 0) {
-    printf("%lx:%*scall [%s@%lx]\n",s->pc,(depth++) * 2, "", getBelongFunction(s->dnpc), s->dnpc);
+    //printf("%lx:%*scall [%s@%lx]\n",s->pc,(depth++) * 2, "", getBelongFunction(s->dnpc), s->dnpc);
   }
 }
 void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
   //R(dest) = s->pc + 4; s->pc = src1 + src2;
   s->dnpc=(src1+src2)&~1; R(dest)=s->pc+4;
   if (strcmp(getBelongFunction(s->dnpc), getBelongFunction(s->pc)) != 0) {
-    printf("%lx:%*sret [%s@%lx]\n",s->pc,(--depth) * 2, "", getBelongFunction(s->dnpc), s->dnpc);
+    //printf("%lx:%*sret [%s@%lx]\n",s->pc,(--depth) * 2, "", getBelongFunction(s->dnpc), s->dnpc);
   }
 }
 static int decode_exec(Decode *s) {
