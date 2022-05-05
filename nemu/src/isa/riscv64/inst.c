@@ -72,6 +72,12 @@ void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
     //printf("%lx:%*sret [%s@%lx]\n",s->pc,(--depth) * 2, "", getBelongFunction(s->dnpc), s->dnpc);
   }
 }
+void csrrw(Decode *s, word_t dest,word_t src1,word_t src2) {
+  uint32_t csrIndex = BITS(s->isa.inst.val, 27, 20);
+  word_t tmp = cpu.csrM [csrIndex];
+  cpu.csrM [csrIndex] = src1;
+  R(dest) = tmp;
+}
 static int decode_exec(Decode *s) {
   word_t dest = 0, src1 = 0, src2 = 0;
   s->dnpc = s->snpc;
@@ -144,10 +150,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 111 ????? 11000 11", bgeu   , B,  if(src1 >= src2) s->dnpc = s->pc + dest);
   INSTPAT("0000000 00000 ????? 000 ????? 11100 11", ecall  , I,  s->dnpc = isa_raise_intr(src2, s->pc));
   // csr orders
-  //INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N,  s->dnpc = cpu.csr[0]);
-
-
-
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I,  csrrw(s, dest, src1, src2));
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));//10000
   
   INSTPAT_END();
