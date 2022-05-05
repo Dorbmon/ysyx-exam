@@ -20,6 +20,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		assert(0);
 	}
   size_t roffset = 0;
+  return elf_head.e_entry;
   roffset = elf_head.e_phoff;
   uint8_t buf [50000];
   for (int i = 0;i < elf_head.e_phnum;++ i) {
@@ -37,7 +38,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
 void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
-  Log("Jump to entry = %d\n", entry);
+  //Log("Jump to entry = %d\n", entry);
   ((void(*)())entry) ();
 }
 
