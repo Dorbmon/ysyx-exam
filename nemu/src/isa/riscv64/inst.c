@@ -28,6 +28,7 @@ static word_t immB(uint32_t i) {return SEXT((BITS(i, 31, 31) << 12) | (BITS(i, 3
 #define kDisplayWidth 32
 void pBin(long int x)
 {
+ printf("\n");
  char s[kDisplayWidth+1];
  int  i=kDisplayWidth;
  s[i--]=0x00;
