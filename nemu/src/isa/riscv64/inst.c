@@ -73,8 +73,8 @@ void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
   }
 }
 void csrrw(Decode *s, word_t dest,word_t src1,word_t src2) {
-  uint32_t csrIndex = BITS(s->isa.inst.val, 27, 20);
-  printf("called csrrw:%x\n", csrIndex);
+  uint32_t csrIndex = src2;
+  printf("\ncalled csrrw:%x\n", csrIndex);
   word_t tmp = cpu.csrM [csrIndex];
   cpu.csrM [csrIndex] = src1;
   R(dest) = tmp;
