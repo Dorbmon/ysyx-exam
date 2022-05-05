@@ -1,7 +1,6 @@
 #include <common.h>
 #include "syscall.h"
 void sys_write(Context *c) {
-  printf("here\n");
   if (c->GPR2 == 1 || c->GPR2 == 2) { //stdout || stderr
     for (int i = 0;i < c->GPR4;++ i) {
       putch(*((uint8_t*)(c->GPR3) + i));
