@@ -22,6 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   size_t roffset = 0;
   roffset = elf_head.e_phoff;
   uint8_t buf [500];
+  printf("got here\n");
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
     ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
