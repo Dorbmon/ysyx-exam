@@ -25,14 +25,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		printf("shdr malloc failed\n");
 		assert(0);
 	}
-  
+  printf("loaddddd\n");
   roffset = elf_head.e_phoff;
 	a = ramdisk_read(shdr, elf_head.e_shoff, sizeof(Elf64_Shdr) * elf_head.e_shnum);
 	if (0 == a) {
 		printf("\nfail to read section\n");
 		assert(0);
 	}
-  printf("loaddddd\n");
   roffset += a;
   roffset = shdr[elf_head.e_shstrndx].sh_offset;
 	//fseek(elf_fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
