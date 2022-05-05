@@ -1,7 +1,6 @@
 #include <common.h>
 void do_syscall(Context *c);
 static Context* do_event(Event e, Context* c) {
-  printf("\nrrrr:%d\n", EVENT_SYSCALL);
   switch (e.event) {
     case EVENT_SYSCALL: do_syscall(c); break;
     case EVENT_YIELD: printf("catched yield...\n"); break;
