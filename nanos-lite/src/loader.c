@@ -30,7 +30,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       // 需要加载
       ramdisk_read(buf, tmp.p_offset, tmp.p_filesz);
       memcpy((uint8_t*)tmp.p_vaddr, buf, tmp.p_memsz);
-      memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
+      memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz + 1);
     }
   }
   return elf_head.e_entry;
