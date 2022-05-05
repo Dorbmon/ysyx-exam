@@ -25,13 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		printf("shdr malloc failed\n");
 		assert(0);
 	}
-  roffset = 0;
-	// a = fseek(elf_fp, elf_head.e_shoff, SEEK_SET);
-	// if (0 != a)
-	// {
-	// 	printf("\nfaile to fseek\n");
-	// 	exit(0);
-	// }
+  printf("loaddddd\n");
   roffset = elf_head.e_phoff;
 	a = ramdisk_read(shdr, elf_head.e_shoff, sizeof(Elf64_Shdr) * elf_head.e_shnum);
 	if (0 == a) {
