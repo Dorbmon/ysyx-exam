@@ -20,7 +20,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		assert(0);
 	}
   size_t roffset = 0;
-  return elf_head.e_entry;
   roffset = elf_head.e_phoff;
   uint8_t buf [50000];
   for (int i = 0;i < elf_head.e_phnum;++ i) {
