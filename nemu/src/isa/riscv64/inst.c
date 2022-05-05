@@ -74,9 +74,15 @@ void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
 }
 void csrrw(Decode *s, word_t dest,word_t src1,word_t src2) {
   uint32_t csrIndex = src2;
-  printf("\ncalled csrrw:%x\n", csrIndex);
   word_t tmp = cpu.csrM [csrIndex];
   cpu.csrM [csrIndex] = src1;
+  R(dest) = tmp;
+}
+void csrrs(Decode *s, word_t dest,word_t src1,word_t src2) {
+  uint32_t csrIndex = src2;
+  //printf("\ncalled csrrw:%x\n", csrIndex);
+  word_t tmp = cpu.csrM [csrIndex];
+  cpu.csrM [csrIndex] = tmp | src1;
   R(dest) = tmp;
 }
 static int decode_exec(Decode *s) {
@@ -152,6 +158,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 00000 ????? 000 ????? 11100 11", ecall  , I,  s->dnpc = isa_raise_intr(src2, s->pc));
   // csr orders
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I,  csrrw(s, dest, src1, src2));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I,  csrrs(s, dest, src1, src2));
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));//10000
   
   INSTPAT_END();
