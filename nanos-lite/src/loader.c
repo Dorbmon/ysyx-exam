@@ -25,7 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("got here\n");
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
-    ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
+    roffset += ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
     if (tmp.p_type == PT_LOAD) {
       // 需要加载
       ramdisk_read(buf, tmp.p_offset, tmp.p_filesz);
