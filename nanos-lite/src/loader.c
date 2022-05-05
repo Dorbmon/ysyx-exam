@@ -25,6 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     Elf64_Phdr tmp;
     roffset += ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
     if (tmp.p_type == PT_LOAD) {
+      printf("d:%d\n", tmp.p_offset + tmp.p_filesz);
       ramdisk_read((uint8_t*)tmp.p_vaddr, tmp.p_offset, tmp.p_filesz);
       memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
     }
