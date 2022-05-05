@@ -20,8 +20,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		assert(0);
 	}
   size_t roffset = 0;
-  printf("asdasdawdwad:%d\n", sizeof(Elf64_Shdr) * elf_head.e_shnum);
 	Elf64_Shdr *shdr = (Elf64_Shdr*)malloc(sizeof(Elf64_Shdr) * elf_head.e_shnum);
+  printf("allllled\n");
 	if (NULL == shdr) {
 		printf("shdr malloc failed\n");
 		assert(0);
