@@ -5,7 +5,6 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf64_Ehdr elf_head;
 	int a;
-  printf("here:\n");
 	a = ramdisk_read(&elf_head, 0, sizeof(Elf64_Ehdr)); 
   if (0 == a) {
 		printf("fail to read head\n");
@@ -27,7 +26,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     
     roffset += ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
     if (tmp.p_type == PT_LOAD) {
-      printf("\nd:%d\n", tmp.p_offset + tmp.p_filesz);
       ramdisk_read((uint8_t*)tmp.p_vaddr, tmp.p_offset, tmp.p_filesz);
       memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
     }
