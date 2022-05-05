@@ -20,29 +20,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		assert(0);
 	}
   size_t roffset = 0;
-	Elf64_Shdr *shdr = (Elf64_Shdr*)malloc(sizeof(Elf64_Shdr) * elf_head.e_shnum);
-  printf("allllled\n");
-	if (NULL == shdr) {
-		printf("shdr malloc failed\n");
-		assert(0);
-	}
-  printf("loaddddd\n");
-  roffset = elf_head.e_phoff;
-	a = ramdisk_read(shdr, elf_head.e_shoff, sizeof(Elf64_Shdr) * elf_head.e_shnum);
-	if (0 == a) {
-		printf("\nfail to read section\n");
-		assert(0);
-	}
-  roffset += a;
-  roffset = shdr[elf_head.e_shstrndx].sh_offset;
-	//fseek(elf_fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
-	char shstrtab[shdr[elf_head.e_shstrndx].sh_size];
-	// 读取内容
-	a = ramdisk_read(shstrtab, roffset, shdr[elf_head.e_shstrndx].sh_size);
-	if (0 == a) {
-		printf("\nfaile to read\n");
-    assert(0);
-	}
   roffset = elf_head.e_phoff;
   uint8_t buf [50000];
   for (int i = 0;i < elf_head.e_phnum;++ i) {
@@ -55,7 +32,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
     }
   }
-  free(shdr);
   return 0;
 }
 
