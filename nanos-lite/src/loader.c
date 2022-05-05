@@ -32,6 +32,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		printf("\nfail to read section\n");
 		assert(0);
 	}
+  printf("loaddddd\n");
   roffset += a;
   roffset = shdr[elf_head.e_shstrndx].sh_offset;
 	//fseek(elf_fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
