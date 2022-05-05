@@ -85,6 +85,9 @@ void csrrs(Decode *s, word_t dest,word_t src1,word_t src2) {
   cpu.csrM [csrIndex] = tmp | src1;
   R(dest) = tmp;
 }
+void mret(Decode *s, word_t dest,word_t src1,word_t src2) {
+  s->dnpc = cpu.csrM [0x341];
+}
 static int decode_exec(Decode *s) {
   word_t dest = 0, src1 = 0, src2 = 0;
   s->dnpc = s->snpc;
@@ -157,6 +160,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 111 ????? 11000 11", bgeu   , B,  if(src1 >= src2) s->dnpc = s->pc + dest);
   // ecall: a7寄存器中存放了调用号
   INSTPAT("0000000 00000 ????? 000 ????? 11100 11", ecall  , I,  s->dnpc = isa_raise_intr(R(17), s->pc));
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret  , I,  mret(s, dest, src1, src2));
   // csr orders
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I,  csrrw(s, dest, src1, src2));
   INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I,  csrrs(s, dest, src1, src2));
