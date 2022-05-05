@@ -21,15 +21,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	}
   size_t roffset = 0;
   roffset = elf_head.e_phoff;
-  uint8_t buf [1500];
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
     roffset += ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
     if (tmp.p_type == PT_LOAD) {
       // 需要加载
       printf("vaddr: %x\n", tmp.p_vaddr);
-      ramdisk_read(buf, tmp.p_offset, tmp.p_filesz);
-      memcpy((uint8_t*)tmp.p_vaddr, buf, tmp.p_filesz);
+      ramdisk_read((uint8_t*)tmp.p_vaddr, tmp.p_offset, tmp.p_filesz);
       memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
     }
   }
