@@ -5,6 +5,7 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf64_Ehdr elf_head;
 	int a;
+  printf("loaddddd\n");
 	a = ramdisk_read(&elf_head, 0, sizeof(Elf64_Ehdr)); 
   if (0 == a) {
 		printf("fail to read head\n");
@@ -25,7 +26,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		printf("shdr malloc failed\n");
 		assert(0);
 	}
-  printf("loaddddd\n");
+  
   roffset = elf_head.e_phoff;
 	a = ramdisk_read(shdr, elf_head.e_shoff, sizeof(Elf64_Shdr) * elf_head.e_shnum);
 	if (0 == a) {
