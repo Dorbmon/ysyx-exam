@@ -1,11 +1,11 @@
 #include <common.h>
 #include "syscall.h"
 void sys_write(Context *c) {
-  printf("len:%d\n", c->GPR3);
   if (c->GPR2 == 1 || c->GPR2 == 2) { //stdout || stderr
     for (int i = 0;i < c->GPR4;++ i) {
       putch(*((uint8_t*)(c->GPR3) + i));
     }
+    asm volatile ("addi a7, %0, 0;" : : "r"(c->GPR4) : );
   }
 }
 void do_syscall(Context *c) {

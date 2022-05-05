@@ -137,7 +137,6 @@ int sprintf(char *str, const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   int ret = vsprintf(str, fmt, ap);
-  *str = '\0';
   va_end(ap);
   return ret;
 }
