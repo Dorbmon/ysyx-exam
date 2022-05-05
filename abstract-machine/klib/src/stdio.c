@@ -122,6 +122,7 @@ int vsprintf(char *str, const char *fmt, va_list ap) {
     }
     fmt++;
   }
+  (*str) = '\0';
   return count;
 }
 
