@@ -6,7 +6,8 @@ void sys_write(Context *c) {
     for (int i = 0;i < c->GPR4;++ i) {
       putch(*((uint8_t*)(c->GPR3) + i));
     }
-    asm volatile ("addi a0, %0, 0;" : : "r"(c->GPR4) : );
+    //asm volatile ("addi a0, %0, 0;" : : "r"(c->GPR4) : );
+    c->GPRx = c->GPR4;
   }
 }
 void sys_brk(Context *c) {
