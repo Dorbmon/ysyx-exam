@@ -10,6 +10,7 @@ void sys_write(Context *c) {
   }
 }
 void sys_brk(Context *c) {
+  printf("sys_brk\n");
   asm volatile ("addi a0, x0, 0" : :  );
 }
 void do_syscall(Context *c) {
