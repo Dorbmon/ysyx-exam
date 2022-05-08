@@ -73,7 +73,6 @@ void *_sbrk(intptr_t increment) {
   } else {
     return (void*)-1;
   }
-  asm volatile ("li a0, 0" : : : ); 
   intptr_t res = _syscall_(SYS_brk, programBreak + end, 0, 0);
   printf("\nres:%ld\n", res);
   if (res == 0) {

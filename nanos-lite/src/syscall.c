@@ -10,7 +10,8 @@ void sys_write(Context *c) {
   }
 }
 void sys_brk(Context *c) {
-  asm volatile ("li a0, 0" : : : );  //总是返回0
+  //asm volatile ("li a0, 0" : : : );  //总是返回0
+  c->GPRx = 0;
 }
 void do_syscall(Context *c) {
   uintptr_t a[4];
