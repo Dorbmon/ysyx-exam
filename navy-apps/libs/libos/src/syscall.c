@@ -74,7 +74,7 @@ void *_sbrk(intptr_t increment) {
     return (void*)-1;
   }
   intptr_t res = _syscall_(SYS_brk, programBreak + end, 0, 0);
-  printf("\nres:%d\n", (int)res);
+  printf("\nres:%ld\n", res);
   if (res == 0) {
     intptr_t ret = programBreak;
     programBreak += end;
