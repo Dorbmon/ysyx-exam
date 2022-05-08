@@ -64,8 +64,17 @@ int _write(int fd, void *buf, size_t count) {
   //_exit(SYS_write);
   return _syscall_(SYS_write, fd, (uint64_t)buf, count);
 }
-
+extern char end;
 void *_sbrk(intptr_t increment) {
+  static int64_t programBreak = 0;
+  if (programBreak == 0) {
+    programBreak = end;
+  }
+  if (_syscall_(SYS_brk, programBreak + end, 0, 0) == 0) {
+    int64_t ret = programBreak;
+    programBreak += end;
+    return (void *)ret;
+  }
   return (void *)-1;
 }
 
