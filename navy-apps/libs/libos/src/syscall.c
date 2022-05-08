@@ -71,8 +71,9 @@ void *_sbrk(intptr_t increment) {
   if (programBreak == 0) {
     programBreak = (intptr_t)&end;
   }
-
-  if (_syscall_(SYS_brk, programBreak + end, 0, 0) == 0) {
+  intptr_t res = _syscall_(SYS_brk, programBreak + end, 0, 0);
+  _write(1, &res, 8);
+  if (res == 0) {
     intptr_t ret = programBreak;
     programBreak += end;
     return (void *)ret;
