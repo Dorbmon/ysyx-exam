@@ -73,6 +73,7 @@ void *_sbrk(intptr_t increment) {
   if (_syscall_(SYS_brk, programBreak + end, 0, 0) == 0) {
     int64_t ret = programBreak;
     programBreak += end;
+    _write(1, "rttt", 4);
     return (void *)ret;
   }
   _write(1, "shit", 4);
