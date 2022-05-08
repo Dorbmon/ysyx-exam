@@ -2,7 +2,10 @@
 #include "syscall.h"
 void sys_write(Context *c) {
   if (c->GPR2 == 1 || c->GPR2 == 2) { //stdout || stderr
-    printf("print:%d\n", c->GPR4);
+    if (c->GPR4 != 1) {
+      printf("print:%d\n", c->GPR4);
+    }
+    
     for (int i = 0;i < c->GPR4;++ i) {
       putch(*((uint8_t*)(c->GPR3) + i));
     }
