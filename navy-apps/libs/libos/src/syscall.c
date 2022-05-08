@@ -69,14 +69,11 @@ void *_sbrk(intptr_t increment) {
   static intptr_t programBreak = 0;
   if (programBreak == 0) {
     programBreak = (intptr_t)&end;
-  } else {
-    return (void*)-1;
   }
-  printf("%p\n", &end);
-  intptr_t res = _syscall_(SYS_brk, programBreak + end, 0, 0);
+  intptr_t res = _syscall_(SYS_brk, programBreak + increment, 0, 0);
   if (res == 0) {
     intptr_t ret = programBreak;
-    programBreak += end;
+    programBreak += increment;
     return (void *)ret;
   }
   return (void *)-1;
