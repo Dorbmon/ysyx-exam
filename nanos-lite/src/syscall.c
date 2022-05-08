@@ -10,7 +10,7 @@ void sys_write(Context *c) {
   }
 }
 void sys_brk(Context *c) {
-  asm volatile ("addi a0, x0, 0" : :  );  //总是返回1
+  asm volatile ("addi a7, x0, 0" : :  );  //总是返回1
 }
 void do_syscall(Context *c) {
   uintptr_t a[4];
