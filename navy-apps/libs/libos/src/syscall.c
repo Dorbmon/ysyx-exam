@@ -75,6 +75,7 @@ void *_sbrk(intptr_t increment) {
     programBreak += end;
     return (void *)ret;
   }
+  _write(1, "shit", 4);
   return (void *)-1;
 }
 
