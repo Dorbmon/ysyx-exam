@@ -66,21 +66,17 @@ int _write(int fd, void *buf, size_t count) {
 }
 extern char end;
 void *_sbrk(intptr_t increment) {
-  _write(1, "rttt", 4);
   static intptr_t programBreak = 0;
   if (programBreak == 0) {
     programBreak = (intptr_t)&end;
   } else {
     return (void*)-1;
   }
-  intptr_t res = _syscall_(SYS_brk, programBreak + end, 0, 0);
-  printf("\nres:%ld\n", res);
-  if (res == 0) {
+  if (_syscall_(SYS_brk, programBreak + end, 0, 0) == 0) {
     intptr_t ret = programBreak;
     programBreak += end;
     return (void *)ret;
   }
-  _write(1, "shit", 4);
   return (void *)-1;
 }
 
