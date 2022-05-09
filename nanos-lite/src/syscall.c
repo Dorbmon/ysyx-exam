@@ -28,7 +28,7 @@ int fs_open(const char *pathname, int flags, int mode) {
 }
 size_t fs_read(int fd, void *buf, size_t len) {
   size_t ramdisk_read(void *buf, size_t offset, size_t len);
-  if (fd < 3) return 0;
+  if (fd < 3) return len;
   if (file_table[fd].open_offset + len > file_table[fd].size) {
     len = file_table[fd].size - file_table[fd].open_offset;
   }
@@ -41,7 +41,7 @@ void sys_read(Context *c) {
 }
 size_t fs_write(int fd, const void *buf, size_t len) {
   size_t ramdisk_write(const void *buf, size_t offset, size_t len);
-  if (fd < 3) return 0;
+  if (fd < 3) return len;
   if (file_table[fd].open_offset + len > file_table[fd].size) {
     len = file_table[fd].size - file_table[fd].open_offset;
   }
