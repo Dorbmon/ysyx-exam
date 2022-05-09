@@ -84,7 +84,7 @@ struct timezone {
 void sys_gettimeofday(Context *c) {
   //volatile uint64_t time = *(uint64_t*)(0xa0000048);
   uint64_t time = io_read(AM_TIMER_UPTIME).us;
-  printf("rtime:%ld\n", time);
+  //printf("rtime:%ld\n", time);
   struct timeval*tv = (struct timeval*)(c->GPR2);
   tv->tv_sec = time / 1000000;
   tv->tv_usec = time;
