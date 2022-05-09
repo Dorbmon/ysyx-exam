@@ -18,7 +18,7 @@ struct FDescription {
   int index;
   int offset;
 } fss [10];
-static int fssIndex = 0;
+int fssIndex = 0;
 void sys_open(Context *c) {
   c->GPRx = fs_open((char*)c->GPR2, 0, 0);
 }
