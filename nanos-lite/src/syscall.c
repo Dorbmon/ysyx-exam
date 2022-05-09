@@ -17,7 +17,7 @@ void sys_brk(Context *c) {
 struct FDescription {
   int index;
   int offset;
-} fss [10];
+} fss [3];
 void sys_open(Context *c) {
   c->GPRx = fs_open((char*)c->GPR2, 0, 0);
 }
