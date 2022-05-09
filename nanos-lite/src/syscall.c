@@ -3,13 +3,7 @@
 #include <fs.h>
 extern Finfo file_table[];
 void sys_write(Context *c) {
-  if (c->GPR2 == 1 || c->GPR2 == 2) { //stdout || stderr
-    for (int i = 0;i < c->GPR4;++ i) {
-      putch(*((uint8_t*)(c->GPR3) + i));
-    }
-    //asm volatile ("addi a0, %0, 0;" : : "r"(c->GPR4) : );
-    c->GPRx = c->GPR4;
-  }
+  fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
 }
 void sys_brk(Context *c) {
   c->GPRx = 0;
@@ -41,7 +35,12 @@ void sys_read(Context *c) {
 }
 size_t fs_write(int fd, const void *buf, size_t len) {
   size_t ramdisk_write(const void *buf, size_t offset, size_t len);
-  if (fd < 3) return len;
+  if (fd < 3) {
+    for (int i = 0;i < len;++ i) {
+      putch(*((uint8_t*)(buf) + i));
+    }
+    return len;
+  }
   if (file_table[fd].open_offset + len > file_table[fd].size) {
     len = file_table[fd].size - file_table[fd].open_offset;
   }
