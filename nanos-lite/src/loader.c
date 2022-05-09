@@ -8,7 +8,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	int a;
 	//a = ramdisk_read(&elf_head, 0, sizeof(Elf64_Ehdr)); 
   int fd = fs_open(filename, 0, 0);
-  printf("loaded..\n");
   a = fs_read(fd, &elf_head, sizeof(Elf64_Ehdr));
   if (0 == a) {
 		printf("fail to read head\n");
