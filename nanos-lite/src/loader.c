@@ -22,13 +22,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		printf("Not a ELF file\n");
 		assert(0);
 	}
-  size_t roffset = 0;
-  roffset = elf_head.e_phoff;
+  //roffset = elf_head.e_phoff;
+  fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
     
     //roffset += ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
-    roffset += fs_read(fd, &tmp, sizeof(Elf64_Phdr));
+    fs_read(fd, &tmp, sizeof(Elf64_Phdr));
     if (tmp.p_type == PT_LOAD) {
       int cur = fs_lseek(fd, 0, SEEK_CUR);
       fs_lseek(fd, tmp.p_offset, SEEK_SET);
