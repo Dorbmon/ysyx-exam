@@ -13,8 +13,8 @@ typedef struct {
   size_t disk_offset;
   ReadFn read;
   WriteFn write;
+  size_t open_offset;
 } Finfo;
-extern int rfssIndex;
 static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write},

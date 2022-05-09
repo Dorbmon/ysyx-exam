@@ -14,21 +14,13 @@ void sys_write(Context *c) {
 void sys_brk(Context *c) {
   c->GPRx = 0;
 }
-struct FDescription {
-  int index;
-  int offset;
-} fss [3];
 void sys_open(Context *c) {
   c->GPRx = fs_open((char*)c->GPR2, 0, 0);
 }
 int fs_open(const char *pathname, int flags, int mode) {
   for (int i = 0;i < ARRLEN(file_table); ++ i) {
     if (strcmp(file_table[i].name, pathname) == 0) {
-      printf("found..%d\n", rfssIndex);
-      ++ rfssIndex;
-      fss [rfssIndex].index = i;
-      fss [rfssIndex].offset = 0;
-      return rfssIndex;
+      return i;
     }
   }
   assert(0);
@@ -36,10 +28,9 @@ int fs_open(const char *pathname, int flags, int mode) {
 }
 size_t fs_read(int fd, void *buf, size_t len) {
   size_t ramdisk_read(void *buf, size_t offset, size_t len);
-  if (fss[fd].index < 3) return 0;
-  int i = fss[fd].index;
-  int ret = ramdisk_read(buf, file_table[i].disk_offset + fss[fd].offset, len);
-  fss[fd].offset += ret;
+  if (fd < 3) return 0;
+  int ret = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  file_table[fd].open_offset += ret;
   return ret;
 }
 void sys_read(Context *c) {
@@ -47,33 +38,31 @@ void sys_read(Context *c) {
 }
 size_t fs_write(int fd, const void *buf, size_t len) {
   size_t ramdisk_write(const void *buf, size_t offset, size_t len);
-  if (fss[fd].index < 3) return 0;
-  int i = fss[fd].index;
-  int ret = ramdisk_write(buf, file_table[i].disk_offset + fss[fd].offset, len);
-  fss[fd].offset += ret;
+  if (fd < 3) return 0;
+  int ret = ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  file_table[fd].open_offset += ret;
   return ret;
 }
 size_t fs_lseek(int fd, size_t offset, int whence) {
-  int i = fss[fd].index;
   switch (whence) {
   case SEEK_SET:
   {
-    fss[fd].offset = offset;
+    file_table[fd].open_offset = offset;
     break;
   }
   case SEEK_END:
   {
-    fss[fd].offset = file_table[i].size + offset;
+    file_table[fd].open_offset = file_table[fd].size + offset;
     break;
   }
   case SEEK_CUR:
   {
-    fss[fd].offset += offset;
+    file_table[fd].open_offset += offset;
     break;
   }
   default: assert(0);
   }
-  return fss[fd].offset;
+  return file_table[fd].open_offset;
 }
 void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
