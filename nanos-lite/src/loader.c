@@ -23,6 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		assert(0);
 	}
   //roffset = elf_head.e_phoff;
+  printf("loaded..\n");
   fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
@@ -35,7 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, cur, SEEK_SET);
     }
   }
-  printf("loaded..\n");
+  
   return elf_head.e_entry;
 }
 
