@@ -71,6 +71,23 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
 void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
 }
+struct timeval 
+{
+    long int  tv_sec;     /* 获取的秒数 */
+    long int tv_usec;    /* 获取的微秒数 */
+};
+
+struct timezone {
+  int tz_minuteswest;     /* minutes west of Greenwich */
+  int tz_dsttime;         /* type of DST correction */
+};
+void sys_gettimeofday(Context *c) {
+  uint64_t time = *(uint64_t*)(0xa0000048);
+  struct timeval*tv = (struct timeval*)(c->GPR2);
+  tv->tv_sec = time / 1000000;
+  tv->tv_usec = time;
+  c->GPRx = 0;
+}
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -82,6 +99,7 @@ void do_syscall(Context *c) {
     case SYS_open: sys_open(c); break;
     case SYS_read: sys_read(c); break;
     case SYS_lseek: sys_lseek(c); break;
+    case SYS_gettimeofday: sys_gettimeofday(c); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
