@@ -23,9 +23,9 @@ void sys_open(Context *c) {
   c->GPRx = fs_open((char*)c->GPR2, 0, 0);
 }
 int fs_open(const char *pathname, int flags, int mode) {
-  printf("len:%d\n", ARRLEN(file_table));
   for (int i = 0;i < ARRLEN(file_table); ++ i) {
     if (strcmp(file_table[i].name, pathname) == 0) {
+      printf("found..\n");
       ++ fssIndex;
       fss [fssIndex].index = i;
       fss [fssIndex].offset = 0;
