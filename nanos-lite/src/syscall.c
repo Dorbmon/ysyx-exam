@@ -3,7 +3,7 @@
 #include <fs.h>
 extern Finfo file_table[];
 void sys_write(Context *c) {
-  fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
+  c->GPRx = fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
 }
 void sys_brk(Context *c) {
   c->GPRx = 0;
