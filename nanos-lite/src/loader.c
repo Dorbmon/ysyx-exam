@@ -26,8 +26,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
-    
-    //roffset += ramdisk_read(&tmp, roffset, sizeof(Elf64_Phdr));
     fs_read(fd, &tmp, sizeof(Elf64_Phdr));
     if (tmp.p_type == PT_LOAD) {
       int cur = fs_lseek(fd, 0, SEEK_CUR);
@@ -37,6 +35,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, cur, SEEK_SET);
     }
   }
+  printf("loaded..\n");
   return elf_head.e_entry;
 }
 
