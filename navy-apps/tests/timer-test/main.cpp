@@ -8,6 +8,7 @@ int main() {
   gettimeofday(&last, &tz);
   while (1) {
     gettimeofday(&tv, &tz);
+    printf("runnnn..\n");
     if (tv.tv_usec - last.tv_usec > 500000) {
       printf("after 0.5 second...\n");
       last = tv;
