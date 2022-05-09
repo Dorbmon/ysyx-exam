@@ -25,7 +25,7 @@ void sys_open(Context *c) {
 int fs_open(const char *pathname, int flags, int mode) {
   for (int i = 0;i < ARRLEN(file_table); ++ i) {
     if (strcmp(file_table[i].name, pathname) == 0) {
-      printf("found..\n");
+      printf("found..%d\n", fssIndex);
       ++ fssIndex;
       fss [fssIndex].index = i;
       fss [fssIndex].offset = 0;
