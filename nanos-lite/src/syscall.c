@@ -22,15 +22,13 @@ void sys_open(Context *c) {
   c->GPRx = fs_open((char*)c->GPR2, 0, 0);
 }
 int fs_open(const char *pathname, int flags, int mode) {
-  
   for (int i = 0;i < ARRLEN(file_table); ++ i) {
-    static int fssIndex = 0;
     if (strcmp(file_table[i].name, pathname) == 0) {
-      printf("found..%d\n", fssIndex);
-      ++ fssIndex;
-      fss [fssIndex].index = i;
-      fss [fssIndex].offset = 0;
-      return fssIndex;
+      printf("found..%d\n", rfssIndex);
+      ++ rfssIndex;
+      fss [rfssIndex].index = i;
+      fss [rfssIndex].offset = 0;
+      return rfssIndex;
     }
   }
   assert(0);

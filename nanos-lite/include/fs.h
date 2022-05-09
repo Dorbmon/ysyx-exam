@@ -1,6 +1,5 @@
 #ifndef __FS_H__
 #define __FS_H__
-
 #include <common.h>
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
@@ -15,6 +14,7 @@ typedef struct {
   ReadFn read;
   WriteFn write;
 } Finfo;
+extern int rfssIndex;
 static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write},
