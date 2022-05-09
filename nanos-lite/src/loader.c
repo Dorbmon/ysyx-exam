@@ -8,6 +8,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	int a;
 	//a = ramdisk_read(&elf_head, 0, sizeof(Elf64_Ehdr)); 
   int fd = fs_open(filename, 0, 0);
+  printf("loaded..\n");
   a = fs_read(fd, &elf_head, sizeof(Elf64_Ehdr));
   if (0 == a) {
 		printf("fail to read head\n");
@@ -23,7 +24,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		assert(0);
 	}
   //roffset = elf_head.e_phoff;
-  printf("loaded..\n");
+  
   fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
