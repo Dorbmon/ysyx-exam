@@ -8,7 +8,7 @@ int main() {
   last = NDL_GetTicks();
   while (1) {
     t = NDL_GetTicks();
-    //printf("%ld..\n", tv.tv_usec);
+    printf("%ld..\n", t);
     if (t - last > 500000) {
       printf("after 0.5 second...\n");
       last = t;
