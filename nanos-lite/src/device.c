@@ -30,10 +30,6 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   return 0;
 }
 size_t events_read(void *buf, size_t offset, size_t len) {
-  #define NAMEINIT(key)  [ AM_KEY_##key ] = #key,
-  static const char *names[] = {
-    AM_KEYS(NAMEINIT)
-  };
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
   char rbuf [50];
   if (ev.keydown) {
@@ -41,10 +37,12 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   } else {
     strcpy(rbuf, "ku ");
   }
-  strcat(rbuf, names[ev.keycode]);
+  strcat(rbuf, keyname[ev.keycode]);
   strcat(rbuf, "\n");
-  strcpy(buf, rbuf);
-  return strlen(buf);
+  //strcpy(buf, rbuf);
+  size_t rlen = strlen(rbuf) + 1;
+  memcpy(buf, rbuf, (rlen < len)?rlen:len);
+  return len;
 }
 void init_device() {
   Log("Initializing devices...");
