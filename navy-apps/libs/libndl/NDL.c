@@ -51,7 +51,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     if (x + w > screen_w) {
       len = (screen_w - x);
     }
-    fwrite(pixels + (i * w), len * 2, 1, fd);
+    fwrite(pixels + (i * w), len * 4, 1, fd);
   }
 }
 
