@@ -44,6 +44,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   strcat(rbuf, "\n");
   //strcpy(buf, rbuf);
   size_t rlen = strlen(rbuf) + 1;
+  printf("rrr:%s\n", rbuf);
   memcpy(buf, rbuf, (rlen < len)?rlen:len);
   return len;
 }
