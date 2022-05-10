@@ -7,7 +7,7 @@
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
-
+static int real_w, real_h;
 uint32_t NDL_GetTicks() {
   struct timeval tv;
   struct timezone tz;
@@ -61,6 +61,11 @@ int NDL_Init(uint32_t flags) {
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }
+  FILE* dispInfo = fopen("/proc/dispinfo", "r+");
+  static char buf [64];
+  fread(buf, sizeof(buf), 1, dispInfo);
+  sscanf(buf, "WIDTH:%d\nHEIGHT:%d", &real_w, &real_h);
+  printf("width:%d, height:%d\n", real_w, real_h);
   return 0;
 }
 
