@@ -28,6 +28,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     if (screen_w == 0 && screen_h == 0) {
       screen_w = real_w;
       screen_h = real_h;
+      *w = real_w;*h = real_h;
     }
     char buf[64];
     int len = sprintf(buf, "%d %d", screen_w, screen_h);
