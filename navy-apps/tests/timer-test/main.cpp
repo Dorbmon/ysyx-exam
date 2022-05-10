@@ -1,17 +1,17 @@
 #include <stdio.h>
 
-#include <sys/time.h>
+#include <NDL.h>
 
 int main() {
-  struct timeval tv, last;
-  struct timezone tz;
-  gettimeofday(&last, &tz);
+  NDL_Init(0);
+  uint32_t t,last;
+  last = NDL_GetTicks();
   while (1) {
-    gettimeofday(&tv, &tz);
+    t = NDL_GetTicks();
     //printf("%ld..\n", tv.tv_usec);
-    if (tv.tv_usec - last.tv_usec > 500000) {
+    if (t - last > 500000) {
       printf("after 0.5 second...\n");
-      last = tv;
+      last = t;
     }
   }
   return 0;
