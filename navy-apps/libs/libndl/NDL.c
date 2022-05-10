@@ -21,7 +21,9 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
+  printf("%d %d\n", *w, *h);
   if (*w == 0 && *h == 0) {
+    
     *w = real_w;*h = real_h;
     screen_w = *w; screen_h = *h;
   }
