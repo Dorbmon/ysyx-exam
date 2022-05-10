@@ -1,4 +1,5 @@
 #include <common.h>
+#include <string.h>
 
 #if defined(MULTIPROGRAM) && !defined(TIME_SHARING)
 # define MULTIPROGRAM_YIELD() yield()
@@ -21,10 +22,6 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
   return len;
 }
 
-size_t events_read(void *buf, size_t offset, size_t len) {
-  return 0;
-}
-
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   return 0;
 }
@@ -32,7 +29,23 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   return 0;
 }
-
+size_t events_read(void *buf, size_t offset, size_t len) {
+  #define NAMEINIT(key)  [ AM_KEY_##key ] = #key,
+  static const char *names[] = {
+    AM_KEYS(NAMEINIT)
+  };
+  AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
+  char rbuf [50];
+  if (ev.keydown) {
+    strcpy(rbuf, "kd ");
+  } else {
+    strcpy(rbuf, "ku ");
+  }
+  strcat(rbuf, names[ev.keycode]);
+  strcat(rbuf, "\n");
+  strcpy(buf, rbuf);
+  return strlen(buf);
+}
 void init_device() {
   Log("Initializing devices...");
   ioe_init();
