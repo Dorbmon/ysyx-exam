@@ -14,5 +14,6 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 
 
 void init_fs() {
-  // TODO: initialize the size of /dev/fb
+  int width = io_read(AM_GPU_CONFIG).width, height = io_read(AM_GPU_CONFIG).height;
+  file_table[FD_FB].size = width * height;
 }

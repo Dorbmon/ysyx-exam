@@ -29,7 +29,11 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  int width = io_read(AM_GPU_CONFIG).width;
+  int y = offset / width;
+  int x = offset - y * width;
+  io_write(AM_GPU_FBDRAW, x, y, (uint32_t*)buf, len, 1, true);
+  return len;
 }
 size_t events_read(void *buf, size_t offset, size_t len) {
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
