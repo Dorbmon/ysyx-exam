@@ -14,6 +14,7 @@ int SDL_PushEvent(SDL_Event *ev) {
   return 0;
 }
 int keyToIndex(char* key) {
+  printf("testKey: %s\n", key);
   for (int i = 0;i < sizeof(keyname) / sizeof(char*);++ i) {
     if (strcmp(key, keyname[i]) == 0) return i;
   }
