@@ -40,7 +40,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   uint32_t pixels[100000];
   int index = 0;
   for (int i = y;i < y + h;++ i) {
-    for (int j = x;j < j + w;++ j) {
+    for (int j = x;j < x + w;++ j) {
       pixels[index++] = *((uint32_t*)s->pixels + i * s->w + j);
     }
   }
