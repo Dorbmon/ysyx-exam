@@ -41,7 +41,8 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   size_t ramdisk_write(const void *buf, size_t offset, size_t len);
   if (fd < SPECIAL_NUM) {
     if (fd == 5) printf("got in\n");
-    int ret = file_table[fd].write(buf, file_table[fd].open_offset, len);
+    //int ret = file_table[fd].write(buf, file_table[fd].open_offset, len);
+    int ret = 01;
     file_table[fd].open_offset += ret;
     return ret;
   }
