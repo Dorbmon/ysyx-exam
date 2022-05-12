@@ -23,6 +23,7 @@ int SDL_PollEvent(SDL_Event *ev) {
       ev->type = SDL_KEYUP;
       ev->key.keysym.sym = atoi(buf + 3);
     }
+    return 1;
   } else {
     return 0;
   }
