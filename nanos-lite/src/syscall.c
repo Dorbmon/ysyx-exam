@@ -38,6 +38,7 @@ void sys_read(Context *c) {
   c->GPRx = fs_read(c->GPR2, (void*)c->GPR3, c->GPR4);
 }
 size_t fs_write(int fd, const void *buf, size_t len) {
+  printf("called\n");
   size_t ramdisk_write(const void *buf, size_t offset, size_t len);
   if (fd < SPECIAL_NUM) {
     int ret = file_table[fd].write(buf, file_table[fd].open_offset, len);
