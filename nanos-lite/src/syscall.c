@@ -72,8 +72,15 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
   }
   return file_table[fd].open_offset;
 }
+int fs_close(int fd) {
+  file_table[fd].open_offset = 0;
+  return 0;
+}
 void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
+}
+void sys_close(Context *c) {
+  c->GPRx = fs_close(c->GPR2);
 }
 struct timeval 
 {
@@ -103,6 +110,7 @@ void do_syscall(Context *c) {
     case SYS_write: sys_write(c); break;
     case SYS_brk: sys_brk(c); break;
     case SYS_open: sys_open(c); break;
+    case SYS_close: sys_close(c); break;
     case SYS_read: sys_read(c); break;
     case SYS_lseek: sys_lseek(c); break;
     case SYS_gettimeofday: sys_gettimeofday(c); break;
