@@ -11,9 +11,13 @@ int min(int a,int b) {
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-  for (int i = 0;i <= min(dstrect->h, srcrect->h);++ i) {
-    for (int j = 0;j <= min(dstrect->w, srcrect->w);++ j) {
-      //*((uint32_t*)dst->pixels + (i + dstrect->y) * dst->w + j + dstrect->x) = *((uint32_t*)src->pixels + (i + srcrect->y) * src->w + j + srcrect->x);
+  if (srcrect == NULL) {
+    SDL_Rect full = {0, 0, src->w, src->h};
+    srcrect = &full;
+  }
+  for (int i = 0;i <= srcrect->h;++ i) {
+    for (int j = 0;j <= srcrect->w;++ j) {
+      *((uint32_t*)dst->pixels + (i + dstrect->y) * dst->w + j + dstrect->x) = *((uint32_t*)src->pixels + (i + srcrect->y) * src->w + j + srcrect->x);
     }
   }
 }
