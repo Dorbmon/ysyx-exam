@@ -44,7 +44,6 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  return;
   FILE* fd = fopen("/dev/fb", "w");
   for (int i = y;i < y + h && i < real_h;++ i) {
     fseek(fd, i * real_w + x, SEEK_SET);
@@ -53,7 +52,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
       //len = (screen_w - x) * sizeof(uint32_t);
     }
     printf("bf:%d\n", (i * real_w + x));
-    fwrite(pixels + (i - y) * w, len, 1, fd);
+    //fwrite(pixels + (i - y) * w, len, 1, fd);
     printf("out\n");
   }
 }
