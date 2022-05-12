@@ -25,7 +25,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   assert (pixels != NULL);
   for (size_t i = 0;i < h;++ i) {
     for (size_t j = 0;j < w;++ j) {
-      //printf ("%ld\n", pixels + i * w + j);
+      printf ("%ld\n", s->format);
       pixels[i * w + j] = s->format->palette->colors[*(s->pixels + ((y + i) * s->w) + x + j)].val;
     }
   }
