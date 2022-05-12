@@ -22,7 +22,7 @@ int keyToIndex(char* key) {
 int SDL_PollEvent(SDL_Event *ev) {
   static char buf[64];
   if (NDL_PollEvent(buf, sizeof(buf))) {
-    buf [strlen(buf) - 1] = '\0';
+    buf [strlen(buf) - 1] = '\0'; //去掉最后的空格
     if (buf [1] == 'd') { //kd
       ev->type = SDL_KEYDOWN;
       ev->key.keysym.sym = keyToIndex(buf + 3);
