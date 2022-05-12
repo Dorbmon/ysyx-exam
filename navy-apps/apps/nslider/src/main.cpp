@@ -74,7 +74,7 @@ int main() {
         case SDLK_UP: prev(rep); rep = 0; g = 0; break;
         case SDLK_G:
           g ++;
-          if (g > 1) {
+          if (g > 2) {
             prev(100000);
             rep = 0; g = 0;
           }
