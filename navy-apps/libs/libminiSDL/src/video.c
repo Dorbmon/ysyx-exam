@@ -12,12 +12,10 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   SDL_Rect full = {0, 0, src->w, src->h};
-  if (srcrect == NULL) {
-    srcrect = &full;
-    printf("%d %d\n", full.x, full.y);
-  }
+  if (srcrect == NULL) srcrect = &full;
   for (int i = 0;i < srcrect->h;++ i) {
     for (int j = 0;j < srcrect->w;++ j) {
+      printf("c:%x", *((uint32_t*)src->pixels + (i + srcrect->y) * src->w + j + srcrect->x));
       *((uint32_t*)dst->pixels + (i + dstrect->y) * dst->w + j + dstrect->x) = *((uint32_t*)src->pixels + (i + srcrect->y) * src->w + j + srcrect->x);
     }
   }
