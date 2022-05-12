@@ -52,7 +52,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
       //len = (screen_w - x) * sizeof(uint32_t);
     }
     printf("bf:%d\n", (i * real_w + x));
-    //fwrite(pixels + (i - y) * w, len, 1, fd);
+    fwrite(pixels + (i - y) * w, len, 1, fd);
     printf("out\n");
   }
 }
