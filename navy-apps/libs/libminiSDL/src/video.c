@@ -37,7 +37,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     w = s->w; h = s->h; // 更新全部
   }
   // 开始读取像素
-  uint32_t pixels[100000];
+  uint32_t pixels[1000000];
   int index = 0;
   for (int i = y;i < y + h;++ i) {
     for (int j = x;j < x + w;++ j) {
