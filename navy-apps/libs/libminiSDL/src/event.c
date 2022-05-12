@@ -15,6 +15,7 @@ int SDL_PushEvent(SDL_Event *ev) {
 }
 int keyToIndex(char* key) {
   for (int i = 0;i < sizeof(keyname) / sizeof(char*);++ i) {
+    printf ("%s %s\n", key, keyname[i]);
     if (strcmp(key, keyname[i]) == 0) return i;
   }
   return 0;
@@ -29,7 +30,6 @@ int SDL_PollEvent(SDL_Event *ev) {
       ev->type = SDL_KEYUP;
       ev->key.keysym.sym = keyToIndex(buf + 3);
     }
-    printf("set key:%d\n",ev->key.keysym.sym );
     return 1;
   } else {
     return 0;
