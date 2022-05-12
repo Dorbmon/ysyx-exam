@@ -37,14 +37,12 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     w = s->w; h = s->h; // 更新全部
   }
   // 开始读取像素
-  uint32_t pixels[5000];
+  uint32_t pixels[1000];
   int index = 0;
   for (int i = y;i < y + h;++ i) {
     for (int j = x;j < x + w;++ j) {
-      //printf("%p\n", s->pixels + i * s->w + j);
-      //printf("shit\n");
       pixels[index++] = *((uint32_t*)s->pixels + i * s->w + j);
-      NDL_DrawRect(pixels, i, y, w, 1);
+      NDL_DrawRect(pixels, x, i, w, 1);
     }
     index = 0;
   }
