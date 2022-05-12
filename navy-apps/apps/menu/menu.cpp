@@ -79,6 +79,7 @@ int main(int argc, char *argv[], char *envp[]) {
   while (1) {
     SDL_Rect rect = { .x = screen->w - logo_sf->w, .y = 0 };
   SDL_BlitSurface(logo_sf, NULL, screen, &rect);
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
   continue;
     display_menu(i_max);
     SDL_Event e;
