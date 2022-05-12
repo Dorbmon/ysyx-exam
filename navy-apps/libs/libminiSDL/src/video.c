@@ -18,18 +18,18 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if (w == 0 && h == 0 && x == 0 && y == 0) {
     w = s->w; h = s->h; // 更新全部
   }
-  // 开始导出像素
-  if (pixels == NULL) {
-    pixels = malloc(sizeof(uint32_t) * s->w * s->h);
-  }
-  assert (pixels != NULL);
-  for (size_t i = 0;i < h;++ i) {
-    for (size_t j = 0;j < w;++ j) {
-      printf ("%p\n", s->format->palette);
-      pixels[i * w + j] = s->format->palette->colors[*(s->pixels + ((y + i) * s->w) + x + j)].val;
-    }
-  }
-  NDL_DrawRect(pixels, x, y, w, h);
+  // // 开始导出像素
+  // if (pixels == NULL) {
+  //   pixels = malloc(sizeof(uint32_t) * s->w * s->h);
+  // }
+  // assert (pixels != NULL);
+  // for (size_t i = 0;i < h;++ i) {
+  //   for (size_t j = 0;j < w;++ j) {
+  //     printf ("%p\n", s->format->palette);
+  //     pixels[i * w + j] = s->format->palette->colors[*(s->pixels + ((y + i) * s->w) + x + j)].val;
+  //   }
+  // }
+  NDL_DrawRect((uint32_t*)s->pixels + y * s->w + x, x, y, w, h);
 }
 
 // APIs below are already implemented.
