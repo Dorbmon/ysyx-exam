@@ -16,7 +16,6 @@ int SDL_PushEvent(SDL_Event *ev) {
 int SDL_PollEvent(SDL_Event *ev) {
   static char buf[64];
   if (NDL_PollEvent(buf, sizeof(buf))) {
-    printf("gotttt\n");
     if (buf [1] == 'd') { //kd
       ev->type = SDL_KEYDOWN;
       ev->key.keysym.sym = atoi(buf + 3);
