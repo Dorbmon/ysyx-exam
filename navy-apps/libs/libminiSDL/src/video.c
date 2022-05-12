@@ -22,9 +22,11 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if (pixels == NULL) {
     pixels = malloc(sizeof(uint32_t) * s->w * s->h);
   }
+  assert (pixels != NULL);
   for (size_t i = 0;i < h;++ i) {
     for (size_t j = 0;j < w;++ j) {
-      *(pixels + i * w + j) = s->format->palette->colors[*(s->pixels + ((y + i) * s->w) + x + j)].val;
+      printf ("%ld\n", s->pixels + ((y + i) * s->w) + x + j);
+      pixels[i * w + j] = s->format->palette->colors[*(s->pixels + ((y + i) * s->w) + x + j)].val;
     }
   }
   NDL_DrawRect(pixels, x, y, w, h);
