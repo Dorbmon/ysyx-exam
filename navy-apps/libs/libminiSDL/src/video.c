@@ -36,7 +36,15 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if (w == 0 && h == 0 && x == 0 && y == 0) {
     w = s->w; h = s->h; // 更新全部
   }
-  NDL_DrawRect((uint32_t*)s->pixels + y * s->w + x, x, y, w, h);
+  // 开始读取像素
+  uint32_t pixels[100000];
+  int index = 0;
+  for (int i = y;i < y + h;++ i) {
+    for (int j = x;j < j + w;++ j) {
+      pixels[index++] = ((uint32_t*)s->pixels)[i * s->w + j];
+    }
+  }
+  NDL_DrawRect(pixels + y * s->w + x, x, y, w, h);
 }
 
 // APIs below are already implemented.
