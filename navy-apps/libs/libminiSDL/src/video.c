@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+int min(int a,int b) {
+  return (a < b)?a:b;
+}
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
