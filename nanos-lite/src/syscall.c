@@ -78,9 +78,6 @@ int fs_close(int fd) {
 }
 void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
-  if (c->GPR2 > 5) {
-    printf("ret %d %d\n", c->GPR2, c->GPRx);
-  }
 }
 void sys_close(Context *c) {
   c->GPRx = fs_close(c->GPR2);
