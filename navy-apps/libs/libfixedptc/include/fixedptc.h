@@ -134,7 +134,7 @@ static inline fixedpt fixedpt_muli(fixedpt A, int B) {
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return ((fixedptd)A * (fixedptd)B) >> FIXEDPT_FBITS;
+	return (((fixedptd)A * (fixedptd)B) >> FIXEDPT_FBITS);
 }
 
 
