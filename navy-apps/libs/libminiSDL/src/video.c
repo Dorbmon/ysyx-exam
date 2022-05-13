@@ -152,20 +152,17 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int y = (srcrect == NULL ? 0 : srcrect->y);
   int w = (srcrect == NULL ? src->w : srcrect->w);
   int h = (srcrect == NULL ? src->h : srcrect->h);
-  if (srcrect == NULL) {
-    SDL_Rect full = {0, 0, src->w, src->h};
-    srcrect = &full;
-  }
   assert(dstrect);
+  SDL_Rect rect;
+  rect.x = x;
+  rect.y = y;
+  rect.w = w;
+  rect.h = h;
+  srcrect = &rect;
   if(w == dstrect->w && h == dstrect->h) {
     /* The source rectangle and the destination rectangle
      * are of the same size. If that is the case, there
      * is no need to stretch, just copy. */
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = w;
-    rect.h = h;
     SDL_BlitSurface(src, &rect, dst, dstrect);
   }
   else {
