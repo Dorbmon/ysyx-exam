@@ -70,9 +70,6 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
   }
   default: assert(0);
   }
-  if (fd > 5) {
-    printf("ret %s %d\n", file_table[fd].name, file_table[fd].open_offset);
-  }
   return file_table[fd].open_offset;
 }
 int fs_close(int fd) {
@@ -81,6 +78,9 @@ int fs_close(int fd) {
 }
 void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
+  if (c->GPR2 > 5) {
+    printf("ret %d\n", c->GPRx);
+  }
 }
 void sys_close(Context *c) {
   c->GPRx = fs_close(c->GPR2);
