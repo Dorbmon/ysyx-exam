@@ -18,6 +18,7 @@ Context* __am_irq_handle(Context *c) {
       case 8:ev.event = EVENT_SYSCALL;break;
       case 19:ev.event = EVENT_SYSCALL;break;
       case 7:ev.event = EVENT_SYSCALL;break;
+      case 13:ev.event = EVENT_SYSCALL;break;
       default: ev.event = EVENT_ERROR; break;
     }
     c = user_handler(ev, c);

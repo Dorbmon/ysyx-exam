@@ -95,6 +95,12 @@ int fs_close(int fd) {
 void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
 }
+int execve(const char *fname, char * const argv[], char *const envp[]) {
+  return 0;
+}
+void sys_execve(Context *c) {
+  c->GPRx = execve((const char *)c->GPR2, (char * const*)c->GPR3, (char *const*)c->GPR4);
+}
 void sys_close(Context *c) {
   c->GPRx = fs_close(c->GPR2);
 }
@@ -129,6 +135,7 @@ void do_syscall(Context *c) {
     case SYS_close: sys_close(c); break;
     case SYS_read: sys_read(c); break;
     case SYS_lseek: sys_lseek(c); break;
+    case SYS_execve: sys_execve(c); break;
     case SYS_gettimeofday: sys_gettimeofday(c); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
