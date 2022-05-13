@@ -167,13 +167,13 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   }
   else {
     for (int i = 0;i < dstrect->h;++ i) {
-      int scaleY = fixedpt_toint(fixedpt_mul(fixedpt_div(fixedpt_fromint(i), fixedpt_fromint(dstrect->h)), srcrect->h));
+      int scaleY = fixedpt_toint(fixedpt_muli(fixedpt_div(fixedpt_fromint(i), fixedpt_fromint(dstrect->h)), srcrect->h));
       for (int j = 0;j < dstrect->w;++ j) {
         printf("called \n");
-        int scaleX = fixedpt_toint(fixedpt_mul(fixedpt_div(fixedpt_fromint(j), fixedpt_fromint(dstrect->w)), srcrect->w));
+        int scaleX = fixedpt_toint(fixedpt_muli(fixedpt_div(fixedpt_fromint(j), fixedpt_fromint(dstrect->w)), srcrect->w));
         if (src->format->BitsPerPixel == 8) {
           printf("%d %d %d %d\n", i, dstrect->h, scaleY, srcrect->h);
-          printf("%d\n", fixedpt_mul(fixedpt_div(fixedpt_fromint(i), fixedpt_fromint(dstrect->h)), srcrect->h));
+          printf("%d\n", fixedpt_muli(fixedpt_div(fixedpt_fromint(i), fixedpt_fromint(dstrect->h)), srcrect->h));
           dst->pixels [(i + dstrect->y) * dst->w + dstrect->x + j] = src->pixels[(scaleY + srcrect->y) * src->w + srcrect->x + scaleX];
         } else {
           ((uint32_t*)dst->pixels) [(i + dstrect->y) * dst->w + dstrect->x + j] = ((uint32_t*)src->pixels)[(scaleY + srcrect->y) * src->w + srcrect->x + scaleX];
