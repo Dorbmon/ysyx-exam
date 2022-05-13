@@ -10,6 +10,7 @@ int min(int a,int b) {
   return (a < b)?a:b;
 }
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
+  return;
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   SDL_Rect full = {0, 0, src->w, src->h};
