@@ -33,7 +33,6 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   for (int i = dstrect->y;i < dstrect->y + dstrect->h;++ i) {
     for (int j = dstrect->x;j < dstrect->x + dstrect->w;++ j) {
       if (dst->format->BitsPerPixel == 8) {
-        printf("color:%d\n", color);
         *((uint8_t*)dst->pixels + i * dst->w + j) = color;
       } else {
         *((uint32_t*)dst->pixels + i * dst->w + j) = color;
@@ -170,6 +169,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     for (int i = 0;i < dstrect->h;++ i) {
       int scaleY = fixedpt_toint(fixedpt_muli(fixedpt_divi(fixedpt_fromint(i), fixedpt_fromint(dstrect->h)), srcrect->h));
       for (int j = 0;j < dstrect->w;++ j) {
+        printf("called \n");
         int scaleX = fixedpt_toint(fixedpt_muli(fixedpt_divi(fixedpt_fromint(j), fixedpt_fromint(dstrect->w)), srcrect->w));
         if (src->format->BitsPerPixel == 8) {
           dst->pixels [(i + dstrect->y) * dst->w + dstrect->x + j] = src->pixels[(scaleY + srcrect->y) * src->w + srcrect->x + scaleX];
