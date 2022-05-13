@@ -153,7 +153,7 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 	}
 	return A;
 }
-const fixedpt mask = (1 << FIXEDPT_FBITS) - 1;
+static const fixedpt mask = (1 << FIXEDPT_FBITS) - 1;
 static inline fixedpt fixedpt_floor(fixedpt A) {
 	return A & (~mask);
 }
