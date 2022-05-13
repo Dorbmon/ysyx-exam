@@ -17,6 +17,7 @@ int fs_open(const char *pathname, int flags, int mode) {
       return i;
     }
   }
+  printf("file:%s\n", pathname);
   assert(0);
   return -1;
 }
