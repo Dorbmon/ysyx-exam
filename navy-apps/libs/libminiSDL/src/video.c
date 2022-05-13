@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <fixedptc.h>
 int min(int a,int b) {
   return (a < b)?a:b;
 }
@@ -165,7 +166,18 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     SDL_BlitSurface(src, &rect, dst, dstrect);
   }
   else {
-    assert(0);
+    for (int i = 0;i < dstrect->h;++ i) {
+      int scaleY = fixedpt_toint(fixedpt_muli(fixedpt_divi(fixedpt_fromint(i), fixedpt_fromint(dstrect->h)), srcrect->h));
+      for (int j = 0;j < dstrect->w;++ j) {
+        int scaleX = fixedpt_toint(fixedpt_muli(fixedpt_divi(fixedpt_fromint(j), fixedpt_fromint(dstrect->w)), srcrect->w));
+        if (src->format->BitsPerPixel == 8) {
+          dst->pixels [(i + dstrect->y) * dst->w + dstrect->x + j] = src->pixels[(scaleY + srcrect->y) * src->w + srcrect->x + scaleX];
+        } else {
+          ((uint32_t*)dst->pixels) [(i + dstrect->y) * dst->w + dstrect->x + j] = ((uint32_t*)src->pixels)[(scaleY + srcrect->y) * src->w + srcrect->x + scaleX];
+        }
+        
+      }
+    }
   }
 }
 
