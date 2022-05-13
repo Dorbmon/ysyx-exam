@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 #define keyname(k) #k,
-
+#define ARRLEN(x) sizeof(x)/sizeof(x[0])
 static const char *keyname[] = {
   "NONE",
   _KEYS(keyname)
 };
-
+static uint8_t keyState[ARRLEN(keyname)];
 int SDL_PushEvent(SDL_Event *ev) {
   return 0;
 }
@@ -26,9 +26,11 @@ int SDL_PollEvent(SDL_Event *ev) {
     if (buf [1] == 'd') { //kd
       ev->key.type = SDL_KEYDOWN;
       ev->key.keysym.sym = keyToIndex(buf + 3);
+      keyState [ev->key.keysym.sym] = 1;
     } else {
       ev->key.type = SDL_KEYUP;
       ev->key.keysym.sym = keyToIndex(buf + 3);
+      keyState [ev->key.keysym.sym] = 0;
     }
     return 1;
   } else {
@@ -46,5 +48,5 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 }
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
-  return NULL;
+  return keyState;
 }
