@@ -27,7 +27,7 @@ int SDL_PollEvent(SDL_Event *ev) {
       ev->type = SDL_KEYDOWN;
       ev->key.keysym.sym = keyToIndex(buf + 3);
     } else {
-      ev->type = SDL_KEYUP;
+      ev->key.type = SDL_KEYUP;
       ev->key.keysym.sym = keyToIndex(buf + 3);
     }
     return 1;
