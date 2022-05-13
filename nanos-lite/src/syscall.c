@@ -1,6 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 #include <fs.h>
+#include <proc.h>
 extern Finfo file_table[];
 void sys_write(Context *c) {
   c->GPRx = fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
@@ -96,6 +97,8 @@ void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
 }
 int execve(const char *fname, char * const argv[], char *const envp[]) {
+  void naive_uload(PCB *pcb, const char *filename);
+  naive_uload(NULL, fname);
   return 0;
 }
 void sys_execve(Context *c) {
