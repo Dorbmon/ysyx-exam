@@ -190,7 +190,6 @@ void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors, int firstcolor
   memcpy(s->format->palette->colors, colors, sizeof(SDL_Color) * ncolors);
 
   if(s->flags & SDL_HWSURFACE) {
-    assert(0);
     assert(ncolors == 256);
     for (int i = 0; i < ncolors; i ++) {
       uint8_t r = colors[i].r;
