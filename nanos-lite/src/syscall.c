@@ -11,9 +11,24 @@ void sys_brk(Context *c) {
 void sys_open(Context *c) {
   c->GPRx = fs_open((char*)c->GPR2, 0, 0);
 }
+void toLower(char *tar,const char* src) {
+  while (*src != '\0') {
+    if (*src >= 'A' && *src <= 'Z') {
+      *tar = *src - 'A' + 'a';
+    } else {
+      *tar = *src;
+    }
+    ++ tar;
+    ++ src;
+  }
+  *tar = '\0';
+}
 int fs_open(const char *pathname, int flags, int mode) {
+  char tmpFileName[50], tmp[50];
+  toLower(tmpFileName, pathname);
   for (int i = 0;i < ARRLEN(file_table); ++ i) {
-    if (strcmp(file_table[i].name, pathname) == 0) {
+    toLower(tmp, file_table[i].name);
+    if (strcmp(tmp, tmpFileName) == 0) {
       return i;
     }
   }
