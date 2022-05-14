@@ -2,7 +2,7 @@
 #define ARCH_H__
 
 struct Context {
-  uintptr_t gpr[32], mcause, mstatus, mepc;
+  int64_t gpr[32], mcause, mstatus, mepc;
   void *pdir;
 };
 
