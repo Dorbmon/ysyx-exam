@@ -15,6 +15,7 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   kstack.start = (void*)((intptr_t)pcb);
   kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
   pcb->cp = kcontext(kstack, entry, arg);
+  assert(pcb->cp != NULL);
 }
 void hello_fun(void *arg) {
   int j = 1;
@@ -37,7 +38,6 @@ void init_proc() {
 // 返回新的上下文
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
-  printf("called sch\n");
   current->cp = prev;
   current = &pcb[0]; // 选择第一个
   return current->cp;
