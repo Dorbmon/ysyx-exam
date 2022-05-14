@@ -45,7 +45,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context* context = (Context*)((intptr_t)kstack.end - sizeof(Context));
   // 设置entry为返回地址
   context->gpr[1] = (intptr_t)entry;
-  return NULL;
+  return context;
 }
 
 void yield() {
