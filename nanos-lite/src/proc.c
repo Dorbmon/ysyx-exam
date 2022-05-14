@@ -27,6 +27,7 @@ void hello_fun(void *arg) {
 }
 void naive_uload(PCB *pcb, const char *filename);
 void init_proc() {
+  printf("hello func address:%ld\n", hello_fun);
   context_kload(&pcb[0], hello_fun, NULL);
   switch_boot_pcb();
   
