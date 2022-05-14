@@ -146,5 +146,5 @@ void do_syscall(Context *c, Context** ret) {
     case SYS_gettimeofday: sys_gettimeofday(c); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
-  printf("return Address:%ld\n", (*ret)->gpr[1]);
+  printf("return Address:%ld\n", (*ret)->mepc);
 }
