@@ -53,7 +53,7 @@ __am_asm_trap:
   jal __am_irq_handle
 
   # 切换到新的上下文结构
-  ld $sp, $a0
+  move $sp, $a0
   lw $t0, OFFSET_LO($sp)
   lw $t1, OFFSET_HI($sp)
   lw $t3, OFFSET_STATUS($sp)
