@@ -29,7 +29,7 @@ static void sh_handle_cmd(const char *cmd) {
   if (tmp [len - 1] == '\n') {
     tmp [len - 1] = '\0';
   }
-  execve(tmp, NULL, NULL);
+  execvp(tmp, NULL);
 }
 
 void builtin_sh_run() {
