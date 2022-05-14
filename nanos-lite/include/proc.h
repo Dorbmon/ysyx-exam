@@ -15,7 +15,7 @@ typedef union {
     uintptr_t max_brk;
   };
 } PCB;
-
+Context* schedule(Context *prev);
 extern PCB *current;
 
 #endif

@@ -41,6 +41,10 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
+  // kstack.end就是顶端
+  Context* context = (Context*)((intptr_t)kstack.end - sizeof(Context));
+  // 设置entry为返回地址
+  context->gpr[1] = (intptr_t)entry;
   return NULL;
 }
 
