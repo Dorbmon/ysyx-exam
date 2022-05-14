@@ -32,7 +32,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(NULL, "/bin/nterm");
+  naive_uload(NULL, "/bin/hello");
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
