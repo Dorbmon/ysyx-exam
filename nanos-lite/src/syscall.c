@@ -96,8 +96,8 @@ int fs_close(int fd) {
 void sys_lseek(Context *c) {
   c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
 }
+void naive_uload(PCB *pcb, const char *filename);
 int execve(const char *fname, char * const argv[], char *const envp[]) {
-  void naive_uload(PCB *pcb, const char *filename);
   naive_uload(NULL, fname);
   return 0;
 }
@@ -131,7 +131,8 @@ void do_syscall(Context *c) {
   a[0] = c->GPR1;
   switch (a[0]) {
     case SYS_yield: break;  //SYS_yield
-    case SYS_exit: halt(c->GPR2); break;
+    //case SYS_exit: halt(c->GPR2); break;
+    case SYS_exit: naive_uload(NULL, "/bin/menu"); break;
     case SYS_write: sys_write(c); break;
     case SYS_brk: sys_brk(c); break;
     case SYS_open: sys_open(c); break;
