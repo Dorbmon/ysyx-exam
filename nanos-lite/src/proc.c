@@ -38,6 +38,7 @@ void init_proc() {
 // 返回新的上下文
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
+  printf("called\n");
   current->cp = prev;
   current = &pcb[0]; // 选择第一个
   return current->cp;
