@@ -29,7 +29,7 @@ void init_proc() {
   printf("hello func address:%ld\n", hello_fun);
   context_kload(&pcb[0], hello_fun, "f1");
   context_kload(&pcb[1], hello_fun, "f2");
-  assert(pcb[1].cp != NULL);
+
   switch_boot_pcb();
   
   Log("Initializing processes...");
@@ -43,6 +43,9 @@ Context* schedule(Context *prev) {
   current->cp = prev;
   //current = &pcb[0]; // 选择第一个
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  assert(pcb[1].cp != NULL);
+  assert(pcb[0].cp != NULL);
   assert(current->cp != NULL);
+
   return current->cp;
 }
