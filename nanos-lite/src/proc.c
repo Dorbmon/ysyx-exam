@@ -38,10 +38,10 @@ void init_proc() {
 // 返回新的上下文
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
-  current->cp = prev;
+  *current->cp = *prev;
   
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  current = &pcb[1]; // 选择第一个
+  //current = &pcb[1]; // 选择第一个
   assert(current->cp != NULL);
   return current->cp;
 }
