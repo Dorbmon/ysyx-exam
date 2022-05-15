@@ -10,12 +10,13 @@ void switch_boot_pcb() {
   current = &pcb_boot;
 }
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg);
-void context_kload(PCB *tpcb, void (*entry)(void *), void *arg) {
+void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   Area kstack;
-  kstack.start = (void*)((intptr_t)tpcb);
-  kstack.end   = (void*)((intptr_t)tpcb + sizeof(PCB));
-  tpcb->cp = kcontext(kstack, entry, arg);
-  assert(tpcb->cp != NULL);
+  kstack.start = (void*)((intptr_t)pcb);
+  kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
+  printf("%ld %ld\n", kstack.start, kstack.end);
+  pcb->cp = kcontext(kstack, entry, arg);
+  assert(pcb->cp != NULL);
 }
 void hello_fun(void *arg) {
   size_t j = 1;
