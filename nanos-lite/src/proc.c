@@ -10,12 +10,12 @@ void switch_boot_pcb() {
   current = &pcb_boot;
 }
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg);
-void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
+void context_kload(PCB *tpcb, void (*entry)(void *), void *arg) {
   Area kstack;
-  kstack.start = (void*)((intptr_t)pcb);
-  kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
-  pcb->cp = kcontext(kstack, entry, arg);
-  assert(pcb->cp != NULL);
+  kstack.start = (void*)((intptr_t)tpcb);
+  kstack.end   = (void*)((intptr_t)tpcb + sizeof(PCB));
+  tpcb->cp = kcontext(kstack, entry, arg);
+  assert(tpcb->cp != NULL);
 }
 void hello_fun(void *arg) {
   size_t j = 1;
@@ -38,9 +38,7 @@ void init_proc() {
 // 返回新的上下文
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
-  assert(pcb[1].cp != NULL);
   current->cp = prev;
-  
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //current = &pcb[1]; // 选择第一个
   
