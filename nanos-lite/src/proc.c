@@ -26,7 +26,6 @@ void hello_fun(void *arg) {
 }
 void naive_uload(PCB *pcb, const char *filename);
 void init_proc() {
-  printf("hello func address:%ld\n", hello_fun);
   context_kload(&pcb[0], hello_fun, "f1");
   context_kload(&pcb[1], hello_fun, "f2");
 
@@ -40,10 +39,8 @@ void init_proc() {
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
   current->cp = prev;
-  //current = &pcb[0]; // 选择第一个
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-
+  current = &pcb[0]; // 选择第一个
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   assert(current->cp != NULL);
-
   return current->cp;
 }
