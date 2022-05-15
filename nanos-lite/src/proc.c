@@ -14,7 +14,7 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   Area kstack;
   kstack.start = (void*)((intptr_t)pcb);
   kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
-  printf("%ld %ld\n", kstack.start, kstack.end);
+  printf("%lld %lld\n", kstack.start, kstack.end);
   pcb->cp = kcontext(kstack, entry, arg);
   assert(pcb->cp != NULL);
 }
