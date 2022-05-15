@@ -43,7 +43,7 @@ Context* schedule(Context *prev) {
   
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //current = &pcb[1]; // 选择第一个
-  assert(pcb[0].cp != NULL);
+  assert(pcb[1].cp != NULL);
   assert(current->cp != NULL);
   return current->cp;
 }
