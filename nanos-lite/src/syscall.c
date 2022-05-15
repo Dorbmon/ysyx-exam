@@ -127,6 +127,7 @@ void sys_gettimeofday(Context *c) {
   c->GPRx = 0;
 }
 void sys_yield(Context* c, Context** ret) {
+  printf("yield\n");
   *ret = schedule(c);
 }
 void do_syscall(Context *c, Context** ret) {
