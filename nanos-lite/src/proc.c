@@ -41,7 +41,6 @@ Context* schedule(Context *prev) {
   // 先保存当前的上下文
   current->cp = prev;
   //current = &pcb[0]; // 选择第一个
-  assert(current == &pcb[1]);
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 
   assert(current->cp != NULL);
