@@ -22,7 +22,7 @@ void hello_fun(void *arg) {
   while (1) {
     Log("Hello World from Nanos-lite with arg '%p' for the %dth time!\n", (uintptr_t)arg, j);
     j ++;
-    //yield();
+    yield();
   }
 }
 void naive_uload(PCB *pcb, const char *filename);
