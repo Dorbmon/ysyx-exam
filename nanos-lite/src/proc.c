@@ -42,5 +42,6 @@ Context* schedule(Context *prev) {
   current->cp = prev;
   //current = &pcb[0]; // 选择第一个
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  assert(current->cp);
   return current->cp;
 }
