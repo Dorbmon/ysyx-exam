@@ -3,12 +3,11 @@
 #define MAX_NR_PROC 4
 
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
-//static PCB pcb_boot = {};
+static PCB pcb_boot = {};
 PCB *current = NULL;
 
 void switch_boot_pcb() {
-  //current = &pcb_boot;
-  current = &pcb[0];
+  current = &pcb_boot;
 }
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg);
 void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
