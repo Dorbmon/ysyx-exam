@@ -1,34 +1,50 @@
 module ysyx_22041207_top (
   input clk,
+  input [31:0] inst,
   output reg [63:0] pc
 );
 
 wire [4:0] r1addr,r2addr,rwaddr;
 wire [63:0] r1data,r2data,rwdata;
-wire wen;
-RegisterFile #(32, 5, 64) r(clk, rwdata, rwaddr, r1addr, r1data, r2addr, r2data, wen);
-wire [63:0] newPcValue;
-always @ (posedge clk) begin
-if (newPcValue != 64'b0) begin
-    pc <= newPcValue;
-end
-else begin
-    pc <= pc + 64'h00000004;
-end
-end
+wire writeRD;
+ysyx_22041207_RegisterFile #(32, 5, 64) r(clk, rwdata, rwaddr, r1addr, r1data, r2addr, r2data, writeRD);
+//reg [63:0] pc;
 initial begin
   pc = 64'h80000000;
 end
-wire  [31:0] inst;
-wire  [63:0] origin;
-ysyx_22041207_MR pc_mr(1'b1, pc, origin);
-assign inst = origin [31:0];
-// always @(*) begin
-//   $display("pc:%x,here:%b", pc, inst[6:0]);
-// end
-assign r1addr = inst [19:15];
-assign r2addr = inst [24:20];
-assign rwaddr = inst [11:7];
-ysyx_22041207_ALU alu(pc, inst, r1data, r2data, wen, rwaddr, rwdata, newPcValue);
-Vysyx_22041207_System system(inst);
+wire [63:0] imm;
+wire pc_sel, npc_op;
+wire sel_a, sel_b;
+wire [63:0] npc;
+ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, npc);
+always @(posedge clk) begin
+  pc <= npc;
+end
+// 从npc取指
+wire [63:0] rawData;
+//wire [31:0] inst;
+  assign r1addr = inst [19:15];
+  assign r2addr = inst [24:20];
+  assign rwaddr = inst [11:7];
+//ysyx_22041207_read_mem readInst(clk, npc, 1'b1, rawData);
+//assign inst = rawData [31:0];  // 这里可能有BUG
+// 传入解码
+wire [3:0] aluOperate;
+
+wire [2:0] instType;
+wire [63:0] aluRes;
+ysyx_22041207_GetInstType getInstType(inst [6:0], instType);
+wire [63:0] memoryAddress;
+wire [63:0] memoryReadData;
+wire [1:0] writeBackDataSelect; // 写回数据选择
+wire [7:0] memoryWriteMask;
+wire writeRD;
+ysyx_22041207_Memory memory(clk, memoryAddress, r2data, memoryWriteMask, memoryReadData);
+ysyx_22041207_SEXT SEXT(inst, instType, imm);
+ysyx_22041207_decoder decoder(inst, aluOperate, sel_a, sel_b, memoryWriteMask, memoryAddress, writeRD, pc_sel, npc_op);
+
+ysyx_22041207_alu alu(clk, npc, aluOperate, r1data, r2data, imm, sel_a, sel_b, aluRes);
+ysyx_22041207_WB WB(aluRes, npc, memoryReadData, imm, writeBackDataSelect, rwdata);
+
 endmodule
+
