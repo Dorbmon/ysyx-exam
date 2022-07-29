@@ -186,7 +186,7 @@ begin
         default: memoryWriteMask = 8'b0;
         endcase
     end
-    7'b0111011: // R型指令
+    7'b0111011: // R型指令 带w 截取32位的指令
     begin
         sel_a = 1'b1;
         sel_b = 1'b1;
@@ -196,12 +196,26 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         memoryReadWen = 1'b0;
-        case (funct3)
-        3'b000: begin
-            aluOperate = `ALU_ADD;  // addw
-        end
+        case (funct7)
         default: aluOperate = `ALU_NONE;
+        7'b0000001: begin
+            case (funct3)
+            3'b0: begin
+                aluOperate = `ALU_MUL;  // mulw
+            end
+            default: aluOperate = `ALU_NONE;
+            endcase
+        end
+        7'b0000000: begin
+            case (funct3)
+            3'b000: begin
+                aluOperate = `ALU_ADD;  // addw
+            end
+            default: aluOperate = `ALU_NONE;
+            endcase
+        end
         endcase
+        
     end
     7'b0011011: // I型指令
     begin
