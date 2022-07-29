@@ -16,6 +16,7 @@ always @(*) begin
     dout = readData;
   end
   else begin
+    $display("write:%x\n", addr);
     pmem_write(addr, rs2 << (addr [2:0] * 8'b1000), wmask << addr [2:0]);
     pmem_write(addr + 64'b1000, rs2 >> (num * 8'b1000), wmask >> num);
     dout = 64'b0;
