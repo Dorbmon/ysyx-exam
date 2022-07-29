@@ -10,7 +10,8 @@ module ysyx_22041207_decoder(
     output reg [63:0] memoryWriteAddress,
     output reg writeRD,
     output reg pc_sel,
-    output reg npc_op
+    output reg npc_op,
+    output reg [1:0] writeBackDataSelect
 );
 
 wire [6:0] opCode;
@@ -34,6 +35,7 @@ begin
         pc_sel = 1'b0;
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
+        writeBackDataSelect = 2'b00;
         case (funct3)
             3'b0: 
             case (funct7)
@@ -51,6 +53,7 @@ begin
         pc_sel = 1'b0;
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
+        writeBackDataSelect = 2'b00;
         case (funct3)
         3'b0: aluOperate = `ALU_ADD;//addi
         default: aluOperate = 0;
@@ -64,6 +67,7 @@ begin
         pc_sel = 1'b0;
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
+        writeBackDataSelect = 2'b00;
         aluOperate = `ALU_ADD;
     end
     7'b0110111: // U型指令 lui
@@ -74,6 +78,7 @@ begin
         pc_sel = 1'b0;
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
+        writeBackDataSelect = 2'b00;
         aluOperate = `ALU_RETURN_B;
     end
     endcase   
