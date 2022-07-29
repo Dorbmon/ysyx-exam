@@ -56,6 +56,26 @@ begin
         default: aluOperate = 0;
         endcase
     end
+    7'b0010111: // U型指令 auipc
+    begin
+        sel_a = 0'b1;
+        sel_b = 0'b1;
+        writeRD = 1'b1;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
+        memoryWriteMask = 8'b0;
+        aluOperate = `ALU_ADD;
+    end
+    7'b0110111: // U型指令 lui
+    begin
+        sel_a = 0'b1;
+        sel_b = 0'b1;
+        writeRD = 1'b1;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
+        memoryWriteMask = 8'b0;
+        aluOperate = `ALU_RETURN_B;
+    end
     endcase   
 end
 endmodule

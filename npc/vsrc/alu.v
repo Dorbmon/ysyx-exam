@@ -20,6 +20,8 @@ always @(posedge clk) begin
     case(operate)
         `ALU_ADD: res = a + b;
         `ALU_SUB: res = a - b;
+        `ALU_RETURN_A: res = a;
+        `ALU_RETURN_B: res = b;
         default: res = 0;
     endcase
 end
