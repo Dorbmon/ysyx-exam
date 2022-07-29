@@ -203,6 +203,9 @@ begin
             3'b0: begin
                 aluOperate = `ALU_MUL;  // mulw
             end
+            3'b110: begin
+                aluOperate = `ALU_REM;  // remw
+            end
             default: aluOperate = `ALU_NONE;
             endcase
         end

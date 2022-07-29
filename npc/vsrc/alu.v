@@ -30,6 +30,7 @@ always @(*) begin
         `ALU_SLT: res = $signed(a) < $signed(b) ? 1 : 0;
         `ALU_SLTU: res = a < b ? 1 : 0;
         `ALU_MUL: res = a * b;
+        `ALU_REM: res = $signed(a) % $signed(b);
         default: res = 0;
     endcase
     //$display("res:%h", a);

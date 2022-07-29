@@ -11,6 +11,7 @@
 `define ALU_SLTU 4'b1010
 `define ALU_NONE 4'b1011
 `define ALU_MUL 4'b1100
+`define ALU_REM 4'b1101
 `define R_Type 3'b000
 `define J_Type 3'b001
 `define I_Type 3'b010
