@@ -94,16 +94,12 @@ begin
     end
     7'b0100011: // S型指令
     begin
-        
         sel_a = 1'b1;
         sel_b = 1'b0;   // 地址永远为rs1 + imm
         writeRD = 1'b0;
         pc_sel = 1'b0;
         npc_op = 1'b0;
-        //memoryWriteMask = 8'b0;
-        //writeBackDataSelect = 2'b00;
         aluOperate = `ALU_ADD;
-        
         case (funct3)
         3'b000:begin  //sb
             memoryWriteMask = 8'b00000001;
@@ -119,7 +115,17 @@ begin
         end
         default: memoryWriteMask = 8'b0;
         endcase
-        //$display("mask:%x", memoryWriteMask);
+    end
+    7'b1100111:
+    begin
+        //sel_a = 1'b0;
+        //sel_b = 1'b0;
+        writeRD = 1'b1;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
+        memoryWriteMask = 8'b0;
+        writeBackDataSelect = 2'b10;
+        //aluOperate = `ALU_RETURN_B;
     end
     endcase   
 end
