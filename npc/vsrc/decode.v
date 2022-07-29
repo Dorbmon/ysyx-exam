@@ -199,6 +199,14 @@ begin
         memoryReadWen = 1'b0;
         case (funct7)
         default: aluOperate = `ALU_NONE;
+        7'b0100000: begin
+            case (funct3)
+            3'b000: begin
+                aluOperate = `ALU_SUB;
+            end
+            default: aluOperate = `ALU_NONE;
+            endcase
+        end
         7'b0000001: begin
             case (funct3)
             3'b0: begin
