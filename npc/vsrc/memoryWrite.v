@@ -1,6 +1,5 @@
 // 所有写入数据都是从rs2中而来
-`define SEXT(x, target, exist) {{(target - exist){x[exist-1]}}, x[exist - 1:0]}
-`define NSEXT(x, target, exist) {{(target - exist){1'b0}}, x[exist - 1:0]}
+`include "vsrc/alu_define.v"
 module ysyx_22041207_Memory (
     input readWen,
     input [63:0] addr,

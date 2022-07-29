@@ -17,9 +17,9 @@ module ysyx_22041207_decoder(
     output reg sext,
     output reg [3:0] readNum
 );
-wire [63:0] srs1, srs2;
-assign srs1 = $signed(rs1);
-assign srs2 = $signed(rs2);
+// wire [63:0] srs1, srs2;
+// assign srs1 = `SEXT(rs1, 64, );
+// assign srs2 = $signed(rs2);
 wire [6:0] opCode;
 wire [6:0] funct7;
 wire [2:0] funct3;
@@ -275,16 +275,16 @@ begin
         case(funct3)
         default: aluOperate = `ALU_NONE;
         3'h0: begin
-            npc_op = (srs1 == srs2)?1'b1:1'b0;
+            npc_op = (rs1 == rs2)?1'b1:1'b0;
         end
         3'h1: begin
-            npc_op = (srs1 != srs2)?1'b1:1'b0;
+            npc_op = (rs1 != rs2)?1'b1:1'b0;
         end
         3'h4: begin
-            npc_op = (srs1 < srs2)?1'b1:1'b0;
+            npc_op = (rs1 < rs2)?1'b1:1'b0;
         end
         3'h5: begin // bge
-            npc_op = (srs1 >= srs2)?1'b1:1'b0;
+            npc_op = ($signed(rs1) >= $signed(rs2))?1'b1:1'b0;
         end
         3'h6: begin
             npc_op = (rs1 < rs2)?1'b1:1'b0;

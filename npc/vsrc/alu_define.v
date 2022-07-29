@@ -20,3 +20,5 @@
 `define S_Type 3'b011
 `define U_Type 3'b100
 `define B_Type 3'b101
+`define SEXT(x, target, exist) {{(target - exist){x[exist-1]}}, x[exist - 1:0]}
+`define NSEXT(x, target, exist) {{(target - exist){1'b0}}, x[exist - 1:0]}
