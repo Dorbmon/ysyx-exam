@@ -84,10 +84,11 @@ begin
     begin
         //sel_a = 1'b0;
         //sel_b = 1'b0;
+        memoryWriteMask = 8'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b1;
-        memoryWriteMask = 8'b0;
+        
         writeBackDataSelect = 2'b10;
         //aluOperate = `ALU_RETURN_B;
     end
