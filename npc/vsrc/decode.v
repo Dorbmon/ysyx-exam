@@ -116,6 +116,7 @@ begin
         end
         default: memoryWriteMask = 8'b0;
         endcase
+        $display("mask:%x", memoryWriteMask);
     end
     endcase   
 end
