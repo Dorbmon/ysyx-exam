@@ -6,7 +6,7 @@ module ysyx_22041207_GetInstType (
 );
 assign instType = (opCode == 7'b0110011) ? `R_Type : 
     (
-    (opCode == 7'b0010011 || opCode == 7'b0000011 || opCode == 7'b1100111 || opCode == 7'b1110011) ? `I_Type : 
+    (opCode == 7'b0010011 || opCode == 7'b0000011 || opCode == 7'b1100111 || opCode == 7'b1110011 || opCode == 7'b0011011) ? `I_Type : 
     (opCode == 7'b0100011 ? `S_Type : 
     (opCode == 7'b1100011 ? `B_Type : 
     (opCode == 7'b1101111 ? `J_Type : 

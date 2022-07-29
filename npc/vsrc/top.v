@@ -36,7 +36,7 @@ wire [2:0] instType;
 wire [63:0] aluRes;
 ysyx_22041207_GetInstType getInstType(inst [6:0], instType);
 wire [63:0] memoryReadData;
-wire [1:0] writeBackDataSelect; // 写回数据选择
+wire [2:0] writeBackDataSelect; // 写回数据选择
 wire [7:0] memoryWriteMask;
 wire memoryReadWen;
 wire sext;
