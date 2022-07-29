@@ -11,8 +11,7 @@ module ysyx_22041207_decoder(
     output reg writeRD,
     output reg pc_sel,
     output reg npc_op,
-    output reg [1:0] writeBackDataSelect,
-    output reg aluUsePCAdd4AsB // 是否使用pc + 4 作为 b
+    output reg [1:0] writeBackDataSelect
 );
 
 wire [6:0] opCode;
@@ -37,7 +36,6 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
-        aluUsePCAdd4AsB = 1'b0;
         case (funct3)
             3'b0: 
             case (funct7)
@@ -56,7 +54,6 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
-        aluUsePCAdd4AsB = 1'b0;
         case (funct3)
         3'b0: aluOperate = `ALU_ADD;//addi
         default: aluOperate = 0;
@@ -71,7 +68,6 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
-        aluUsePCAdd4AsB = 1'b0;
         aluOperate = `ALU_ADD;
     end
     7'b0110111: // U型指令 lui
@@ -83,20 +79,44 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
-        aluUsePCAdd4AsB = 1'b0;
         aluOperate = `ALU_RETURN_B;
     end
     7'b1101111: // J型指令 jal
     begin
-        sel_a = 1'b0;
-        sel_b = 1'b0;
+        //sel_a = 1'b0;
+        //sel_b = 1'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b1;
         memoryWriteMask = 8'b0;
-        writeBackDataSelect = 2'b00;
-        aluUsePCAdd4AsB = 1'b1;
-        aluOperate = `ALU_RETURN_B;
+        writeBackDataSelect = 2'b10;
+        //aluOperate = `ALU_RETURN_B;
+    end
+    7'b0100011: // S型指令
+    begin
+        sel_a = 1'b1;
+        sel_b = 1'b0;   // 地址永远为rs1 + imm
+        writeRD = 1'b0;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
+        //memoryWriteMask = 8'b0;
+        //writeBackDataSelect = 2'b00;
+        aluOperate = `ALU_ADD;
+        case (funct3)
+        3'b00:begin  //sb
+            memoryWriteMask = 8'b00000001;
+        end
+        3'b01:begin  //sh
+            memoryWriteMask = 8'b00000011;
+        end
+        3'b10:begin  //sw
+            memoryWriteMask = 8'b00001111;
+        end
+        3'b11:begin  //sd
+            memoryWriteMask = 8'b11111111;
+        end
+        default: memoryWriteMask = 8'b0;
+        endcase
     end
     endcase   
 end
