@@ -271,7 +271,7 @@ begin
         pc_sel = 1'b0;
         writeBackDataSelect = 3'b000;
         case(funct3)
-        default: aluOperate = `ALU_NONE;
+        default: npc_op = 1'b0;
         3'h0: begin
             npc_op = ($signed(rs1) == $signed(rs2))?1'b1:1'b0;
         end
