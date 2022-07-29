@@ -1,6 +1,8 @@
 `include "vsrc/alu_define.v"
+import "DPI-C" function void ebreak ();
 module ysyx_22041207_decoder(
     input [31:0] inst,
+    input [63:0] imm,
     output reg [3:0] aluOperate,
     output reg sel_a,
     output reg sel_b,
@@ -19,6 +21,9 @@ assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
 always @(*)
 begin
+    if (inst[6:0] == 7'b1110011 && funct3 == 0 && imm == 64'h1) begin
+        ebreak();
+    end
     case (opCode)
     default: ;
     7'b0110011: // R型指令
