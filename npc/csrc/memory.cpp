@@ -81,5 +81,6 @@ extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
     }
   }
   rpmem_write(waddr & ~0x7ull, 8, nv);
+  printf("out\n");
 }
 #endif
