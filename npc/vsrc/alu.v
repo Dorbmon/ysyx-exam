@@ -24,5 +24,6 @@ always @(posedge clk) begin
         `ALU_RETURN_B: res = b;
         default: res = 0;
     endcase
+    $display("res:%d", res);
 end
 endmodule
