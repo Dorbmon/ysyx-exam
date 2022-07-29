@@ -61,8 +61,8 @@ begin
     end
     7'b0010111: // U型指令 auipc
     begin
-        sel_a = 0'b1;
-        sel_b = 0'b1;
+        sel_a = 1'b0;
+        sel_b = 1'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -72,8 +72,8 @@ begin
     end
     7'b0110111: // U型指令 lui
     begin
-        sel_a = 0'b1;
-        sel_b = 0'b1;
+        sel_a = 1'b0;
+        sel_b = 1'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
