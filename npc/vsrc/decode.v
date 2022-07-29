@@ -3,6 +3,8 @@ import "DPI-C" function void ebreak ();
 module ysyx_22041207_decoder(
     input [31:0] inst,
     input [63:0] imm,
+    input [63:0] rs1,
+    input [63:0] rs2,
     output reg [3:0] aluOperate,
     output reg sel_a,
     output reg sel_b,
@@ -11,7 +13,9 @@ module ysyx_22041207_decoder(
     output reg pc_sel,
     output reg npc_op,
     output reg [1:0] writeBackDataSelect,
-    output reg memoryReadWen
+    output reg memoryReadWen,
+    output reg sext,
+    output reg [3:0] readNum
 );
 
 wire [6:0] opCode;
@@ -36,12 +40,24 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        memoryReadWen = 1'b0;
         case (funct3)
             3'b0: 
             case (funct7)
                 7'b0:  aluOperate = `ALU_ADD;//add
-                default: aluOperate = 0;
+                7'h20: aluOperate = `ALU_SUB;//sub
+                default: aluOperate = `ALU_NONE;
             endcase
+            3'b100: aluOperate = `ALU_XOR; //xor
+            3'b110: aluOperate = `ALU_OR;  //or
+            3'b111: aluOperate = `ALU_AND; //and
+            3'b001: aluOperate = `ALU_SLL;
+            3'b101: case (funct7)
+                7'h0: aluOperate = `ALU_SRL;    //srl
+                default: aluOperate = `ALU_NONE;
+            endcase
+            3'b010: aluOperate = `ALU_SLT;  //slt
+            3'b011: aluOperate = `ALU_SLTU; //sltu
             default: aluOperate = 0;
         endcase
     end
@@ -54,8 +70,19 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        memoryReadWen = 1'b0;
         case (funct3)
         3'b0: aluOperate = `ALU_ADD;//addi
+        3'b100: aluOperate = `ALU_XOR;//xori
+        3'b110: aluOperate = `ALU_OR;  //ori
+        3'b111: aluOperate = `ALU_AND; //andi
+        3'b001: aluOperate = `ALU_SLL;
+        3'b101: case (funct7)
+            7'h0: aluOperate = `ALU_SRL;    //srli
+            default: aluOperate = `ALU_NONE;
+        endcase
+        3'b010: aluOperate = `ALU_SLT;  //slti
+        3'b011: aluOperate = `ALU_SLTU; //sltui
         default: aluOperate = 0;
         endcase
     end
@@ -68,7 +95,47 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        memoryReadWen = 1'b0;
         aluOperate = `ALU_ADD;
+    end
+    7'b0000011: // I型指令 但是 读取内存
+    begin
+        sel_a = 1'b1;
+        sel_b = 1'b0;   //rs1 + imm
+        writeRD = 1'b1;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
+        memoryWriteMask = 8'b0;
+        writeBackDataSelect = 2'b01;
+        memoryReadWen = 1'b1;
+        aluOperate = `ALU_ADD;
+        case(funct3)
+        default: aluOperate = `ALU_NONE;
+        3'h0: begin // lb
+            sext = 1'b1;
+            readNum = 4'h1;
+        end
+        3'h1: begin // lh
+            sext = 1'b1;
+            readNum = 4'h2;
+        end
+        3'h2: begin // lw
+            sext = 1'b1;
+            readNum = 4'h4;
+        end
+        3'h3: begin // ld
+            sext = 1'b1;
+            readNum = 4'h8;
+        end
+        3'h4: begin // lbu
+            sext = 1'b0;
+            readNum = 4'h1;
+        end
+        3'h5: begin // lhu
+            sext = 1'b0;
+            readNum = 4'h2;
+        end
+        endcase
     end
     7'b0110111: // U型指令 lui
     begin
@@ -79,6 +146,7 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        memoryReadWen = 1'b0;
         aluOperate = `ALU_RETURN_B;
     end
     7'b1101111: // J型指令 jal
@@ -90,6 +158,7 @@ begin
         npc_op = 1'b1;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b10;
+        memoryReadWen = 1'b0;
         //aluOperate = `ALU_RETURN_B;
     end
     7'b0100011: // S型指令
@@ -99,6 +168,7 @@ begin
         writeRD = 1'b0;
         pc_sel = 1'b0;
         npc_op = 1'b0;
+        memoryReadWen = 1'b0;
         aluOperate = `ALU_ADD;
         case (funct3)
         3'b000:begin  //sb
@@ -116,7 +186,7 @@ begin
         default: memoryWriteMask = 8'b0;
         endcase
     end
-    7'b1100111:
+    7'b1100111: // I型指令 jalr
     begin
         //sel_a = 1'b0;
         //sel_b = 1'b0;
@@ -125,7 +195,33 @@ begin
         npc_op = 1'b1;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b10;
+        memoryReadWen = 1'b0;
         //aluOperate = `ALU_RETURN_B;
+    end
+    7'b1100011: // B型指令
+    begin
+        pc_sel = 1'b0;
+        case(funct3)
+        default: aluOperate = `ALU_NONE;
+        3'h0: begin
+            npc_op = (rs1 == rs2)?1'b1:1'b0;
+        end
+        3'h1: begin
+            npc_op = (rs1 != rs2)?1'b1:1'b0;
+        end
+        3'h4: begin
+            npc_op = (rs1 < rs2)?1'b1:1'b0;
+        end
+        3'h5: begin
+            npc_op = (rs1 >= rs2)?1'b1:1'b0;
+        end
+        3'h6: begin
+            npc_op = (rs1 < rs2)?1'b1:1'b0;
+        end
+        3'h7: begin
+            npc_op = (rs1 >= rs2)?1'b1:1'b0;
+        end
+        endcase
     end
     endcase   
 end

@@ -22,6 +22,13 @@ always @(*) begin
         `ALU_SUB: res = a - b;
         `ALU_RETURN_A: res = a;
         `ALU_RETURN_B: res = b;
+        `ALU_XOR: res = a ^ b;
+        `ALU_OR: res = a | b;
+        `ALU_AND: res = a & b;
+        `ALU_SLL: res = a << b;
+        `ALU_SRL: res = a >> b;
+        `ALU_SLT: res = $signed(a) < $signed(b) ? 1 : 0;
+        `ALU_SLTU: res = a < b ? 1 : 0;
         default: res = 0;
     endcase
     //$display("res:%h", a);

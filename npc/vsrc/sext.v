@@ -3,6 +3,8 @@ module ysyx_22041207_SEXT(
     input [ 2:0] sext_op ,
     output reg  [63:0]  imm
     );
+    wire [2:0] funct3;
+    assign funct3 = instr[14:12];
     always @(*)
     begin
             case(sext_op)
@@ -11,7 +13,13 @@ module ysyx_22041207_SEXT(
             `S_Type:
                 imm = {{(53){instr[31]}}, instr[30:25], instr[11:7]};
             `B_Type:
-                imm = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
+                casez (funct3)
+                    3'b11?: begin
+                        // 0扩展
+                        imm = {{(51){1'b0}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
+                    end
+                    default: imm = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
+                endcase
             `U_Type:
                 imm = {{(33){instr[31]}}, instr[30:12], 12'b0};
             `J_Type:

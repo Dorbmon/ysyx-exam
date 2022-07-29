@@ -39,9 +39,11 @@ wire [63:0] memoryReadData;
 wire [1:0] writeBackDataSelect; // 写回数据选择
 wire [7:0] memoryWriteMask;
 wire memoryReadWen;
-ysyx_22041207_Memory memory(memoryReadWen, aluRes, r2data, memoryWriteMask, memoryReadData);
+wire sext;
+wire [3:0] readNum;
+ysyx_22041207_Memory memory(memoryReadWen, aluRes, r2data, memoryWriteMask, sext, readNum, memoryReadData);
 ysyx_22041207_SEXT SEXT(inst, instType, imm);
-ysyx_22041207_decoder decoder(inst, imm, aluOperate, sel_a, sel_b, memoryWriteMask,  writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen);
+ysyx_22041207_decoder decoder(inst, imm, r1data, r2data, aluOperate, sel_a, sel_b, memoryWriteMask,  writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen, sext, readNum);
 
 ysyx_22041207_alu alu(clk, pc, aluOperate, r1data, r2data, imm, sel_a, sel_b, aluRes);
 ysyx_22041207_WB WB(aluRes, pc, memoryReadData, imm, writeBackDataSelect, rwdata);
