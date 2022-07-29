@@ -94,6 +94,7 @@ begin
     end
     7'b0100011: // S型指令
     begin
+        $display("reach here");
         sel_a = 1'b1;
         sel_b = 1'b0;   // 地址永远为rs1 + imm
         writeRD = 1'b0;
