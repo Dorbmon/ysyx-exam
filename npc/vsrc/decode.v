@@ -93,7 +93,6 @@ begin
     end
     7'b0100011: // S型指令
     begin
-        $display("reach here");
         sel_a = 1'b1;
         sel_b = 1'b0;   // 地址永远为rs1 + imm
         writeRD = 1'b0;
@@ -103,16 +102,16 @@ begin
         //writeBackDataSelect = 2'b00;
         aluOperate = `ALU_ADD;
         case (funct3)
-        3'b00:begin  //sb
+        3'b000:begin  //sb
             memoryWriteMask = 8'b00000001;
         end
-        3'b01:begin  //sh
+        3'b001:begin  //sh
             memoryWriteMask = 8'b00000011;
         end
-        3'b10:begin  //sw
+        3'b010:begin  //sw
             memoryWriteMask = 8'b00001111;
         end
-        3'b11:begin  //sd
+        3'b011:begin  //sd
             memoryWriteMask = 8'b11111111;
         end
         default: memoryWriteMask = 8'b0;
