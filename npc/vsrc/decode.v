@@ -283,10 +283,10 @@ begin
         3'h5: begin // bge
             npc_op = ($signed(rs1) >= $signed(rs2))?1'b1:1'b0;
         end
-        3'h6: begin
+        3'h6: begin // bltu
             npc_op = (rs1 > rs2)?1'b1:1'b0;
         end
-        3'h7: begin
+        3'h7: begin // bgeu
             npc_op = (rs1 >= rs2)?1'b1:1'b0;
         end
         endcase
