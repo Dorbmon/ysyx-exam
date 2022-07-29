@@ -32,6 +32,7 @@ always @(*) begin
         `ALU_MUL: res = a * b;
         `ALU_REM: res = $signed(a) % $signed(b);
         `ALU_DIVU: res = a / b;
+        `ALU_REMU: res = a % b;
         default: res = 0;
     endcase
     //$display("res:%h", a);
