@@ -1,6 +1,6 @@
 module ysyx_22041207_top (
   input clk,
-  input [31:0] inst,
+  //input [31:0] inst,
   output reg [63:0] pc
 );
 
@@ -22,12 +22,12 @@ always @(posedge clk) begin
 end
 // 从npc取指
 wire [63:0] rawData;
-//wire [31:0] inst;
+wire [31:0] inst;
   assign r1addr = inst [19:15];
   assign r2addr = inst [24:20];
   assign rwaddr = inst [11:7];
-//ysyx_22041207_read_mem readInst(clk, npc, 1'b1, rawData);
-//assign inst = rawData [31:0];  // 这里可能有BUG
+ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
+assign inst = rawData [31:0];  // 这里可能有BUG
 // 传入解码
 wire [3:0] aluOperate;
 
@@ -38,7 +38,7 @@ wire [63:0] memoryAddress;
 wire [63:0] memoryReadData;
 wire [1:0] writeBackDataSelect; // 写回数据选择
 wire [7:0] memoryWriteMask;
-ysyx_22041207_Memory memory(clk, memoryAddress, r2data, memoryWriteMask, memoryReadData);
+ysyx_22041207_Memory memory(memoryAddress, r2data, memoryWriteMask, memoryReadData);
 ysyx_22041207_SEXT SEXT(inst, instType, imm);
 ysyx_22041207_decoder decoder(inst, imm, aluOperate, sel_a, sel_b, memoryWriteMask, memoryAddress, writeRD, pc_sel, npc_op, writeBackDataSelect);
 

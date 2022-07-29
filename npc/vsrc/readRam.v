@@ -1,5 +1,4 @@
 module ysyx_22041207_read_mem(
-    input                   clk     ,
     input       [63:0]      readAddr    ,// alu的计算结果就是读取的地址
     input wen,
     output      reg [63:0]      data
