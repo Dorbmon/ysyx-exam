@@ -7,7 +7,6 @@ module ysyx_22041207_decoder(
     output reg sel_a,
     output reg sel_b,
     output reg [7:0] memoryWriteMask,
-    output reg [63:0] memoryWriteAddress,
     output reg writeRD,
     output reg pc_sel,
     output reg npc_op,
