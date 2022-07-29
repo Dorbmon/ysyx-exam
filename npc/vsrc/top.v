@@ -19,7 +19,7 @@ wire [63:0] npc;
 ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, npc);
 always @(posedge clk) begin
   pc <= npc;
-  $display("inst:%h", pc);
+  //$display("inst:%h", pc);
 end
 // 从npc取指
 wire [63:0] rawData;
