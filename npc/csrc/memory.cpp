@@ -61,6 +61,7 @@ void initMemory(const char *img_file) {
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
   if ((raddr & ~0x7ull) < CONFIG_MBASE) return ;
+  printf("address:%x\n", raddr);
   *rdata = pmem_read(raddr & ~0x7ull, 8); //111
   //printf("read:%llx, but:%llx", raddr, raddr & ~0x7ull);
 }
@@ -70,7 +71,6 @@ extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
   // 总是往地址为`waddr & ~0x7ull`的8字节按写掩码`wmask`写入`wdata`
   // `wmask`中每比特表示`wdata`中1个字节的掩码,
   // 如`wmask = 0x3`代表只写入最低2个字节, 内存中的其它字节保持不变
-  printf("address:%x\n", waddr);
   word_t v = pmem_read(waddr & ~0x7ull, 8);
   word_t nv = 0;
   for (int i = 0;i < 8;++ i) {
@@ -81,6 +81,5 @@ extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
     }
   }
   rpmem_write(waddr & ~0x7ull, 8, nv);
-  printf("out\n");
 }
 #endif

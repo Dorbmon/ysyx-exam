@@ -82,7 +82,6 @@ begin
     end
     7'b1101111: // J型指令 jal
     begin
-        $display("here");
         //sel_a = 1'b0;
         //sel_b = 1'b0;
         writeRD = 1'b1;
