@@ -285,7 +285,7 @@ begin
             npc_op = ($signed(rs1) >= $signed(rs2))?1'b1:1'b0;
         end
         3'b110: begin // bltu
-            npc_op = (rs1 > rs2)?1'b1:1'b0;
+            npc_op = (rs1 < rs2)?1'b1:1'b0;
         end
         3'b111: begin // bgeu
             npc_op = (rs1 >= rs2)?1'b1:1'b0;
