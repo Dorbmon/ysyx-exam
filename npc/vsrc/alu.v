@@ -24,6 +24,6 @@ always @(*) begin
         `ALU_RETURN_B: res = b;
         default: res = 0;
     endcase
-    $display("res:%h", imm);
+    $display("res:%h", res);
 end
 endmodule
