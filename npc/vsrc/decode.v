@@ -11,7 +11,8 @@ module ysyx_22041207_decoder(
     output reg writeRD,
     output reg pc_sel,
     output reg npc_op,
-    output reg [1:0] writeBackDataSelect
+    output reg [1:0] writeBackDataSelect,
+    output reg aluUsePCAdd4AsB // 是否使用pc + 4 作为 b
 );
 
 wire [6:0] opCode;
@@ -36,6 +37,7 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        aluUsePCAdd4AsB = 1'b0;
         case (funct3)
             3'b0: 
             case (funct7)
@@ -54,6 +56,7 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        aluUsePCAdd4AsB = 1'b0;
         case (funct3)
         3'b0: aluOperate = `ALU_ADD;//addi
         default: aluOperate = 0;
@@ -68,6 +71,7 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        aluUsePCAdd4AsB = 1'b0;
         aluOperate = `ALU_ADD;
     end
     7'b0110111: // U型指令 lui
@@ -79,6 +83,19 @@ begin
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 2'b00;
+        aluUsePCAdd4AsB = 1'b0;
+        aluOperate = `ALU_RETURN_B;
+    end
+    7'b1101111: // J型指令 jal
+    begin
+        sel_a = 1'b0;
+        sel_b = 1'b0;
+        writeRD = 1'b1;
+        pc_sel = 1'b0;
+        npc_op = 1'b1;
+        memoryWriteMask = 8'b0;
+        writeBackDataSelect = 2'b00;
+        aluUsePCAdd4AsB = 1'b1;
         aluOperate = `ALU_RETURN_B;
     end
     endcase   
