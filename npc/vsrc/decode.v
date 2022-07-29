@@ -269,6 +269,7 @@ begin
         memoryWriteMask = 8'b0;
         memoryReadWen = 1'b0;
         pc_sel = 1'b0;
+        writeBackDataSelect = 3'b000;
         case(funct3)
         default: aluOperate = `ALU_NONE;
         3'h0: begin
