@@ -49,8 +49,12 @@ bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {
       return false;
     }
   }
-
-  return ref_r->pc == pc;
+  if (ref_r->pc != pc) {
+    printf("pc error:\n");
+    printf ("0x%lx 0x%lx\n", ref_r->pc, pc);
+    return false;
+  }
+  return true;
 }
 static void checkregs(diff_context_t *ref, uint64_t pc) {
   if (!isa_difftest_checkregs(ref, pc)) {
