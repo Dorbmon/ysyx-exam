@@ -10,7 +10,8 @@ module ysyx_22041207_decoder(
     output reg writeRD,
     output reg pc_sel,
     output reg npc_op,
-    output reg [1:0] writeBackDataSelect
+    output reg [1:0] writeBackDataSelect,
+    output reg memoryReadWen
 );
 
 wire [6:0] opCode;
