@@ -16,7 +16,7 @@ assign a = sel_a ? rs1 : pc;
 assign b = sel_b ? rs2 : imm;
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
-always @(posedge clk) begin
+always @(*) begin
     case(operate)
         `ALU_ADD: res = a + b;
         `ALU_SUB: res = a - b;
