@@ -200,6 +200,9 @@ begin
     end
     7'b1100011: // B型指令
     begin
+        writeRD = 1'b0;
+        memoryWriteMask = 8'b0;
+        memoryReadWen = 1'b0;
         pc_sel = 1'b0;
         case(funct3)
         default: aluOperate = `ALU_NONE;
