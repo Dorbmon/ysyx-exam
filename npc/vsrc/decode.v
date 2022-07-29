@@ -46,6 +46,7 @@ begin
             case (funct7)
                 7'b0:  aluOperate = `ALU_ADD;//add
                 7'h20: aluOperate = `ALU_SUB;//sub
+                7'b0000001: aluOperate = `ALU_MUL;//mul
                 default: aluOperate = `ALU_NONE;
             endcase
             3'b100: aluOperate = `ALU_XOR; //xor
