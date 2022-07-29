@@ -19,7 +19,7 @@ wire [63:0] npc;
 ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, npc);
 always @(posedge clk) begin
   pc <= npc;
-  $display("inst:%h", inst);
+  //$display("inst:%h", inst);
 end
 // 从npc取指
 wire [63:0] rawData;
@@ -43,8 +43,8 @@ ysyx_22041207_Memory memory(memoryAddress, r2data, memoryWriteMask, memoryReadDa
 ysyx_22041207_SEXT SEXT(inst, instType, imm);
 ysyx_22041207_decoder decoder(inst, imm, aluOperate, sel_a, sel_b, memoryWriteMask, memoryAddress, writeRD, pc_sel, npc_op, writeBackDataSelect);
 
-ysyx_22041207_alu alu(clk, npc, aluOperate, r1data, r2data, imm, sel_a, sel_b, aluRes);
-ysyx_22041207_WB WB(aluRes, npc, memoryReadData, imm, writeBackDataSelect, rwdata);
+ysyx_22041207_alu alu(clk, pc, aluOperate, r1data, r2data, imm, sel_a, sel_b, aluRes);
+ysyx_22041207_WB WB(aluRes, pc, memoryReadData, imm, writeBackDataSelect, rwdata);
 
 endmodule
 
