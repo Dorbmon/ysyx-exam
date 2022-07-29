@@ -191,13 +191,13 @@ begin
         sel_a = 1'b1;
         sel_b = 1'b0;
         writeRD = 1'b1;
-        pc_sel = 1'b1;
-        npc_op = 1'b1;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         memoryReadWen = 1'b0;
-        // (funct3 == 3'b000)?{1'b1, `SEXT(low32(rs1 + immI), 32)}:  //addiw
-        case (funct3)
+        // (funct3 == 3'b000)?{1'b1, `SEXT(low32(rs1 + immI), 32)}:  
+        case (funct3)   // //addiw
         3'b000: begin
             aluOperate = `ALU_ADD;
         end
