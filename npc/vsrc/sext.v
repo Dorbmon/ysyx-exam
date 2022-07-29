@@ -18,5 +18,6 @@ module ysyx_22041207_SEXT(
                 imm = {{(44){instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0};
             default:         imm = 64'b0;
             endcase
+            $display("imm:%h", imm);
     end
 endmodule
