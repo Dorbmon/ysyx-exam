@@ -186,6 +186,23 @@ begin
         default: memoryWriteMask = 8'b0;
         endcase
     end
+    7'b0111011: // R型指令
+    begin
+        sel_a = 1'b1;
+        sel_b = 1'b1;
+        writeRD = 1'b1;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
+        memoryWriteMask = 8'b0;
+        writeBackDataSelect = 3'b100;   // 对32位做符号扩展
+        memoryReadWen = 1'b0;
+        case (funct3)
+        3'b000: begin
+            aluOperate = `ALU_ADD;  // addw
+        end
+        default: aluOperate = `ALU_NONE;
+        endcase
+    end
     7'b0011011: // I型指令
     begin
         sel_a = 1'b1;
@@ -196,8 +213,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         memoryReadWen = 1'b0;
-        // (funct3 == 3'b000)?{1'b1, `SEXT(low32(rs1 + immI), 32)}:  
-        case (funct3)   // //addiw
+        case (funct3)
         3'b000: begin
             aluOperate = `ALU_ADD;
         end
