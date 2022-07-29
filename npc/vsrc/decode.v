@@ -92,32 +92,7 @@ begin
         writeBackDataSelect = 2'b10;
         //aluOperate = `ALU_RETURN_B;
     end
-    7'b0100011: // S型指令
-    begin
-        sel_a = 1'b1;
-        sel_b = 1'b0;   // 地址永远为rs1 + imm
-        writeRD = 1'b0;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
-        //memoryWriteMask = 8'b0;
-        //writeBackDataSelect = 2'b00;
-        aluOperate = `ALU_ADD;
-        case (funct3)
-        3'b00:begin  //sb
-            memoryWriteMask = 8'b00000001;
-        end
-        3'b01:begin  //sh
-            memoryWriteMask = 8'b00000011;
-        end
-        3'b10:begin  //sw
-            memoryWriteMask = 8'b00001111;
-        end
-        3'b11:begin  //sd
-            memoryWriteMask = 8'b11111111;
-        end
-        default: memoryWriteMask = 8'b0;
-        endcase
-    end
+    
     endcase   
 end
 endmodule
