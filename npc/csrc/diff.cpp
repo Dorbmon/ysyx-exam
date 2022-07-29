@@ -19,6 +19,7 @@ void initDiffset() {
   ref_r.gpr = (word_t*)malloc(sizeof(word_t) * 32);
   assert(diff_so != NULL);
   void *handle;
+  printf("%s\n", diff_so);
   handle = dlopen(diff_so, RTLD_LAZY);
   assert(handle);
   ref_difftest_memcpy =
