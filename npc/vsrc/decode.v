@@ -101,6 +101,7 @@ begin
         //memoryWriteMask = 8'b0;
         //writeBackDataSelect = 2'b00;
         aluOperate = `ALU_ADD;
+        $display("here");
         case (funct3)
         3'b000:begin  //sb
             memoryWriteMask = 8'b00000001;
