@@ -284,7 +284,7 @@ begin
             npc_op = ($signed(rs1) >= $signed(rs2))?1'b1:1'b0;
         end
         3'h6: begin
-            npc_op = (rs1 < rs2)?1'b1:1'b0;
+            npc_op = (rs1 > rs2)?1'b1:1'b0;
         end
         3'h7: begin
             npc_op = (rs1 >= rs2)?1'b1:1'b0;
