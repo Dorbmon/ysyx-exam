@@ -79,7 +79,7 @@ begin
         3'b100: aluOperate = `ALU_XOR;//xori
         3'b110: aluOperate = `ALU_OR;  //ori
         3'b111: aluOperate = `ALU_AND; //andi
-        3'b001: aluOperate = `ALU_SLL;
+        3'b001: aluOperate = `ALU_SLL;  // slli
         3'b101: case (funct7)
             7'h0: aluOperate = `ALU_SRL;    //srli
             7'h20: aluOperate = `ALU_SRA;   //srai
