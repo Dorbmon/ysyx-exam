@@ -24,3 +24,8 @@
 `define B_Type 3'b101
 `define SEXT(x, target, exist) {{(target - exist){x[exist-1]}}, x[exist - 1:0]}
 `define NSEXT(x, target, exist) {{(target - exist){1'b0}}, x[exist - 1:0]}
+
+// csr address:
+`define CSR_MEPC_ADDRESS 12'h341
+`define CSR_MCAUSE_ADDRESS 12'h342
+`define CSR_MTVEC_ADDRESS 12'h305

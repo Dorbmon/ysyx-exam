@@ -16,7 +16,10 @@ module ysyx_22041207_decoder(
     output reg memoryReadWen,
     output reg sext,
     output reg [3:0] readNum,
-    output reg rs1to32
+    output reg rs1to32,
+    output reg wMtvec,
+    output reg wMepc,
+    output reg wMcause
 );
 wire [6:0] opCode;
 wire [6:0] funct7;
@@ -26,11 +29,34 @@ assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
 always @(*)
 begin
-    if (inst[6:0] == 7'b1110011 && funct3 == 0 && imm == 64'h1) begin
-        ebreak();
-    end
+    wMtvec = 1'b0;
+    wMepc = 1'b0;
+    wMcause = 1'b0;
     case (opCode)
     default: ;
+    7'b1110011: // 系统指令
+    begin
+        writeRD = 1'b0;
+        pc_sel = 1'b0;
+        npc_op = 1'b0;
+        memoryWriteMask = 8'b0;
+        writeBackDataSelect = 3'b00;
+        memoryReadWen = 1'b0;
+        case (funct3)
+        3'b0: begin
+            case (imm)
+                64'h1: ebreak();    // ebreak
+                64'b0: begin
+                    // ecall
+                    wMepc = 1'b1;   // epc = pc
+                    wMcause = 1'b1; // cause = cause
+                end
+                default: wMepc = 1'b0;
+            endcase
+        end
+        default: aluOperate = `ALU_NONE;
+        endcase
+    end
     7'b0110011: // R型指令
     begin
         sel_a = 1'b1;
