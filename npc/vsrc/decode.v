@@ -65,7 +65,6 @@ begin
             sel_a = 2'b1;   // 选择rs1作为a
             sel_b = 2'h3;   // 选择csr作为b
             aluOperate = `ALU_OR;
-            
         end
         3'b0: begin
             case (imm)
