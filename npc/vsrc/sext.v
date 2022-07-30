@@ -16,6 +16,7 @@ module ysyx_22041207_SEXT(
                 casez (funct3)
                     3'b11?: begin
                         // 0扩展
+                        $display("zero");
                         imm = {{(51){1'b0}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
                     end
                     default: imm = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
