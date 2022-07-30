@@ -5,16 +5,17 @@ module ysyx_22041207_alu(
     input [4:0] operate,
     input [63:0] rs1,
     input [63:0] rs2,
+    input [63:0] csr,
     input [63:0] imm,
-    input sel_a,
-    input sel_b,
+    input [1:0] sel_a,
+    input [1:0] sel_b,
     input rs1to32,  // rs1 转换为32bit
     output reg [63:0] res
 );
 wire [63:0] a;
 wire [63:0] b;
-assign a = sel_a ? (rs1to32 ? {32'b0, rs1 [31:0]} : rs1) : pc;
-assign b = sel_b ? rs2 : imm;
+assign a = (sel_a == 2'b1) ? (rs1to32 ? {32'b0, rs1 [31:0]} : rs1) : pc;
+assign b = (sel_b == 2'b1) ? rs2 : ((sel_b == 2'h2) ? csr : imm);
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
 always @(*) begin

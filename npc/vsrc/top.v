@@ -14,7 +14,7 @@ initial begin
 end
 wire [63:0] imm;
 wire pc_sel, npc_op;
-wire sel_a, sel_b;
+wire [1:0] sel_a, sel_b;
 wire [63:0] npc;
 
 always @(posedge clk) begin
@@ -43,6 +43,7 @@ wire sext;
 wire [3:0] readNum;
 wire rs1to32;
 wire [11:0] csrAddress;
+assign csrAddress = imm[11:0];
 wire csrWen;
 wire [63:0] mtvec, mepc, mcause, mstatus, csrReadData;
 wire wMtvec, wMepc, wMcause, wMstatus;
@@ -50,14 +51,14 @@ wire [63:0] mtvec_v, mepc_v, mcause_v, mstatus_v;
 assign mepc_v = pc + 64'h4; // mepc永远是写入pc
 wire pc_panic, pc_mret;
 ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, pc_panic, pc_mret, mtvec, mepc, npc);
-ysyx_22041207_csrRegister csrRegister(clk, pc_mret, csrAddress, rwdata, wMtvec, mtvec_v, wMepc, mepc_v, 
+ysyx_22041207_csrRegister csrRegister(clk, pc_mret, csrAddress, aluRes, wMtvec, mtvec_v, wMepc, mepc_v, 
 wMcause, mcause_v, wMstatus, mstatus_v, csrWen, mtvec, mepc, mcause, mstatus, csrReadData);
 ysyx_22041207_Memory memory(memoryReadWen, aluRes, r2data, memoryWriteMask, sext, readNum, memoryReadData);
 ysyx_22041207_SEXT SEXT(inst, instType, imm);
 ysyx_22041207_decoder decoder(inst, imm, r1data, r2data, aluOperate, sel_a, sel_b, memoryWriteMask, 
-writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen, sext, readNum, rs1to32, wMtvec, wMepc, wMcause, wMstatus, pc_panic, pc_mret);
+writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen, sext, readNum, rs1to32, wMtvec, wMepc, wMcause, wMstatus, pc_panic, pc_mret, csrWen);
 
-ysyx_22041207_alu alu(clk, pc, aluOperate, r1data, r2data, imm, sel_a, sel_b, rs1to32, aluRes);
+ysyx_22041207_alu alu(clk, pc, aluOperate, r1data, r2data, csrReadData, imm, sel_a, sel_b, rs1to32, aluRes);
 ysyx_22041207_WB WB(aluRes, pc, memoryReadData, imm, csrReadData, writeBackDataSelect, rwdata);
 
 endmodule

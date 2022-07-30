@@ -6,8 +6,8 @@ module ysyx_22041207_decoder(
     input [63:0] rs1,
     input [63:0] rs2,
     output reg [4:0] aluOperate,
-    output reg sel_a,
-    output reg sel_b,
+    output reg [1:0] sel_a,
+    output reg [1:0] sel_b,
     output reg [7:0] memoryWriteMask,
     output reg writeRD,
     output reg pc_sel,
@@ -22,7 +22,8 @@ module ysyx_22041207_decoder(
     output reg wMcause,
     output reg wMstatus,
     output reg pc_panic, // 是否为异常跳转
-    output reg pc_mret   // 是否为mret
+    output reg pc_mret,   // 是否为mret
+    output reg csrWen
 );
 wire [6:0] opCode;
 wire [6:0] funct7;
@@ -38,6 +39,7 @@ begin
     wMstatus = 1'b0;
     pc_panic = 1'b0;
     pc_mret = 1'b0;
+    csrWen = 1'b0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
@@ -46,10 +48,23 @@ begin
         pc_sel = 1'b0;
         npc_op = 1'b0;
         memoryWriteMask = 8'b0;
-        writeBackDataSelect = 3'b00;
         memoryReadWen = 1'b0;
         case (funct3)
         3'b001: begin   // csrrw
+        // 将csr的值写入rd 并将csr的值更新为rs1
+        // csr写回的值直接设置为alu res
+            writeRD = 1'b1;
+            writeBackDataSelect = 3'b101;
+            csrWen = 1'b1;
+            sel_a = 2'b1;
+            aluOperate = `ALU_RETURN_A;
+        end
+        3'b010: begin   // csrrs
+            writeRD = 1'b1;
+            writeBackDataSelect = 3'b101;   // 写回csr
+            sel_a = 2'b1;   // 选择rs1作为a
+            sel_b = 2'h3;   // 选择csr作为b
+            aluOperate = `ALU_OR;
             
         end
         3'b0: begin
@@ -76,8 +91,8 @@ begin
     end
     7'b0110011: // R型指令
     begin
-        sel_a = 1'b1;
-        sel_b = 1'b1;
+        sel_a = 2'b1;
+        sel_b = 2'b1;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -108,8 +123,8 @@ begin
     end
     7'b0010011:    // I型指令
     begin
-        sel_a = 1'b1;
-        sel_b = 1'b0;
+        sel_a = 2'b1;
+        sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -135,8 +150,8 @@ begin
     end
     7'b0010111: // U型指令 auipc
     begin
-        sel_a = 1'b0;
-        sel_b = 1'b0;
+        sel_a = 2'b0;
+        sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -148,8 +163,8 @@ begin
     end
     7'b0000011: // I型指令 但是 读取内存
     begin
-        sel_a = 1'b1;
-        sel_b = 1'b0;   //rs1 + imm
+        sel_a = 2'b1;
+        sel_b = 2'b0;   //rs1 + imm
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -188,8 +203,8 @@ begin
     end
     7'b0110111: // U型指令 lui
     begin
-        sel_a = 1'b0;
-        sel_b = 1'b0;
+        sel_a = 2'b0;
+        sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -201,8 +216,8 @@ begin
     end
     7'b1101111: // J型指令 jal
     begin
-        //sel_a = 1'b0;
-        //sel_b = 1'b0;
+        //sel_a = 2'b0;
+        //sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b1;
@@ -214,8 +229,8 @@ begin
     end
     7'b0100011: // S型指令
     begin
-        sel_a = 1'b1;
-        sel_b = 1'b0;   // 地址永远为rs1 + imm
+        sel_a = 2'b1;
+        sel_b = 2'b0;   // 地址永远为rs1 + imm
         writeRD = 1'b0;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -240,8 +255,8 @@ begin
     end
     7'b0111011: // R型指令 带w 截取32位的指令
     begin
-        sel_a = 1'b1;
-        sel_b = 1'b1;
+        sel_a = 2'b1;
+        sel_b = 2'b1;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -302,8 +317,8 @@ begin
     end
     7'b0011011: // I型指令
     begin
-        sel_a = 1'b1;
-        sel_b = 1'b0;
+        sel_a = 2'b1;
+        sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
@@ -335,8 +350,8 @@ begin
     end
     7'b1100111: // I型指令 jalr
     begin
-        //sel_a = 1'b0;
-        //sel_b = 1'b0;
+        //sel_a = 2'b0;
+        //sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b1;
         npc_op = 1'b1;
