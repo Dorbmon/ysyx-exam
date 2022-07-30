@@ -282,6 +282,7 @@ begin
                 aluOperate = `ALU_SRL;  // srliw
             end
             7'b0100000: begin
+                $display("catch");
                 aluOperate = `ALU_SRA;  // sraiw
             end
             default: aluOperate = `ALU_NONE;
