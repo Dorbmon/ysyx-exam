@@ -259,6 +259,7 @@ begin
             aluOperate = `ALU_SLL;  // slliw
         end
         3'b101: begin
+            $display("here");
             aluOperate = `ALU_SRL;  // srliw
         end
         default: aluOperate = `ALU_NONE;
