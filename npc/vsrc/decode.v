@@ -49,6 +49,9 @@ begin
         writeBackDataSelect = 3'b00;
         memoryReadWen = 1'b0;
         case (funct3)
+        3'b001: begin   // csrrw
+            
+        end
         3'b0: begin
             case (imm)
                 64'h1: ebreak();    // ebreak
