@@ -248,6 +248,7 @@ begin
                 aluOperate = `ALU_SLL;  // sllw
             end
             3'b101: begin
+                rs1to32 = 1'b1;
                 aluOperate = `ALU_SRL;  // srlw
             end
             default: aluOperate = `ALU_NONE;
