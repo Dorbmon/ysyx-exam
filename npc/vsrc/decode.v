@@ -80,9 +80,9 @@ begin
         3'b110: aluOperate = `ALU_OR;  //ori
         3'b111: aluOperate = `ALU_AND; //andi
         3'b001: aluOperate = `ALU_SLL;  // slli
-        3'b101: case (funct7)
-            7'h0: aluOperate = `ALU_SRL;    //srli
-            7'h20: aluOperate = `ALU_SRA;   //srai
+        3'b101: case (funct7[6:1])
+            6'h0: aluOperate = `ALU_SRL;    //srli
+            6'h8: aluOperate = `ALU_SRA;   //srai
             default: aluOperate = `ALU_NONE;
         endcase
         3'b010: aluOperate = `ALU_SLT;  //slti
