@@ -30,7 +30,7 @@ wire [31:0] inst;
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 // 传入解码
-wire [3:0] aluOperate;
+wire [4:0] aluOperate;
 
 wire [2:0] instType;
 wire [63:0] aluRes;

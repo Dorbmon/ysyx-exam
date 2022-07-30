@@ -2,7 +2,7 @@
 module ysyx_22041207_alu(
     input clk,
     input [63:0] pc,
-    input [3:0] operate,
+    input [4:0] operate,
     input [63:0] rs1,
     input [63:0] rs2,
     input [63:0] imm,
@@ -33,6 +33,7 @@ always @(*) begin
         `ALU_REM: res = $signed(a) % $signed(b);
         `ALU_DIVU: res = a / b;
         `ALU_REMU: res = a % b;
+        `ALU_DIV: res = $signed(a) / $signed(b);
         default: res = 0;
     endcase
     //$display("res:%h", a);

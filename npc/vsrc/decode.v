@@ -5,7 +5,7 @@ module ysyx_22041207_decoder(
     input [63:0] imm,
     input [63:0] rs1,
     input [63:0] rs2,
-    output reg [3:0] aluOperate,
+    output reg [4:0] aluOperate,
     output reg sel_a,
     output reg sel_b,
     output reg [7:0] memoryWriteMask,
@@ -218,7 +218,10 @@ begin
                 aluOperate = `ALU_DIVU; // divu
             end
             3'b111: begin
-                aluOperate = `ALU_REMU;
+                aluOperate = `ALU_REMU; // remu
+            end
+            3'b100: begin
+                aluOperate = `ALU_DIV;
             end
             default: aluOperate = `ALU_NONE;
             endcase
