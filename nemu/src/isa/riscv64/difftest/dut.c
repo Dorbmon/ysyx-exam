@@ -10,7 +10,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
       return false;
     }
   }
-  printf("%lx %lx %lx\n", pc, ref_r->pc, cpu.pc);
+  //printf("%lx %lx %lx\n", pc, ref_r->pc, cpu.pc);
   return ref_r->pc == cpu.pc;
 }
 
