@@ -277,7 +277,15 @@ begin
         end
         3'b101: begin
             rs1to32 = 1'b1;
-            aluOperate = `ALU_SRL;  // srliw
+            case (funct7)
+            7'b0000000: begin
+                aluOperate = `ALU_SRL;  // srliw
+            end
+            7'b0100000: begin
+                aluOperate = `ALU_SRA;  // sraiw
+            end
+            default: aluOperate = `ALU_NONE;
+            endcase
         end
         default: aluOperate = `ALU_NONE;
         endcase
