@@ -15,7 +15,8 @@ module ysyx_22041207_decoder(
     output reg [2:0] writeBackDataSelect,
     output reg memoryReadWen,
     output reg sext,
-    output reg [3:0] readNum
+    output reg [3:0] readNum,
+    output reg rs1to32
 );
 wire [6:0] opCode;
 wire [6:0] funct7;
@@ -40,6 +41,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b00;
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         case (funct3)
             3'b0: 
             case (funct7)
@@ -71,6 +73,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b00;
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         case (funct3)
         3'b0: aluOperate = `ALU_ADD;//addi
         3'b100: aluOperate = `ALU_XOR;//xori
@@ -97,6 +100,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b00;
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         aluOperate = `ALU_ADD;
     end
     7'b0000011: // I型指令 但是 读取内存
@@ -109,6 +113,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b01;
         memoryReadWen = 1'b1;
+        rs1to32 = 1'b0;
         aluOperate = `ALU_ADD;
         case(funct3)
         default: aluOperate = `ALU_NONE;
@@ -148,6 +153,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b00;
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         aluOperate = `ALU_RETURN_B;
     end
     7'b1101111: // J型指令 jal
@@ -160,6 +166,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b10;
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         //aluOperate = `ALU_RETURN_B;
     end
     7'b0100011: // S型指令
@@ -171,6 +178,7 @@ begin
         npc_op = 1'b0;
         memoryReadWen = 1'b0;
         aluOperate = `ALU_ADD;
+        rs1to32 = 1'b0;
         case (funct3)
         3'b000:begin  //sb
             memoryWriteMask = 8'b00000001;
@@ -197,6 +205,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         case (funct7)
         default: aluOperate = `ALU_NONE;
         7'b0100000: begin
@@ -251,6 +260,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         case (funct3)
         3'b000: begin
             aluOperate = `ALU_ADD;
@@ -259,7 +269,7 @@ begin
             aluOperate = `ALU_SLL;  // slliw
         end
         3'b101: begin
-            $display("rs1:%x, imm:%x", rs1, imm [4:0]);
+            rs1to32 = 1'b1;
             aluOperate = `ALU_SRL;  // srliw
         end
         default: aluOperate = `ALU_NONE;
@@ -275,6 +285,7 @@ begin
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b10;
         memoryReadWen = 1'b0;
+        rs1to32 = 1'b0;
         //aluOperate = `ALU_RETURN_B;
     end
     7'b1100011: // B型指令
@@ -284,6 +295,7 @@ begin
         memoryReadWen = 1'b0;
         pc_sel = 1'b0;
         writeBackDataSelect = 3'b000;
+        rs1to32 = 1'b0;
         case(funct3)
         default: npc_op = 1'b0;
         3'h0: begin

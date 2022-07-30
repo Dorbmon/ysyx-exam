@@ -8,11 +8,12 @@ module ysyx_22041207_alu(
     input [63:0] imm,
     input sel_a,
     input sel_b,
+    input rs1to32,  // rs1 转换为32bit
     output reg [63:0] res
 );
 wire [63:0] a;
 wire [63:0] b;
-assign a = sel_a ? rs1 : pc;
+assign a = sel_a ? (rs1to32 ? {32'b0, rs1 [31:0]} : rs1) : pc;
 assign b = sel_b ? rs2 : imm;
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
