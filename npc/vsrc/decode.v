@@ -79,6 +79,7 @@ begin
         3'b001: aluOperate = `ALU_SLL;
         3'b101: case (funct7)
             7'h0: aluOperate = `ALU_SRL;    //srli
+            7'h20: aluOperate = `ALU_SRA;   //srai
             default: aluOperate = `ALU_NONE;
         endcase
         3'b010: aluOperate = `ALU_SLT;  //slti

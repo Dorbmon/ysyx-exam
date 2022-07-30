@@ -26,7 +26,7 @@ always @(*) begin
         `ALU_OR: res = a | b;
         `ALU_AND: res = a & b;
         `ALU_SLL: res = a << b [4:0];
-        `ALU_SRL: res = a >> b;
+        `ALU_SRL: res = a >> b [4:0];
         `ALU_SLT: res = $signed(a) < $signed(b) ? 1 : 0;
         `ALU_SLTU: res = a < b ? 1 : 0;
         `ALU_MUL: res = a * b;
@@ -34,6 +34,7 @@ always @(*) begin
         `ALU_DIVU: res = a / b;
         `ALU_REMU: res = a % b;
         `ALU_DIV: res = $signed(a) / $signed(b);
+        `ALU_SRA: res = a >>> b [4:0];
         default: res = 0;
     endcase
     //$display("res:%h", a);
