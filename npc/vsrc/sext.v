@@ -12,7 +12,8 @@ module ysyx_22041207_SEXT(
                 imm = {{(53){instr[31]}}, instr[30:20]};
             `S_Type:
                 imm = {{(53){instr[31]}}, instr[30:25], instr[11:7]};
-            `B_Type:
+            `B_Type: begin
+                $display("f3: %x", funct3);
                 case (funct3)
                     3'b110: begin
                         // 0扩展
@@ -25,6 +26,7 @@ module ysyx_22041207_SEXT(
                     end
                     default: imm = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
                 endcase
+            end
             `U_Type:
                 imm = {{(33){instr[31]}}, instr[30:12], 12'b0};
             `J_Type:
