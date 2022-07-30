@@ -16,7 +16,7 @@ wire [63:0] imm;
 wire pc_sel, npc_op;
 wire sel_a, sel_b;
 wire [63:0] npc;
-ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, npc);
+
 always @(posedge clk) begin
   pc <= npc;
   //$display("inst:%h", pc);
@@ -44,22 +44,18 @@ wire [3:0] readNum;
 wire rs1to32;
 wire [11:0] csrAddress;
 wire csrWen;
-wire [63:0] mtvec;
-wire [63:0] mepc;
-wire [63:0] mcause;
-wire [63:0] csrReadData;
-wire wMtvec;
-wire [63:0] mtvec_v;
-wire wMepc;
-wire [63:0] mepc_v;
-wire wMcause;
-wire [63:0] mcause_v;
-assign mepc = pc;
-ysyx_22041207_csrRegister csrRegister(clk, csrAddress, rwdata, wMtvec, mtvec_v, wMepc, mepc_v, wMcause, mcause_v, csrWen, mtvec, mepc, mcause, csrReadData);
+wire [63:0] mtvec, mepc, mcause, mstatus, csrReadData;
+wire wMtvec, wMepc, wMcause, wMstatus;
+wire [63:0] mtvec_v, mepc_v, mcause_v, mstatus_v;
+assign mepc_v = pc; // mepc永远是写入pc
+wire pc_panic, pc_mret;
+ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, pc_panic, pc_mret, mtvec, mepc, npc);
+ysyx_22041207_csrRegister csrRegister(clk, csrAddress, rwdata, wMtvec, mtvec_v, wMepc, mepc_v, 
+wMcause, mcause_v, wMstatus, mstatus_v, csrWen, mtvec, mepc, mcause, mstatus, csrReadData);
 ysyx_22041207_Memory memory(memoryReadWen, aluRes, r2data, memoryWriteMask, sext, readNum, memoryReadData);
 ysyx_22041207_SEXT SEXT(inst, instType, imm);
 ysyx_22041207_decoder decoder(inst, imm, r1data, r2data, aluOperate, sel_a, sel_b, memoryWriteMask, 
-writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen, sext, readNum, rs1to32, wMtvec, wMepc, wMcause);
+writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen, sext, readNum, rs1to32, wMtvec, wMepc, wMcause, wMstatus, pc_panic, pc_mret);
 
 ysyx_22041207_alu alu(clk, pc, aluOperate, r1data, r2data, imm, sel_a, sel_b, rs1to32, aluRes);
 ysyx_22041207_WB WB(aluRes, pc, memoryReadData, imm, csrReadData, writeBackDataSelect, rwdata);

@@ -23,6 +23,7 @@ endmodule
 // 0x341 mepc
 // 0x342 mcause
 // 0x305 mtvec
+// 0x300 mstatus
 module ysyx_22041207_csrRegister (
   input clk,
   input [11:0] address,
@@ -33,20 +34,25 @@ module ysyx_22041207_csrRegister (
   input [63:0] mepc_v,
   input wMcause,
   input [63:0] mcause_v,
+  input wMstatus,
+  input [63:0] mstatus_v,
   input wen,
   output [63:0] mtvec_o,
   output [63:0] mepc_o,
   output [63:0] mcause_o,
+  output [63:0] mstatus_o,
   output reg [63:0] readData
 );
 
-reg [63:0] mepc, mcause, mtvec;
+reg [63:0] mepc, mcause, mtvec, mstatus;
 assign mtvec_o = mtvec;
 assign mepc_o = mepc;
 assign mcause_o = mcause;
+assign mstatus_o = mstatus;
+reg mpie;
 always @(posedge clk) begin
   if (address == `CSR_MCAUSE_ADDRESS && wen) begin
-    mcause <= writeValue;
+    mcause = writeValue;
   end else if (wMcause) begin
     mcause <= mcause_v;
   end
@@ -66,10 +72,22 @@ always @(posedge clk) begin
   end
 end
 always @(posedge clk) begin
+  if (address == `CSR_MSTATUS_ADDRESS && wen) begin
+    mstatus <= writeValue;
+  end else if (wMtvec) begin
+    //mstatus <= mstatus_v;
+    // 表明异常开始 按照流程进行设置
+    //mcause <= mcause []
+    mpie = mstatus [3];
+    mstatus [3] = 1'b0;
+  end
+end
+always @(posedge clk) begin
   case (address)
   `CSR_MCAUSE_ADDRESS: readData = mcause;
   `CSR_MEPC_ADDRESS: readData = mepc;
   `CSR_MTVEC_ADDRESS: readData = mtvec;
+  `CSR_MSTATUS_ADDRESS: readData = mstatus;
   default: readData = 0;
   endcase
 end

@@ -88,6 +88,7 @@ void csrrs(Decode *s, word_t dest,word_t src1,word_t src2) {
 }
 void mret(Decode *s, word_t dest,word_t src1,word_t src2) {
   s->dnpc = cpu.csrM [0x341] + 4;
+  cpu.csrM[0x300] = cpu.csrM[0x300] & (~(((uint64_t)cpu.mpie) << 3));
 }
 static int decode_exec(Decode *s) {
   word_t dest = 0, src1 = 0, src2 = 0;

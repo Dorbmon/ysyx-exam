@@ -7,6 +7,7 @@ typedef struct {
   word_t gpr[32];
   word_t csrM[7424];
   vaddr_t pc;
+  bool mpie;
 } riscv64_CPU_state;
 
 // decode

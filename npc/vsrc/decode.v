@@ -19,7 +19,10 @@ module ysyx_22041207_decoder(
     output reg rs1to32,
     output reg wMtvec,
     output reg wMepc,
-    output reg wMcause
+    output reg wMcause,
+    output reg wMstatus,
+    output reg pc_panic, // 是否为异常跳转
+    output reg pc_mret   // 是否为mret
 );
 wire [6:0] opCode;
 wire [6:0] funct7;
@@ -32,6 +35,9 @@ begin
     wMtvec = 1'b0;
     wMepc = 1'b0;
     wMcause = 1'b0;
+    wMstatus = 1'b0;
+    pc_panic = 1'b0;
+    pc_mret = 1'b0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
@@ -50,6 +56,14 @@ begin
                     // ecall
                     wMepc = 1'b1;   // epc = pc
                     wMcause = 1'b1; // cause = cause
+                    wMstatus = 1'b1;
+                    // 然后更改pc
+                    pc_panic = 1'b1;
+                end
+                64'b001100000010: begin // mret
+                    // 返回mepc
+                    pc_mret = 1'b1;
+
                 end
                 default: wMepc = 1'b0;
             endcase
