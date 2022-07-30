@@ -13,15 +13,14 @@ module ysyx_22041207_SEXT(
             `S_Type:
                 imm = {{(53){instr[31]}}, instr[30:25], instr[11:7]};
             `B_Type: begin
-                $display("f3: %x", funct3);
                 case (funct3)
                     3'b110: begin
+                                                $display("zero");
                         // 0扩展
                         imm = {{(51){1'b0}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
                     end
                     3'h7: begin
                         // 0扩展
-                        $display("zero");
                         imm = {{(51){1'b0}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
                     end
                     default: imm = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
