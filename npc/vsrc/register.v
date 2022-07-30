@@ -26,6 +26,7 @@ endmodule
 // 0x300 mstatus
 module ysyx_22041207_csrRegister (
   input clk,
+  input pc_mret,
   input [11:0] address,
   input [63:0] writeValue,
   input wMtvec,
@@ -52,7 +53,7 @@ assign mstatus_o = mstatus;
 reg mpie;
 always @(posedge clk) begin
   if (address == `CSR_MCAUSE_ADDRESS && wen) begin
-    mcause = writeValue;
+    mcause <= writeValue;
   end else if (wMcause) begin
     mcause <= mcause_v;
   end
@@ -73,13 +74,17 @@ always @(posedge clk) begin
 end
 always @(posedge clk) begin
   if (address == `CSR_MSTATUS_ADDRESS && wen) begin
-    mstatus <= writeValue;
+    mstatus = writeValue;
   end else if (wMtvec) begin
     //mstatus <= mstatus_v;
     // 表明异常开始 按照流程进行设置
     //mcause <= mcause []
     mpie = mstatus [3];
     mstatus [3] = 1'b0;
+  end
+  if (pc_mret) begin
+    mstatus [3] = mpie;
+    mpie = 1'b1;
   end
 end
 always @(posedge clk) begin

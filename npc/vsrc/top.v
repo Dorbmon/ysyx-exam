@@ -50,7 +50,7 @@ wire [63:0] mtvec_v, mepc_v, mcause_v, mstatus_v;
 assign mepc_v = pc; // mepc永远是写入pc
 wire pc_panic, pc_mret;
 ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, pc_panic, pc_mret, mtvec, mepc, npc);
-ysyx_22041207_csrRegister csrRegister(clk, csrAddress, rwdata, wMtvec, mtvec_v, wMepc, mepc_v, 
+ysyx_22041207_csrRegister csrRegister(clk, pc_mret, csrAddress, rwdata, wMtvec, mtvec_v, wMepc, mepc_v, 
 wMcause, mcause_v, wMstatus, mstatus_v, csrWen, mtvec, mepc, mcause, mstatus, csrReadData);
 ysyx_22041207_Memory memory(memoryReadWen, aluRes, r2data, memoryWriteMask, sext, readNum, memoryReadData);
 ysyx_22041207_SEXT SEXT(inst, instType, imm);
