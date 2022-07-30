@@ -73,23 +73,26 @@ void rjalr(Decode *s, word_t dest,word_t src1,word_t src2) {
     //printf("%lx:%*sret [%s@%lx]\n",s->pc,(--depth) * 2, "", getBelongFunction(s->dnpc), s->dnpc);
   }
 }
+extern bool mpie;
+extern word_t csrM[];
 void csrrw(Decode *s, word_t dest,word_t src1,word_t src2) {
   uint32_t csrIndex = src2;
-  word_t tmp = cpu.csrM [csrIndex];
-  cpu.csrM [csrIndex] = src1;
+  word_t tmp = csrM [csrIndex];
+  csrM [csrIndex] = src1;
   R(dest) = tmp;
 }
 void csrrs(Decode *s, word_t dest,word_t src1,word_t src2) {
   uint32_t csrIndex = src2;
   //printf("\ncalled csrrw:%x\n", csrIndex);
-  word_t tmp = cpu.csrM [csrIndex];
-  cpu.csrM [csrIndex] = tmp | src1;
+  word_t tmp = csrM [csrIndex];
+  csrM [csrIndex] = tmp | src1;
   R(dest) = tmp;
 }
-extern bool mpie;
+
+
 void mret(Decode *s, word_t dest,word_t src1,word_t src2) {
-  s->dnpc = cpu.csrM [0x341] + 4;
-  cpu.csrM[0x300] = cpu.csrM[0x300] & (~(((uint64_t)mpie) << 3));
+  s->dnpc = csrM [0x341] + 4;
+  csrM[0x300] = csrM[0x300] & (~(((uint64_t)mpie) << 3));
   mpie = true;
 }
 static int decode_exec(Decode *s) {
