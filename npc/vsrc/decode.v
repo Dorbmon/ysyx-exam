@@ -258,6 +258,9 @@ begin
         3'b001: begin
             aluOperate = `ALU_SLL;  // slliw
         end
+        3'b101: begin
+            aluOperate = `ALU_SRL;  // srliw
+        end
         default: aluOperate = `ALU_NONE;
         endcase
     end
