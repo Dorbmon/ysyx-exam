@@ -255,6 +255,9 @@ begin
         3'b000: begin
             aluOperate = `ALU_ADD;
         end
+        3'b001: begin
+            aluOperate = `ALU_SLL;  // slliw
+        end
         default: aluOperate = `ALU_NONE;
         endcase
     end
