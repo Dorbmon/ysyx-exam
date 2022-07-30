@@ -292,6 +292,6 @@ begin
         end
         endcase
     end
-    endcase   
+    endcase
 end
 endmodule
