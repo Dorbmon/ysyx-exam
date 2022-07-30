@@ -13,17 +13,7 @@ module ysyx_22041207_SEXT(
             `S_Type:
                 imm = {{(53){instr[31]}}, instr[30:25], instr[11:7]};
             `B_Type: begin
-                case (funct3)
-                    3'b110: begin
-                        // 0扩展
-                        imm = {51'b0, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
-                    end
-                    3'h7: begin
-                        // 0扩展
-                        imm = {51'b0, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
-                    end
-                    default: imm = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
-                endcase
+                imm = {{(52){instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0};
             end
             `U_Type:
                 imm = {{(33){instr[31]}}, instr[30:12], 12'b0};
