@@ -25,7 +25,7 @@ always @(*) begin
         `ALU_XOR: res = a ^ b;
         `ALU_OR: res = a | b;
         `ALU_AND: res = a & b;
-        `ALU_SLL: res = a << b;
+        `ALU_SLL: res = a << b [4:0];
         `ALU_SRL: res = a >> b;
         `ALU_SLT: res = $signed(a) < $signed(b) ? 1 : 0;
         `ALU_SLTU: res = a < b ? 1 : 0;

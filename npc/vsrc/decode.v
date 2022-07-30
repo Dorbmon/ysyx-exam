@@ -51,7 +51,7 @@ begin
             3'b100: aluOperate = `ALU_XOR; //xor
             3'b110: aluOperate = `ALU_OR;  //or
             3'b111: aluOperate = `ALU_AND; //and
-            3'b001: aluOperate = `ALU_SLL;
+            3'b001: aluOperate = `ALU_SLL;  // sll
             3'b101: case (funct7)
                 7'h0: aluOperate = `ALU_SRL;    //srl
                 default: aluOperate = `ALU_NONE;
@@ -215,13 +215,13 @@ begin
                 aluOperate = `ALU_REM;  // remw
             end
             3'b101: begin
-                aluOperate = `ALU_DIVU; // divu
+                aluOperate = `ALU_DIVU; // divuw
             end
             3'b111: begin
                 aluOperate = `ALU_REMU; // remu
             end
             3'b100: begin
-                aluOperate = `ALU_DIV;
+                aluOperate = `ALU_DIV;  // divuw
             end
             default: aluOperate = `ALU_NONE;
             endcase
@@ -230,6 +230,9 @@ begin
             case (funct3)
             3'b000: begin
                 aluOperate = `ALU_ADD;  // addw
+            end
+            3'b001: begin
+                aluOperate = `ALU_SLL;  // sllw
             end
             default: aluOperate = `ALU_NONE;
             endcase
