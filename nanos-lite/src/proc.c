@@ -28,7 +28,7 @@ void hello_fun(void *arg) {
 void naive_uload(PCB *pcb, const char *filename);
 void init_proc() {
   context_kload(&pcb[0], hello_fun, "f1");
-  //context_kload(&pcb[1], hello_fun, "f2");
+  context_kload(&pcb[1], hello_fun, "f2");
 
   switch_boot_pcb();
   Log("Initializing processes...");
