@@ -8,7 +8,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   //printf("intr::::NO:%ld\n", NO);
   csrM [0x341] = epc; //mepc
   //csrM [0x342] = NO;  //mcause
-  csrM [0x342] = 0xb;
+  csrM [0x342] = 0xb; // 11 ecall
   uint64_t mstatus = csrM[0x300];
   mpie = mstatus & (1ull << 3);
   csrM[0x300] = mstatus & (~(1ull << 3));
