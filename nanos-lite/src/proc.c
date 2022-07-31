@@ -22,7 +22,7 @@ void hello_fun(void *arg) {
   size_t j = 1;
   while (1) {
     Log("Hello World from Nanos-lite with arg '%s' for the %ldth time!\n", arg, j ++);
-    //yield();
+    yield();
   }
 }
 void naive_uload(PCB *pcb, const char *filename);
@@ -40,7 +40,7 @@ void init_proc() {
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
   current->cp = prev;
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //current = &pcb[0]; // 选择第一个
   
   assert(current->cp != NULL);
