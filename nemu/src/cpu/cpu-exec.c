@@ -50,7 +50,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
-  #ifdef CONFIG_ITRACE
+  isa_exec_once(s);
+  cpu.pc = s->dnpc;
+#ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   char* begin = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -71,8 +73,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
       s->pc, (uint8_t *)&s->isa.inst.val, ilen);
   insertIRINGBuf(begin, s->logbuf);
 #endif
-  isa_exec_once(s);
-  cpu.pc = s->dnpc;
 }
 
 static void execute(uint64_t n) {
