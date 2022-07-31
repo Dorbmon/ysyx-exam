@@ -42,7 +42,7 @@ Context* schedule(Context *prev) {
   current->cp = prev;
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current = &pcb[0]; // 选择第一个
-  
+  Log ("Get mepc%x", prev->mstatus);
   assert(current->cp != NULL);
   return current->cp;
 }
