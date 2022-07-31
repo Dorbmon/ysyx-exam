@@ -10,7 +10,7 @@ void trm_init() {
 }
 
 void putch(char ch) {
-  putchar(ch);
+  //putchar(ch);
 }
 
 void halt(int code) {
