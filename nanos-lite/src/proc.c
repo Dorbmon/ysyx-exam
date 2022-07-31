@@ -14,7 +14,7 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   Area kstack;
   kstack.start = (void*)((intptr_t)pcb);
   kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
-  printf("%ld %ld\n", kstack.start, kstack.end);
+  //printf("%ld %ld\n", kstack.start, kstack.end);
   pcb->cp = kcontext(kstack, entry, arg);
   assert(pcb->cp != NULL);
 }
@@ -40,7 +40,7 @@ void init_proc() {
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
   current->cp = prev;
-  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   //current = &pcb[0]; // 选择第一个
   
   assert(current->cp != NULL);
