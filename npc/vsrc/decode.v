@@ -79,7 +79,7 @@ begin
                 end
                 64'b001100000010: begin // mret
                     // 返回mepc
-                    pc_mret = 1'b1;
+                    //pc_mret = 1'b1;
                 end
                 default: wMepc = 1'b0;
             endcase
