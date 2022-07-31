@@ -48,7 +48,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   // 设置entry为返回地址
   context->mepc = (intptr_t)entry;
   //Log("mepc: %x", context->mepc);
-  //context->mstatus = 0xa00001800;
+  context->mstatus = 0xa00001800;
   context->gpr[10] = (intptr_t)arg; //a0
   return context;
 }
