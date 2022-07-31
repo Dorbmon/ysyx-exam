@@ -22,13 +22,13 @@ void hello_fun(void *arg) {
   size_t j = 1;
   while (1) {
     Log("Hello World from Nanos-lite with arg '%s' for the %ldth time!\n", arg, j ++);
-    yield();
+    //yield();
   }
 }
 void naive_uload(PCB *pcb, const char *filename);
 void init_proc() {
   context_kload(&pcb[0], hello_fun, "f1");
-  context_kload(&pcb[1], hello_fun, "f2");
+  //context_kload(&pcb[1], hello_fun, "f2");
 
   switch_boot_pcb();
   Log("Initializing processes...");
