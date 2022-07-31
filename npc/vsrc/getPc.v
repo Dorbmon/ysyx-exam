@@ -10,5 +10,5 @@ module ysyx_22041207_GetPC(
     input   [63:0]  mepc,
     output  [63:0]  npc
     );
-    assign npc = pc_panic ? {2'b0, mtvec [63:2]} : (npc_op ? (pc_sel ? rs1 + imm : pc + imm) : pc + 4);
+    assign npc = pc_mret ? mepc : (pc_panic ? {2'b0, mtvec [63:2]} : (npc_op ? (pc_sel ? rs1 + imm : pc + imm) : pc + 4));
 endmodule

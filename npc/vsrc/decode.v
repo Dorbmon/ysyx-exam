@@ -80,7 +80,6 @@ begin
                 64'b001100000010: begin // mret
                     // 返回mepc
                     pc_mret = 1'b1;
-
                 end
                 default: wMepc = 1'b0;
             endcase
@@ -215,8 +214,6 @@ begin
     end
     7'b1101111: // J型指令 jal
     begin
-        //sel_a = 2'b0;
-        //sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b1;
@@ -224,7 +221,6 @@ begin
         writeBackDataSelect = 3'b10;
         memoryReadWen = 1'b0;
         rs1to32 = 1'b0;
-        //aluOperate = `ALU_RETURN_B;
     end
     7'b0100011: // S型指令
     begin
