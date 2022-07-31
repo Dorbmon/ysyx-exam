@@ -71,6 +71,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       s->pc, (uint8_t *)&s->isa.inst.val, ilen);
+  printf("%s\n", s->logbuf);
   insertIRINGBuf(begin, s->logbuf);
 #endif
 }
