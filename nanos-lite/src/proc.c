@@ -19,6 +19,7 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   assert(pcb->cp != NULL);
 }
 void hello_fun(void *arg) {
+  Log("enter function...");
   size_t j = 1;
   while (1) {
     Log("Hello World from Nanos-lite with arg '%s' for the %ldth time!\n", arg, j ++);
