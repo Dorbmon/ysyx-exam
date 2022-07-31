@@ -83,7 +83,7 @@ void csrrw(Decode *s, word_t dest,word_t src1,word_t src2) {
 }
 void csrrs(Decode *s, word_t dest,word_t src1,word_t src2) {
   uint32_t csrIndex = src2;
-  //printf("\ncalled csrrw:%x\n", csrIndex);
+  printf("\ncalled csrrw:%x\n", csrIndex);
   word_t tmp = csrM [csrIndex];
   csrM [csrIndex] = tmp | src1;
   R(dest) = tmp;
@@ -92,7 +92,7 @@ void csrrs(Decode *s, word_t dest,word_t src1,word_t src2) {
 
 void mret(Decode *s, word_t dest,word_t src1,word_t src2) {
   s->dnpc = csrM [0x341] + 4;
-  printf("mcause:%lx", csrM[0x300]);
+  printf("mcause:%lx\n", csrM[0x300]);
   csrM[0x300] = csrM[0x300] & (~(((uint64_t)mpie) << 3));
   mpie = true;
 }
