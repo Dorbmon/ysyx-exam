@@ -40,6 +40,7 @@ void init_proc() {
 // 返回新的上下文
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
+  Log("mstatus:%x", pcb[0].cp->mstatus);
   return pcb[0].cp;
   current->cp = prev;
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
