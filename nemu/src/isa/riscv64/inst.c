@@ -83,7 +83,7 @@ void csrrw(Decode *s, word_t dest,word_t src1,word_t src2) {
 }
 void csrrs(Decode *s, word_t dest,word_t src1,word_t src2) {
   uint32_t csrIndex = src2;
-  //printf("\ncalled csrrw:%x\n", csrIndex);
+  printf("\ncalled csrrw:%x\n", csrIndex);
   word_t tmp = csrM [csrIndex];
   csrM [csrIndex] = tmp | src1;
   R(dest) = tmp;
