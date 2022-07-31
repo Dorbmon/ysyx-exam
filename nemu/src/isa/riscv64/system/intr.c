@@ -6,8 +6,9 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    * Then return the address of the interrupt/exception vector.
    */
   //printf("intr::::NO:%ld\n", NO);
-  csrM [0x341] = epc;
-  csrM [0x342] = NO;
+  csrM [0x341] = epc; //mepc
+  //csrM [0x342] = NO;  //mcause
+  csrM [0x342] = 0x81D39EBA;
   uint64_t mstatus = csrM[0x300];
   mpie = mstatus & (1ull << 3);
   csrM[0x300] = mstatus & (~(1ull << 3));
