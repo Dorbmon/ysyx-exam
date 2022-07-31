@@ -10,6 +10,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   //csrM [0x342] = NO;  //mcause
   csrM [0x342] = 0xb;
   uint64_t mstatus = csrM[0x300];
+  printf("before:%lx\n", mstatus);
   mpie = mstatus & (1ull << 3);
   csrM[0x300] = mstatus & (~(1ull << 3));
   return csrM [0x305];
