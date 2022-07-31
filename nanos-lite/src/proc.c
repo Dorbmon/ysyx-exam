@@ -41,9 +41,9 @@ void init_proc() {
 Context* schedule(Context *prev) {
   // 先保存当前的上下文
   current->cp = prev;
-  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  current = &pcb[0]; // 选择第一个
-  Log ("Get mstatus:%x", prev->mstatus);
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  //current = &pcb[0]; // 选择第一个
+  //Log ("Get mstatus:%x", prev->mstatus);
   assert(current->cp != NULL);
   return current->cp;
 }
