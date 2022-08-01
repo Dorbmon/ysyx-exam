@@ -16,10 +16,11 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   if (vaddr == 0x40004e5c) {
     printf("tran...vsanobsanbispanb\n");
   }
-  if (!isa_mmu_check(vaddr, len, type)) {
+  if (isa_mmu_check(vaddr, len, type)) {
     //printf("direct:%lx   \n", vaddr);
     if (vaddr == 0x40004e5c) {
     printf("%lx...\n", csrM[0x180]);
+    printf("shit:%lx\n", csrM[0x180] >> 63);
     }
     return vaddr;
   }
