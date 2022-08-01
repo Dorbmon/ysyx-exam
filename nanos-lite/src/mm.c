@@ -3,12 +3,20 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
-  return NULL;
+  void* ret = pf;
+  pf += nr_page * 4 * 1024 * 8;
+  return ret;
 }
 
 #ifdef HAS_VME
 static void* pg_alloc(int n) {
-  return NULL;
+  // n 个字节
+  // 一页4kb = 4 * 1024字节
+  size_t pageNum = n / 4 / 1024;
+  if (pageNum * 4 * 1024 != n) ++ pageNum;
+  void* res = new_page(pageNum);
+  memset(res, 0, pageNum * 4 * 1024);
+  return res;
 }
 #endif
 

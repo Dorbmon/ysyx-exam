@@ -1,12 +1,16 @@
 #include <am.h>
 #include <nemu.h>
 #include <klib.h>
-
+// 内核空间
 static AddrSpace kas = {};
 static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;
 static int vme_enable = 0;
-
+// typedef struct {
+//   int pgsize;
+//   Area area;
+//   void *ptr;
+// } AddrSpace;
 static Area segments[] = {      // Kernel memory mappings
   NEMU_PADDR_SPACE
 };
@@ -17,7 +21,7 @@ static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
   asm volatile("csrw satp, %0" : : "r"(mode | ((uintptr_t)pdir >> 12)));
 }
-
+// 0x180 satp
 static inline uintptr_t get_satp() {
   uintptr_t satp;
   asm volatile("csrr %0, satp" : "=r"(satp));
@@ -31,8 +35,8 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   kas.ptr = pgalloc_f(PGSIZE);
 
   int i;
-  for (i = 0; i < LENGTH(segments); i ++) {
-    void *va = segments[i].start;
+  for (i = 0; i < LENGTH(segments); i ++) { // 访问页表索引
+    void *va = segments[i].start; // 处理这个页表中的所有页面
     for (; va < segments[i].end; va += PGSIZE) {
       map(&kas, va, va, 0);
     }
@@ -65,8 +69,37 @@ void __am_switch(Context *c) {
     set_satp(c->pdir);
   }
 }
-
+#define ext2(x, s, t) ((x >> s) & ((1ull << (t - s + 1)) - 1))
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  // 将as中的va所在的虚拟页映射到pa所在的物理页
+  //pa = ((size_t)va >> 12) << 12;
+  //pa = ((size_t)pa >> 12) << 12;
+  // 提取第一级
+  size_t l1 = ext2((size_t)va, 30, 38), l2 = ext2((size_t)va, 21, 29), l3 = ext2((size_t)va, 12, 20);
+  uint64_t* t = (uint64_t*) ((size_t)as->ptr + l1 * 8);  // 第一级对应的表项
+  if (*t == 0) {  // 这一项还没有初始化过
+    // 为他创建一个表
+    size_t pptr = (size_t)pgalloc_usr(1);
+    *t = (pptr >> 12) << 10;// 低12位舍弃
+  }
+  uint64_t addr = ext2(*t, 10, 47);
+  addr <<= 12;
+  addr += l2; // 第二个表
+  t = (uint64_t*)addr;
+  if (*t == 0) {  // 这一项还没有初始化过
+    // 为他创建一个表
+    size_t pptr = (size_t)pgalloc_usr(1);
+    *t = (pptr >> 12) << 10;// 低12位舍弃
+  }
+  addr = ext2(*t, 10, 47);
+  addr <<= 12;
+  addr += l3;
+  t = (uint64_t*)addr;  // 最终表 代表着最后一次映射
+  if (*t == 0) {  // 这一项还没有初始化过
+    // 为他创建一个表
+    size_t pptr = (size_t)pa;
+    *t = (pptr >> 12) << 10;// 低12位舍弃
+  }
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
