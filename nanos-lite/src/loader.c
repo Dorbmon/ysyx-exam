@@ -45,7 +45,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           memset(pg, 0, PGSIZE);
         }
         #else
-        fs_read(fd, (uint8_t*)tmp.p_vaddr , PGSIZE);
+        fs_read(fd, (uint8_t*)tmp.p_vaddr , tmp.p_memsz);
         memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
         #endif
       }
