@@ -33,7 +33,6 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgfree_usr = pgfree_f;
 
   kas.ptr = pgalloc_f(PGSIZE);
-  printf("here\n");
   int i;
   for (i = 0; i < LENGTH(segments); i ++) { // 访问页表索引
     void *va = segments[i].start; // 处理这个页表中的所有页面
@@ -41,8 +40,6 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
       map(&kas, va, va, 0);
     }
   }
-  //Log("here");
-  printf("finished\n");
   set_satp(kas.ptr);
   vme_enable = 1;
 
