@@ -13,6 +13,9 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
 }
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   //printf("address:%lx\n", vaddr);
+  if (vaddr == 0x40004e5c) {
+    printf("tran...vsanobsanbispanb\n");
+  }
   if (!isa_mmu_check(vaddr, len, type)) {
     //printf("direct:%lx   \n", vaddr);
     return vaddr;
