@@ -30,7 +30,6 @@ static inline uintptr_t get_satp() {
 }
 
 bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
-  printf("here\n");
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
@@ -80,6 +79,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // 提取第一级
   size_t l1 = ext2((size_t)va, 30, 38), l2 = ext2((size_t)va, 21, 29), l3 = ext2((size_t)va, 12, 20);
   uint64_t* t = (uint64_t*) ((size_t)as->ptr + l1 * 8);  // 第一级对应的表项
+  printf("l1:%lx\n", l1);
   if (*t == 0) {  // 这一项还没有初始化过
     // 为他创建一个表
     size_t pptr = (size_t)pgalloc_usr(1);
