@@ -6,8 +6,10 @@ extern Finfo file_table[];
 void sys_write(Context *c) {
   c->GPRx = fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
 }
+int mm_brk(Context *c, uintptr_t brk);
 void sys_brk(Context *c) {
-  c->GPRx = 0;
+  uint64_t addr = c->GPR1;
+  c->GPRx = mm_brk(c, addr);
 }
 void sys_open(Context *c) {
   c->GPRx = fs_open((char*)c->GPR2, 0, 0);
