@@ -1,6 +1,7 @@
 #include <am.h>
 #include <nemu.h>
 #include <klib.h>
+
 // 内核空间
 static AddrSpace kas = {};
 static void* (*pgalloc_usr)(int) = NULL;
@@ -41,7 +42,8 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
       map(&kas, va, va, 0);
     }
   }
-
+  //Log("here");
+  printf("here");
   set_satp(kas.ptr);
   vme_enable = 1;
 
