@@ -6,6 +6,9 @@ extern word_t csrM[];
 #define ext2(x, s, t) ((x >> s) & ((1ull << (t - s + 1)) - 1))
 int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   uint64_t satp = csrM[0x180];
+  if (!(satp & (1ull << 63))) {
+    printf("shit\n");
+  }
   return satp & (1ull << 63);
 }
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
