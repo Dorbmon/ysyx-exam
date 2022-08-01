@@ -12,16 +12,7 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   return satp >> 63;
 }
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  //printf("address:%lx\n", vaddr);
-  if (vaddr == 0x40004e5c) {
-    printf("tran...vsanobsanbispanb\n");
-  }
   if (!isa_mmu_check(vaddr, len, type)) {
-    //printf("direct:%lx   \n", vaddr);
-    if (vaddr == 0x40004e5c) {
-      printf("%lx...\n", csrM[0x180]);
-      printf("shit:%lx\n", csrM[0x180] >> 63);
-    }
     return vaddr;
   }
   //printf("tran:%lx\n", vaddr);
@@ -34,7 +25,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   //printf("first....\n");
   uint64_t t3 = host_read(guest_to_host(table1 + l1 * 8), 8);
   // 提取地址
-  
   uint64_t addr = ext2(t3, 10, 47);
   // 接着访问这一层
   addr <<= 12;
@@ -47,8 +37,5 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   t3 = host_read(guest_to_host(addr), 8);
   addr = ext2(t3, 10, 47);
   uint64_t res = (addr << 12) + ext2(vaddr, 0, 11);
-  //assert(res == vaddr);
-  //printf("resAddress:%lx\n", res);
   return res;
-  //return MEM_RET_FAIL;
 }
