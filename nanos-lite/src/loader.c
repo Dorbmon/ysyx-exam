@@ -6,6 +6,7 @@
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
+  Log("enter loader");
   Elf64_Ehdr elf_head;
 	int a;
 	//a = ramdisk_read(&elf_head, 0, sizeof(Elf64_Ehdr)); 
