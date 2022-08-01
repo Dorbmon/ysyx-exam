@@ -26,7 +26,6 @@ void context_uload(PCB *pcb, const char *filename) {
   protect(&pcb->as);
   void* entry = (void*)loader(pcb, filename);
   pcb->cp = ucontext(&pcb->as, kstack, entry);
-  
   assert(pcb->cp != NULL);
   // 开始映射栈
   for (int i = 1;i <= 4;++ i) {
@@ -56,7 +55,6 @@ void init_proc() {
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
-  
   // 先保存当前的上下文
   current->cp = prev;
   prev->mepc += 4;
