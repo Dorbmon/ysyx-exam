@@ -102,7 +102,8 @@ static int decode_exec(Decode *s) {
   word_t dest = 0, src1 = 0, src2 = 0;
   s->dnpc = s->snpc;
   //pBin((s)->isa.inst.val);
-  printf("pc:%lx\n", s->pc);
+  //printf("pc:%lx\n", s->pc);
+  
 #define INSTPAT_INST(s) ((s)->isa.inst.val)
 #define INSTPAT_MATCH(s, name, type, ... /* body */ ) { \
   decode_operand(s, &dest, &src1, &src2, concat(TYPE_, type)); \

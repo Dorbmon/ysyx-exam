@@ -66,6 +66,7 @@ Context* schedule(Context *prev) {
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current = &pcb[0]; // 选择第一个
   //Log ("Get mstatus:%x", prev->mstatus);
+  panic("swich...");
   assert(current->cp != NULL);
   Log("mepc:%x", current->cp->mepc);
   return current->cp;
