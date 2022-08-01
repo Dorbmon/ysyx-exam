@@ -5,7 +5,7 @@
 #include <memory.h>
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
-static uintptr_t loader(PCB *pcb, const char *filename) {
+uintptr_t loader(PCB *pcb, const char *filename) {
   
   Elf64_Ehdr elf_head;
 	int a;
