@@ -1,6 +1,8 @@
 #include <proc.h>
 #include <elf.h>
 #include <fs.h>
+#include <am.h>
+#include <memory.h>
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
@@ -31,8 +33,16 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     if (tmp.p_type == PT_LOAD) {
       int cur = fs_lseek(fd, 0, SEEK_CUR);
       fs_lseek(fd, tmp.p_offset, SEEK_SET);
-      fs_read(fd, (uint8_t*)tmp.p_vaddr, tmp.p_filesz);
-      memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
+      
+      //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
+      for (size_t pgAll = 0;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
+        void* pg = new_page(1);
+        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
+        fs_read(fd, (uint8_t*)pg, PGSIZE);
+        if (pgAll * PGSIZE > tmp.p_filesz) {
+          memset(pg, 0, PGSIZE);
+        }
+      }
       fs_lseek(fd, cur, SEEK_SET);
     }
   }

@@ -16,7 +16,7 @@ static Area segments[] = {      // Kernel memory mappings
   NEMU_PADDR_SPACE
 };
 
-#define USER_SPACE RANGE(0x40000000, 0x80000000)
+#define USER_SPACE RANGE(0x40000000, 0x80000000)  // 1MB
 static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
   asm volatile("csrw satp, %0" : : "r"(mode | ((uintptr_t)pdir >> 12)));
@@ -105,5 +105,12 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
-  return NULL;
+  Context* context = (Context*)((intptr_t)kstack.end - sizeof(Context));
+  // 设置entry为返回地址
+  context->mepc = (intptr_t)entry;
+  //Log("mepc: %x", context->mepc);
+  context->mstatus = 0xa00001800;
+  context->pdir = as->ptr;
+  //context->gpr[10] = (intptr_t)arg; //a0
+  return context;
 }
