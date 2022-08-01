@@ -23,7 +23,7 @@ void context_uload(PCB *pcb, const char *filename) {
   kstack.start = (void*)((intptr_t)pcb);
   kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
   //printf("%ld %ld\n", kstack.start, kstack.end);
-  protect(&pcb->as);
+  protect(&pcb->as);  // 会拷贝内核空间的表
   void* entry = (void*)loader(pcb, filename);
   pcb->cp = ucontext(&pcb->as, kstack, entry);
   assert(pcb->cp != NULL);
