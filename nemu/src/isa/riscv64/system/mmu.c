@@ -7,14 +7,14 @@ extern word_t csrM[];
 int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   uint64_t satp = csrM[0x180];
   if (satp & (1ull << 63)) {
-    printf("shit\n");
+    //printf("shit\n");
   }
   return satp & (1ull << 63);
 }
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   //printf("address:%lx\n", vaddr);
   if (!isa_mmu_check(vaddr, len, type)) {
-    printf("direct:%lx\n", vaddr);
+    //printf("direct:%lx\n", vaddr);
     return vaddr;
   }
   //printf("tran:%lx\n", vaddr);
