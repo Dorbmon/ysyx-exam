@@ -12,7 +12,7 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   return satp & (1ull << 63);
 }
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  printf("address:%lx\n", vaddr);
+  //printf("address:%lx\n", vaddr);
   if (!isa_mmu_check(vaddr, len, type)) {
     //printf("direct:%lx\n", vaddr);
     return vaddr;
@@ -39,6 +39,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   addr = ext2(t3, 10, 47);
   uint64_t res = (addr << 12) + ext2(vaddr, 0, 11);
   assert(res == vaddr);
+  printf("resAddress:%lx\n", res);
   return res;
   //return MEM_RET_FAIL;
 }
