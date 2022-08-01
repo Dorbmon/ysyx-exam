@@ -21,6 +21,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     if (vaddr == 0x40004e5c) {
     printf("%lx...\n", csrM[0x180]);
     }
+    return vaddr;
   }
   //printf("tran:%lx\n", vaddr);
   // 开始转换
