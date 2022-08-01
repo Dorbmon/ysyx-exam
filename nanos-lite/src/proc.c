@@ -44,14 +44,14 @@ void hello_fun(void *arg) {
 }
 void naive_uload(PCB *pcb, const char *filename);
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, "f1");
-  context_kload(&pcb[1], hello_fun, "f2");
+  //context_kload(&pcb[0], hello_fun, "f1");
+  //context_kload(&pcb[1], hello_fun, "f2");
 
   switch_boot_pcb();
   Log("Initializing processes...");
 
   // load program here
-  //context_uload(&pcb[0], "/bin/dummy");
+  context_uload(&pcb[0], "/bin/dummy");
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
