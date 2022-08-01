@@ -7,7 +7,7 @@ extern word_t csrM[];
 int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   uint64_t satp = csrM[0x180];
   if (satp & (1ull << 63)) {
-    //printf("shit\n");
+    printf("shit\n");
   }
   return satp & (1ull << 63);
 }
