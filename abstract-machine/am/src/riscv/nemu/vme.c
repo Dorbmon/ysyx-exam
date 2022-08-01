@@ -30,6 +30,7 @@ static inline uintptr_t get_satp() {
 }
 
 bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
+  printf("here");
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
@@ -43,7 +44,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
     }
   }
   //Log("here");
-  printf("here");
+  
   set_satp(kas.ptr);
   vme_enable = 1;
 
