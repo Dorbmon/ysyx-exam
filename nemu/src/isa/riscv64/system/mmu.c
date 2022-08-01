@@ -31,6 +31,8 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   addr += l3 * 8;
   t3 = host_read(guest_to_host(addr), 8);
   addr = ext2(t3, 10, 47);
-  return (addr << 12) + ext2(vaddr, 0, 11);
+  uint64_t res = (addr << 12) + ext2(vaddr, 0, 11);
+  assert(res == vaddr);
+  return res;
   //return MEM_RET_FAIL;
 }
