@@ -19,7 +19,9 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   assert(pcb->cp != NULL);
 }
 void context_uload(PCB *pcb, const char *filename) {
+  #ifdef HAS_VME
   protect(&pcb->as);  // 会拷贝内核空间的表
+  #endif
   Area kstack;
   kstack.start = (void*)((intptr_t)pcb);
   kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
