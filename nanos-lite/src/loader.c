@@ -38,11 +38,16 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       for (size_t pgAll = 0;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
+        #ifdef HAS_VME
         map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
         fs_read(fd, (uint8_t*)pg, PGSIZE);
         if (pgAll * PGSIZE > tmp.p_filesz) {
           memset(pg, 0, PGSIZE);
         }
+        #else
+        fs_read(fd, (uint8_t*)tmp.p_vaddr , PGSIZE);
+        memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
+        #endif
       }
       fs_lseek(fd, cur, SEEK_SET);
     }
