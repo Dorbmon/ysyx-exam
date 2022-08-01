@@ -5,7 +5,7 @@
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
-
+uintptr_t loader(PCB *pcb, const char *filename);
 void switch_boot_pcb() {
   current = &pcb_boot;
 }
@@ -18,12 +18,13 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   pcb->cp = kcontext(kstack, entry, arg);
   assert(pcb->cp != NULL);
 }
-void context_uload(PCB *pcb, void (*entry)(void *)) {
+void context_uload(PCB *pcb, const char *filename) {
   Area kstack;
   kstack.start = (void*)((intptr_t)pcb);
   kstack.end   = (void*)((intptr_t)pcb + sizeof(PCB));
   //printf("%ld %ld\n", kstack.start, kstack.end);
   protect(&pcb->as);
+  void* entry = (void*)loader(pcb, filename);
   pcb->cp = ucontext(&pcb->as, kstack, entry);
   
   assert(pcb->cp != NULL);
@@ -31,6 +32,8 @@ void context_uload(PCB *pcb, void (*entry)(void *)) {
   for (int i = 1;i <= 4;++ i) {
     map(&pcb->as, pcb->as.area.end - PGSIZE * i, kstack.end - PGSIZE * i, 0);
   }
+  
+  ((void(*)())entry) ();
 }
 void hello_fun(void *arg) {
   Log("enter function...");
