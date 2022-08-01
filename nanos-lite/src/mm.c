@@ -15,7 +15,7 @@ static void* pg_alloc(int n) {
   size_t pageNum = n / 4 / 1024;
   if (pageNum * 4 * 1024 != n) ++ pageNum;
   void* res = new_page(pageNum);
-  memset(res, 0, pageNum * 4 * 1024);
+  memset(res, 0, pageNum * PGSIZE);
   return res;
 }
 #endif
