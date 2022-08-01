@@ -33,7 +33,7 @@ void context_uload(PCB *pcb, const char *filename) {
     map(&pcb->as, pcb->as.area.end - PGSIZE * i, kstack.end - PGSIZE * i, 0);
   }
   
-  ((void(*)())entry) ();
+  //((void(*)())entry) ();
 }
 void hello_fun(void *arg) {
   Log("enter function...");
