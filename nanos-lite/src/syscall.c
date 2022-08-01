@@ -8,7 +8,7 @@ void sys_write(Context *c) {
 }
 int mm_brk(Context *c, uintptr_t brk);
 void sys_brk(Context *c) {
-  uint64_t addr = c->GPR1;
+  uint64_t addr = c->GPR2;
   c->GPRx = mm_brk(c, addr);
 }
 void sys_open(Context *c) {
