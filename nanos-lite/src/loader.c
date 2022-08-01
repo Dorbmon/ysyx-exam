@@ -46,7 +46,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, cur, SEEK_SET);
     }
   }
-  
+  Log("finish load\n");
   return elf_head.e_entry;
 }
 
