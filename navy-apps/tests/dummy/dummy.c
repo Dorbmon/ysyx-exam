@@ -8,7 +8,7 @@
 extern int _syscall_(int, uintptr_t, uintptr_t, uintptr_t);
 
 int main() {
-  printf("start to run dummy....\n");
+  //printf("start to run dummy....\n");
   while (1);
   //return _syscall_(SYS_exit, 0, 0, 0);
 }
