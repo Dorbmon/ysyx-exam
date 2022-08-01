@@ -56,7 +56,7 @@ void init_proc() {
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
-  Log("mepc:%x", prev->mepc);
+  
   // 先保存当前的上下文
   current->cp = prev;
   prev->mepc += 4;
@@ -64,5 +64,6 @@ Context* schedule(Context *prev) {
   //current = &pcb[0]; // 选择第一个
   //Log ("Get mstatus:%x", prev->mstatus);
   assert(current->cp != NULL);
+  Log("mepc:%x", current->cp->mepc);
   return current->cp;
 }

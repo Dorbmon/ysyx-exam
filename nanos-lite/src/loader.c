@@ -48,7 +48,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
     }
   }
   Log("finish load\n");
-  return elf_head.e_entry;
+  return elf_head.e_entry; // 需要返回对应的虚拟地址
 }
 
 
