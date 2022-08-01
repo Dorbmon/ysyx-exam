@@ -43,6 +43,7 @@ void init_mem() {
 }
 
 word_t paddr_read(paddr_t addr, int len) {
+  addr = isa_mmu_translate(addr, len, 0);
 #ifdef TRACE_START
   log_write("read memory:%x\n", addr);
 #endif
@@ -53,6 +54,7 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
+  addr = isa_mmu_translate(addr, len, 0);
 #ifdef TRACE_START
   log_write("write memory:%x\n", addr);
 #endif
