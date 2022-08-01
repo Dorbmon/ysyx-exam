@@ -96,6 +96,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   addr = ext2(*t, 10, 47);
   addr <<= 12;
   addr += l3;
+  printf("addr:%x\n", addr);
   t = (uint64_t*)addr;  // 最终表 代表着最后一次映射
   if (*t == 0) {  // 这一项还没有初始化过
     size_t pptr = (size_t)pa;
