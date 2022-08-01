@@ -28,7 +28,7 @@ void context_uload(PCB *pcb, const char *filename) {
   pcb->cp = ucontext(&pcb->as, kstack, entry);
   assert(pcb->cp != NULL);
   // 开始映射栈
-  for (int i = 1;i <= 8;++ i) {
+  for (int i = 0;i < 8;++ i) {
     map(&pcb->as, pcb->as.area.end - PGSIZE * i, kstack.end - PGSIZE * i, 0);
   }
   
