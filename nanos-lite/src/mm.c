@@ -4,7 +4,7 @@ static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
   void* ret = pf;
-  pf += nr_page * 4 * 1024 * 8;
+  pf += nr_page * 4 * 1024;
   return ret;
 }
 
