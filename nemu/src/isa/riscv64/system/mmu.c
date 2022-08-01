@@ -12,7 +12,7 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   return satp & (1ull << 63);
 }
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  //printf("address:%lx\n", vaddr);
+  printf("address:%lx\n", vaddr);
   if (!isa_mmu_check(vaddr, len, type)) {
     //printf("direct:%lx\n", vaddr);
     return vaddr;
