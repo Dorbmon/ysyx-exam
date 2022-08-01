@@ -12,5 +12,5 @@ int main() {
   //putchar('R');
   //while (1);
   //return 0;
-  return _syscall_(SYS_exit, 0, 0, 0);
+  //return _syscall_(SYS_exit, 0, 0, 0);
 }
