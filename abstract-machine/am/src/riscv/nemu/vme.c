@@ -17,7 +17,6 @@ static Area segments[] = {      // Kernel memory mappings
 };
 
 #define USER_SPACE RANGE(0x40000000, 0x80000000)
-
 static inline void set_satp(void *pdir) {
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
   asm volatile("csrw satp, %0" : : "r"(mode | ((uintptr_t)pdir >> 12)));
@@ -43,7 +42,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
     }
   }
   //Log("here");
-  
+  printf("finished\n");
   set_satp(kas.ptr);
   vme_enable = 1;
 
@@ -79,7 +78,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // 提取第一级
   size_t l1 = ext2((size_t)va, 30, 38), l2 = ext2((size_t)va, 21, 29), l3 = ext2((size_t)va, 12, 20);
   uint64_t* t = (uint64_t*) ((size_t)as->ptr + l1 * 8);  // 第一级对应的表项
-  printf("l1:%x\n", l1);
+  //printf("l1:%x\n", l1);
   if (*t == 0) {  // 这一项还没有初始化过
     // 为他创建一个表
     size_t pptr = (size_t)pgalloc_usr(1);
