@@ -55,7 +55,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  context_uload(&pcb[0], "/bin/menu");
+  context_uload(&pcb[0], "/bin/dummy");
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
@@ -66,7 +66,6 @@ Context* schedule(Context *prev) {
   //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current = &pcb[0]; // 选择第一个
   //Log ("Get mstatus:%x", prev->mstatus);
-  panic("swich...");
   assert(current->cp != NULL);
   Log("mepc:%x", current->cp->mepc);
   return current->cp;
