@@ -6,7 +6,7 @@
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  Log("enter loader");
+  
   Elf64_Ehdr elf_head;
 	int a;
 	//a = ramdisk_read(&elf_head, 0, sizeof(Elf64_Ehdr)); 
@@ -26,7 +26,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		assert(0);
 	}
   //roffset = elf_head.e_phoff;
-  
+  Log("enter loader");
   fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
