@@ -29,6 +29,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   // 开始依次读取
   uint64_t t3 = host_read(guest_to_host(table1 + l1 * 8), 8);
   // 提取地址
+  printf("second....\n");
   uint64_t addr = ext2(t3, 10, 47);
   // 接着访问这一层
   addr <<= 12;
