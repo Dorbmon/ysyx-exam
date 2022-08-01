@@ -81,25 +81,25 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   //printf("l1:%x\n", l1);
   if (*t == 0) {  // 这一项还没有初始化过
     // 为他创建一个表
-    size_t pptr = (size_t)pgalloc_usr(4 * 1024);
+    uint64_t pptr = (uint64_t)pgalloc_usr(4 * 1024);
     *t = (pptr >> 12) << 10;// 低12位舍弃
   }
   uint64_t addr = ext2(*t, 10, 47);
   addr <<= 12;
-  addr += l2; // 第二个表
+  addr += l2 * 8; // 第二个表
   t = (uint64_t*)addr;
   if (*t == 0) {  // 这一项还没有初始化过
     // 为他创建一个表
-    size_t pptr = (size_t)pgalloc_usr(4 * 1024);
+    uint64_t pptr = (uint64_t)pgalloc_usr(4 * 1024);
     *t = (pptr >> 12) << 10;// 低12位舍弃
   }
   addr = ext2(*t, 10, 47);
   addr <<= 12;
-  addr += l3;
+  addr += l3 * 8;
   printf("addr:%x\n", addr);
   t = (uint64_t*)addr;  // 最终表 代表着最后一次映射
   if (*t == 0) {  // 这一项还没有初始化过
-    size_t pptr = (size_t)pa;
+    uint64_t pptr = (uint64_t)pa;
     *t = (pptr >> 12) << 10;// 低12位舍弃
   }
 }
