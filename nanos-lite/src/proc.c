@@ -52,7 +52,6 @@ void init_proc() {
 
   // load program here
   context_uload(&pcb[0], "/bin/dummy");
-  Log("loaded....");
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
