@@ -30,11 +30,12 @@ int mm_brk(Context *c, uintptr_t brk) {
   if (brk > current->max_brk) {
     // 开始映射
     uintptr_t start = ((current->max_brk >> 12) << 12) + PGSIZE;
-    while (start < brk) {
+    while (start <= brk) {
       void* pg = pg_alloc(1);
       map(&current->as, (void*)start, pg, 0);
       start += PGSIZE;
     }
+    current->max_brk = brk;
   }
   #endif
   return 0;
