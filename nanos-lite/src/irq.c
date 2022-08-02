@@ -8,6 +8,7 @@ static Context* do_event(Event e, Context* c) {
     case EVENT_YIELD: sys_yield(c, &ret); break;
     default: panic("Unhandled event ID = %d", e.event);
   }
+  ret->mepc += 4;
   return ret;
 }
 

@@ -150,4 +150,5 @@ void do_syscall(Context *c, Context** ret) {
     case SYS_gettimeofday: sys_gettimeofday(c); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
+  
 }
