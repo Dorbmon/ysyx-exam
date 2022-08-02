@@ -27,6 +27,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   //roffset = elf_head.e_phoff;
   Log("enter loader");
   fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
+  size_t lastAddr = 0;
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
     fs_read(fd, &tmp, sizeof(Elf64_Phdr));
@@ -36,11 +37,14 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       Log("address:%x, size:%x",tmp.p_vaddr,  tmp.p_filesz);
       //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
       #ifdef HAS_VME
+      if (lastAddr == 0) {
+
+      }
       for (size_t pgAll = 0;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
         map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
-        if (pgAll * PGSIZE < tmp.p_filesz) {  // 还有文件可读
+        if (pgAll * PGSIZE < tmp.p_filesz) {
           size_t rest = tmp.p_filesz - pgAll * PGSIZE;
           if (rest > PGSIZE) rest = PGSIZE;
           fs_read(fd, (uint8_t*)pg, rest);
