@@ -4,6 +4,7 @@
 #include <proc.h>
 extern Finfo file_table[];
 void sys_write(Context *c) {
+  panic("catch...");
   c->GPRx = fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
 }
 int mm_brk(Context *c, uintptr_t brk);

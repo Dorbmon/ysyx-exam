@@ -11,7 +11,7 @@ extern int _syscall_(int, uintptr_t, uintptr_t, uintptr_t);
 int main() {
   //printf("start to run dummy....\n");
   //putchar('R');
-  while (1);
+  //while (1);
   char t[] = "hello world";
   _syscall_(SYS_write, 0, (uintptr_t)t, sizeof(t));
   while (1);
