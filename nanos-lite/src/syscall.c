@@ -4,7 +4,6 @@
 #include <proc.h>
 extern Finfo file_table[];
 void sys_write(Context *c) {
-  panic("catch...");
   c->GPRx = fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
 }
 int mm_brk(Context *c, uintptr_t brk);
@@ -135,6 +134,7 @@ void sys_yield(Context* c, Context** ret) {
 void do_syscall(Context *c, Context** ret) {
   uintptr_t a[4];
   a[0] = c->GPR1;
+  panic("Get Call:%d", a[0]);
   switch (a[0]) {
     case SYS_yield: sys_yield(c, ret); break;  //SYS_yield
     //case SYS_exit: halt(c->GPR2); break;
