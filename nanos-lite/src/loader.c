@@ -42,9 +42,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         
         map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
         fs_read(fd, (uint8_t*)pg, PGSIZE);
-        if (pgAll * PGSIZE > tmp.p_filesz) {
-          memset(pg, 0, PGSIZE);
-        }
       }
       #else
       fs_read(fd, (uint8_t*)tmp.p_vaddr , tmp.p_filesz);
