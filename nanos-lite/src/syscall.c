@@ -134,7 +134,6 @@ void sys_yield(Context* c, Context** ret) {
 void do_syscall(Context *c, Context** ret) {
   uintptr_t a[4];
   a[0] = c->GPR1;
-  panic("Get Call:%d", a[0]);
   switch (a[0]) {
     case SYS_yield: sys_yield(c, ret); break;  //SYS_yield
     //case SYS_exit: halt(c->GPR2); break;

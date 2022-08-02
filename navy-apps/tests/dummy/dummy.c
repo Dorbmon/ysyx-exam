@@ -13,7 +13,7 @@ int main() {
   //putchar('R');
   //while (1);
   char t[] = "hello world";
-  _syscall_(SYS_write, 0, (uintptr_t)t, sizeof(t));
+  _syscall_(SYS_write, 1, (uintptr_t)t, sizeof(t));
   while (1);
   //return 0;
   //return _syscall_(SYS_exit, 0, 0, 0);
