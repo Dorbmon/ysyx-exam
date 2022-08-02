@@ -32,7 +32,7 @@ void context_uload(PCB *pcb, const char *filename) {
   assert(pcb->cp != NULL);
   // 开始映射栈
   #ifdef HAS_VME
-  for (int i = 0;i < 8;++ i) {
+  for (int i = 1;i <= 8;++ i) {
     map(&pcb->as, pcb->as.area.end - PGSIZE * i, kstack.end - PGSIZE * i, 0);
   }
   pcb->max_brk = (uintptr_t)pcb->as.area.end;
