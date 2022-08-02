@@ -39,14 +39,12 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       for (size_t pgAll = 0;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
-        
         map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
         if (pgAll * PGSIZE < tmp.p_filesz) {  // 还有文件可读
           size_t rest = tmp.p_filesz - pgAll * PGSIZE;
           if (rest > PGSIZE) rest = PGSIZE;
           fs_read(fd, (uint8_t*)pg, rest);
         }
-        
       }
       #else
       fs_read(fd, (uint8_t*)tmp.p_vaddr , tmp.p_filesz);
