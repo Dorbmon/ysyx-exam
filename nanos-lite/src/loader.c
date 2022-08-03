@@ -33,7 +33,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
     if (tmp.p_type == PT_LOAD) {
       int cur = fs_lseek(fd, 0, SEEK_CUR);
       fs_lseek(fd, tmp.p_offset, SEEK_SET);
-      Log("address:%x, size:%x", tmp.p_vaddr, tmp.p_memsz);
+      Log("address:%x, fileSize: %x,memSize:%x", tmp.p_vaddr,tmp.p_filesz, tmp.p_memsz);
       
       //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
       #ifdef HAS_VME
