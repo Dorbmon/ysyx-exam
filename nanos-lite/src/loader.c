@@ -49,7 +49,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           fs_read(fd, (uint8_t*)(pg + offset), PGSIZE - offset);
         } else
         if (pgAll * PGSIZE < tmp.p_filesz) {
-          size_t rest = tmp.p_filesz - pgAll * PGSIZE;
+          size_t rest = tmp.p_filesz - pgAll * PGSIZE + offset;
           if (rest > PGSIZE) rest = PGSIZE;
           fs_read(fd, (uint8_t*)pg, PGSIZE);
         }
