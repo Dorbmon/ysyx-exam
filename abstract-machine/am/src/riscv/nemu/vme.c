@@ -80,7 +80,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   //printf("l1:%x\n", l1);
   if (*t == 0) {  // 这一项还没有初始化过
     // 为他创建一个表
-    uint64_t pptr = (uint64_t)pgalloc_usr(4 * 1024);
+    uint64_t pptr = (uint64_t)pgalloc_usr(PGSIZE);
     *t = (pptr >> 12) << 10;// 低12位舍弃
   }
   uint64_t addr = ext2(*t, 10, 47);
@@ -89,7 +89,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   t = (uint64_t*)addr;
   if (*t == 0) {  // 这一项还没有初始化过
     // 为他创建一个表
-    uint64_t pptr = (uint64_t)pgalloc_usr(4 * 1024);
+    uint64_t pptr = (uint64_t)pgalloc_usr(PGSIZE);
     *t = (pptr >> 12) << 10;// 低12位舍弃
   }
   addr = ext2(*t, 10, 47);
