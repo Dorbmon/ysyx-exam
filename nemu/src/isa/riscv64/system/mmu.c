@@ -12,6 +12,9 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
   return satp >> 63 == 1;
 }
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
+  if (cpu.pc == 0x83000170) {
+    printf("tran:%lx\n", vaddr);
+  }
   if (!isa_mmu_check(vaddr, len, type)) {
     return vaddr;
   }
