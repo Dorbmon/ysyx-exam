@@ -70,7 +70,7 @@ void __am_switch(Context *c) {
 }
 #define ext2(x, s, t) ((x >> s) & ((1ull << (t - s + 1)) - 1))
 void map(AddrSpace *as, void *va, void *pa, int prot) {
-  if (!vme_enable) return ;
+  if (vme_enable) {
   // 将as中的va所在的虚拟页映射到pa所在的物理页
   //pa = ((size_t)va >> 12) << 12;
   //pa = ((size_t)pa >> 12) << 12;
@@ -100,6 +100,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   if (*t == 0) {  // 这一项还没有初始化过
     uint64_t pptr = (uint64_t)pa;
     *t = (pptr >> 12) << 10;// 低12位舍弃
+  }
   }
 }
 
