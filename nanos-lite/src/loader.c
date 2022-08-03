@@ -43,14 +43,12 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       for (;pgAll * PGSIZE - offset < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
-        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE - offset), pg, 0);
+        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
         if (pgAll == 0) {
           // 第一页有偏移
           fs_read(fd, (uint8_t*)(pg + offset), PGSIZE - offset);
         } else
-        if (pgAll * PGSIZE < tmp.p_filesz) {
-          size_t rest = tmp.p_filesz - pgAll * PGSIZE + offset;
-          if (rest > PGSIZE) rest = PGSIZE;
+        if (pgAll * PGSIZE - offset < tmp.p_filesz) {
           fs_read(fd, (uint8_t*)pg, PGSIZE);
         }
       }
