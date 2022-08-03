@@ -78,8 +78,8 @@ int vsprintf(char *str, const char *fmt, va_list ap) {
   char c;
   char *s;
   int n;
-  char buf[65];
-  char digit[16];
+  static char buf[65];
+  static char digit[16];
   memset(buf, 0, sizeof(buf));
   memset(digit, 0, sizeof(digit));
   while (*fmt != '\0') {
