@@ -37,7 +37,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   for (i = 0; i < LENGTH(segments); i ++) { // 访问页表索引
     void *va = segments[i].start; // 处理这个页表中的所有页面
     for (; va < segments[i].end; va += PGSIZE) {
-      map(&kas, va, va, 0);
+      map(kas.ptr, va, va, 0);
     }
   }
   set_satp(kas.ptr);
