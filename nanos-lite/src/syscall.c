@@ -8,8 +8,6 @@ void sys_write(Context *c) {
 }
 int mm_brk(Context *c, uintptr_t brk);
 void sys_brk(Context *c) {
-  c->GPRx = -1;
-  return;
   uint64_t addr = c->GPR2;
   c->GPRx = mm_brk(c, addr);
 }
