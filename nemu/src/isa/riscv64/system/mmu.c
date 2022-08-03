@@ -15,7 +15,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   if (!isa_mmu_check(vaddr, len, type)) {
     return vaddr;
   }
-  printf("tran:%lx\n", vaddr);
+  //printf("tran:%lx\n", vaddr);
   // 开始转换
   // 读取第一层表地址
   uint64_t satp = csrM[0x180];
