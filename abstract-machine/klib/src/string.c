@@ -5,6 +5,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
+  return 0;
   for (size_t i = 0;; i++) {
     if (s[i] == '\0')
       return i;
