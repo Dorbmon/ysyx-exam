@@ -29,7 +29,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   // 接着访问这一层
   addr <<= 12;
   addr += l2 * 8;
-  if ((uint64_t)guest_to_host(addr) == 0x5554d56b7000) {
+  if ((uint64_t)guest_to_host(addr) == 0x5554d56b1000) {
     printf("vaddr:%lx\n", vaddr);
   }
   t3 = host_read(guest_to_host(addr), 8);
