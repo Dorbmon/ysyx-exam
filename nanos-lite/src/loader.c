@@ -38,10 +38,16 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
       #ifdef HAS_VME
       size_t pgAll = 0;
+      size_t offset = tmp.p_vaddr - ((tmp.p_vaddr >> 12) << 12);
+
       for (;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
-        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
+        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE - offset), pg, 0);
+        if (pgAll == 0) {
+          // 第一页有偏移
+          fs_read(fd, (uint8_t*)(pg + offset), PGSIZE - offset);
+        } else
         if (pgAll * PGSIZE < tmp.p_filesz) {
           size_t rest = tmp.p_filesz - pgAll * PGSIZE;
           if (rest > PGSIZE) rest = PGSIZE;
