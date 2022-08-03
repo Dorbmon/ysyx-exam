@@ -45,7 +45,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         if (pgAll * PGSIZE < tmp.p_filesz) {
           size_t rest = tmp.p_filesz - pgAll * PGSIZE;
           if (rest > PGSIZE) rest = PGSIZE;
-          fs_read(fd, (uint8_t*)pg, rest);
+          fs_read(fd, (uint8_t*)pg, PGSIZE);
         }
       }
       Log("Pg All: %x, memSz: %x", pgAll * PGSIZE, tmp.p_memsz);
