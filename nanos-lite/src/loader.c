@@ -37,7 +37,8 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       
       //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
       #ifdef HAS_VME
-      for (size_t pgAll = 0;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
+      size_t pgAll = 0;
+      for (;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
         map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
@@ -47,6 +48,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           fs_read(fd, (uint8_t*)pg, rest);
         }
       }
+      Log("Pg All: %x, memSz: %x", pgAll * PGSIZE, tmp.p_memsz);
       #else
       fs_read(fd, (uint8_t*)tmp.p_vaddr , tmp.p_filesz);
       memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
