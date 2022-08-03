@@ -8,9 +8,9 @@ void init_fs(void);
 void init_proc(void);
 
 int main() {
-  //extern const char logo[];
-  //printf("%d",1);
-  putch('R');
+  extern const char logo[];
+  printf("%s",logo);
+  //putch('R');
   //printf(logo);
   while(1);
   Log("'Hello World!' from Nanos-lite");
