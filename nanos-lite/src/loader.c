@@ -27,7 +27,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   //roffset = elf_head.e_phoff;
   Log("enter loader");
   fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
-  size_t lastAddr = 0;
   for (int i = 0;i < elf_head.e_phnum;++ i) {
     Elf64_Phdr tmp;
     fs_read(fd, &tmp, sizeof(Elf64_Phdr));
@@ -35,11 +34,9 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       int cur = fs_lseek(fd, 0, SEEK_CUR);
       fs_lseek(fd, tmp.p_offset, SEEK_SET);
       Log("address:%x, size:%x",tmp.p_vaddr,  tmp.p_memsz);
+      
       //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
       #ifdef HAS_VME
-      if (lastAddr == 0) {
-
-      }
       for (size_t pgAll = 0;pgAll * PGSIZE < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
