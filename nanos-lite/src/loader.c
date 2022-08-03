@@ -52,7 +52,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           fs_read(fd, (uint8_t*)pg, PGSIZE);
         }
       }
-      Log("Pg All: %x, memSz: %x", pgAll * PGSIZE, tmp.p_memsz);
+      Log("Pg All: %x, memSz: %x", pgAll * PGSIZE - offset, tmp.p_memsz);
       #else
       fs_read(fd, (uint8_t*)tmp.p_vaddr , tmp.p_filesz);
       memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
