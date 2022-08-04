@@ -54,7 +54,8 @@ void init_proc() {
   context_kload(&pcb[2], hello_fun, "f2");
   
   switch_boot_pcb();
-  asm volatile("csrrs zero, mstatus, 8" : : );
+  uint64_t tmp = 8;
+  asm volatile("csrrs zero, mstatus, %0" : : "r"(tmp));
   Log("Initializing processes...");
   
   // load program here
