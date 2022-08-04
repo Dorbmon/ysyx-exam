@@ -38,7 +38,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
       #ifdef HAS_VME
       size_t pgAll = 0;
-      size_t offset = tmp.p_vaddr - ((tmp.p_vaddr >> 12) << 12);
+      intptr_t offset = tmp.p_vaddr - ((tmp.p_vaddr >> 12) << 12);
       Log("pvaddr %x, sub:%x", tmp.p_vaddr, ((tmp.p_vaddr >> 12) << 12));
       for (;pgAll * PGSIZE - offset < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
