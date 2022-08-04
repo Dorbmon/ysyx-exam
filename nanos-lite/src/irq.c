@@ -4,6 +4,9 @@ void do_syscall(Context *c, Context** ret);
 void sys_yield(Context* c, Context** ret);
 static Context* do_event(Event e, Context* c) {
   Context* ret = c;
+  if (e.event == EVENT_IRQ_TIMER) {
+    Log("get timer...");
+  }
   switch (e.event) {
     case EVENT_SYSCALL: do_syscall(c, &ret); break;
     case EVENT_YIELD: sys_yield(c, &ret); break;
