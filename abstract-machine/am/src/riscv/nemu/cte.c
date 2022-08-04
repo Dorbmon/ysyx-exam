@@ -24,6 +24,8 @@ Context* __am_irq_handle(Context *c) {
       case 13:ev.event = EVENT_SYSCALL;break;
       default: ev.event = EVENT_ERROR; break;
     }
+    } else if (c->mcause == 0x8000000000000007) {
+      ev.event = EVENT_IRQ_TIMER;
     }
     c = user_handler(ev, c);
     assert(c != NULL);
