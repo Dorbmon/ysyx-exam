@@ -132,9 +132,7 @@ void sys_yield(Context* c, Context** ret) {
   *ret = schedule(c);
 }
 void do_syscall(Context *c, Context** ret) {
-  uintptr_t a[4];
-  a[0] = c->GPR1;
-  switch (a[0]) {
+  switch (c->GPR1) {
     case SYS_yield: sys_yield(c, ret); break;  //SYS_yield
     //case SYS_exit: halt(c->GPR2); break;
     case SYS_exit: naive_uload(NULL, "/bin/menu"); break;
@@ -146,6 +144,6 @@ void do_syscall(Context *c, Context** ret) {
     case SYS_lseek: sys_lseek(c); break;
     case SYS_execve: sys_execve(c); break;
     case SYS_gettimeofday: sys_gettimeofday(c); break;
-    default: panic("Unhandled syscall ID = %d", a[0]);
+    default: panic("Unhandled syscall ID = %d", c->GPR1);
   }
 }
