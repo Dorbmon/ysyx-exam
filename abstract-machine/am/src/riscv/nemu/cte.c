@@ -54,7 +54,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   //Log("mepc: %x", context->mepc);
   context->mstatus = 0xa00001800;
   context->gpr[10] = (intptr_t)arg; //a0
-
+  extern AddrSpace kas;
+  context->pdir = kas.ptr;
   return context;
 }
 
