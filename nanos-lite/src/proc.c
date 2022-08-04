@@ -56,7 +56,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  context_uload(&pcb[0], "/bin/cpp-test");
+  context_uload(&pcb[0], "/bin/nslider");
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
