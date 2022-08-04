@@ -52,10 +52,11 @@ void naive_uload(PCB *pcb, const char *filename);
 void init_proc() {
   context_kload(&pcb[0], hello_fun, "f1");
   context_kload(&pcb[2], hello_fun, "f2");
-
+  
   switch_boot_pcb();
+  asm volatile("csrrs zero, mstatus, 8" : : );
   Log("Initializing processes...");
-
+  
   // load program here
   //context_uload(&pcb[0], "/bin/pal");
 }
