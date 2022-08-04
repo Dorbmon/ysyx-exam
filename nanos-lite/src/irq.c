@@ -5,6 +5,7 @@ void sys_yield(Context* c, Context** ret);
 static Context* do_event(Event e, Context* c) {
   Context* ret = c;
   if (e.event == EVENT_IRQ_TIMER) {
+    panic("recieve ev...");
     Log("get timer...");
   }
   switch (e.event) {
