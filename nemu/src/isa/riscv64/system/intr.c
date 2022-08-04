@@ -10,6 +10,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   uint64_t mstatus = csrM[0x300];
   if (NO == IRQ_TIMER && (mstatus & (1ull << 3)) == 0ull) {
     return epc;
+  } else if (NO == IRQ_TIMER) {
+    printf("shit comming.....\n");
   }
     csrM [0x341] = epc; //mepc
     //csrM [0x342] = NO;  //mcause
