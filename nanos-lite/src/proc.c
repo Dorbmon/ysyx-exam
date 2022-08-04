@@ -51,7 +51,7 @@ void hello_fun(void *arg) {
 void naive_uload(PCB *pcb, const char *filename);
 void init_proc() {
   context_kload(&pcb[0], hello_fun, "f1");
-  context_kload(&pcb[1], hello_fun, "f2");
+  context_kload(&pcb[2], hello_fun, "f2");
 
   switch_boot_pcb();
   Log("Initializing processes...");
@@ -65,7 +65,7 @@ Context* schedule(Context *prev) {
   //prev->mepc += 4;  // 下一次回去的时候跳到下一条指令
   //*(current->cp) = *prev;
   current->cp = prev;
-  current = (current == &pcb[1] ? &pcb[0] : &pcb[1]);
+  current = (current == &pcb[2] ? &pcb[0] : &pcb[2]);
   //current = &pcb[0]; // 选择第一个
   //Log ("Get mstatus:%x", prev->mstatus);
   assert(current->cp != NULL);
