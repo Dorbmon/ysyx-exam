@@ -40,7 +40,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       size_t pgAll = 0;
       intptr_t offset = tmp.p_vaddr - ((tmp.p_vaddr >> 12) << 12);
       Log("pvaddr %x, sub:%x", tmp.p_vaddr - offset, ((tmp.p_vaddr >> 12) << 12));
-      for (;pgAll * PGSIZE - offset < tmp.p_memsz;++ pgAll) {
+      for (;pgAll * PGSIZE < tmp.p_memsz + offset;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
         map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE - offset), pg, 0);
