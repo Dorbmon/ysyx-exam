@@ -27,6 +27,7 @@ void free_page(void *p) {
 /* The brk() system call handler. */
 int mm_brk(Context *c, uintptr_t brk) {
   #ifdef HAS_VME
+  Log("brk:%x", brk);
   if (brk > current->max_brk) {
     // 开始映射
     uintptr_t start = ((current->max_brk >> 12) << 12) + PGSIZE;
