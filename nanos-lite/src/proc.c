@@ -45,7 +45,7 @@ void hello_fun(void *arg) {
   size_t j = 1;
   while (1) {
     Log("Hello World from Nanos-lite with arg '%s' for the %ldth time!\n", arg, j ++);
-    yield();
+    //yield();
   }
 }
 void naive_uload(PCB *pcb, const char *filename);
