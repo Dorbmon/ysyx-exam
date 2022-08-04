@@ -61,7 +61,6 @@ void init_proc() {
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
-  assert (prev != NULL);
   // 先保存当前的上下文
   //prev->mepc += 4;  // 下一次回去的时候跳到下一条指令
   //*(current->cp) = *prev;
