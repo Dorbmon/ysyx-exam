@@ -5,7 +5,7 @@
 #define HAS_CTE
 //#define MULTIPROGRAM
 //#define TIME_SHARING
-//#define HAS_VME
+#define HAS_VME
 #include <am.h>
 #include <klib.h>
 #include <klib-macros.h>
