@@ -18,7 +18,7 @@ static void restart() {
   cpu.gpr[0] = 0;
   extern word_t csrM[];
   //1010 0000 0000 0000 0000 0001 1000 0000 0000
-  csrM [0x300] = 0xa00001808;
+  csrM [0x300] = 0xa00001800;
 }
 
 void init_isa() {
