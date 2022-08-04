@@ -8,7 +8,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    */
   //printf("intr::::NO:%ld\n", NO);
   uint64_t mstatus = csrM[0x300];
-  if (mstatus & (1ull << 3)) {
+  //if (mstatus & (1ull << 3)) {
     csrM [0x341] = epc; //mepc
     //csrM [0x342] = NO;  //mcause
     csrM [0x342] = NO; // 11 ecall
@@ -16,7 +16,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
     mpie = mstatus & (1ull << 3);
     csrM[0x300] = mstatus & (~(1ull << 3)); // 关闭中断
     return csrM [0x305];
-  }
+  //}
   return epc; // 否则继续执行
 }
 
