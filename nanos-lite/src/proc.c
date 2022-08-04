@@ -36,7 +36,7 @@ void context_uload(PCB *pcb, const char *filename) {
     map(&pcb->as, pcb->as.area.end - PGSIZE * i, kstack.end - PGSIZE * i, 0);
   }
   //pcb->max_brk = (uintptr_t)pcb->as.area.end;
-  Log("uEnd:%x", pcb->as.area.end);
+  //Log("uEnd:%x", pcb->as.area.end);
   #endif
   //((void(*)())entry) ();
 }
@@ -57,7 +57,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  context_uload(&pcb[0], "/bin/nslider");
+  context_uload(&pcb[0], "/bin/pal");
 }
 // 返回新的上下文
 Context* schedule(Context *prev) {
