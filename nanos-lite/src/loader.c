@@ -43,7 +43,8 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       for (;pgAll * PGSIZE < tmp.p_memsz + offset;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
-        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE - offset), pg, 0);
+        intptr_t pgAddr = tmp.p_vaddr + pgAll * PGSIZE - offset;
+        map(&pcb->as, (void*)(pgAddr), pg, 0);
         //Log("link paddr:%x", tmp.p_vaddr + pgAll * PGSIZE - offset);
         if (pgAll == 0) {
           // 第一页有偏移
@@ -54,8 +55,12 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           if (restSz > PGSIZE) restSz = PGSIZE;
           fs_read(fd, (uint8_t*)pg, restSz);
         }
+        if (pgAddr > pcb->max_brk) {
+          pcb->max_brk = pgAddr;
+        }
       }
       Log("Pg All: %x, memSz: %x", pgAll * PGSIZE - offset, tmp.p_memsz);
+      
       #else
       fs_read(fd, (uint8_t*)tmp.p_vaddr , tmp.p_filesz);
       memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
