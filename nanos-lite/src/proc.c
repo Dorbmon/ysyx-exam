@@ -36,6 +36,7 @@ void context_uload(PCB *pcb, const char *filename) {
     map(&pcb->as, pcb->as.area.end - PGSIZE * i, kstack.end - PGSIZE * i, 0);
   }
   pcb->max_brk = (uintptr_t)pcb->as.area.end;
+  Log("uEnd:%x", pcb->as.area.end);
   #endif
   //((void(*)())entry) ();
 }
