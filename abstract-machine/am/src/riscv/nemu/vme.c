@@ -109,7 +109,7 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   // 设置entry为返回地址
   context->mepc = (intptr_t)entry;
   //Log("mepc: %x", context->mepc);
-  context->mstatus = 0xa00001800;
+  context->mstatus = 0xA00001808;
   context->pdir = as->ptr;
   context->GPRx = (int64_t)kstack.end;
   //context->gpr[10] = (intptr_t)arg; //a0
