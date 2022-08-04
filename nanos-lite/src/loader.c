@@ -43,7 +43,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       for (;pgAll * PGSIZE - offset < tmp.p_memsz;++ pgAll) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
-        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE), pg, 0);
+        map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE - offset), pg, 0);
         
         if (pgAll == 0) {
           // 第一页有偏移
