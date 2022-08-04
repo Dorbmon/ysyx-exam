@@ -44,7 +44,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         void* pg = new_page(1);
         memset(pg, 0, PGSIZE);
         map(&pcb->as, (void*)(tmp.p_vaddr + pgAll * PGSIZE - offset), pg, 0);
-        
+        Log("link paddr:%x", tmp.p_vaddr + pgAll * PGSIZE - offset);
         if (pgAll == 0) {
           // 第一页有偏移
           fs_read(fd, (uint8_t*)(pg + offset), PGSIZE - offset);
