@@ -42,9 +42,9 @@ void context_uload(PCB *pcb, const char *filename) {
 }
 void hello_fun(void *arg) {
   Log("enter function...");
-  size_t j = 1;
+  //size_t j = 1;
   while (1) {
-    Log("Hello World from Nanos-lite with arg '%s' for the %ldth time!\n", arg, j ++);
+    //Log("Hello World from Nanos-lite with arg '%s' for the %ldth time!\n", arg, j ++);
     //yield();
   }
 }
