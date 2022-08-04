@@ -65,7 +65,7 @@ Context* schedule(Context *prev) {
   //prev->mepc += 4;  // 下一次回去的时候跳到下一条指令
   //*(current->cp) = *prev;
   current->cp = prev;
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  current = (current == &pcb[1] ? &pcb[0] : &pcb[1]);
   //current = &pcb[0]; // 选择第一个
   //Log ("Get mstatus:%x", prev->mstatus);
   assert(current->cp != NULL);
