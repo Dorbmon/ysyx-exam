@@ -187,11 +187,12 @@ begin
     end
     7'b0110111: // U型指令 lui
     begin
-        sel_a = 2'b0;
-        sel_b = 2'b0;
+        sel_a = 2'b00;
+        sel_b = 2'b00;
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
+        writeBackDataSelect = 3'b000;
         aluOperate = `ALU_RETURN_B;
     end
     7'b1101111: // J型指令 jal
