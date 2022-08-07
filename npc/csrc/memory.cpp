@@ -68,9 +68,9 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
     timeval t;
     gettimeofday( &t, NULL );
     if (raddr == 0xa0000048) {
-      *rdata = t.tv_usec;
-    } else {
       *rdata = t.tv_usec << 32;
+    } else {
+      *rdata = t.tv_usec;
     }
     return ;
   }
