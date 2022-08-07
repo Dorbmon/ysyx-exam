@@ -64,14 +64,19 @@ void initMemory(const char *img_file) {
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
   //if ((raddr & ~0x7ull) < CONFIG_MBASE) return ;
-  raddr &= ~0x7ull;
-  printf("read address:%x\n", raddr);
-  if (raddr == 0xa0000048) {  // rtc
+  if (raddr == 0xa0000048 || raddr == 0xa0000050) {  // rtc
     timeval t;
     gettimeofday( &t, NULL );
-    *rdata = t.tv_usec;
+    if (raddr == 0xa0000048) {
+      *rdata = t.tv_usec;
+    } else {
+      *rdata = t.tv_usec << 32;
+    }
     return ;
   }
+  raddr &= ~0x7ull;
+  printf("read address:%x\n", raddr);
+  
   *rdata = pmem_read(raddr, 8); //111
   //printf("read:%llx, but:%llx", raddr, raddr & ~0x7ull);
 }
