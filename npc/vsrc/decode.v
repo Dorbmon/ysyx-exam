@@ -123,7 +123,7 @@ begin
         writeRD = 1'b1;
         writeBackDataSelect = 3'b000;
         case (funct3)
-        3'b0: aluOperate = `ALU_ADD;//addi
+        3'b000: aluOperate = `ALU_ADD;//addi
         3'b100: aluOperate = `ALU_XOR;//xori
         3'b110: aluOperate = `ALU_OR;  //ori
         3'b111: aluOperate = `ALU_AND; //andi
