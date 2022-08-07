@@ -122,7 +122,6 @@ begin
         sel_b = 2'b0;
         writeBackDataSelect = 3'b000;
         writeRD = 1'b1;
-        
         case (funct3)
         3'b000: aluOperate = `ALU_ADD;//addi
         3'b100: aluOperate = `ALU_XOR;//xori
@@ -135,7 +134,10 @@ begin
             default: aluOperate = `ALU_NONE;
         endcase
         3'b010: aluOperate = `ALU_SLT;  //slti
-        3'b011: aluOperate = `ALU_SLTU; //sltiu
+        3'b011: begin 
+            aluOperate = `ALU_SLTU; //sltiu
+            $display("sltu...");
+        end
         default: aluOperate = 0;
         endcase
     end
