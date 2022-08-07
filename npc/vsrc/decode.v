@@ -120,8 +120,9 @@ begin
     begin
         sel_a = 2'b1;
         sel_b = 2'b0;
-        writeRD = 1'b1;
         writeBackDataSelect = 3'b000;
+        writeRD = 1'b1;
+        
         case (funct3)
         3'b000: aluOperate = `ALU_ADD;//addi
         3'b100: aluOperate = `ALU_XOR;//xori
@@ -134,7 +135,7 @@ begin
             default: aluOperate = `ALU_NONE;
         endcase
         3'b010: aluOperate = `ALU_SLT;  //slti
-        3'b011: aluOperate = `ALU_SLTU; //sltui
+        3'b011: aluOperate = `ALU_SLTU; //sltiu
         default: aluOperate = 0;
         endcase
     end
