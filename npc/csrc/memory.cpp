@@ -69,7 +69,7 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
     gettimeofday( &t, NULL );
     //*rdata = t.tv_sec * 1000000 - ;
     *rdata = clock();
-    printf("ss:%ld\n", t.tv_usec);
+    printf("ss:%ld\n", clock());
     //uint32_t* tmp = (uint32_t*)rdata;
     // if (raddr == 0xa0000048) {
     //   //*rdata = t.tv_usec << 32;
