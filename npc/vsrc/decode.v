@@ -45,6 +45,7 @@ begin
     pc_sel = 1'b0;
     npc_op = 1'b0;
     memoryWriteMask = 8'b0;
+    rs1to32 = 1'b0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
@@ -134,10 +135,7 @@ begin
             default: aluOperate = `ALU_NONE;
         endcase
         3'b010: aluOperate = `ALU_SLT;  //slti
-        3'b011: begin 
-            aluOperate = `ALU_SLTU; //sltiu
-            $display("sltu...");
-        end
+        3'b011: aluOperate = `ALU_SLTU; //sltiu
         default: aluOperate = 0;
         endcase
     end
