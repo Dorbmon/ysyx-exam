@@ -33,6 +33,7 @@ assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
 always @(*)
 begin
+    memoryWriteMask = 8'b0;
     wMtvec = 1'b0;
     wMepc = 1'b0;
     wMcause = 1'b0;
@@ -44,7 +45,6 @@ begin
     writeRD = 1'b0;
     pc_sel = 1'b0;
     npc_op = 1'b0;
-    memoryWriteMask = 8'b0;
     rs1to32 = 1'b0;
     sext = 1'b0;
     case (opCode)
