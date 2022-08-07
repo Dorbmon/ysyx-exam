@@ -45,6 +45,9 @@ uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 word_t pmem_read(paddr_t addr, int len) {
+  if ((uint64_t)guest_to_host(addr) == 0x5554d55b2000) {
+    printf("addr:%lx\n", addr);
+  }
   word_t ret = host_read(guest_to_host(addr), len);
   return ret;
 }
@@ -81,7 +84,7 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
     return ;
   }
   raddr &= ~0x7ull;
- // printf("read address:%x\n", raddr);
+  //printf("read address:%x\n", raddr);
   
   *rdata = pmem_read(raddr, 8); //111
   //printf("read:%llx, but:%llx", raddr, raddr & ~0x7ull);

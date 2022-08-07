@@ -40,15 +40,15 @@ begin
     pc_panic = 1'b0;
     pc_mret = 1'b0;
     csrWen = 1'b0;
+    memoryReadWen = 1'b0;
+    writeRD = 1'b0;
+    pc_sel = 1'b0;
+    npc_op = 1'b0;
+    memoryWriteMask = 8'b0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
     begin
-        writeRD = 1'b0;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
-        memoryWriteMask = 8'b0;
-        memoryReadWen = 1'b0;
         case (funct3)
         3'b001: begin   // csrrw
         // 将csr的值写入rd 并将csr的值更新为rs1
@@ -92,9 +92,6 @@ begin
         sel_a = 2'b1;
         sel_b = 2'b1;
         writeRD = 1'b1;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b00;
         memoryReadWen = 1'b0;
         rs1to32 = 1'b0;
@@ -124,12 +121,7 @@ begin
         sel_a = 2'b1;
         sel_b = 2'b0;
         writeRD = 1'b1;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b000;
-        memoryReadWen = 1'b0;
-        rs1to32 = 1'b0;
         case (funct3)
         3'b0: aluOperate = `ALU_ADD;//addi
         3'b100: aluOperate = `ALU_XOR;//xori
@@ -151,12 +143,8 @@ begin
         sel_a = 2'b0;
         sel_b = 2'b0;
         writeRD = 1'b1;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
         memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b00;
-        memoryReadWen = 1'b0;
-        rs1to32 = 1'b0;
         aluOperate = `ALU_ADD;
     end
     7'b0000011: // I型指令 但是 读取内存
@@ -166,10 +154,8 @@ begin
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b01;
         memoryReadWen = 1'b1;
-        rs1to32 = 1'b0;
         aluOperate = `ALU_ADD;
         case(funct3)
         default: aluOperate = `ALU_NONE;
@@ -206,10 +192,6 @@ begin
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
-        memoryWriteMask = 8'b0;
-        writeBackDataSelect = 3'b00;
-        memoryReadWen = 1'b0;
-        rs1to32 = 1'b0;
         aluOperate = `ALU_RETURN_B;
     end
     7'b1101111: // J型指令 jal
@@ -217,19 +199,14 @@ begin
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b1;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b10;
-        memoryReadWen = 1'b0;
-        rs1to32 = 1'b0;
     end
     7'b0100011: // S型指令
     begin
         sel_a = 2'b1;
         sel_b = 2'b0;   // 地址永远为rs1 + imm
-        writeRD = 1'b0;
         pc_sel = 1'b0;
         npc_op = 1'b0;
-        memoryReadWen = 1'b0;
         aluOperate = `ALU_ADD;
         rs1to32 = 1'b0;
         case (funct3)
@@ -255,10 +232,7 @@ begin
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
-        memoryReadWen = 1'b0;
-        rs1to32 = 1'b0;
         case (funct7)
         default: aluOperate = `ALU_NONE;
         7'b0100000: begin
@@ -317,10 +291,7 @@ begin
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
-        memoryReadWen = 1'b0;
-        rs1to32 = 1'b0;
         case (funct3)
         3'b000: begin
             aluOperate = `ALU_ADD;
@@ -345,22 +316,16 @@ begin
     end
     7'b1100111: // I型指令 jalr
     begin
-        //sel_a = 2'b0;
-        //sel_b = 2'b0;
         writeRD = 1'b1;
         pc_sel = 1'b1;
         npc_op = 1'b1;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b10;
-        memoryReadWen = 1'b0;
         rs1to32 = 1'b0;
         //aluOperate = `ALU_RETURN_B;
     end
     7'b1100011: // B型指令
     begin
         writeRD = 1'b0;
-        memoryWriteMask = 8'b0;
-        memoryReadWen = 1'b0;
         pc_sel = 1'b0;
         writeBackDataSelect = 3'b000;
         rs1to32 = 1'b0;
