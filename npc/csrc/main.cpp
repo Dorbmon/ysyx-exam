@@ -34,7 +34,7 @@ extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
 static void runN(uint64_t n) {
   static uint64_t count = 0;
   n <<= 1;
-  while (!contextp->gotFinish() && !sebreak && count < n) {
+  while (!contextp->gotFinish() && !sebreak /*&& count < n*/) {
     count ++;
     
     top->clk = ~top->clk;
