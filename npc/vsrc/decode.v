@@ -151,8 +151,6 @@ begin
         sel_a = 2'b1;
         sel_b = 2'b0;   //rs1 + imm
         writeRD = 1'b1;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
         writeBackDataSelect = 3'b001;
         memoryReadWen = 1'b1;
         aluOperate = `ALU_ADD;
@@ -196,15 +194,12 @@ begin
         sel_a = 2'b00;
         sel_b = 2'b00;
         writeRD = 1'b1;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
         writeBackDataSelect = 3'b000;
         aluOperate = `ALU_RETURN_B;
     end
     7'b1101111: // J型指令 jal
     begin
         writeRD = 1'b1;
-        pc_sel = 1'b0;
         npc_op = 1'b1;
         writeBackDataSelect = 3'b10;
     end
@@ -212,13 +207,10 @@ begin
     begin
         sel_a = 2'b1;
         sel_b = 2'b0;   // 地址永远为rs1 + imm
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
         aluOperate = `ALU_ADD;
         case (funct3)
         3'b000:begin  //sb
             memoryWriteMask = 8'b00000001;
-            $display("lb");
         end
         3'b001:begin  //sh
             memoryWriteMask = 8'b00000011;
@@ -237,8 +229,6 @@ begin
         sel_a = 2'b1;
         sel_b = 2'b1;
         writeRD = 1'b1;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         case (funct7)
         default: aluOperate = `ALU_NONE;
@@ -276,14 +266,25 @@ begin
         7'b0000000: begin
             case (funct3)
             3'b000: begin
-                aluOperate = `ALU_ADD;  // addw
+                writeBackDataSelect = 3'b100;   // 结果截取32位，再做扩展
+                case (funct7)
+                    7'b0100000: aluOperate = `ALU_SUB;  // subw
+                    7'b0000000: aluOperate = `ALU_ADD;  // addw
+                    default aluOperate = `ALU_NONE;
+                endcase
             end
             3'b001: begin
+                writeBackDataSelect = 3'b100;
                 aluOperate = `ALU_SLL;  // sllw
             end
             3'b101: begin
                 rs1to32 = 1'b1;
-                aluOperate = `ALU_SRL;  // srlw
+                case (funct7)
+                    7'b0100000: aluOperate = `ALU_SRA;  // sraw
+                    7'b0000000: aluOperate = `ALU_SRL;  // srlw
+                    default aluOperate = `ALU_NONE;
+                endcase
+                
             end
             default: aluOperate = `ALU_NONE;
             endcase
@@ -296,8 +297,6 @@ begin
         sel_a = 2'b1;
         sel_b = 2'b0;
         writeRD = 1'b1;
-        pc_sel = 1'b0;
-        npc_op = 1'b0;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         case (funct3)
         3'b000: begin
@@ -327,15 +326,9 @@ begin
         pc_sel = 1'b1;
         npc_op = 1'b1;
         writeBackDataSelect = 3'b10;
-        rs1to32 = 1'b0;
-        //aluOperate = `ALU_RETURN_B;
     end
     7'b1100011: // B型指令
     begin
-        writeRD = 1'b0;
-        pc_sel = 1'b0;
-        writeBackDataSelect = 3'b000;
-        rs1to32 = 1'b0;
         case(funct3)
         default: npc_op = 1'b0;
         3'h0: begin
