@@ -1,7 +1,7 @@
 #include <cstdio>
 #ifndef RMemory
 #include "memory.h"
-
+#include "debug.h"
 #define kDisplayWidth 32
 void pBin(long int x)
 {
@@ -70,7 +70,7 @@ static void serial_io_handler(uint32_t offset, int len, bool is_write, char rdat
   assert(len == 1);
   switch (offset) {
     /* We bind the serial port with the host stderr in NEMU. */
-    case CH_OFFSET:
+    case 0:
       if (is_write) putchar(rdata);
       else panic("do not support read");
       break;
