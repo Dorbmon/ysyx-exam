@@ -67,14 +67,15 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
   if (raddr == 0xa0000048 || raddr == 0xa0000050) {  // rtc
     timeval t;
     gettimeofday( &t, NULL );
+    *rdata = t.tv_usec;
     //uint32_t* tmp = (uint32_t*)rdata;
-    if (raddr == 0xa0000048) {
-      //*rdata = t.tv_usec << 32;
-      *rdata = t.tv_usec>>32;
-    } else {
-      //*rdata = t.tv_usec;
-      *rdata = t.tv_usec<<32;
-    }
+    // if (raddr == 0xa0000048) {
+    //   //*rdata = t.tv_usec << 32;
+    //   *rdata = t.tv_usec<<32;
+    // } else {
+    //   //*rdata = t.tv_usec;
+    //   *rdata = t.tv_usec<<32;
+    // }
     return ;
   }
   raddr &= ~0x7ull;
