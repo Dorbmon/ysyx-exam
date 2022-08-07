@@ -31,7 +31,7 @@ wire [2:0] funct3;
 assign opCode = inst [6:0];
 assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
-always @(*)
+always @(inst)
 begin
     memoryWriteMask = 8'b0;
     wMtvec = 1'b0;
