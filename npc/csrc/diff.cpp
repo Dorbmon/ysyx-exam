@@ -59,6 +59,7 @@ bool isa_difftest_checkregs(diff_context_t *ref_r, uint64_t pc) {
 static void checkregs(diff_context_t *ref, uint64_t pc) {
   if (!isa_difftest_checkregs(ref, pc)) {
     isa_reg_display();
+    printf("PC:%lx\n", pc);
     assert(0);
   }
 }
