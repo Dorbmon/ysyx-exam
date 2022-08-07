@@ -2,7 +2,7 @@
 
 void __am_timer_init() {
 }
-#define inl(addr) (*((uint32_t*)addr))
+#define inl(x) (*((uint32_t*)x))
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   //uptime->us = 0;
   //uptime->us = *(uint64_t*)(0xa0000048);//((uint64_t)inl(0xa0000048 + 0x4) << 32) + (uint64_t)inl(0xa0000048);
