@@ -64,7 +64,7 @@ void initMemory(const char *img_file) {
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
   //if ((raddr & ~0x7ull) < CONFIG_MBASE) return ;
-  printf("read address:%x\n", raddr);
+  //printf("read address:%x\n", raddr);
   raddr &= ~0x7ull;
   if (raddr == 0xa0000048) {  // rtc
     timeval t;
