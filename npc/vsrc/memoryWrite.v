@@ -36,7 +36,7 @@ always @(*) begin
     end
   end
   else begin
-    //$display("write:%x\n", addr);
+    $display("write:%x\n", addr);
     pmem_write(addr, rs2 << (addr [2:0] * 8'b1000), wmask << addr [2:0]);
     if (addr[2:0] != 3'b0) begin
       pmem_write(addr + 64'b1000, rs2 >> (num * 8'b1000), wmask >> num);
