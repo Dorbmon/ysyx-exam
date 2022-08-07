@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sys/time.h>
 #define kDisplayWidth 32
+#include <Vysyx_22041207_top.h>
+extern Vysyx_22041207_top* top;
 void pBin(long int x)
 {
  char s[kDisplayWidth+1];
@@ -110,7 +112,7 @@ extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
   waddr &= ~0x7ull;
   //printf("catch memory write:%lx \n", waddr);
   if (waddr == 0xa00003f8) {
-    printf("mask%x\n", wmask);
+    printf("mask%x\n", top->pc);
     serial_io_handler(0, wmask == 1,true, wdata);
     return ;
   }
