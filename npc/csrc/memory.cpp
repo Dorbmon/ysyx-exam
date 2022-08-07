@@ -3,6 +3,7 @@
 #include "memory.h"
 #include "debug.h"
 #include <iostream>
+#include <sys/time.h>
 #define kDisplayWidth 32
 void pBin(long int x)
 {
@@ -64,7 +65,14 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
   //if ((raddr & ~0x7ull) < CONFIG_MBASE) return ;
   //printf("read address:%x\n", raddr);
-  *rdata = pmem_read(raddr & ~0x7ull, 8); //111
+  raddr &= ~0x7ull;
+  if (raddr == 0xa0000048) {  // rtc
+    timeval t;
+    gettimeofday( &t, NULL );
+    *rdata = t.tv_usec;
+    return ;
+  }
+  *rdata = pmem_read(raddr, 8); //111
   //printf("read:%llx, but:%llx", raddr, raddr & ~0x7ull);
 }
 static void serial_io_handler(uint32_t offset, int len, bool is_write, char rdata) {
