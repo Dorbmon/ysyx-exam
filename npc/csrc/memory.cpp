@@ -1,3 +1,4 @@
+#include <cstdio>
 #ifndef RMemory
 #include "memory.h"
 
@@ -65,13 +66,30 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
   *rdata = pmem_read(raddr & ~0x7ull, 8); //111
   //printf("read:%llx, but:%llx", raddr, raddr & ~0x7ull);
 }
+static void serial_io_handler(uint32_t offset, int len, bool is_write, char rdata) {
+  assert(len == 1);
+  switch (offset) {
+    /* We bind the serial port with the host stderr in NEMU. */
+    case CH_OFFSET:
+      if (is_write) putchar(rdata);
+      else panic("do not support read");
+      break;
+    default: panic("do not support offset = %d", offset);
+  }
+}
 extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
   if (wmask == 0) return ;
+  //0xa00003f8
   //printf("write:%llx but:%llx\n", waddr, waddr & ~0x7ull);
   // 总是往地址为`waddr & ~0x7ull`的8字节按写掩码`wmask`写入`wdata`
   // `wmask`中每比特表示`wdata`中1个字节的掩码,
   // 如`wmask = 0x3`代表只写入最低2个字节, 内存中的其它字节保持不变
-  word_t v = pmem_read(waddr & ~0x7ull, 8);
+  waddr &= ~0x7ull;
+  if (waddr == 0xa00003f8) {
+    serial_io_handler(0, wmask == 1,true, wdata);
+    return ;
+  }
+  word_t v = pmem_read(waddr, 8);
   word_t nv = 0;
   for (int i = 0;i < 8;++ i) {
     if (wmask & (1 << i)) { // 第i个字节需要写入
@@ -80,6 +98,6 @@ extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
       nv |= ((v >> (i * 8)) & ((1 << 8) - 1)) << (i * 8);
     }
   }
-  rpmem_write(waddr & ~0x7ull, 8, nv);
+  rpmem_write(waddr, 8, nv);
 }
 #endif
