@@ -46,6 +46,7 @@ begin
     npc_op = 1'b0;
     memoryWriteMask = 8'b0;
     rs1to32 = 1'b0;
+    sext = 1'b0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
@@ -94,8 +95,6 @@ begin
         sel_b = 2'b1;
         writeRD = 1'b1;
         writeBackDataSelect = 3'b00;
-        memoryReadWen = 1'b0;
-        rs1to32 = 1'b0;
         case (funct3)
             3'b0: 
             case (funct7)
@@ -144,7 +143,6 @@ begin
         sel_a = 2'b0;
         sel_b = 2'b0;
         writeRD = 1'b1;
-        memoryWriteMask = 8'b0;
         writeBackDataSelect = 3'b00;
         aluOperate = `ALU_ADD;
     end
@@ -155,11 +153,14 @@ begin
         writeRD = 1'b1;
         pc_sel = 1'b0;
         npc_op = 1'b0;
-        writeBackDataSelect = 3'b01;
+        writeBackDataSelect = 3'b001;
         memoryReadWen = 1'b1;
         aluOperate = `ALU_ADD;
         case(funct3)
-        default: aluOperate = `ALU_NONE;
+        default: begin
+            sext = 1'b0;
+            readNum = 4'h0;
+        end
         3'h0: begin // lb
             sext = 1'b1;
             readNum = 4'h1;
@@ -183,6 +184,10 @@ begin
         3'h5: begin // lhu
             sext = 1'b0;
             readNum = 4'h2;
+        end
+        3'h6: begin // lwu
+            sext = 1'b0;
+            readNum = 4'h4;
         end
         endcase
     end
@@ -210,7 +215,6 @@ begin
         pc_sel = 1'b0;
         npc_op = 1'b0;
         aluOperate = `ALU_ADD;
-        rs1to32 = 1'b0;
         case (funct3)
         3'b000:begin  //sb
             memoryWriteMask = 8'b00000001;
