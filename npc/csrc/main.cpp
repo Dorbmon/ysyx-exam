@@ -47,7 +47,7 @@ static void runN(uint64_t n) {
     cpu.pc = top->pc;
     top->eval();
     if (top->clk) { //上升沿才会计算 如果top->clk = true 说明刚刚是一个上升沿，已经完成了一次计算
-      //difftest_step(bpc, top->pc);
+      difftest_step(bpc, top->pc);
     }
   }
 }
