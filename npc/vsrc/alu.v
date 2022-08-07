@@ -29,8 +29,8 @@ always @(*) begin
         `ALU_AND: res = a & b;
         `ALU_SLL: res = a << b [5:0];
         `ALU_SRL: res = a >> b [5:0];
-        `ALU_SLT: res = $signed(a) < $signed(b) ? 1 : 0;
-        `ALU_SLTU: res = a < b ? 1 : 0;
+        `ALU_SLT: res = $signed(a) < $signed(b) ? 64'b1 : 64'b0;
+        `ALU_SLTU: res = a < b ? 64'b1 : 64'b0;
         `ALU_MUL: res = a * b;
         `ALU_REM: res = $signed(a) % $signed(b);
         `ALU_DIVU: res = a / b;
