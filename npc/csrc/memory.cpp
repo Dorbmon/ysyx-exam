@@ -70,10 +70,10 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
     //uint32_t* tmp = (uint32_t*)rdata;
     if (raddr == 0xa0000048) {
       //*rdata = t.tv_usec << 32;
-      *rdata = t.tv_usec>>32;
+      *rdata = t.tv_usec;
     } else {
       //*rdata = t.tv_usec;
-      *rdata = t.tv_usec;
+      *rdata = t.tv_usec>>32;
     }
     return ;
   }
