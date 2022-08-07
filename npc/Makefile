@@ -24,7 +24,7 @@ CSRCS += $(SRC_AUTO_BIND)
 include ${NVBOARD_HOME}/scripts/nvboard.mk
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
-CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" $(shell llvm-config --cxxflags) -fPIE
+CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" $(shell llvm-config --cxxflags) -fPIE -g
 LDFLAGS += -lSDL2 -lSDL2_image -lreadline $(shell llvm-config --libs) -ldl
 $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 	@rm -rf $(OBJ_DIR)
@@ -35,7 +35,7 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 all: $(BIN)
 sim: $(BIN)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	echo @$^ $(RUN_ARGS)
+	echo $(RUN_ARGS)
 	@$^ $(RUN_ARGS)
 clean: 
 	rm -rf $(BUILD_DIR)
