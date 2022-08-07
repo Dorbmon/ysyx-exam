@@ -110,6 +110,7 @@ extern "C" void pmem_write(long long waddr, long long wdata, char wmask) {
   waddr &= ~0x7ull;
   //printf("catch memory write:%lx \n", waddr);
   if (waddr == 0xa00003f8) {
+    printf("1");
     serial_io_handler(0, wmask == 1,true, wdata);
     return ;
   }
