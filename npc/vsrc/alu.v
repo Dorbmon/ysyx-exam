@@ -19,9 +19,6 @@ assign b = (sel_b == 2'b1) ? rs2 : ((sel_b == 2'h2) ? csr : imm);
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
 always @(*) begin
-    if (sel_b == 2'b0) begin
-        $display("imm: %x", imm);
-    end
     case(operate)
         `ALU_ADD: res = a + b;
         `ALU_SUB: res = a - b;
