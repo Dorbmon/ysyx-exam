@@ -50,7 +50,10 @@ word_t paddr_read(paddr_t addr, int len) {
   //in_pmem(addr);
   if (likely(in_pmem(addr))) return pmem_read(isa_mmu_translate(addr, len, 0), len);
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
-  out_of_bound(addr);
+  if (0) {
+    out_of_bound(addr);
+  }
+  
   return 0;
 }
 
@@ -60,5 +63,5 @@ void paddr_write(paddr_t addr, int len, word_t data) {
 #endif
   if (likely(in_pmem(addr))) { pmem_write(isa_mmu_translate(addr, len, 0), len, data); return; }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
-  out_of_bound(addr);
+  //out_of_bound(addr);
 }
