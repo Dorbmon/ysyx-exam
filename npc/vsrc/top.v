@@ -58,7 +58,7 @@ ysyx_22041207_SEXT SEXT(inst, instType, imm);
 ysyx_22041207_decoder decoder(inst, imm, r1data, r2data, aluOperate, sel_a, sel_b, memoryWriteMask, 
 writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen, sext, readNum, rs1to32, wMtvec, wMepc, wMcause, wMstatus, pc_panic, pc_mret, csrWen);
 
-ysyx_22041207_alu alu(clk, pc, aluOperate, r1data, r2data, csrReadData, imm, sel_a, sel_b, rs1to32, aluRes);
+ysyx_22041207_alu alu(pc, aluOperate, r1data, r2data, csrReadData, imm, sel_a, sel_b, rs1to32, aluRes);
 ysyx_22041207_WB WB(aluRes, pc, memoryReadData, imm, csrReadData, writeBackDataSelect, rwdata);
 
 endmodule

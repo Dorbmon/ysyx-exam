@@ -1,6 +1,5 @@
 `include "vsrc/alu_define.v"
 module ysyx_22041207_alu(
-    input clk,
     input [63:0] pc,
     input [4:0] operate,
     input [63:0] rs1,
