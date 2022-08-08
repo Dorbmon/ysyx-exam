@@ -19,7 +19,7 @@ wire [63:0] npc;
 
 always @(posedge clk) begin
   pc <= npc;
-  $display("inst:%h", pc);
+  //$display("inst:%h", pc);
 end
 // 从npc取指
 wire [63:0] rawData;
