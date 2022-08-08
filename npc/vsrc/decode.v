@@ -160,7 +160,7 @@ begin
             readNum = 4'h0;
         end
         3'h0: begin // lb
-            $display("lb");
+            //
             sext = 1'b1;
             readNum = 4'h1;
         end
@@ -328,6 +328,7 @@ begin
         pc_sel = 1'b1;
         npc_op = 1'b1;
         writeBackDataSelect = 3'b10;
+        $display("jalr");
     end
     7'b1100011: // B型指令
     begin
