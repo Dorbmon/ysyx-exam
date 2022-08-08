@@ -9,7 +9,7 @@ always @(readAddr) begin
   reg [63:0] data1;
   reg [63:0] data2;
   if (wen) begin
-    $display("read:%x", readAddr);
+    //$display("read:%x", readAddr);
     //if (readAddr & )
     pmem_read(readAddr, data1);
     pmem_read(readAddr + 64'b1000, data2);  // 读取八个字节之后的内容
