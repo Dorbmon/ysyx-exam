@@ -160,6 +160,7 @@ begin
             readNum = 4'h0;
         end
         3'h0: begin // lb
+            $display("lb");
             sext = 1'b1;
             readNum = 4'h1;
         end
