@@ -94,7 +94,7 @@ begin
         sel_a = 2'b1;
         sel_b = 2'b1;
         writeRD = 1'b1;
-        writeBackDataSelect = 3'b00;
+        writeBackDataSelect = 3'b000;
         case (funct3)
             3'b0: 
             case (funct7)
@@ -191,7 +191,7 @@ begin
     end
     7'b0110111: // U型指令 lui
     begin
-        sel_a = 2'b00;
+        //sel_a = 2'b00;
         sel_b = 2'b00;
         writeRD = 1'b1;
         writeBackDataSelect = 3'b000;
