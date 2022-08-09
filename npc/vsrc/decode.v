@@ -331,7 +331,6 @@ begin
         pc_sel = 1'b1;
         npc_op = 1'b1;
         writeBackDataSelect = 3'b10;
-        $display("jalr");
     end
     7'b1100011: // B型指令
     begin
