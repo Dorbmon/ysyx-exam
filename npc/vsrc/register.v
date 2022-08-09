@@ -2,6 +2,7 @@ import "DPI-C" function void set_gpr_ptr(input logic [63:0] a []);
 `include "vsrc/alu_define.v"
 module ysyx_22041207_RegisterFile #(REGISTER_NUM = 2, ADDR_WIDTH = 1, DATA_WIDTH = 1) (
   input clk,
+  input [2:0] stage,
   input [DATA_WIDTH-1:0] wdata,
   input [ADDR_WIDTH-1:0] waddr,
   input [ADDR_WIDTH-1:0] r1addr,
@@ -16,7 +17,7 @@ module ysyx_22041207_RegisterFile #(REGISTER_NUM = 2, ADDR_WIDTH = 1, DATA_WIDTH
   assign r1data = rf[r1addr];
   assign r2data = rf[r2addr];
   always @(posedge clk) begin
-    if (wen && waddr != 0) rf[waddr] <= wdata;
+    if (wen && waddr != 0 && stage == 3'h4) rf[waddr] <= wdata;
     //$display("a1:%b", rf [1]);
   end
 endmodule
