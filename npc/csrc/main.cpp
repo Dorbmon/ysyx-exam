@@ -39,7 +39,6 @@ static void runN(uint64_t n) {
     //pBin(pmem_read(top->pc, 4));
     loadINST(pmem_read(top->pc, 4), top->pc);
     cpu.pc = top->pc;
-    printf("once\n");
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
       top->eval();
