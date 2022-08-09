@@ -32,7 +32,7 @@ wire [2:0] funct3;
 assign opCode = inst [6:0];
 assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
-always @(posedge clk)
+always @(inst)
 begin
     $display("decode %x", inst);
     memoryWriteMask = 8'b0;
