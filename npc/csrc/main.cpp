@@ -45,6 +45,7 @@ static void runN(uint64_t n) {
       loadINST(pmem_read(top->pc, 4), top->pc);
     }
     cpu.pc = top->pc;
+    printf("once\n");
     top->eval();
     if (top->clk) { //上升沿才会计算 如果top->clk = true 说明刚刚是一个上升沿，已经完成了一次计算
       //printf("difftest pc:%lx\n", bpc);
