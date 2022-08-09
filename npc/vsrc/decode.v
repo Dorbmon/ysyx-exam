@@ -33,8 +33,7 @@ assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
 always @(inst)
 begin
-    $display("decode %x %t", inst, $realtime);
-    $monitor($realtime,,"set=",inst);
+    $display("decode %x", inst);
     memoryWriteMask = 8'b0;
     wMtvec = 1'b0;
     wMepc = 1'b0;
