@@ -42,9 +42,14 @@ wire pc_panic, pc_mret;
 wire [2:0] stage;
 ysyx_22041207_IF rif(clk, stage, pc, inst);
 wire [31:0] inst;
+always @(posedge clk) begin
+  if (stage == 3'h4) begin
+    pc <= npc;
+  end
+end
 assign r1addr = inst [19:15];
 assign r2addr = inst [24:20];
-assign rwaddr = inst [11:7];
+assign rwaddr = inst [11:7]; 
 ysyx_22041207_stageManager stageManager(clk, stage);
 ysyx_22041207_GetPC getPc(imm, r1data, pc_sel, npc_op, pc, pc_panic, pc_mret, mtvec, mepc, npc);
 ysyx_22041207_csrRegister csrRegister(clk, pc_mret, csrAddress, aluRes, wMtvec, mtvec_v, wMepc, mepc_v, 

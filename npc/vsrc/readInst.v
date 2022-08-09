@@ -11,6 +11,7 @@ assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     if (stage == 3'h0) begin
         inst_o = inst;
+        // 然后更新当前pc为npc
     end
 end
 endmodule
