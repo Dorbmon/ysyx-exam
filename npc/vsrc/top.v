@@ -55,7 +55,7 @@ ysyx_22041207_csrRegister csrRegister(clk, pc_mret, csrAddress, aluRes, wMtvec, 
 wMcause, mcause_v, wMstatus, mstatus_v, csrWen, mtvec, mepc, mcause, mstatus, csrReadData);
 ysyx_22041207_Memory memory(clk, memoryReadWen, aluRes, r2data, memoryWriteMask, sext, readNum, memoryReadData);
 ysyx_22041207_SEXT SEXT(inst, instType, imm);
-ysyx_22041207_decoder decoder(inst, imm, r1data, r2data, aluOperate, sel_a, sel_b, memoryWriteMask, 
+ysyx_22041207_decoder decoder(clk, inst, imm, r1data, r2data, aluOperate, sel_a, sel_b, memoryWriteMask, 
 writeRD, pc_sel, npc_op, writeBackDataSelect, memoryReadWen, sext, readNum, rs1to32, wMtvec, wMepc, wMcause, wMstatus, pc_panic, pc_mret, csrWen);
 
 ysyx_22041207_alu alu(pc, aluOperate, r1data, r2data, csrReadData, imm, sel_a, sel_b, rs1to32, aluRes);

@@ -1,6 +1,7 @@
 `include "vsrc/alu_define.v"
 import "DPI-C" function void ebreak ();
 module ysyx_22041207_decoder(
+    input clk,
     input [31:0] inst,
     input [63:0] imm,
     input [63:0] rs1,
@@ -31,7 +32,7 @@ wire [2:0] funct3;
 assign opCode = inst [6:0];
 assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
-always @(inst)
+always @(posedge clk)
 begin
     $display("decode %x", inst);
     memoryWriteMask = 8'b0;
