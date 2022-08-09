@@ -1,6 +1,7 @@
 // 所有写入数据都是从rs2中而来
 `include "vsrc/alu_define.v"
 module ysyx_22041207_Memory (
+    input clk,
     input readWen,
     input [63:0] addr,
     input [63:0] rs2,
@@ -15,7 +16,12 @@ wire [3:0] num = 4'b1000 - addr [2:0]; // 在第一个8字节内写入的数量
 reg [63:0] readData;
 
 ysyx_22041207_read_mem read(addr, (wmask == 8'b0 && readWen), readData);
-always @(*) begin
+always @(posedge clk) begin
+  if (wmask != 8'b0) begin
+
+  end
+end
+always @(posedge clk) begin
   if (wmask == 8'b0) begin
     // 读取操作
     dout = readData;
