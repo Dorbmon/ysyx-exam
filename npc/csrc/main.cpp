@@ -35,7 +35,7 @@ static void runN(uint64_t n) {
   n <<= 1;
   while (!contextp->gotFinish() && !sebreak /*&& count < n*/) {
     uint32_t bpc = top->pc;
-    printf("pc:%lx\n", top->pc);
+    //printf("pc:%lx\n", top->pc);
     //pBin(pmem_read(top->pc, 4));
     loadINST(pmem_read(top->pc, 4), top->pc);
     cpu.pc = top->pc;
