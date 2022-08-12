@@ -30,7 +30,7 @@ always @(posedge clk) begin
             pc = pc + 4;
         end
     end
-    $display("read inst:%x", pc);
+    //$display("read inst:%x", pc);
     inst_o = rawData[31:0];
     pc_o = pc;
     
