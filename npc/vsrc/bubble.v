@@ -12,8 +12,8 @@ always @(*) begin
         bubble = 1'b0;
     end
     else begin
-        pc_delay = (me_rd == ex_r1 || me_rd == ex_r2) ? 1'b1 : 1'b0;
-        bubble = (me_rd == ex_r1 || me_rd == ex_r2) ? 1'b1 : 1'b0;
+        pc_delay = ((me_rd == ex_r1 || me_rd == ex_r2) && me_rd != 0) ? 1'b1 : 1'b0;
+        bubble = ((me_rd == ex_r1 || me_rd == ex_r2) && me_rd != 0) ? 1'b1 : 1'b0;
     end
 end
 endmodule

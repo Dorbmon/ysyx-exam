@@ -4,7 +4,6 @@ module ysyx_22041207_top (
   output reg [63:0] pc
 );
 wire flush;
-
 wire [31:0] if_inst, id_inst;
 wire [63:0] if_pc, id_pc;
 ysyx_22041207_IF rxIF(clk, pc_delay, ex_jal, ex_jalr, ex_dbranch, ex_imm, ex_r1data, if_inst, if_pc);
