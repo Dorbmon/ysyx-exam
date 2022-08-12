@@ -55,6 +55,7 @@ ysyx_22041207_dataforward data_forward(clk,ex_r1addr,ex_r2addr,ex_r1data,ex_r2da
  wb_writeRD, wb_rwaddr, wb_writeBackData, ex_forward_rs1, ex_forward_rs2
 );
 ysyx_22041207_alu ex_alu(
+    clk,
     ex_pc,
     ex_aluOperate,
     ex_forward_rs1,

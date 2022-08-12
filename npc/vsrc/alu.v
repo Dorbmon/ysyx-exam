@@ -1,5 +1,6 @@
 `include "vsrc/alu_define.v"
 module ysyx_22041207_alu(
+    input clk,
     input [63:0] pc,
     input [4:0] operate,
     input [63:0] rs1,
@@ -17,7 +18,7 @@ assign a = (sel_a == 2'b1) ? (rs1to32 ? {32'b0, rs1 [31:0]} : rs1) : pc;
 assign b = (sel_b == 2'b1) ? rs2 : ((sel_b == 2'h2) ? csr : imm);
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
-always @(*) begin
+always @(posedge clk) begin
     case(operate)
         `ALU_ADD: res = a + b;
         `ALU_SUB: res = a - b;

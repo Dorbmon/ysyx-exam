@@ -9,6 +9,7 @@ module ysyx_22041207_if_id(
 );
 always @(negedge clk) begin
     if (flush) begin
+        // 因为此时pc还是上一个指令，需要冲刷掉
         inst_o <= 0;
         pc_o <= 0;
         $display("flush...");
