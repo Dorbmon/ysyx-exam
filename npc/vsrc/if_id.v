@@ -11,6 +11,7 @@ always @(negedge clk) begin
     if (flush) begin
         inst_o <= 0;
         pc_o <= 0;
+        $display("flush...");
     end
     else if (bubble) begin
         inst_o <= inst_o;
