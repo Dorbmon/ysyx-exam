@@ -6,7 +6,7 @@ DIFFTEST ?=
 RUN_ARGS ?=
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
-				-O0 --x-assign fast --x-initial fast --noassert --trace
+				-O2 --x-assign fast --x-initial fast --noassert --trace
 BUILD_DIR = ./build
 OBJ_DIR = $(BUILD_DIR)/obj_dir
 BIN = $(BUILD_DIR)/$(TOPNAME)
