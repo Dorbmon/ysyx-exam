@@ -68,7 +68,7 @@ ysyx_22041207_alu ex_alu(
     ex_rs1to32,  // rs1 转换为32bit
     ex_aluRes
 );
-ysyx_22041207_flush rx_flush(ex_jal, ex_jalr, ex_dbranch, ex_aluRes, flush);
+ysyx_22041207_flush rx_flush (ex_jal, ex_jalr, ex_dbranch, ex_aluRes, flush);
 ysyx_22041207_Bubble rx_bubble (id_r1addr, id_r2addr, ex_rwaddr, ex_readNum, pc_delay, bubble);
 wire [63:0] me_csrValue;
 wire [63:0] me_writeBackData;
