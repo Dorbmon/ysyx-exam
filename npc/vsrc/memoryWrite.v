@@ -2,7 +2,6 @@
 `include "vsrc/alu_define.v"
 module ysyx_22041207_Memory (
     input clk,
-    input [2:0] stage,
     input readWen,
     input [63:0] addr,
     input [63:0] rs2,
@@ -16,9 +15,8 @@ import "DPI-C" function void pmem_write(
 wire [3:0] num = 4'b1000 - addr [2:0]; // 在第一个8字节内写入的数量
 reg [63:0] readData;
 
-ysyx_22041207_read_mem read(addr, (wmask == 8'b0 && readWen && stage == 3'h3), readData);
+ysyx_22041207_read_mem read(addr, (wmask == 8'b0 && readWen), readData);
 always @(posedge clk) begin
-  if (stage == 3'h3) begin
   if (wmask == 8'b0) begin
     // 读取操作
     dout = readData;
@@ -45,7 +43,6 @@ always @(posedge clk) begin
       pmem_write(addr + 64'b1000, rs2 >> (num * 8'b1000), wmask >> num);
     end
     dout = 64'b0;
-  end
   end
   
 end

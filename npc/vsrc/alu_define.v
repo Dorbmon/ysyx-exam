@@ -16,6 +16,9 @@
 `define ALU_REMU 5'b01111
 `define ALU_DIV 5'b10000
 `define ALU_SRA 5'b10001
+`define ALU_EQ 5'b10010
+`define ALU_LOE 5'b10011
+`define ALU_LOEU 5'b10100
 `define R_Type 3'b000
 `define J_Type 3'b001
 `define I_Type 3'b010

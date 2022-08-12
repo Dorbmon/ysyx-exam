@@ -16,7 +16,7 @@ module ysyx_22041207_WB(
         3'b011:  wD = imm    ;
         3'b100:  wD = {{(32){alu_c [31]}}, alu_c [31:0]};
         3'b101:  wD = csrValue;
-        default:wD = 64'h0  ;
+        default: wD = 64'h0  ;
         endcase
     end
 endmodule

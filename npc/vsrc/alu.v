@@ -36,6 +36,9 @@ always @(*) begin
         `ALU_REMU: res = a % b;
         `ALU_DIV: res = $signed(a) / $signed(b);
         `ALU_SRA: res = rs1to32 ? {32'b0, ($signed(a [31:0]) >>> b [5:0])} : ($signed(a) >>> b [5:0]);
+        `ALU_EQ: res = (a == b) ? 1 : 0;
+        `ALU_LOE: res = ($signed(a) >= $signed(b))?1:0;
+        `ALU_LOEU: res = (a >= b)?1:0;
         default: res = 0;
     endcase
     //$display("res:%h", a);

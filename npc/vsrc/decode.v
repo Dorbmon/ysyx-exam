@@ -2,18 +2,15 @@
 import "DPI-C" function void ebreak ();
 module ysyx_22041207_decoder(
     input clk,
-    input [2:0]  stage,
     input [31:0] inst,
-    input [63:0] imm,
-    input [63:0] rs1,
-    input [63:0] rs2,
     output reg [4:0] aluOperate,
     output reg [1:0] sel_a,
     output reg [1:0] sel_b,
     output reg [7:0] memoryWriteMask,
     output reg writeRD,
     output reg pc_sel,
-    output reg npc_op,
+    output reg jalr,
+    output reg jal,
     output reg [2:0] writeBackDataSelect,
     output reg memoryReadWen,
     output reg sext,
@@ -25,8 +22,17 @@ module ysyx_22041207_decoder(
     output reg wMstatus,
     output reg pc_panic, // 是否为异常跳转
     output reg pc_mret,   // 是否为mret
-    output reg csrWen
+    output reg csrWen,
+    output reg branch,
+    output reg [63:0] imm_o,
+    output reg [4:0] rs1addr,
+    output reg [4:0] rs2addr,
+    output reg [4:0] rwaddr
 );
+wire [63:0] imm;
+wire [2:0] instType;
+ysyx_22041207_GetInstType getInstType(inst [6:0], instType);
+ysyx_22041207_SEXT SEXT(inst, instType, imm);
 wire [6:0] opCode;
 wire [6:0] funct7;
 wire [2:0] funct3;
@@ -35,7 +41,10 @@ assign funct7 = inst [31:25];
 assign funct3 = inst [14:12];
 always @(posedge clk)
 begin
-    if (stage == 3'h1) begin
+    imm_o = imm;
+    rs1addr = inst [19:15];
+    rs2addr = inst [24:20];
+    rwaddr = inst [11:7];
     //$display("decode %x", inst);
     memoryWriteMask = 8'b0;
     wMtvec = 1'b0;
@@ -48,9 +57,9 @@ begin
     memoryReadWen = 1'b0;
     writeRD = 1'b0;
     pc_sel = 1'b0;
-    npc_op = 1'b0;
     rs1to32 = 1'b0;
     sext = 1'b0;
+    branch = 1'b0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
@@ -164,7 +173,6 @@ begin
             readNum = 4'h0;
         end
         3'h0: begin // lb
-            //
             sext = 1'b1;
             readNum = 4'h1;
         end
@@ -205,7 +213,8 @@ begin
     7'b1101111: // J型指令 jal
     begin
         writeRD = 1'b1;
-        npc_op = 1'b1;
+        //npc_op = 1'b1;
+        branch = 1'b1;
         writeBackDataSelect = 3'b10;
     end
     7'b0100011: // S型指令
@@ -329,34 +338,37 @@ begin
     begin
         writeRD = 1'b1;
         pc_sel = 1'b1;
-        npc_op = 1'b1;
+        jalr = 1'b1;
         writeBackDataSelect = 3'b10;
     end
     7'b1100011: // B型指令
     begin
+        branch = 1'b1;
         case(funct3)
-        default: npc_op = 1'b0;
-        3'h0: begin
-            npc_op = ($signed(rs1) == $signed(rs2))?1'b1:1'b0;
+        default: aluOperate = `ALU_NONE;
+        3'h0: begin // beq  相等的时候跳转
+            aluOperate = `ALU_XOR;  //只有相等的时候为0
         end
-        3'h1: begin
-            npc_op = ($signed(rs1) != $signed(rs2))?1'b1:1'b0;
+        3'h1: begin // bne
+            // 不相等的时候为0,
+            aluOperate = `ALU_EQ;
         end
-        3'h4: begin
-            npc_op = ($signed(rs1) < $signed(rs2))?1'b1:1'b0;
+        3'h4: begin // blt
+            // 小于的时候跳转
+            aluOperate = `ALU_LOE;
         end
         3'h5: begin // bge
-            npc_op = ($signed(rs1) >= $signed(rs2))?1'b1:1'b0;
+           // 小于的时候为1
+           aluOperate = `ALU_SLT;
         end
         3'b110: begin // bltu
-            npc_op = (rs1 < rs2)?1'b1:1'b0;
+            aluOperate = `ALU_LOEU;
         end
         3'b111: begin // bgeu
-            npc_op = (rs1 >= rs2)?1'b1:1'b0;
+            aluOperate = `ALU_SLTU;
         end
         endcase
     end
     endcase
-    end
 end
 endmodule
