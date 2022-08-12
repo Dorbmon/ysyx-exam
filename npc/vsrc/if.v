@@ -4,6 +4,7 @@ module ysyx_22041207_IF (
     input ex_jal,
     input ex_jalr,
     input ex_branch,
+    input [63:0] ex_aluRes,
     input [63:0] ex_pc,
     input [63:0] ex_imm,
     input [63:0] ex_r1data,
@@ -21,7 +22,7 @@ assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令，并更新PC
     if (~pc_delay) begin
-        if (ex_jal || ex_branch) begin
+        if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
             pc = ex_pc + ex_imm;
         end
         else if (ex_jalr) begin
