@@ -112,5 +112,6 @@ always @(negedge clk) begin
         rwaddr_o <= rwaddr;
         pc_o <= pc;
     end
+    $display("ex_pc:%x", pc_o);
 end
 endmodule
