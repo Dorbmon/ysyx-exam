@@ -47,7 +47,7 @@ uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 word_t pmem_read(paddr_t addr, int len) {
-  if ((uint64_t)guest_to_host(addr) == 0x5554d55b2000) {
+  if ((uint64_t)guest_to_host(addr) == 0x5554d55b8000) {
     printf("addr:%lx\n", addr);
   }
   word_t ret = host_read(guest_to_host(addr), len);
