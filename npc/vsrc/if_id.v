@@ -15,7 +15,7 @@ always @(negedge clk) begin
         //$display("flush...");
     end
     else if (bubble) begin
-        $display("bubble");
+        //$display("bubble");
         inst_o <= inst_o;
         pc_o <= pc_o;
     end 

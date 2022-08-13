@@ -37,6 +37,6 @@ always @(negedge clk) begin
             pc = pc + 4;
         end
     end
-    $display("npc:%x", pc);
+    //$display("npc:%x", pc);
 end
 endmodule
