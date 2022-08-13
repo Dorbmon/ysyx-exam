@@ -12,6 +12,7 @@ module ysyx_22041207_EX_ME(
     input sext,
     input writeRD,
     input [4:0] rwaddr,
+    input ebreak,
     output reg [63:0] aluRes_o,
     output reg memoryReadWen_o,
     output reg [3:0] readNum_o,
@@ -22,7 +23,8 @@ module ysyx_22041207_EX_ME(
     output reg [7:0] memoryWriteMask_o,
     output reg sext_o,
     output reg writeRD_o,
-    output reg [4:0] rwaddr_o
+    output reg [4:0] rwaddr_o,
+    output reg ebreak_o
 );
 always @(negedge clk) begin
     if (bubble) begin
@@ -48,6 +50,7 @@ always @(negedge clk) begin
         sext_o <= 0;
         writeRD_o <= 0;
         rwaddr_o <= 0;
+        ebreak_o <= 0;
     end
     else begin
         aluRes_o <= aluRes;
@@ -61,6 +64,7 @@ always @(negedge clk) begin
         sext_o <= sext;
         writeRD_o <= writeRD;
         rwaddr_o <= rwaddr;
+        ebreak_o <= ebreak;
     end
     
 end
