@@ -1,4 +1,5 @@
 module ysyx_22041207_Bubble (
+    input clk,
     input [4:0] ex_r1,
     input [4:0] ex_r2,
     input [4:0] me_rd,
@@ -6,7 +7,7 @@ module ysyx_22041207_Bubble (
     output reg pc_delay,
     output reg bubble
 );
-always @(*) begin
+always @(posedge clk) begin
     if (me_readNum == 4'b0) begin
         pc_delay = 1'b0;
         bubble = 1'b0;

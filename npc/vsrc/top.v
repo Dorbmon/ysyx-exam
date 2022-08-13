@@ -69,7 +69,7 @@ ysyx_22041207_alu ex_alu(
     ex_aluRes
 );
 ysyx_22041207_flush rx_flush (ex_jal, ex_jalr, ex_dbranch, ex_aluRes, flush);
-ysyx_22041207_Bubble rx_bubble (id_r1addr, id_r2addr, ex_rwaddr, ex_readNum, pc_delay, bubble);
+ysyx_22041207_Bubble rx_bubble (clk, id_r1addr, id_r2addr, ex_rwaddr, ex_readNum, pc_delay, bubble);
 wire [63:0] me_csrValue;
 wire [63:0] me_writeBackData;
 ysyx_22041207_WB me_builtin_wb(me_aluRes, me_pc, me_memoryReadData, me_imm, me_csrValue, me_writeBackDataSelect, me_writeBackData);
