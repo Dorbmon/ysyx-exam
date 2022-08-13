@@ -21,7 +21,7 @@ ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令
-    $display("read inst:%x %x %d", ex_pc, ex_imm, ex_jal);
+    
     inst_o = rawData[31:0];
     pc_o = pc;
 end
@@ -36,6 +36,7 @@ always @(negedge clk) begin
         else begin
             pc = pc + 4;
         end
+        $display("read inst:%x %x %d", ex_pc, ex_imm, ex_jal);
     end
 end
 endmodule
