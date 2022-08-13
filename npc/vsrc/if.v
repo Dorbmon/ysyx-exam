@@ -30,8 +30,9 @@ always @(negedge clk) begin
         if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
             pc <= ex_pc + ex_imm;
         end
-        else if (ex_jalr) begin
-            pc <= ex_r1data + ex_imm;
+        else if (ex_jalr) begin // jalr要求最后一位置0
+            //(ex_r1data + ex_imm)
+            pc <= {ex_imm[63:1], 1'b0};
         end
         else begin
             pc <= pc + 4;

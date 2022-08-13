@@ -43,10 +43,10 @@ wire [4:0] ex_r1addr, ex_r2addr, ex_rwaddr;
 wire [63:0] ex_r1data, ex_r2data;
 wire [63:0] ex_pc;
 ysyx_22041207_ID_EX rxID_EX(clk, bubble, flush, id_aluOperate, id_sel_a, id_sel_b, id_memoryWriteMask, 
-id_writeRD, id_pc_sel, id_jalr, id_jal, id_writeBackDataSelect, id_memoryReadWen, id_sext, id_readNum, id_rs1to32, id_wMtvec, id_wMepc,
+id_writeRD, id_pc_sel, id_jalr, id_jal,  id_writeBackDataSelect, id_memoryReadWen, id_sext, id_readNum, id_rs1to32, id_wMtvec, id_wMepc,
  id_wMcause, id_wMstatus, id_pc_panic, id_pc_mret, id_csrWen, id_dbranch, id_imm, id_r1addr, id_r2addr, id_rwaddr, id_pc,
  ex_aluOperate, ex_sel_a, ex_sel_b, ex_memoryWriteMask, 
-ex_writeRD, ex_pc_sel, ex_jalr, ex_jal, ex_writeBackDataSelect, ex_memoryReadWen, ex_sext, ex_readNum, ex_rs1to32, ex_wMtvec,
+ex_writeRD, ex_pc_sel, ex_jalr, ex_jal,  ex_writeBackDataSelect, ex_memoryReadWen, ex_sext, ex_readNum, ex_rs1to32, ex_wMtvec,
  ex_wMepc, ex_wMcause, ex_wMstatus, ex_pc_panic, ex_pc_mret, ex_csrWen, ex_dbranch, ex_imm, ex_r1addr, ex_r2addr, ex_rwaddr, ex_pc
  );
 wire [63:0] ex_aluRes;

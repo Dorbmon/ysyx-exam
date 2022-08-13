@@ -22,7 +22,7 @@ module ysyx_22041207_ID_EX (
     input  pc_panic, // 是否为异常跳转
     input  pc_mret,   // 是否为mret
     input  csrWen,
-    input  brach,
+    input  branch,
     input  [63:0] imm,
     input  [4:0] rs1addr,
     input  [4:0] rs2addr,
@@ -48,7 +48,7 @@ module ysyx_22041207_ID_EX (
     output reg  pc_panic_o, // 是否为异常跳转
     output reg  pc_mret_o,   // 是否为mret
     output reg  csrWen_o,
-    output reg  brach_o,
+    output reg  branch_o,
     output reg  [63:0] imm_o,
     output reg  [4:0] rs1addr_o,
     output reg  [4:0] rs2addr_o,
@@ -78,7 +78,7 @@ always @(negedge clk) begin
         pc_panic_o <= 0; // 是否为异常跳转
         pc_mret_o <= 0;   // 是否为mret
         csrWen_o <= 0;
-        brach_o <= 0;
+        branch_o <= 0;
         imm_o <= 0;
         rs1addr_o <= 0;
         rs2addr_o <= 0;
@@ -106,7 +106,7 @@ always @(negedge clk) begin
         pc_panic_o <= pc_panic_o; // 是否为异常跳转
         pc_mret_o <= pc_mret_o;   // 是否为mret
         csrWen_o <= csrWen_o;
-        brach_o <= brach_o;
+        branch_o <= branch_o;
         imm_o <= imm_o;
         rs1addr_o <= rs1addr_o;
         rs2addr_o <= rs2addr_o;
@@ -134,7 +134,7 @@ always @(negedge clk) begin
         pc_panic_o <= pc_panic; // 是否为异常跳转
         pc_mret_o <= pc_mret;   // 是否为mret
         csrWen_o <= csrWen;
-        brach_o <= brach;
+        branch_o <= branch;
         imm_o <= imm;
         rs1addr_o <= rs1addr;
         rs2addr_o <= rs2addr;
