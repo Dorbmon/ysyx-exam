@@ -17,7 +17,9 @@ reg [63:0] readData;
 
 ysyx_22041207_read_mem read(addr, (wmask == 8'b0 && readWen), readData);
 always @(posedge clk) begin
+  
   if (wmask == 8'b0) begin
+    $display("rx addr:%x", addr);
     // 读取操作
     dout = readData;
     if (sext) begin
