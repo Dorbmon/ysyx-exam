@@ -12,7 +12,7 @@ always @(negedge clk) begin
         // 因为此时pc还是上一个指令，需要冲刷掉
         inst_o <= 0;
         pc_o <= 0;
-        $display("flush...");
+        //$display("flush...");
     end
     else if (bubble) begin
         inst_o <= inst_o;
