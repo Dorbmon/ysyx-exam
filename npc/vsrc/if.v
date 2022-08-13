@@ -36,7 +36,6 @@ always @(negedge clk) begin
         else begin
             pc = pc + 4;
         end
-        $display("read inst:%x %x %d", ex_pc, ex_imm, ex_jal);
     end
 end
 endmodule
