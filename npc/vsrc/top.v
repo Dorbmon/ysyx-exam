@@ -51,7 +51,7 @@ ex_writeRD, ex_pc_sel, ex_jalr, ex_jal, ex_writeBackDataSelect, ex_memoryReadWen
  );
 wire [63:0] ex_aluRes;
 wire [63:0] ex_forward_rs1, ex_forward_rs2;
-ysyx_22041207_dataforward data_forward(ex_r1addr, ex_r2addr, ex_r1data, ex_r2data, me_writeRD, me_rwddr, me_writeBackData,
+ysyx_22041207_dataforward data_forward(ex_r1addr, ex_r2addr, ex_r1data, ex_r2data, me_writeRD, me_rwaddr, me_writeBackData,
  wb_writeRD, wb_rwaddr, wb_writeBackData, ex_forward_rs1, ex_forward_rs2
 );
 ysyx_22041207_alu ex_alu(
@@ -69,7 +69,7 @@ ysyx_22041207_alu ex_alu(
     ex_aluRes
 );
 ysyx_22041207_flush rx_flush (ex_jal, ex_jalr, ex_dbranch, ex_aluRes, flush);
-ysyx_22041207_Bubble rx_bubble (clk, id_r1addr, id_r2addr, ex_rwaddr, ex_readNum, pc_delay, bubble);
+ysyx_22041207_Bubble rx_bubble (clk, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, pc_delay, bubble);
 wire [63:0] me_csrValue;
 wire [63:0] me_writeBackData;
 ysyx_22041207_WB me_builtin_wb(me_aluRes, me_pc, me_memoryReadData, me_imm, me_csrValue, me_writeBackDataSelect, me_writeBackData);
@@ -81,7 +81,7 @@ wire [63:0] me_imm, me_r2data;
 wire [2:0] me_writeBackDataSelect;
 wire [7:0] me_memoryWriteMask;
 wire [63:0] me_memoryReadData;
-wire [4:0] me_rwddr;
+wire [4:0] me_rwaddr;
 ysyx_22041207_EX_ME rxEX_ME(clk, 
     bubble,
     ex_aluRes,
@@ -105,12 +105,12 @@ ysyx_22041207_EX_ME rxEX_ME(clk,
     me_memoryWriteMask,
     me_sext,
     me_writeRD,
-    me_rwddr
+    me_rwaddr
 );
 wire [4:0] wb_rwaddr;
 ysyx_22041207_Memory mem(clk, me_memoryReadWen, me_aluRes, me_r2data, me_memoryWriteMask, me_sext, me_readNum, me_memoryReadData);
 ysyx_22041207_ME_WB me_wb(clk, me_aluRes   ,me_pc      ,me_memoryReadData ,me_imm     ,//csrValue,
- 0, me_writeBackDataSelect  , me_writeRD , me_rwddr,
+ 0, me_writeBackDataSelect  , me_writeRD , me_rwaddr,
 wb_aluRes   , wb_pc      , wb_memoryReadData , wb_imm     ,
 wb_csrValue,
  wb_writeBackDataSelect  ,wb_writeRD , wb_rwaddr
