@@ -226,6 +226,7 @@ begin
         aluOperate = `ALU_ADD;
         case (funct3)
         3'b000:begin  //sb
+            $display("catch sb");
             memoryWriteMask = 8'b00000001;
         end
         3'b001:begin  //sh
