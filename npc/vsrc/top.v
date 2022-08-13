@@ -51,7 +51,7 @@ ex_writeRD, ex_pc_sel, ex_jalr, ex_jal, ex_writeBackDataSelect, ex_memoryReadWen
  );
 wire [63:0] ex_aluRes;
 wire [63:0] ex_forward_rs1, ex_forward_rs2;
-ysyx_22041207_dataforward data_forward(clk,ex_r1addr,ex_r2addr,ex_r1data,ex_r2data, me_writeRD, me_rwddr, me_writeBackData,
+ysyx_22041207_dataforward data_forward(ex_r1addr, ex_r2addr, ex_r1data, ex_r2data, me_writeRD, me_rwddr, me_writeBackData,
  wb_writeRD, wb_rwaddr, wb_writeBackData, ex_forward_rs1, ex_forward_rs2
 );
 ysyx_22041207_alu ex_alu(

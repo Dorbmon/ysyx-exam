@@ -1,5 +1,4 @@
 module ysyx_22041207_dataforward(
-    input clk,
     input [4:0] r1addr,
     input [4:0] r2addr,
     input [63:0] r1data,
