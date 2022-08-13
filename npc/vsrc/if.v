@@ -28,13 +28,13 @@ end
 always @(negedge clk) begin
     if (~pc_delay) begin
         if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
-            pc = ex_pc + ex_imm;
+            pc <= ex_pc + ex_imm;
         end
         else if (ex_jalr) begin
-            pc = ex_r1data + ex_imm;
+            pc <= ex_r1data + ex_imm;
         end
         else begin
-            pc = pc + 4;
+            pc <= pc + 4;
         end
     end
     //$display("npc:%x", pc);
