@@ -57,7 +57,7 @@ module ysyx_22041207_ID_EX (
 );
 always @(negedge clk) begin
     //$display("pc:%x jal:%d", pc, jal);
-    if (bubble || flush) begin
+    if (flush) begin
         aluOperate_o <= 0;
         sel_a_o <= 0;
         sel_b_o <= 0;
@@ -84,6 +84,34 @@ always @(negedge clk) begin
         rs2addr_o <= 0;
         rwaddr_o <= 0;
         pc_o <= 0;
+    end
+    else if (bubble) begin
+        aluOperate_o <= aluOperate_o;
+        sel_a_o <= sel_a_o;
+        sel_b_o <= sel_b_o;
+        memoryWriteMask_o <= memoryWriteMask_o;
+        writeRD_o <= writeRD_o;
+        pc_sel_o <= pc_sel_o;
+        jalr_o <= jalr_o;
+        jal_o <= jal_o;
+        writeBackDataSelect_o <= writeBackDataSelect_o;
+        memoryReadWen_o <= memoryReadWen_o;
+        sext_o <= sext_o;
+        readNum_o <= readNum_o;
+        rs1to32_o <= rs1to32_o;
+        wMtvec_o <= wMtvec_o;
+        wMepc_o <= wMepc_o;
+        wMcause_o <= wMcause_o;
+        wMstatus_o <= wMstatus_o;
+        pc_panic_o <= pc_panic_o; // 是否为异常跳转
+        pc_mret_o <= pc_mret_o;   // 是否为mret
+        csrWen_o <= csrWen_o;
+        brach_o <= brach_o;
+        imm_o <= imm_o;
+        rs1addr_o <= rs1addr_o;
+        rs2addr_o <= rs2addr_o;
+        rwaddr_o <= rwaddr_o;
+        pc_o <= pc_o;
     end
     else begin
         aluOperate_o <= aluOperate;
