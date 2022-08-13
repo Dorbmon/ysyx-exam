@@ -56,8 +56,8 @@ module ysyx_22041207_ID_EX (
     output reg  [63:0] pc_o
 );
 always @(negedge clk) begin
+    $display("pc:%x jal:%d", pc, jal);
     if (bubble || flush) begin
-        $display("5666");
         aluOperate_o <= 0;
         sel_a_o <= 0;
         sel_b_o <= 0;
