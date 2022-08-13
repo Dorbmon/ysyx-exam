@@ -60,6 +60,8 @@ begin
     rs1to32 = 1'b0;
     sext = 1'b0;
     branch = 1'b0;
+    jalr = 1'b0;
+    jal = 1'b0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
