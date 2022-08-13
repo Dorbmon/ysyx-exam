@@ -57,6 +57,7 @@ module ysyx_22041207_ID_EX (
 );
 always @(negedge clk) begin
     if (bubble || flush) begin
+        $display("5666");
         aluOperate_o <= 0;
         sel_a_o <= 0;
         sel_b_o <= 0;
