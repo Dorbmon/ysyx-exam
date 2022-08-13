@@ -25,6 +25,8 @@ always @(posedge clk) begin
     inst_o = rawData[31:0];
     pc_o = pc;
 end
+wire [63:0] addRes;
+assign addRes = ex_r1data + ex_imm[63:1];
 always @(negedge clk) begin
     if (~pc_delay) begin
         if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
@@ -32,7 +34,7 @@ always @(negedge clk) begin
         end
         else if (ex_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
-            pc <= {ex_imm[63:1], 1'b0};
+            pc <= {addRes[63:1], 1'b0};
         end
         else begin
             pc <= pc + 4;
