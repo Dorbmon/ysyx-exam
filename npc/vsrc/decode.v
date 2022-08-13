@@ -215,7 +215,6 @@ begin
     7'b1101111: // J型指令 jal
     begin
         writeRD = 1'b1;
-        //npc_op = 1'b1;
         branch = 1'b1;
         writeBackDataSelect = 3'b10;
         jal = 1'b1;

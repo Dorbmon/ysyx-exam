@@ -20,7 +20,12 @@ end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
-    // 开始读入指令，并更新PC
+    // 开始读入指令
+    $display("read inst:%x %x %d", ex_pc, ex_imm, ex_jal);
+    inst_o = rawData[31:0];
+    pc_o = pc;
+end
+always @(negedge clk) begin
     if (~pc_delay) begin
         if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
             pc = ex_pc + ex_imm;
@@ -32,9 +37,5 @@ always @(posedge clk) begin
             pc = pc + 4;
         end
     end
-    $display("read inst:%x %x %d", ex_pc, ex_imm, ex_jal);
-    inst_o = rawData[31:0];
-    pc_o = pc;
-    
 end
 endmodule
