@@ -26,7 +26,7 @@ always @(posedge clk) begin
 end
 wire [63:0] addRes;
 assign addRes = ex_r1data + ex_imm;
-always @(negedge clk) begin
+always @(posedge clk) begin
     if (~pc_delay) begin
         if (ex_branch) begin
             $display("b:%d aluRes:%x", ex_branch, ex_aluRes);
