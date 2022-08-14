@@ -25,7 +25,7 @@ always @(posedge clk) begin
     pc_o = pc;
 end
 wire [63:0] addRes;
-assign addRes = ex_r1data + ex_imm[63:1];
+assign addRes = ex_r1data + ex_imm;
 always @(negedge clk) begin
     if (~pc_delay) begin
         if (ex_branch) begin
