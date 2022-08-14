@@ -8,6 +8,7 @@ module ysyx_22041207_EX_ME(
     input [63:0] pc,
     input [63:0] imm,
     input [2:0] wd_sel,
+    input [63:0] rs1,
     input [63:0] rs2,
     input [7:0] memoryWriteMask,
     input sext,
@@ -22,6 +23,7 @@ module ysyx_22041207_EX_ME(
     output reg [63:0] pc_o,
     output reg [63:0] imm_o,
     output reg [2:0] wd_sel_o,
+    output reg [63:0] rs1_o,
     output reg [63:0] rs2_o,
     output reg [7:0] memoryWriteMask_o,
     output reg sext_o,
@@ -39,6 +41,7 @@ always @(negedge clk) begin
         pc_o <= 0;
         imm_o <= 0;
         wd_sel_o <= 0;
+        rs1_o <= 0;
         rs2_o <= 0;
         memoryWriteMask_o <= 0;
         sext_o <= 0;
@@ -55,6 +58,7 @@ always @(negedge clk) begin
         pc_o <= pc;
         imm_o <= imm;
         wd_sel_o <= wd_sel;
+        rs1_o <= rs1;
         rs2_o <= rs2;
         memoryWriteMask_o <= memoryWriteMask;
         sext_o <= sext;

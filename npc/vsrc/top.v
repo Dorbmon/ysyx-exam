@@ -8,7 +8,7 @@ wire [31:0] if_inst, id_inst;
 wire [63:0] if_pc, id_pc;
 wire clear_afterID;
 assign clear_afterID = id_csrOrder != 0 && ~id_afterIDClear;  // 是否需要等待id之后的流水级清空
-ysyx_22041207_IF rxIF(clk, pc_delay | clear_afterID, me_jal, me_jalr, me_dbranch, me_aluRes, me_pc, me_imm, ex_r1data, if_inst, if_pc);
+ysyx_22041207_IF rxIF(clk, pc_delay | clear_afterID, me_jal, me_jalr, me_dbranch, me_aluRes, me_pc, me_imm, me_r1data, if_inst, if_pc);
 ysyx_22041207_if_id rxIF_ID(clk, bubble | clear_afterID, flush, if_inst, if_pc, id_inst, id_pc);
 /*  id 导线  */
 wire pc_delay, bubble;
@@ -84,7 +84,7 @@ wire [63:0] me_aluRes;
 wire me_memoryReadWen, me_sext, me_writeRD;
 wire [3:0] me_readNum;
 wire [63:0] me_pc;
-wire [63:0] me_imm, me_r2data;
+wire [63:0] me_imm, me_r1data, me_r2data;
 wire [2:0] me_writeBackDataSelect;
 wire [7:0] me_memoryWriteMask;
 wire [63:0] me_memoryReadData;
@@ -98,6 +98,7 @@ ysyx_22041207_EX_ME rxEX_ME(clk,
     ex_pc,
     ex_imm,
     ex_writeBackDataSelect,
+    ex_r1data,
     ex_r2data,
     ex_memoryWriteMask,
     ex_sext,
@@ -112,6 +113,7 @@ ysyx_22041207_EX_ME rxEX_ME(clk,
     me_pc,
     me_imm,
     me_writeBackDataSelect,
+    me_r1data,
     me_r2data,
     me_memoryWriteMask,
     me_sext,
