@@ -350,6 +350,8 @@ begin
     end
     7'b1100011: // B型指令
     begin
+        sel_a = 2'b1;
+        sel_b = 2'b1;
         branch = 1'b1;
         case(funct3)
         default: aluOperate = `ALU_NONE;
