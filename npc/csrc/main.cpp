@@ -33,7 +33,8 @@ extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
 }
 static void runN(uint64_t n) {
   n <<= 1;
-  while (!contextp->gotFinish() && !sebreak /*&& count < n*/) {
+  size_t count = 0;
+  while (!contextp->gotFinish() && !sebreak && count < 100) {
     uint32_t bpc = top->pc;
     //printf("pc:%lx\n", top->pc);
     //pBin(pmem_read(top->pc, 4));
@@ -42,6 +43,7 @@ static void runN(uint64_t n) {
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
       top->eval();
+      count ++;
     }
     if (top->clk) { //上升沿才会计算 如果top->clk = true 说明刚刚是一个上升沿，已经完成了一次计算
       //printf("difftest pc:%lx\n", bpc);
