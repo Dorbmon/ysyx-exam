@@ -1,10 +1,10 @@
 import "DPI-C" function void ebreak ();
-module ysyx_22041207_ebreak (
+module ysyx_22041207_csrOrder (
     input clk,
-    input ebreak_i
+    input [2:0] ex_csrOrder
 );
 always @(posedge clk) begin
-    if (ebreak_i) begin
+    if (ex_csrOrder == 3'h1) begin
         ebreak();
     end
 end

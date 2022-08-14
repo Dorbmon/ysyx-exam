@@ -1,5 +1,5 @@
 `include "vsrc/alu_define.v"
-//import "DPI-C" function void ebreak ();
+
 module ysyx_22041207_decoder(
     input clk,
     input [31:0] inst,
@@ -28,7 +28,7 @@ module ysyx_22041207_decoder(
     output reg [4:0] rs1addr,
     output reg [4:0] rs2addr,
     output reg [4:0] rwaddr,
-    output reg ebreak_o
+    output reg [2:0] csr_order
 );
 wire [63:0] imm;
 wire [2:0] instType;
@@ -63,7 +63,7 @@ begin
     branch = 1'b0;
     jalr = 1'b0;
     jal = 1'b0;
-    ebreak_o = 1'b0;
+    csr_order = 0;
     case (opCode)
     default: ;
     7'b1110011: // 系统指令
@@ -87,7 +87,9 @@ begin
         end
         3'b0: begin
             case (imm)
-                64'h1: ebreak_o = 1'b1;    // ebreak
+                64'h1: begin     // ebreak
+                    csr_order = 3'b1;
+                end
                 64'b0: begin
                     // ecall
                     wMepc = 1'b1;   // epc = pc
