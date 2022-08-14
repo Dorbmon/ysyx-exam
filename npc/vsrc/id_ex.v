@@ -121,9 +121,6 @@ always @(negedge clk) begin
         csr_order_o <= csr_order_o;
     end
     else begin
-        if (jal) begin
-            $display("catch wfagsagas");
-        end
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;

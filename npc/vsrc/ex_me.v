@@ -60,6 +60,9 @@ always @(negedge clk) begin
         branch_o <= 0;
     end
     else begin
+        if (jal) begin
+            $display ("casasba");
+        end
         aluRes_o <= aluRes;
         memoryReadWen_o <= memoryReadWen;
         readNum_o <= readNum;
