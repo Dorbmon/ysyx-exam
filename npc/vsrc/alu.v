@@ -30,7 +30,7 @@ always @(posedge clk) begin
         `ALU_SLL: res = a << b [5:0];
         `ALU_SRL: res = a >> b [5:0];
         `ALU_SLT: begin 
-            $display("slt: %x %x", $signed(a), $signed(b));
+            $display("slt: %x %x %d", $signed(a), $signed(b), $signed(a) < $signed(b) ? 64'b1 : 64'b0);
             res = $signed(a) < $signed(b) ? 64'b1 : 64'b0;
         end
         `ALU_SLTU: res = a < b ? 64'b1 : 64'b0;
