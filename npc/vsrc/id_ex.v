@@ -61,6 +61,7 @@ module ysyx_22041207_ID_EX (
 always @(negedge clk) begin
     //$display("pc:%x jal:%d", pc, jal);
     if (flush | clear_afterID) begin
+        $display("flush | ...");
         aluOperate_o <= 0;
         sel_a_o <= 0;
         sel_b_o <= 0;
@@ -90,6 +91,7 @@ always @(negedge clk) begin
         csr_order_o <= 0;
     end
     else if (bubble) begin
+        $display("buuble...");
         aluOperate_o <= aluOperate_o;
         sel_a_o <= sel_a_o;
         sel_b_o <= sel_b_o;
@@ -119,9 +121,6 @@ always @(negedge clk) begin
         csr_order_o <= csr_order_o;
     end
     else begin
-        if (branch_o) begin
-            $display("ooo");
-        end
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;
