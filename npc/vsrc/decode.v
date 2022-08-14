@@ -221,7 +221,7 @@ begin
         writeRD = 1'b1;
         writeBackDataSelect = 3'b10;
         jal = 1'b1;
-        $display("decode jal");
+        //$display("decode jal");
     end
     7'b0100011: // S型指令
     begin
@@ -230,7 +230,7 @@ begin
         aluOperate = `ALU_ADD;
         case (funct3)
         3'b000:begin  //sb
-            $display("catch sb");
+            //$display("catch sb");
             memoryWriteMask = 8'b00000001;
         end
         3'b001:begin  //sh
