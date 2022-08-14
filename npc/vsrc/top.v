@@ -123,7 +123,7 @@ ysyx_22041207_EX_ME rxEX_ME(clk,
 );
 wire me_jal, me_jalr, me_dbranch;
 wire [4:0] wb_rwaddr;
-ysyx_22041207_flush rx_flush (me_jal, me_jalr, me_dbranch, me_aluRes, flush);
+ysyx_22041207_flush rx_flush (clk, me_jal, me_jalr, me_dbranch, me_aluRes, flush);
 ysyx_22041207_Memory mem(clk, me_memoryReadWen, me_aluRes, me_r2data, me_memoryWriteMask, me_sext, me_readNum, me_memoryReadData);
 ysyx_22041207_ME_WB me_wb(clk, me_aluRes   ,me_pc      ,me_memoryReadData ,me_imm     ,//csrValue,
  0, me_writeBackDataSelect  , me_writeRD , me_rwaddr,
