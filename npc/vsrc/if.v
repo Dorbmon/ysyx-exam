@@ -21,7 +21,6 @@ ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令
-    
     inst_o = rawData[31:0];
     pc_o = pc;
 end
@@ -29,6 +28,7 @@ wire [63:0] addRes;
 assign addRes = ex_r1data + ex_imm[63:1];
 always @(negedge clk) begin
     if (~pc_delay) begin
+        $display("b:%d aluRes:%x", ex_branch, ex_aluRes);
         if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
             pc <= ex_pc + ex_imm;
         end
