@@ -32,6 +32,7 @@ always @(negedge clk) begin
             $display("b:%d aluRes:%x", ex_branch, ex_aluRes);
         end
         if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
+            $display("jallll");
             pc <= ex_pc + ex_imm;
         end
         else if (ex_jalr) begin // jalr要求最后一位置0
