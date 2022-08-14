@@ -28,7 +28,9 @@ wire [63:0] addRes;
 assign addRes = ex_r1data + ex_imm[63:1];
 always @(negedge clk) begin
     if (~pc_delay) begin
-        //$display("b:%d aluRes:%x", ex_branch, ex_aluRes);
+        if (ex_branch) begin
+            $display("b:%d aluRes:%x", ex_branch, ex_aluRes);
+        end
         if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
             pc <= ex_pc + ex_imm;
         end
