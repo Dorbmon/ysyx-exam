@@ -221,6 +221,7 @@ begin
         writeRD = 1'b1;
         writeBackDataSelect = 3'b10;
         jal = 1'b1;
+        $display("catch jal");
     end
     7'b0100011: // S型指令
     begin
