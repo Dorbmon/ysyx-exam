@@ -365,6 +365,7 @@ begin
             aluOperate = `ALU_LOE;
         end
         3'h5: begin // bge
+            $display("catch bge");
            // 小于的时候为1
            aluOperate = `ALU_SLT;
         end
