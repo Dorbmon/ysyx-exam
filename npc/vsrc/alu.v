@@ -22,14 +22,14 @@ always @(posedge clk) begin
     case(operate)
         `ALU_ADD: begin 
             res = a + b;
-            $display("add %x", a);
+            //$display("add %x", a);
         end
         `ALU_SUB: res = a - b;
         `ALU_RETURN_A: res = a;
         `ALU_RETURN_B: res = b;
         `ALU_XOR: begin
             res = a ^ b;
-            $display("eq: %x %x", a, b);
+            //$display("eq: %x %x", a, b);
         end
         `ALU_OR: res = a | b;
         `ALU_AND: res = a & b;
