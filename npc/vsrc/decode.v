@@ -320,8 +320,8 @@ begin
         writeRD = 1'b1;
         writeBackDataSelect = 3'b100;   // 对32位做符号扩展
         case (funct3)
-        3'b000: begin
-            aluOperate = `ALU_ADD;
+        3'b000: begin   
+            aluOperate = `ALU_ADD; // addiw
         end
         3'b001: begin
             aluOperate = `ALU_SLL;  // slliw
