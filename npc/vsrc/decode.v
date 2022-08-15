@@ -359,7 +359,7 @@ begin
             aluOperate = `ALU_XOR;  //只有相等的时候为0
         end
         3'h1: begin // bne
-            // 不相等的时候为0,
+            // 不相等的时候为0
             aluOperate = `ALU_EQ;
         end
         3'h4: begin // blt
@@ -367,7 +367,6 @@ begin
             aluOperate = `ALU_LOE;
         end
         3'h5: begin // bge
-            $display("catch bge");
            // 小于的时候为1
            aluOperate = `ALU_SLT;
         end
