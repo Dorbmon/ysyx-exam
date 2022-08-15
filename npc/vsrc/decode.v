@@ -356,6 +356,7 @@ begin
         case(funct3)
         default: aluOperate = `ALU_NONE;
         3'h0: begin // beq  相等的时候跳转
+            $display("catch beq");
             aluOperate = `ALU_XOR;  //只有相等的时候为0
         end
         3'h1: begin // bne
