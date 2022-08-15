@@ -70,19 +70,7 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
   //if ((raddr & ~0x7ull) < CONFIG_MBASE) return ;
   if (raddr == 0xa0000048 || raddr == 0xa0000050) {  // rtc
-    timeval t;
-    gettimeofday( &t, NULL );
-    //*rdata = t.tv_sec * 1000000 - ;
     *rdata = clock();
-    //printf("ss:%ld\n", clock());
-    //uint32_t* tmp = (uint32_t*)rdata;
-    // if (raddr == 0xa0000048) {
-    //   //*rdata = t.tv_usec << 32;
-    //   *rdata = t.tv_usec<<32;
-    // } else {
-    //   //*rdata = t.tv_usec;
-    //   *rdata = t.tv_usec<<32;
-    // }
     return ;
   }
   raddr &= ~0x7ull;
