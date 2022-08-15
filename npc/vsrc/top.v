@@ -75,7 +75,7 @@ ysyx_22041207_alu ex_alu(
     ex_rs1to32,  // rs1 转换为32bit
     ex_aluRes
 );
-
+// bubble决定下次是否需要重新计算
 ysyx_22041207_Bubble rx_bubble (clk, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, pc_delay, bubble);
 wire [63:0] me_csrValue;
 wire [63:0] me_writeBackData;

@@ -1,13 +1,13 @@
 module ysyx_22041207_IF (
     input clk,
     input pc_delay,
-    input ex_jal,
-    input ex_jalr,
-    input ex_branch,
-    input [63:0] ex_aluRes,
-    input [63:0] ex_pc,
-    input [63:0] ex_imm,
-    input [63:0] ex_r1data,
+    input me_jal,
+    input me_jalr,
+    input me_branch,
+    input [63:0] me_aluRes,
+    input [63:0] me_pc,
+    input [63:0] me_imm,
+    input [63:0] me_r1data,
     output reg [31:0] inst_o,
     output reg [63:0] pc_o
 );
@@ -25,17 +25,18 @@ always @(posedge clk) begin
     pc_o = pc;
 end
 wire [63:0] addRes;
-assign addRes = ex_r1data + ex_imm;
+assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
     if (~pc_delay) begin
-        if (ex_branch) begin
+        $display("update..");
+        if (me_branch) begin
             $display("ex_branch..");
         end
-        if (ex_jal || (ex_branch && ex_aluRes == 0)) begin
+        if (me_jal || (me_branch && me_aluRes == 0)) begin
             $display("jallll");
-            pc <= ex_pc + ex_imm;
+            pc <= me_pc + me_imm;
         end
-        else if (ex_jalr) begin // jalr要求最后一位置0
+        else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
             pc <= {addRes[63:1], 1'b0};
         end
