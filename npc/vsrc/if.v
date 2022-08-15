@@ -27,12 +27,7 @@ end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
-        $display("update.. %x %x", me_branch, me_aluRes);
-        if (me_branch) begin
-            $display("ex_branch..");
-        end
         if (me_jal || (me_branch && me_aluRes == 0)) begin
-            $display("jallll");
             pc <= me_pc + me_imm;
         end
         else if (me_jalr) begin // jalr要求最后一位置0
@@ -42,9 +37,6 @@ always @(posedge clk) begin
         else if (~pc_delay) begin
             pc <= pc + 4;
         end
-    else begin
-        $display("pc delay");
-    end
     //$display("npc:%x", pc);
 end
 endmodule
