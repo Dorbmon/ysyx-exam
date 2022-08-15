@@ -28,7 +28,7 @@ wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
     if (~pc_delay) begin
-        $display("update..");
+        $display("update.. %x %x", me_branch, me_aluRes);
         if (me_branch) begin
             $display("ex_branch..");
         end
