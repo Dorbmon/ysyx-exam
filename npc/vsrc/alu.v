@@ -29,7 +29,7 @@ always @(posedge clk) begin
         `ALU_RETURN_B: res = b;
         `ALU_XOR: begin
             res = a ^ b;
-            $display("eq: %x %x", a, b);
+            $display("eq: %x %x %x", a, b, res);
         end
         `ALU_OR: res = a | b;
         `ALU_AND: res = a & b;
