@@ -1,4 +1,4 @@
-`define ALU_ADD 5'b00000
+
 `define ALU_SUB 5'b00001
 `define ALU_RETURN_A 5'b00010
 `define ALU_RETURN_B 5'b00011
@@ -19,6 +19,7 @@
 `define ALU_EQ 5'b10010
 `define ALU_LOE 5'b10011
 `define ALU_LOEU 5'b10100
+`define ALU_ADD 5'b10101
 `define R_Type 3'b000
 `define J_Type 3'b001
 `define I_Type 3'b010
