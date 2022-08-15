@@ -4,7 +4,7 @@ module ysyx_22041207_flush (
     input me_jalr,
     input me_branch,
     input [63:0] me_aluRes,
-    output  flush
+    output wire  flush
 );
 //always @(posedge clk) begin
     // 下一个周期需要冲刷掉中间的全部指令
