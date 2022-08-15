@@ -24,14 +24,15 @@ always @(posedge clk) begin
         `ALU_SUB: res = a - b;
         `ALU_RETURN_A: res = a;
         `ALU_RETURN_B: res = b;
-        `ALU_XOR: res = a ^ b;
+        `ALU_XOR: begin
+            res = a ^ b;
+            $display("eq: %x %x", a, b);
+        end
         `ALU_OR: res = a | b;
         `ALU_AND: res = a & b;
         `ALU_SLL: res = a << b [5:0];
         `ALU_SRL: res = a >> b [5:0];
-        `ALU_SLT: begin 
-            res = $signed(a) < $signed(b) ? 64'b1 : 64'b0;
-        end
+        `ALU_SLT: res = $signed(a) < $signed(b) ? 64'b1 : 64'b0;
         `ALU_SLTU: res = a < b ? 64'b1 : 64'b0;
         `ALU_MUL: res = a * b;
         `ALU_REM: res = $signed(a) % $signed(b);
@@ -39,10 +40,7 @@ always @(posedge clk) begin
         `ALU_REMU: res = a % b;
         `ALU_DIV: res = $signed(a) / $signed(b);
         `ALU_SRA: res = rs1to32 ? {32'b0, ($signed(a [31:0]) >>> b [5:0])} : ($signed(a) >>> b [5:0]);
-        `ALU_EQ: begin 
-            res = (a == b) ? 1 : 0;
-            $display("eq: %x %x", a, b);
-        end
+        `ALU_EQ:  res = (a == b) ? 1 : 0;
         `ALU_LOE: res = ($signed(a) >= $signed(b))?1:0;
         `ALU_LOEU: res = (a >= b)?1:0;
         default: res = 0;
