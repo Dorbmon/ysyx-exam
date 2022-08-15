@@ -91,7 +91,6 @@ always @(negedge clk) begin
         csr_order_o <= 0;
     end
     else if (bubble) begin
-        $display("buuble...");
         aluOperate_o <= aluOperate_o;
         sel_a_o <= sel_a_o;
         sel_b_o <= sel_b_o;

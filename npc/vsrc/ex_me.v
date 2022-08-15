@@ -53,7 +53,7 @@ always @(negedge clk) begin
     end
     else begin
         if (branch) begin
-            $display("branch %x", aluRes); 
+            $display("rxbranch %x", aluRes); 
         end
         aluRes_o <= aluRes;
         memoryReadWen_o <= memoryReadWen;
