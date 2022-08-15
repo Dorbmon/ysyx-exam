@@ -52,9 +52,6 @@ always @(negedge clk) begin
         branch_o <= 0;
     end
     else begin
-        if (branch) begin
-            $display("branch:%x", aluRes);
-        end
         aluRes_o <= aluRes;
         memoryReadWen_o <= memoryReadWen;
         readNum_o <= readNum;
