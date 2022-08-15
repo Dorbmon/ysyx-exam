@@ -44,6 +44,9 @@ always @(posedge clk) begin
             pc <= pc + 4;
         end
     end
+    else begin
+        $display("pc delay");
+    end
     //$display("npc:%x", pc);
 end
 endmodule
