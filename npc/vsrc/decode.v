@@ -78,6 +78,7 @@ begin
             csrWen = 1'b1;
             sel_b = 2'h3;   // 选择csr
             aluOperate = `ALU_RETURN_B;
+            csr_order = 3'h4;
         end
         3'b010: begin   // csrrs
             // 将csr的值写入rd 并将csr的值更新为csr | rs1
@@ -87,6 +88,7 @@ begin
             sel_b = 2'h3;   // 选择csr作为b
             csrWen = 1'b1;
             aluOperate = `ALU_OR;
+            csr_order = 3'h3;
         end
         3'b0: begin
             case (imm)
