@@ -77,8 +77,9 @@ begin
             writeRD = 1'b1;
             writeBackDataSelect = 3'b101;
             csrWen = 1'b1;
-            sel_b = 2'h3;   // 选择csr
-            aluOperate = `ALU_RETURN_B;
+            //sel_b = 2'h3;   // 选择csr
+            sel_a = 2'h1;
+            aluOperate = `ALU_RETURN_A;
             csr_order = 3'h4;
         end
         3'b010: begin   // csrrs
