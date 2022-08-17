@@ -73,7 +73,6 @@ begin
         3'b001: begin   // csrrw
         // 将csr的值写入rd 并将csr的值更新为rs1
         // csr写回的值直接设置为alu res
-            $display("csrrw");
             writeRD = 1'b1;
             writeBackDataSelect = 3'b101;
             csrWen = 1'b1;
