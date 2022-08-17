@@ -163,7 +163,9 @@ begin
         case (funct3)
         3'b000: begin 
             aluOperate = `ALU_ADD;//addi
-            $display("addi");
+            if (rs1addr == 5'he) begin
+                $display("addi");
+            end
         end
         3'b100: aluOperate = `ALU_XOR;//xori
         3'b110: aluOperate = `ALU_OR;  //ori
