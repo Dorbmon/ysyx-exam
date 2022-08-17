@@ -17,7 +17,6 @@ wire [63:0] rawData;
 wire [31:0] inst;
 reg [63:0] pc;
 initial begin
-    $display("panic");
     pc = 64'h80000000;
 end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
@@ -43,6 +42,6 @@ always @(posedge clk) begin
         end if (~pc_delay) begin
             pc <= pc + 4;
         end
-    //$display("npc:%x", pc);
+    $display("npc:%x", pc);
 end
 endmodule
