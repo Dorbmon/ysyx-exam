@@ -19,6 +19,7 @@ module ysyx_22041207_decoder(
     output reg wMtvec,
     output reg wMepc,
     output reg wMcause,
+    output reg [63:0] mcause_o,
     output reg wMstatus,
     output reg pc_panic, // 是否为异常跳转
     output reg pc_mret,   // 是否为mret
@@ -75,14 +76,16 @@ begin
             writeRD = 1'b1;
             writeBackDataSelect = 3'b101;
             csrWen = 1'b1;
-            sel_a = 2'b1;
-            aluOperate = `ALU_RETURN_A;
+            sel_b = 2'h3;   // 选择csr
+            aluOperate = `ALU_RETURN_B;
         end
         3'b010: begin   // csrrs
+            // 将csr的值写入rd 并将csr的值更新为csr | rs1
             writeRD = 1'b1;
             writeBackDataSelect = 3'b101;   // 写回csr
             sel_a = 2'b1;   // 选择rs1作为a
             sel_b = 2'h3;   // 选择csr作为b
+            csrWen = 1'b1;
             aluOperate = `ALU_OR;
         end
         3'b0: begin
@@ -92,10 +95,15 @@ begin
                 end
                 64'b0: begin
                     // ecall
-                    wMepc = 1'b1;   // epc = pc
-                    wMcause = 1'b1; // cause = cause
-                    wMstatus = 1'b1;
-                    // 然后更改pc
+                    csr_order = 3'h2;
+                    // 将mepc设置为当前pc
+                    // mcause设置为11
+                    // mstatus中的mpie位设置为pie
+                    // mstatus中的pie置为0
+                    // pc更新为mtvec
+                    wMepc = 1'b1;
+                    wMcause = 1'b1;
+                    mcause_o = 64'h11;
                     pc_panic = 1'b1;
                 end
                 64'b001100000010: begin // mret

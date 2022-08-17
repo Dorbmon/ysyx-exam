@@ -27,22 +27,20 @@ endmodule
 module ysyx_22041207_csrRegister (
   input clk,
   input pc_mret,
-  input [11:0] address,
+  input wen,
+  input panic,
+  input [11:0] readAddress,
+  input [11:0] writeAddress,
   input [63:0] writeValue,
-  input wMtvec,
-  input [63:0] mtvec_v,
   input wMepc,
   input [63:0] mepc_v,
   input wMcause,
   input [63:0] mcause_v,
-  input wMstatus,
-  input [63:0] mstatus_v,
-  input wen,
   output [63:0] mtvec_o,
   output [63:0] mepc_o,
   output [63:0] mcause_o,
   output [63:0] mstatus_o,
-  output reg [63:0] readData
+  output [63:0] readData
 );
 
 reg [63:0] mepc, mcause, mtvec, mstatus;
@@ -50,50 +48,36 @@ assign mtvec_o = mtvec;
 assign mepc_o = mepc;
 assign mcause_o = mcause;
 assign mstatus_o = mstatus;
-reg mpie;
 always @(posedge clk) begin
-  if (address == `CSR_MCAUSE_ADDRESS && wen) begin
+  if (writeAddress == `CSR_MCAUSE_ADDRESS && wen) begin
     mcause <= writeValue;
   end else if (wMcause) begin
     mcause <= mcause_v;
   end
 end
 always @(posedge clk) begin
-  if (address == `CSR_MEPC_ADDRESS && wen) begin
+  if (writeAddress == `CSR_MEPC_ADDRESS && wen) begin
     mepc <= writeValue;
   end else if (wMepc) begin
     mepc <= mepc_v;
   end
 end
 always @(posedge clk) begin
-  if (address == `CSR_MTVEC_ADDRESS && wen) begin
-    mtvec <= writeValue;
-  end else if (wMtvec) begin
-    mtvec <= mtvec_v;
-  end
-end
-always @(posedge clk) begin
-  if (address == `CSR_MSTATUS_ADDRESS && wen) begin
-    mstatus = writeValue;
-  end else if (wMtvec) begin
+  if (writeAddress == `CSR_MSTATUS_ADDRESS && wen) begin
+    mstatus <= writeValue;
+  end else if (panic) begin
     //mstatus <= mstatus_v;
     // 表明异常开始 按照流程进行设置
     //mcause <= mcause []
-    mpie = mstatus [3];
-    mstatus [3] = 1'b0;
-  end
-  if (pc_mret) begin
-    mstatus [3] = mpie;
-    mpie = 1'b1;
+    // 将pie位存到mpie,且将pie位置为0
+    mstatus <= {mstatus[63:8], mstatus[3], mstatus[6:4], 1'b0, mstatus[2:0]};
+  end else if (pc_mret) begin  //恢复
+    mstatus <= {mstatus[63:8], 1'b1, mstatus[6:4], mstatus[3], mstatus[2:0]};
   end
 end
-always @(posedge clk) begin
-  case (address)
-  `CSR_MCAUSE_ADDRESS: readData = mcause;
-  `CSR_MEPC_ADDRESS: readData = mepc;
-  `CSR_MTVEC_ADDRESS: readData = mtvec;
-  `CSR_MSTATUS_ADDRESS: readData = mstatus;
-  default: readData = 0;
-  endcase
-end
+assign readData = (readAddress == `CSR_MCAUSE_ADDRESS) ? mcause :
+                  (readAddress == `CSR_MEPC_ADDRESS) ? mepc :
+                  (readAddress == `CSR_MSTATUS_ADDRESS) ? mstatus :
+                  (readAddress == `CSR_MTVEC_ADDRESS) ? mtvec :
+                  0;
 endmodule

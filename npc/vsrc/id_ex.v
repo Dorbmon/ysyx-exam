@@ -30,6 +30,7 @@ module ysyx_22041207_ID_EX (
     input  [4:0] rwaddr,
     input  [63:0] pc,
     input  [2:0] csr_order,
+    input  [63:0] mcause,
     output reg  [4:0] aluOperate_o,
     output reg  [1:0] sel_a_o,
     output reg  [1:0] sel_b_o,
@@ -56,7 +57,8 @@ module ysyx_22041207_ID_EX (
     output reg  [4:0] rs2addr_o,
     output reg  [4:0] rwaddr_o,
     output reg  [63:0] pc_o,
-    output reg  [2:0] csr_order_o
+    output reg  [2:0] csr_order_o,
+    output reg  [63:0] mcause_o
 );
 always @(negedge clk) begin
     //$display("pc:%x jal:%d", pc, jal);
@@ -89,6 +91,7 @@ always @(negedge clk) begin
         rwaddr_o <= 0;
         pc_o <= 0;
         csr_order_o <= 0;
+        mcause_o <= 0;
     end
     else if (bubble) begin
         aluOperate_o <= aluOperate_o;
@@ -118,6 +121,7 @@ always @(negedge clk) begin
         rwaddr_o <= rwaddr_o;
         pc_o <= pc_o;
         csr_order_o <= csr_order_o;
+        mcause_o <= mcause_o;
     end
     else begin
         aluOperate_o <= aluOperate;
@@ -147,6 +151,7 @@ always @(negedge clk) begin
         rwaddr_o <= rwaddr;
         pc_o <= pc;
         csr_order_o <= csr_order;
+        mcause_o <= mcause;
     end
 end
 endmodule

@@ -4,7 +4,9 @@ module ysyx_22041207_IF (
     input me_jal,
     input me_jalr,
     input me_branch,
+    input pc_panic,
     input [63:0] me_aluRes,
+    input [63:0] csr_mtvec,
     input [63:0] me_pc,
     input [63:0] me_imm,
     input [63:0] me_r1data,
@@ -34,7 +36,9 @@ always @(posedge clk) begin
             //(ex_r1data + ex_imm)
             pc <= {addRes[63:1], 1'b0};
         end
-        else if (~pc_delay) begin
+        else if (pc_panic) begin
+            pc <= csr_mtvec;
+        end if (~pc_delay) begin
             pc <= pc + 4;
         end
     //$display("npc:%x", pc);
