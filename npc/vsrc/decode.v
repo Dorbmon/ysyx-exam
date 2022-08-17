@@ -164,7 +164,7 @@ begin
         3'b000: begin 
             aluOperate = `ALU_ADD;//addi
             if (rs1addr == 5'he) begin
-                //$display("addi");
+                $display("addi");
             end
         end
         3'b100: aluOperate = `ALU_XOR;//xori
