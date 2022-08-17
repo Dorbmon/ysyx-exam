@@ -94,6 +94,7 @@ begin
                     csr_order = 3'b1;
                 end
                 64'b0: begin
+                    $display("catch ecall");
                     // ecall
                     csr_order = 3'h2;
                     // 将mepc设置为当前pc
