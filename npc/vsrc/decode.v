@@ -161,7 +161,10 @@ begin
         writeBackDataSelect = 3'b000;
         writeRD = 1'b1;
         case (funct3)
-        3'b000: aluOperate = `ALU_ADD;//addi
+        3'b000: begin 
+            aluOperate = `ALU_ADD;//addi
+            $display("addi");
+        end
         3'b100: aluOperate = `ALU_XOR;//xori
         3'b110: aluOperate = `ALU_OR;  //ori
         3'b111: aluOperate = `ALU_AND; //andi
@@ -178,6 +181,7 @@ begin
     end
     7'b0010111: // U型指令 auipc
     begin
+        $display("auipc");
         sel_a = 2'b0;
         sel_b = 2'b0;
         writeRD = 1'b1;
