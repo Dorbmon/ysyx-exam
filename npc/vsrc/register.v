@@ -49,6 +49,11 @@ assign mepc_o = mepc;
 assign mcause_o = mcause;
 assign mstatus_o = mstatus;
 always @(posedge clk) begin
+  if (writeAddress == `CSR_MTVEC_ADDRESS && wen) begin
+    mcause <= mtvec;
+  end
+end
+always @(posedge clk) begin
   if (writeAddress == `CSR_MCAUSE_ADDRESS && wen) begin
     mcause <= writeValue;
   end else if (wMcause) begin
