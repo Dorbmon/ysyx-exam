@@ -50,7 +50,7 @@ assign mcause_o = mcause;
 assign mstatus_o = mstatus;
 always @(posedge clk) begin
   if (writeAddress == `CSR_MTVEC_ADDRESS && wen) begin
-    $display("write mtvec");
+    $display("write mtvec %x", mtvec);
     mcause <= mtvec;
   end
 end
