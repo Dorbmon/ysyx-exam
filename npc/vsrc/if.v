@@ -38,6 +38,7 @@ always @(posedge clk) begin
             pc <= {addRes[63:1], 1'b0};
         end
         else if (pc_panic) begin
+            $display("pc_panic");
             pc <= csr_mtvec;
         end else if (~pc_delay) begin
             pc <= pc + 4;
