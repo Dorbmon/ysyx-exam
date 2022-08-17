@@ -14,6 +14,7 @@ module ysyx_22041207_dataforward(
 );
     always @(*) begin
         r1data_o = (me_rd == r1addr && me_writeRD) ? me_rddata : ((wb_rd == r1addr && wb_writeRD) ? wb_rddata : r1data);
+        $display("r1:%x", r1data_o);
         r2data_o = (me_rd == r2addr && me_writeRD) ? me_rddata : ((wb_rd == r2addr && wb_writeRD) ? wb_rddata : r2data);
     end
 endmodule
