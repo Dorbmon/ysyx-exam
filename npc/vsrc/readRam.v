@@ -41,7 +41,7 @@ always @(readAddr) begin
         data1 = 0;
         data2 = 0;
     end
-    $display("read:%x %x", readAddr, data);
+    //$display("read:%x %x", readAddr, data);
   end
   else begin
     data = 0;
