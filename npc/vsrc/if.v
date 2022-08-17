@@ -30,6 +30,7 @@ wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
         if (me_jal || (me_branch && me_aluRes == 0)) begin
+            $display("catch jal..");
             pc <= me_pc + me_imm;
         end
         else if (me_jalr) begin // jalr要求最后一位置0
