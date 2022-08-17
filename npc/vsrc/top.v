@@ -145,6 +145,6 @@ wire wb_csrWen;
 wire [11:0] wb_csrWriteAddress;
 wire [63:0] csr_mcause, csr_mtvec, csr_mepc, csr_mcause, csr_mstatus, ex_csr_readData;
 ysyx_22041207_RegisterFile #(32, 5, 64) r(clk, wb_writeBackData, wb_rwaddr, ex_r1addr, ex_r1data, ex_r2addr, ex_r2data, wb_writeRD);
-ysyx_22041207_csrRegister csrRegister(clk, ex_pc_mret, wb_csrWen, ex_pc_panic, ex_imm[11:0], wb_imm[11:0], wb_writeBackData, ex_wMepc, ex_pc, ex_wMcause, ex_mcause, csr_mtvec, csr_mepc, csr_mcause, csr_mstatus, ex_csr_readData);
+ysyx_22041207_csrRegister csrRegister(clk, ex_pc_mret, wb_csrWen, ex_pc_panic, ex_imm[11:0], wb_imm[11:0], wb_aluRes, ex_wMepc, ex_pc, ex_wMcause, ex_mcause, csr_mtvec, csr_mepc, csr_mcause, csr_mstatus, ex_csr_readData);
 endmodule
 
