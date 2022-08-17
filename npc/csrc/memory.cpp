@@ -74,7 +74,7 @@ extern "C" void pmem_read(long long raddr, long long *rdata) {
     return ;
   }
   raddr &= ~0x7ull;
-  printf("read address:%x\n", raddr);
+  //printf("read address:%x\n", raddr);
   
   *rdata = pmem_read(raddr, 8); //111
   //printf("read:%llx, but:%llx", raddr, raddr & ~0x7ull);
