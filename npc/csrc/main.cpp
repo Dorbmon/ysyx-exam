@@ -141,7 +141,7 @@ int main(int argc, char **argv, char **env) {
   init_disasm("riscv64");
   initMemory(img_file); // 会自动加载程序
   //init_elf();
-  //initDiffset();
+  initDiffset();
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
   VerilatedVcdC *vcd = new VerilatedVcdC();
