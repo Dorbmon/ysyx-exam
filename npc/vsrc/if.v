@@ -39,7 +39,7 @@ always @(posedge clk) begin
         end
         else if (pc_panic) begin
             pc <= csr_mtvec;
-        end if (~pc_delay) begin
+        end else if (~pc_delay) begin
             pc <= pc + 4;
         end
     $display("npc:%x", pc);
