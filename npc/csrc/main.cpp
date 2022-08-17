@@ -43,7 +43,7 @@ static void runN(uint64_t n) {
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
       top->eval();
-      printf("pc:%lx\n", top->pc);
+      //printf("pc:%lx\n", top->pc);
       count ++;
     }
     if (top->clk) { //上升沿才会计算 如果top->clk = true 说明刚刚是一个上升沿，已经完成了一次计算
