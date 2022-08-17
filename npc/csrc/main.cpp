@@ -34,7 +34,7 @@ extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
 static void runN(uint64_t n) {
   n <<= 1;
   size_t count = 0;
-  while (!contextp->gotFinish() && !sebreak) {
+  while (!contextp->gotFinish() && !sebreak && count < 100) {
     uint32_t bpc = top->pc;
     //printf("pc:%lx\n", top->pc);
     //pBin(pmem_read(top->pc, 4));
