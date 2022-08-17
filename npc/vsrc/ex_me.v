@@ -17,6 +17,7 @@ module ysyx_22041207_EX_ME(
     input jal,
     input jalr,
     input branch,
+    input csrWen,
     output reg [63:0] aluRes_o,
     output reg memoryReadWen_o,
     output reg [3:0] readNum_o,
@@ -31,7 +32,8 @@ module ysyx_22041207_EX_ME(
     output reg [4:0] rwaddr_o,
     output reg jal_o,
     output reg jalr_o,
-    output reg branch_o
+    output reg branch_o,
+    output reg csrWen_o
 );
 always @(negedge clk) begin
     if (bubble || flush) begin
@@ -50,6 +52,7 @@ always @(negedge clk) begin
         jal_o <= 0;
         jalr_o <= 0;
         branch_o <= 0;
+        csrWen_o <= 0;
     end
     else begin
         aluRes_o <= aluRes;
@@ -67,6 +70,7 @@ always @(negedge clk) begin
         jal_o <= jal;
         jalr_o <= jalr;
         branch_o <= branch;
+        csrWen_o <= csrWen;
     end
     
 end

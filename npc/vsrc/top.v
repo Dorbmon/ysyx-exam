@@ -50,7 +50,7 @@ wire [63:0] ex_pc, ex_mcause;
 wire [2:0] ex_csrOrder;
 ysyx_22041207_ID_EX rxID_EX(clk, bubble, flush, clear_afterID, id_aluOperate, id_sel_a, id_sel_b, id_memoryWriteMask, 
 id_writeRD, id_pc_sel, id_jalr, id_jal,  id_writeBackDataSelect, id_memoryReadWen, id_sext, id_readNum, id_rs1to32, id_wMtvec, id_wMepc,
- id_wMcause, id_wMstatus, id_pc_panic, id_pc_mret, id_csrWen, id_dbranch, id_imm, id_r1addr, id_r2addr, id_rwaddr, id_pc, id_csrOrder,id_mcause_o, 
+ id_wMcause, id_wMstatus, id_pc_panic, id_pc_mret, id_csrWen, id_dbranch, id_imm, id_r1addr, id_r2addr, id_rwaddr, id_pc, id_csrOrder,id_mcause_o,
  ex_aluOperate, ex_sel_a, ex_sel_b, ex_memoryWriteMask, 
 ex_writeRD, ex_pc_sel, ex_jalr, ex_jal,  ex_writeBackDataSelect, ex_memoryReadWen, ex_sext, ex_readNum, ex_rs1to32, ex_wMtvec,
  ex_wMepc, ex_wMcause, ex_wMstatus, ex_pc_panic, ex_pc_mret, ex_csrWen, ex_dbranch, ex_imm, ex_r1addr, ex_r2addr, ex_rwaddr, ex_pc, ex_csrOrder,ex_mcause
@@ -108,6 +108,7 @@ ysyx_22041207_EX_ME rxEX_ME(clk,
     ex_jal,
     ex_jalr,
     ex_dbranch,
+    ex_csrWen,
     me_aluRes,
     me_memoryReadWen,
     me_readNum,
@@ -122,17 +123,18 @@ ysyx_22041207_EX_ME rxEX_ME(clk,
     me_rwaddr,
     me_jal,
     me_jalr,
-    me_dbranch
+    me_dbranch,
+    me_csrWen
 );
-wire me_jal, me_jalr, me_dbranch;
+wire me_jal, me_jalr, me_dbranch, me_csrWen;
 wire [4:0] wb_rwaddr;
 ysyx_22041207_flush rx_flush (clk, me_jal, me_jalr, ex_pc_panic, me_dbranch, me_aluRes, flush);
 ysyx_22041207_Memory mem(clk, me_memoryReadWen, me_aluRes, me_r2data, me_memoryWriteMask, me_sext, me_readNum, me_memoryReadData);
 ysyx_22041207_ME_WB me_wb(clk, me_aluRes   ,me_pc      ,me_memoryReadData ,me_imm     ,//csrValue,
- 0, me_writeBackDataSelect  , me_writeRD , me_rwaddr,
+ 0, me_writeBackDataSelect  , me_writeRD , me_rwaddr, me_csrWen,
 wb_aluRes   , wb_pc      , wb_memoryReadData , wb_imm     ,
 wb_csrValue,
- wb_writeBackDataSelect  ,wb_writeRD , wb_rwaddr
+ wb_writeBackDataSelect  ,wb_writeRD , wb_rwaddr, wb_csrWen
 );
 wire [63:0] wb_csrValue;
 wire [63:0] wb_writeBackData, wb_aluRes, wb_pc, wb_memoryReadData, wb_imm;
