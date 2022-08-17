@@ -16,7 +16,10 @@ module ysyx_22041207_RegisterFile #(REGISTER_NUM = 2, ADDR_WIDTH = 1, DATA_WIDTH
   assign r1data = rf[r1addr];
   assign r2data = rf[r2addr];
   always @(posedge clk) begin
-    if (wen && waddr != 0) rf[waddr] <= wdata;
+    if (wen && waddr != 0) begin
+       rf[waddr] <= wdata;
+        $display("%x %x", waddr, wdata);
+    end
     //$display("a1:%b", rf [1]);
   end
 endmodule
