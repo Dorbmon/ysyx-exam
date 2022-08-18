@@ -187,7 +187,7 @@ begin
         sel_a = 2'b0;
         sel_b = 2'b0;
         writeRD = 1'b1;
-        writeBackDataSelect = 3'b00;
+        writeBackDataSelect = 3'b000;
         aluOperate = `ALU_ADD;
     end
     7'b0000011: // I型指令 但是 读取内存
