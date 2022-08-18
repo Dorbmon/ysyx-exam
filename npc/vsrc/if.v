@@ -23,13 +23,19 @@ end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(negedge clk) begin
-    inst_o <= inst;
-    pc_o <= pc;
+    if (bubble) begin
+
+    end
+    else begin
+        inst_o <= inst;
+        pc_o <= pc;
+    end
+    
     $display("npc:%x", pc);
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-always @(negedge clk) begin
+always @(posedge clk) begin
         if (flush) begin
             $display("flush");
         end
