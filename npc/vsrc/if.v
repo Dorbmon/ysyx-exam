@@ -22,26 +22,25 @@ initial begin
 end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
-always @(posedge clk) begin
+always @(negedge clk) begin
     // 开始读入指令
     inst_o = rawData[31:0];
+    if (bubble) begin
+        // 那就保持原样
+        inst_o = inst_o;
+        pc_o = pc_o;
+    end else if (flush) begin
+        inst_o = 0;
+        pc_o = 0;
+    end else begin
+        inst_o = inst;
+        pc_o = pc;
+    end
     //pc_o = pc;
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-always @(negedge clk) begin
-        if (bubble) begin
-            // 那就保持原样
-            inst_o = inst_o;
-            pc_o = pc_o;
-        end else if (flush) begin
-            inst_o = 0;
-            pc_o = 0;
-        end else begin
-            inst_o = inst;
-            pc_o = pc;
-        end
-
+always @(posedge clk) begin
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal.. %x", me_pc + me_imm);
             pc = me_pc + me_imm;
