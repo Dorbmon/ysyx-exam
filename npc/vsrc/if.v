@@ -29,7 +29,7 @@ always @(negedge clk) begin
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-always @(posedge clk) begin
+always @(negedge clk) begin
         if (flush) begin
             $display("flush");
         end
