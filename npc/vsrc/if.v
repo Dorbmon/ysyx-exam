@@ -1,6 +1,5 @@
 module ysyx_22041207_IF (
     input clk,
-    input rx_pcDelay,
     input flush,
     input bubble,
     input me_jal,
@@ -12,8 +11,8 @@ module ysyx_22041207_IF (
     input [63:0] me_pc,
     input [63:0] me_imm,
     input [63:0] me_r1data,
-    output reg [31:0] inst_o,
-    output reg [63:0] pc_o
+    output [31:0] inst_o,
+    output [63:0] pc_o
 );
 wire [63:0] rawData;
 wire [31:0] inst;
@@ -23,16 +22,8 @@ initial begin
 end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
-always @(negedge clk) begin
-    if (rx_pcDelay) begin
-        inst_o <= inst_o;
-        pc_o <= pc_o;
-    end else begin
-        inst_o <= inst;
-        pc_o <= pc;
-    end
-    $display("npc:%x", pc);
-end
+assign pc_o = pc;
+assign inst_o = inst;
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
