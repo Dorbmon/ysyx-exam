@@ -14,5 +14,6 @@ always @(negedge clk) begin
         inst_o <= inst;
         pc_o <= pc;
     end
+    $display("npc:%x", pc);
 end
 endmodule
