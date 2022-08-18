@@ -20,10 +20,7 @@ assign b = (sel_b == 2'b1) ? rs2 : ((sel_b == 2'h2) ? csr : imm);
 // 第二个操作数为imm或者rs2
 always @(posedge clk) begin
     case(operate)
-        `ALU_ADD: begin 
-            res = a + b;
-            $display("add %x", a + b);
-        end
+        `ALU_ADD: res = a + b;
         `ALU_SUB: res = a - b;
         `ALU_RETURN_A: res = a;
         `ALU_RETURN_B: res = b;
