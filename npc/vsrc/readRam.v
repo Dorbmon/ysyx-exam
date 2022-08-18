@@ -1,11 +1,12 @@
 module ysyx_22041207_read_mem(
+    input clk,
     input       [63:0]      readAddr    ,// alu的计算结果就是读取的地址
     input wen,
     output      reg [63:0]      data
 );
 import "DPI-C" function void pmem_read(
   input longint raddr, output longint rdata);
-always @(readAddr) begin
+always @(posedge clk) begin
   reg [63:0] data1;
   reg [63:0] data2;
   if (wen) begin
