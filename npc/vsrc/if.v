@@ -26,6 +26,7 @@ always @(negedge clk) begin
     // 开始读入指令
     inst_o <= inst;
     pc_o <= pc;
+    $display("npc:%x", pc);
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
@@ -44,6 +45,6 @@ always @(posedge clk) begin
         end else if (~bubble) begin
             pc <= pc + 4;
         end
-    $display("npc:%x", pc);
+    
 end
 endmodule
