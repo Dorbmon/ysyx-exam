@@ -95,6 +95,7 @@ begin
         3'b0: begin
             case (imm)
                 64'h1: begin     // ebreak
+                    $display("ebreak");
                     csr_order = 3'b1;
                 end
                 64'b0: begin
