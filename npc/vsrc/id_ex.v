@@ -124,6 +124,9 @@ always @(negedge clk) begin
         mcause_o <= mcause_o;
     end
     else begin
+        if (csr_order != 0) begin
+            $display("csr...");
+        end
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;
