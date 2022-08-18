@@ -28,7 +28,10 @@ always @(negedge clk) begin
         // 那就保持原样
         inst_o <= inst_o;
         pc_o <= pc_o;
-    end  else begin
+    end else if (flush) begin
+        inst_o <= 0;
+        pc_o <= 0;
+    end else begin
         inst_o <= inst;
         pc_o <= pc;
     end
