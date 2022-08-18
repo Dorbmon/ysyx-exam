@@ -124,7 +124,6 @@ always @(negedge clk) begin
         mcause_o <= mcause_o;
     end
     else begin
-        $display("go %d", jal);
         if (csr_order != 0) begin
             $display("csr...");
         end
