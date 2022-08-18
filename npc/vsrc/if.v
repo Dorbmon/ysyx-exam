@@ -11,8 +11,8 @@ module ysyx_22041207_IF (
     input [63:0] me_pc,
     input [63:0] me_imm,
     input [63:0] me_r1data,
-    output reg [31:0] inst_o,
-    output reg [63:0] pc_o
+    output [31:0] inst_o,
+    output [63:0] pc_o
 );
 wire [63:0] rawData;
 wire [31:0] inst;
@@ -24,10 +24,12 @@ ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-always @(negedge clk) begin
-    pc_o <= pc;
-    inst_o <= inst;
-end
+// always @(negedge clk) begin
+//     pc_o <= pc;
+//     inst_o <= inst;
+// end
+assign inst_o = inst;
+assign pc_o = pc;
 always @(posedge clk) begin
     if (me_jal || (me_branch && me_aluRes == 0)) begin
             $display("catch jal.. %x %x", me_pc, me_pc + me_imm);
