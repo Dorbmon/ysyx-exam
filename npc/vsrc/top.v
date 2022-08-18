@@ -10,7 +10,7 @@ wire clear_afterID;
 assign clear_afterID = id_csrOrder != 0 && ~id_afterIDClear;  // 是否需要等待id之后的流水级清空
 
 ysyx_22041207_IF rxIF(clk, bubble | clear_afterID, me_jal, me_jalr, me_dbranch, ex_pc_panic, me_aluRes, csr_mtvec, me_pc, me_imm, me_r1data, if_inst, if_pc);
-ysyx_22041207_if_id rx_if_id(clk, bubble | clear_afterID, if_inst, if_pc, id_inst, id_pc);
+ysyx_22041207_if_id rx_if_id(clk, bubble, if_inst, if_pc, id_inst, id_pc);
 /*  id 导线  */
 wire  bubble;
 wire [4:0] id_aluOperate;
