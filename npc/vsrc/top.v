@@ -8,9 +8,9 @@ wire [31:0] if_inst, id_inst;
 wire [63:0] if_pc, id_pc;
 wire clear_afterID;
 assign clear_afterID = id_csrOrder != 0 && ~id_afterIDClear;  // 是否需要等待id之后的流水级清空
-ysyx_22041207_IF rxIF(clk, flush, bubble, pc_delay | clear_afterID, me_jal, me_jalr, me_dbranch, ex_pc_panic, me_aluRes, csr_mtvec, me_pc, me_imm, me_r1data, id_inst, id_pc);
+ysyx_22041207_IF rxIF(clk, flush, bubble | clear_afterID, me_jal, me_jalr, me_dbranch, ex_pc_panic, me_aluRes, csr_mtvec, me_pc, me_imm, me_r1data, id_inst, id_pc);
 /*  id 导线  */
-wire pc_delay, bubble;
+wire  bubble;
 wire [4:0] id_aluOperate;
 wire [1:0] id_sel_a, id_sel_b;
 wire [7:0] id_memoryWriteMask;
@@ -76,7 +76,7 @@ ysyx_22041207_alu ex_alu(
     ex_aluRes
 );
 // bubble决定下次是否需要重新计算
-ysyx_22041207_Bubble rx_bubble (clk, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, pc_delay, bubble);
+ysyx_22041207_Bubble rx_bubble (clk, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, bubble);
 wire [63:0] me_csrValue;
 wire [63:0] me_writeBackData;
 ysyx_22041207_WB me_builtin_wb(me_aluRes, me_pc, me_memoryReadData, me_imm, me_csrValue, me_writeBackDataSelect, me_writeBackData);

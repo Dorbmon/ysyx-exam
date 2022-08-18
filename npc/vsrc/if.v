@@ -2,7 +2,6 @@ module ysyx_22041207_IF (
     input clk,
     input flush,
     input bubble,
-    input pc_delay,
     input me_jal,
     input me_jalr,
     input me_branch,
@@ -42,7 +41,7 @@ always @(negedge clk) begin
             inst_o = inst;
             pc_o = pc;
         end
-        
+
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal.. %x", me_pc + me_imm);
             pc = me_pc + me_imm;
@@ -54,7 +53,7 @@ always @(negedge clk) begin
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
             pc = csr_mtvec;
-        end else if (~pc_delay) begin
+        end else if (~bubble) begin
             pc = pc + 4;
         end
         
