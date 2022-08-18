@@ -49,6 +49,7 @@ always @(posedge clk) begin
             pc <= pc + 4;
         end
         else begin
+            $display("bubble");
             pc <= pc;
         end
 end
