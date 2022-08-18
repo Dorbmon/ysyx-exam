@@ -8,6 +8,7 @@ module ysyx_22041207_if_id (
 );
 always @(negedge clk) begin
     if (bubble) begin
+        $display("wwww");
         inst_o <= inst_o;
         pc_o <= pc_o;
     end else begin
