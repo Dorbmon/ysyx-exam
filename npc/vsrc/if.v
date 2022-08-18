@@ -31,15 +31,11 @@ always @(negedge clk) begin
         inst_o <= inst;
         pc_o <= pc;
     end
-    
     $display("npc:%x", pc);
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
-        if (flush) begin
-            $display("flush");
-        end
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             $display("catch jal.. %x %x", me_pc, me_pc + me_imm);
             pc <= me_pc + me_imm;
@@ -56,7 +52,6 @@ always @(posedge clk) begin
             pc <= pc + 4;
         end
         else begin
-            $display("bubble");
             pc <= pc;
         end
 end
