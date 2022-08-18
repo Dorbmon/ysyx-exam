@@ -94,6 +94,7 @@ always @(negedge clk) begin
         mcause_o <= 0;
     end
     else if (bubble) begin
+        $display("bubble");
         aluOperate_o <= aluOperate_o;
         sel_a_o <= sel_a_o;
         sel_b_o <= sel_b_o;
