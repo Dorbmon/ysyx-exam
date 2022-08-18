@@ -37,7 +37,6 @@ module ysyx_22041207_EX_ME(
 );
 always @(negedge clk) begin
     if (bubble || flush) begin
-        $display("fuck");
         aluRes_o <= 0;
         memoryReadWen_o <= 0;
         readNum_o <= 0;
