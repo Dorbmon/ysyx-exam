@@ -46,6 +46,7 @@ always @(posedge clk) begin
             pc <= pc + 4;
         end
         else begin
+            $display("wait.");
             pc <= pc;
         end
 end
