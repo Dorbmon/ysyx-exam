@@ -97,6 +97,7 @@ begin
                 64'h1: begin     // ebreak
                     $display("ebreak");
                     csr_order = 3'b1;
+                    // 开始等待流水线清空
                 end
                 64'b0: begin
                     //$display("catch ecall");
