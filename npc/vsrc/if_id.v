@@ -11,10 +11,12 @@ always @(negedge clk) begin
         $display("wwww");
         inst_o <= inst_o;
         pc_o <= pc_o;
+        $display("npc:%x", pc_o);
     end else begin
         inst_o <= inst;
         pc_o <= pc;
+        $display("npc:%x", pc);
     end
-    $display("npc:%x", pc_o);
+    
 end
 endmodule
