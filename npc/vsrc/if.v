@@ -24,12 +24,12 @@ ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(negedge clk) begin
     if (bubble) begin
-        inst_o <= inst_o;
-        pc_o <= pc_o;
+        inst_o = inst_o;
+        pc_o = pc_o;
     end
     else begin
-        inst_o <= inst;
-        pc_o <= pc;
+        inst_o = inst;
+        pc_o = pc;
     end
     $display("npc:%x", pc);
 end
