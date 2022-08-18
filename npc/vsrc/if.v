@@ -24,11 +24,11 @@ ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-always @(posedge clk) begin
+always @(negedge clk) begin
     pc_o <= pc;
     inst_o <= inst;
 end
-always @(negedge clk) begin
+always @(posedge clk) begin
     if (me_jal || (me_branch && me_aluRes == 0)) begin
             $display("catch jal.. %x %x", me_pc, me_pc + me_imm);
             pc <= me_pc + me_imm;
