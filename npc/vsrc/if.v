@@ -23,7 +23,6 @@ end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(negedge clk) begin
-    // 开始读入指令
     inst_o <= inst;
     pc_o <= pc;
     $display("npc:%x", pc);
