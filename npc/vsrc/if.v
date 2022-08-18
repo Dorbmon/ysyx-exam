@@ -26,11 +26,11 @@ always @(negedge clk) begin
     // 开始读入指令
     if (bubble) begin
         // 那就保持原样
-        inst_o = inst_o;
-        pc_o = pc_o;
+        inst_o <= inst_o;
+        pc_o <= pc_o;
     end  else begin
-        inst_o = inst;
-        pc_o = pc;
+        inst_o <= inst;
+        pc_o <= pc;
     end
 end
 wire [63:0] addRes;
