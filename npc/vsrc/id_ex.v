@@ -63,6 +63,7 @@ module ysyx_22041207_ID_EX (
 always @(negedge clk) begin
     //$display("pc:%x jal:%d", pc, jal);
     if (flush | clear_afterID) begin
+        $display("fuck");
         aluOperate_o <= 0;
         sel_a_o <= 0;
         sel_b_o <= 0;
