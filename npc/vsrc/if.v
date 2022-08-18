@@ -18,7 +18,7 @@ wire [63:0] rawData;
 wire [31:0] inst;
 reg [63:0] pc;
 initial begin
-    pc = 64'h80000000;
+    pc = 64'h80000000 - 64'h4;
 end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
