@@ -30,7 +30,10 @@ end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
-        if (me_jal || (me_branch && me_aluRes == 0)) begin
+        if (bubble) begin
+            pc <= pc;
+        end
+        else if (me_jal || (me_branch && me_aluRes == 0)) begin
             $display("catch jal.. %x", me_pc + me_imm);
             pc <= me_pc + me_imm;
         end
@@ -41,7 +44,8 @@ always @(posedge clk) begin
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
-        end else if (~bubble) begin
+        end 
+        else begin
             pc <= pc + 4;
         end
     
