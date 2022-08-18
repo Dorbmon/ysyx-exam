@@ -1,5 +1,7 @@
 module ysyx_22041207_IF (
     input clk,
+    input flush,
+    input bubble,
     input pc_delay,
     input me_jal,
     input me_jalr,
@@ -24,25 +26,38 @@ assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令
     inst_o = rawData[31:0];
-    pc_o = pc;
+    //pc_o = pc;
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-always @(posedge clk) begin
+always @(negedge clk) begin
+        if (bubble) begin
+            // 那就保持原样
+            inst_o = inst_o;
+            pc_o = pc_o;
+        end else if (flush) begin
+            inst_o = 0;
+            pc_o = 0;
+        end else begin
+            inst_o = inst;
+            pc_o = pc;
+        end
+        
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal.. %x", me_pc + me_imm);
-            pc <= me_pc + me_imm;
+            pc = me_pc + me_imm;
         end
         else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
-            pc <= {addRes[63:1], 1'b0};
+            pc = {addRes[63:1], 1'b0};
         end
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
-            pc <= csr_mtvec;
+            pc = csr_mtvec;
         end else if (~pc_delay) begin
-            pc <= pc + 4;
+            pc = pc + 4;
         end
+        
     $display("npc:%x", pc);
 end
 endmodule
