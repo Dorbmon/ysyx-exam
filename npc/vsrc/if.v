@@ -23,16 +23,8 @@ end
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(negedge clk) begin
-    if (flush) begin    // 表明刚刚取的pc是错误的，需要等待上升沿去取正确的pc
-        inst_o <= 0;
-        pc_o <= 0;
-    end else if (bubble) begin
-        inst_o <= inst_o;
-        pc_o <= pc_o;
-    end else begin
-        inst_o <= inst;
-        pc_o <= pc;
-    end
+    inst_o <= inst;
+    pc_o <= pc;
     $display("npc:%x", pc);
 end
 wire [63:0] addRes;
