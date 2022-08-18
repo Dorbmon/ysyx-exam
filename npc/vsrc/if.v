@@ -26,12 +26,10 @@ always @(negedge clk) begin
     if (flush) begin
         inst_o <= 0;
         pc_o <= 0;
-    end else
-    if (bubble) begin
+    end else if (bubble) begin
         inst_o <= inst_o;
         pc_o <= pc_o;
-    end
-     else begin
+    end else begin
         inst_o <= inst;
         pc_o <= pc;
     end
