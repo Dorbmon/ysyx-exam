@@ -80,7 +80,7 @@ begin
             //sel_b = 2'h3;   // 选择csr
             sel_a = 2'h1;
             aluOperate = `ALU_RETURN_A;
-            csr_order = 3'h4;
+            //csr_order = 3'h4;
         end
         3'b010: begin   // csrrs
             // 将csr的值写入rd 并将csr的值更新为csr | rs1
