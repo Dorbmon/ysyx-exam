@@ -23,8 +23,8 @@ ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令
-    inst_o = rawData[31:0];
-    pc_o = pc;
+    inst_o <= rawData[31:0];
+    pc_o <= pc;
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
