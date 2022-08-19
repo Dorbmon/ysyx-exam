@@ -8,15 +8,15 @@ module ysyx_22041207_if_id (
     output reg [63:0] pc_o
 );
 always @(negedge clk) begin
-    if (flush) begin
-        inst_o <= 0;
-        pc_o <= 0;
-    end
-    else if (bubble) begin
+    
+     if (bubble) begin
         inst_o <= inst_o;
         pc_o <= pc_o;
         //$display("npc:%x", pc_o);
-    end  else begin
+     end else if (flush) begin
+        inst_o <= 0;
+        pc_o <= 0;
+    end else begin
         inst_o <= inst;
         pc_o <= pc;
        // $display("npc:%x", pc);
