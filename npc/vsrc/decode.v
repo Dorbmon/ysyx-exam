@@ -185,7 +185,6 @@ begin
     end
     7'b0010111: // U型指令 auipc
     begin
-        $display("auipc");
         sel_a = 2'b0;
         sel_b = 2'b0;
         writeRD = 1'b1;
