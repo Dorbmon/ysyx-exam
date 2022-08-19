@@ -42,6 +42,8 @@ always @(posedge clk) begin
             pc <= csr_mtvec;
         end else if (~pc_delay) begin
             pc <= pc + 4;
+        end else begin
+            pc <= pc;
         end
     //$display("npc:%x", pc);
 end
