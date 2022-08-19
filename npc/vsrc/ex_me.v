@@ -37,7 +37,7 @@ module ysyx_22041207_EX_ME(
 );
 always @(negedge clk) begin
     if (bubble || flush) begin
-        $display("shit");
+        $display("shit %d %d", bubble, flush);
         aluRes_o <= 0;
         memoryReadWen_o <= 0;
         readNum_o <= 0;
