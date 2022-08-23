@@ -144,16 +144,12 @@ module axi_rw # (
         end
         if (axi_ar_ready_i && r_state_addr) begin   // 从机已经接收到地址了
             r_state_addr <= 0;
+            r_state_read <= 1;
         end
         if (axi_r_valid_i) begin    // 从机数据读取完成
-            if (r_state_read) begin
-                r_data_valid <= 1;  // 告诉外部模块，数据已经读取完成
-                r_state_read <= 0;
-            end
-            else begin
-                data_read_o <= axi_r_data_i;
-                r_state_read <= 1;
-            end
+            data_read_o <= axi_r_data_i;
+            r_state_read <= 0;
+            r_data_valid <= 1;  // 告诉外部模块，数据已经读取完成
         end
         if (r_data_valid && r_data_ready) begin
             r_data_valid <= 0;
