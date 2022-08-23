@@ -140,8 +140,10 @@ module axi_rw # (
             r_ready_o <= 1; // 告诉外部模块，已经读取到请求
             r_state_addr <= 1;  // 告知从机地址已准备就绪
         end
+        if (axi_ar_ready_i) begin
+            $display("getttt");
+        end
         if (axi_ar_ready_i && r_state_addr) begin   // 从机已经接收到地址了
-            $display("ssss");
             r_state_addr <= 0;
             r_ready_o <= 0;
         end
