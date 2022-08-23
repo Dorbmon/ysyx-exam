@@ -46,7 +46,7 @@ always @(posedge clk) begin
         rx_data_ready <= 1;
     end
     if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 数据读取完毕
-        $display("netxt %x", pc);
+        //$display("netxt %x", pc);
         rx_data_ready <= 0;
         // 可以开始读取下一个pc了
         rx_r_addr_i <= pc;
@@ -61,13 +61,16 @@ assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal.. %x", me_pc + me_imm);
+            $display("catch jal...");
             pc <= me_pc + me_imm;
         end
         else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
+            
             pc <= {addRes[63:1], 1'b0};
         end
         else if (pc_panic) begin
+            
             $display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
         end else if (~pc_delay && (rx_data_valid && ~rx_data_ready)) begin
