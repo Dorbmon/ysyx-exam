@@ -35,6 +35,7 @@ always @(posedge clk) begin
     if (rx_r_addr_i == pc && rx_data_valid && ~rx_data_ready) begin
         // 当前pc的指令已经取完了 并且读的是当前应该读的pc(因为中途可能发生了跳转)
         //inst_o <= rawData[31:0];
+        $display("read.. %x", rx_r_addr_i);
         inst_o <= rx_data_read_o[31:0];
         pc_o <= rx_r_addr_i;
     end else begin
@@ -47,7 +48,7 @@ always @(posedge clk) begin
         rx_data_ready <= 1;
     end
     if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 数据读取完毕
-        $display("netxt %x", pc);
+        //$display("netxt %x", pc);
         rx_data_ready <= 0;
         // 可以开始读取下一个pc了
         rx_r_addr_i <= pc;
