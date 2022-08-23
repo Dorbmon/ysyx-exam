@@ -34,7 +34,8 @@ always @(posedge clk) begin
     // 开始读入指令
     if (rx_r_addr_i == pc && rx_data_valid && ~rx_data_ready) begin
         // 当前pc的指令已经取完了 并且读的是当前应该读的pc(因为中途可能发生了跳转)
-        inst_o <= rawData[31:0];
+        //inst_o <= rawData[31:0];
+        inst_o <= rx_data_read_o[31:0];
         pc_o <= pc;
     end else begin
         inst_o <= 0;
