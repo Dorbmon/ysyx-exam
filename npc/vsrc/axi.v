@@ -140,9 +140,11 @@ module axi_rw # (
             r_ready_o <= 1; // 告诉外部模块，已经读取到请求
             r_state_addr <= 1;  // 告知从机地址已准备就绪
         end
-        if (r_valid_i && r_state_addr) begin
+        if (r_valid_i && r_ready_o) begin
             r_ready_o <= 0;
-            r_state_addr <= 0;  // 一个周期后恢复原状
+        end
+        if (axi_ar_ready_i && r_state_addr) begin
+            r_state_addr <= 0;
         end
         if (axi_r_valid_i) begin    // 从机数据读取完成
             if (r_state_read) begin
