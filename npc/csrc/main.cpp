@@ -43,12 +43,14 @@ static void runN(uint64_t n) {
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
       if (top->clk == 1) {
-        updateMemoryBeforeEval();
+        
       }
+      updateMemoryBeforeEval();
       top->eval();
       if (top->clk == 1) {
-        updateMemoryAfterEval();
+        
       }
+      updateMemoryAfterEval();
       //printf("pc:%lx\n", top->pc);
       count ++;
     }

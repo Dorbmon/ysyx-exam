@@ -109,7 +109,6 @@ void initMemory(const char *img_file) {
   mem_ptr.rvalid = &(top->axi_r_valid_i);
   mem_ptr.rready = &(top->axi_r_ready_o);
   assert(mem_ptr.check());
-  
   printf("memory inited...\n");
 }
 extern "C" void pmem_read(long long raddr, long long *rdata) {
