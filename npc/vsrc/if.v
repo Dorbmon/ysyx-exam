@@ -47,7 +47,7 @@ always @(posedge clk) begin
         rx_data_ready <= 1;
     end
     if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 数据读取完毕
-        $display("netxt %x", pc);
+        //$display("netxt %x", pc);
         rx_data_ready <= 0;
         // 可以开始读取下一个pc了
         rx_r_addr_i <= pc;
@@ -67,6 +67,7 @@ always @(posedge clk) begin
         end
         else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
+            $display("catch jalr...");
             pc <= {addRes[63:1], 1'b0};
         end
         else if (pc_panic) begin
