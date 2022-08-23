@@ -44,6 +44,7 @@ static void runN(uint64_t n) {
       top->clk = ~top->clk;
       top->rst = 0;
       if (top->clk == 1) {
+        printf("hhh\n");
         updateMemoryBeforeEval();
       }
       
@@ -51,7 +52,6 @@ static void runN(uint64_t n) {
       if (top->clk == 1) {
         updateMemoryAfterEval();
       }
-      std::cout << "rrr" << std::endl;
       //printf("pc:%lx\n", top->pc);
       count ++;
     }
