@@ -42,6 +42,7 @@ static void runN(uint64_t n) {
     cpu.pc = top->pc;
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
+      top->rst = 0;
       if (top->clk == 1) {
         
       }
