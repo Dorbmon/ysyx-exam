@@ -130,6 +130,10 @@ module axi_rw # (
 
     // 读通道状态切换
     reg r_state_addr, r_state_read;
+    initial begin
+        r_state_addr = 0;
+        r_state_read = 0;
+    end
     always @(posedge clock) begin
         if (r_valid_i && ~r_state_addr) begin
             $display("recieve address:%x", r_addr_i);
