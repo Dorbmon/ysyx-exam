@@ -48,7 +48,7 @@ static void runN(uint64_t n) {
         updateMemoryBeforeEval();
       }
       
-      //top->eval();
+      top->eval();
       if (top->clk) {
         updateMemoryAfterEval();
       }
