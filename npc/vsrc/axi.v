@@ -135,13 +135,15 @@ module axi_rw # (
         r_state_read = 0;
     end
     always @(posedge clock) begin
-        if (r_valid_i && ~r_state_addr) begin
+        if (r_valid_i && ~r_ready_o) begin
             r_ready_o <= 1; // 告诉外部模块，已经读取到请求
             r_state_addr <= 1;  // 告知从机地址已准备就绪
         end
+        if (r_valid_i && r_ready_o) begin
+            r_ready_o <= 0;
+        end
         if (axi_ar_ready_i && r_state_addr) begin   // 从机已经接收到地址了
             r_state_addr <= 0;
-            r_ready_o <= 0;
         end
         if (axi_r_valid_i) begin    // 从机数据读取完成
             if (r_state_read) begin
