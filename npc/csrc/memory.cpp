@@ -26,7 +26,7 @@ axi4_mem<64,64,4> mem(4096l*1024*1024);
 axi4_ptr<64,64,4> mem_ptr;
 axi4<64,64,4> mem_sigs;
 axi4_ref<64,64,4> mem_sigs_ref(mem_sigs);
-axi4_ref<64,64,4> mem_ref(mem_ptr);
+axi4_ref<64,64,4> *mem_ref;
 static uint8_t pmem[0x2000000] __attribute((aligned(4096))) = {};
 static inline word_t host_read(void *addr, int len) {
   switch (len) {
@@ -38,11 +38,11 @@ static inline word_t host_read(void *addr, int len) {
   }
 }
 void updateMemoryBeforeEval() {
-  mem_sigs.update_input(mem_ref);
+  mem_sigs.update_input(*mem_ref);
 }
 void updateMemoryAfterEval() {
   mem.beat(mem_sigs_ref);
-  mem_sigs.update_output(mem_ref);
+  mem_sigs.update_output(*mem_ref);
 }
 static inline void host_write(void *addr, int len, word_t data) {
   switch (len) {
@@ -108,6 +108,7 @@ void initMemory(const char *img_file) {
   mem_ptr.rlast = &(top->axi_r_last_i);
   mem_ptr.rvalid = &(top->axi_r_valid_i);
   mem_ptr.rready = &(top->axi_r_ready_o);
+  mem_ref = new axi4_ref<64,64,4>(mem_ptr);
   assert(mem_ptr.check());
   printf("memory inited...\n");
 }
