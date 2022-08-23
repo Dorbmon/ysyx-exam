@@ -11,20 +11,49 @@ module ysyx_22041207_IF (
     input [63:0] me_imm,
     input [63:0] me_r1data,
     output reg [31:0] inst_o,
-    output reg [63:0] pc_o
+    output reg [63:0] pc_o,
+    output reg rx_r_valid_i,
+    input      rx_r_ready_o,
+    input [63:0] rx_data_read_o,
+    output reg [63:0] rx_r_addr_i,
+    output [7:0] rx_r_size_i,
+    input rx_data_valid,
+    output reg rx_data_ready
 );
 wire [63:0] rawData;
 wire [31:0] inst;
 reg [63:0] pc;
 initial begin
     pc = 64'h80000000;
+    rx_r_addr_i = 64'h80000000;
 end
+assign rx_r_size_i = 8'b00001111;
 ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令
-    inst_o <= rawData[31:0];
-    pc_o <= pc;
+    if (rx_r_addr_i == pc && rx_data_valid && ~rx_data_ready) begin
+        // 当前pc的指令已经取完了 并且读的是当前应该读的pc(因为中途可能发生了跳转)
+        inst_o <= rawData[31:0];
+        pc_o <= pc;
+    end else begin
+        inst_o <= 0;
+        pc_o <= 0;
+    end
+end
+always @(posedge clk) begin
+    if (rx_data_valid && ~rx_data_ready) begin    // 数据读取完毕
+        rx_data_ready <= 1;
+    end
+    if (rx_data_valid && rx_data_ready) begin    // 数据读取完毕
+        rx_data_ready <= 0;
+        // 可以开始读取下一个pc了
+        rx_r_addr_i <= pc;
+        rx_r_valid_i <= 1;
+    end
+    if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了数据
+        rx_r_valid_i <= 0;
+    end
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
@@ -40,11 +69,14 @@ always @(posedge clk) begin
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
-        end else if (~pc_delay) begin
+        end else if (~pc_delay && (rx_data_valid && ~rx_data_ready)) begin
+            // 第二个条件表示当前pc已经处理完成
             pc <= pc + 4;
         end else begin
             pc <= pc;
         end
+        // 准备取pc
+
     //$display("npc:%x", pc);
 end
 endmodule

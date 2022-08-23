@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <getopt.h>
-
+#include "axi4_mem.hpp"
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 double sc_time_stamp() { return 0; }
 const std::unique_ptr<VerilatedContext> contextp = std::make_unique<VerilatedContext>();
@@ -42,7 +42,13 @@ static void runN(uint64_t n) {
     cpu.pc = top->pc;
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
+      if (top->clk == 1) {
+        updateMemoryBeforeEval();
+      }
       top->eval();
+      if (top->clk == 1) {
+        updateMemoryAfterEval();
+      }
       //printf("pc:%lx\n", top->pc);
       count ++;
     }

@@ -4,6 +4,7 @@
 #include "debug.h"
 #include <iostream>
 #include <sys/time.h>
+#include "axi4_mem.hpp"
 #define kDisplayWidth 32
 #include <Vysyx_22041207_top.h>
 extern Vysyx_22041207_top* top;
@@ -21,7 +22,11 @@ void pBin(long int x)
  printf("%s\n",s);
  return ;
 }
-
+axi4_mem<64,64,4> mem(4096l*1024*1024);
+axi4_ptr<64,64,4> mem_ptr;
+axi4<64,64,4> mem_sigs;
+axi4_ref<64,64,4> mem_sigs_ref(mem_sigs);
+axi4_ref<64,64,4> mem_ref(mem_ptr);
 static uint8_t pmem[0x2000000] __attribute((aligned(4096))) = {};
 static inline word_t host_read(void *addr, int len) {
   switch (len) {
@@ -31,6 +36,13 @@ static inline word_t host_read(void *addr, int len) {
     case 8: return *(uint64_t *)addr;
     default: assert(0);
   }
+}
+void updateMemoryBeforeEval() {
+  mem_sigs.update_input(mem_ref);
+}
+void updateMemoryAfterEval() {
+  mem.beat(mem_sigs_ref);
+  mem_sigs.update_output(mem_ref);
 }
 static inline void host_write(void *addr, int len, word_t data) {
   switch (len) {
@@ -61,10 +73,18 @@ void initMemory(const char *img_file) {
   assert(fp != NULL);
   fseek(fp, 0, SEEK_END);
   img_size = ftell(fp);
-  fseek(fp, 0, SEEK_SET);
-  int ret = fread(guest_to_host(RESET_VECTOR), img_size, 1, fp);
-  assert(ret == 1);
   fclose(fp);
+  mem.load_binary(img_file, 0x80000000);
+  mem_ptr.awready = &(top->axi_aw_ready_i);
+  mem_ptr.awvalid = &(top->axi_aw_valid_o);
+  mem_ptr.awaddr = &(top->axi_aw_addr_o);
+  mem_ptr.awid = &(top->axi_aw_id_o);
+  mem_ptr.awlen = &(top->axi_aw_len_o);
+  mem_ptr.awsize = &(top->axi_aw_size_o);
+  mem_ptr.awburst = &(top->axi_aw_burst_o);
+  assert(mem_ptr.check());
+  
+  printf("memory inited...\n");
 }
 extern "C" void pmem_read(long long raddr, long long *rdata) {
   // 总是读取地址为`raddr & ~0x7ull`的8字节返回给`rdata`
