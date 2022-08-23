@@ -132,9 +132,12 @@ module axi_rw # (
     reg r_state_addr, r_state_read;
     always @(posedge clock) begin
         if (r_valid_i && ~r_state_addr) begin
+            $display("recieve address:%x", r_addr_i);
+            r_ready_o <= 1; // 告诉外部模块，已经读取到请求
             r_state_addr <= 1;  // 告知从机地址已准备就绪
         end
         if (r_valid_i && r_state_addr) begin
+            r_ready_o <= 0;
             r_state_addr <= 0;  // 一个周期后恢复原状
         end
         if (axi_r_valid_i) begin    // 从机数据读取完成
