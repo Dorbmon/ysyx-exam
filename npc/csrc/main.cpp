@@ -43,6 +43,7 @@ static void runN(uint64_t n) {
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
       top->rst = 0;
+      printf("h1\n");
       if (top->clk == 1) {
         printf("hhh\n");
         updateMemoryBeforeEval();
