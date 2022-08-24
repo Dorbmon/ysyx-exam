@@ -46,9 +46,9 @@ always @(posedge clk) begin
     case (addr[2:0])
     default: w_mask_i <= 0;
     3'h0: w_mask_i <= wmask;
-    3'h1: w_mask_i <= w_mask_i<<1;
-    3'h2: w_mask_i <= w_mask_i<<2;
-    3'h4: w_mask_i <= w_mask_i<<4;
+    3'h1: w_mask_i <= wmask<<1;
+    3'h2: w_mask_i <= wmask<<2;
+    3'h4: w_mask_i <= wmask<<4;
     endcase
     case (addr[2:0])
     default: w_data_i <= 0;
