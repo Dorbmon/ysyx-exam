@@ -63,12 +63,11 @@ always @(posedge clk) begin
   end
   if (w_valid_o && ~w_ready_i) begin  // 已经完成写入
     w_ready_i <= 1;
+    me_wait_for_axi <= 0;
   end
   if (w_valid_o && w_ready_i) begin  // 已经完成写入
     w_ready_i <= 0;
-    me_wait_for_axi <= 0;
   end
-
   // 然后是读取操作
   if (readWen) begin  // 读取
     rx_r_valid_i <= 1;
