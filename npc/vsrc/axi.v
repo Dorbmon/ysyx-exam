@@ -169,6 +169,7 @@ module axi_rw # (
     always @(posedge clock) begin
         if (r_valid_i && ~r_ready_o) begin
             r_ready_o <= 1; // 告诉外部模块，已经读取到请求
+            $display("get read request");
             r_state_addr <= 1;  // 告知从机地址已准备就绪
         end
         if (r_valid_i && r_ready_o) begin
