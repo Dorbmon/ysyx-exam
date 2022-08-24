@@ -29,6 +29,7 @@ module ysyx_22041207_Memory (
 );
 initial begin
   me_wait_for_axi = 0;
+  busy = 0;
 end
 wire [63:0] readData = (rx_r_addr_i[2:0] == 3'h0) ? rx_data_read_o :
 ((rx_r_addr_i[2:0] == 3'h1) ? rx_data_read_o >> 8 :
@@ -37,10 +38,11 @@ wire [63:0] readData = (rx_r_addr_i[2:0] == 3'h0) ? rx_data_read_o :
 :0)));
 reg [3:0] treadNum;
 reg tSext;
+reg busy;
 always @(posedge clk) begin
   // 写入
-  if (wmask != 8'b0) begin  // 说明要进入数据写入，可以开始卡住流水线了
-    $display("catch write");
+  if (wmask != 8'b0 && ~busy) begin  // 说明要进入数据写入，可以开始卡住流水线了
+    busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= addr;
     case (addr[2:0])
@@ -66,15 +68,17 @@ always @(posedge clk) begin
   if (w_valid_o && w_ready_i) begin  // 已经完成写入
     w_ready_i <= 0;
     me_wait_for_axi <= 0;
+    busy <= 0;
   end
 
   // 读取
-  if (readWen) begin
+  if (readWen && ~busy) begin
     rx_r_valid_i <= 1;
     rx_r_addr_i <= addr;
     me_wait_for_axi <= 1;
     treadNum <= readNum;
     tSext <= sext;
+    busy <= 1;
   end
   if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经收到读取请求
     rx_r_valid_i <= 0;
@@ -82,6 +86,7 @@ always @(posedge clk) begin
   end
   if (rx_data_valid && rx_data_ready) begin  // 收到axi模块返回的数据
     rx_data_ready <= 0;
+    busy <= 0;
     if (tSext) begin
       // 需要做符号扩展
       dout <= (treadNum == 1) ? `SEXT(readData, 64, 8)
