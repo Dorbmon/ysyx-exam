@@ -45,12 +45,12 @@ always @(posedge clk) begin
         memUsing <= 1;
         busy <= 1;
     end else if (if_r_valid_i && ~busy) begin   // if抢占
-        $display("if get axi");
+        //$display("if get axi");
         busy <= 1;
     end
     // 已经完成了使用
     if (s_r_data_valid && ( memUsing ? mem_r_data_ready : if_r_data_ready)) begin
-        $display("using...");
+        //$display("using...");
         busy <= 0;
         memUsing <= 0;
     end
