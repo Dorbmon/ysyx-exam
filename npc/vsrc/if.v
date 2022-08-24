@@ -27,6 +27,7 @@ initial begin
     pc = 64'h80000000;
     rx_r_addr_i = 64'h00000000;
     rx_data_ready = 0;
+    rx_r_valid_i = 0;
 end
 assign rx_r_size_i = 8'b00001111;
 // ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
