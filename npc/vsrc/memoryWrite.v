@@ -57,8 +57,6 @@ always @(posedge clk) begin
     3'h4: w_data_i <= rs2<<32;
     endcase
     me_wait_for_axi <= 1;
-    treadNum <= readNum;
-    tSext <= sext;
   end
   if (w_valid_i && w_ready_o) begin
     w_valid_i <= 0; // axi模块已经收到写入请求
@@ -79,6 +77,8 @@ always @(posedge clk) begin
   if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经收到读取请求
     rx_r_valid_i <= 0;
     rx_data_ready <= 1;
+    treadNum <= readNum;
+    tSext <= sext;
   end
   if (rx_data_valid && rx_data_ready) begin  // 收到axi模块返回的数据
     rx_data_ready <= 0;

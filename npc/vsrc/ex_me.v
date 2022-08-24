@@ -1,6 +1,5 @@
 module ysyx_22041207_EX_ME(
     input clk,
-    input me_wait_for_axi,
     input flush,
     input bubble,
     input [63:0] aluRes,

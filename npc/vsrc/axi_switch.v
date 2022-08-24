@@ -41,7 +41,6 @@ reg memUsing, busy;
 always @(posedge clk) begin
     // mem模块优先级更高，如果mem模块有信号，那就给mem模块，否则给if模块
     if (mem_r_valid_i && ~busy) begin    // mem抢占了
-        $display("mem get axi");
         memUsing <= 1;
         busy <= 1;
     end else if (if_r_valid_i && ~busy) begin   // if抢占
@@ -56,11 +55,9 @@ always @(posedge clk) begin
     end
 end
 assign s_r_valid_i = memUsing ? mem_r_valid_i : if_r_valid_i;
-    assign mem_r_ready_o = memUsing ? s_r_ready_o : 0;assign  if_r_ready_o = memUsing ? 0 : s_r_ready_o; 
-    
+    assign mem_r_ready_o = memUsing ? s_r_ready_o : 0; assign if_r_ready_o = memUsing ? 0 : s_r_ready_o; 
     assign  s_r_addr_i = memUsing ? mem_r_addr_i : if_r_addr_i;
     assign  s_r_size_i = memUsing ? mem_r_size_i : if_r_size_i;
-
     assign  mem_r_data_valid = memUsing ? s_r_data_valid : 0;assign  if_r_data_valid = memUsing ? 0 : s_r_data_valid;
     assign  s_r_data_ready = memUsing ? mem_r_data_ready : if_r_data_ready;
     assign  mem_data_read_o = s_data_read_o;

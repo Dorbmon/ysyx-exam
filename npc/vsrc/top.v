@@ -171,7 +171,6 @@ wire [7:0] me_memoryWriteMask;
 wire [63:0] me_memoryReadData;
 wire [4:0] me_rwaddr;
 ysyx_22041207_EX_ME rxEX_ME(clk, 
-    me_wait_for_axi,
     flush,
     bubble,
     ex_aluRes,
