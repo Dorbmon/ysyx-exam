@@ -1,5 +1,6 @@
 module ysyx_22041207_EX_ME(
     input clk,
+    input me_wait_for_axi,
     input flush,
     input bubble,
     input [63:0] aluRes,
@@ -36,7 +37,7 @@ module ysyx_22041207_EX_ME(
     output reg csrWen_o
 );
 always @(negedge clk) begin
-    if (bubble || flush) begin
+    if ((bubble && ~me_wait_for_axi) || flush) begin
         aluRes_o <= 0;
         memoryReadWen_o <= 0;
         readNum_o <= 0;

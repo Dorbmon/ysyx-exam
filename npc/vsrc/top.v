@@ -59,8 +59,13 @@ wire [31:0] if_inst, id_inst;
 wire [63:0] if_pc, id_pc;
 wire clear_afterID;
 assign clear_afterID = id_csrOrder != 0 && ~id_afterIDClear;  // 是否需要等待id之后的流水级清空
-
-ysyx_22041207_IF rxIF(clk, bubble | clear_afterID, me_jal, me_jalr, me_dbranch, ex_pc_panic, me_aluRes, csr_mtvec, me_pc, me_imm, me_r1data, if_inst, if_pc, rx_r_valid_i, rx_r_ready_o, rx_data_read_o, rx_r_addr_i, rx_r_size_i, rx_data_valid, rx_data_ready);
+// if 的 axi 读信号
+wire if_r_valid_i, if_r_ready_o;
+wire [63:0] if_data_read_o;
+wire [63:0] if_r_addr_i;
+wire [7:0] if_r_size_i;
+wire if_data_valid, if_data_ready;
+ysyx_22041207_IF rxIF(clk, bubble | clear_afterID, me_jal, me_jalr, me_dbranch, ex_pc_panic, me_aluRes, csr_mtvec, me_pc, me_imm, me_r1data, if_inst, if_pc, if_r_valid_i, if_r_ready_o, if_data_read_o, if_r_addr_i, if_r_size_i, if_data_valid, if_data_ready);
 ysyx_22041207_if_id rx_if_id(clk, flush, bubble | clear_afterID, if_inst, if_pc, id_inst, id_pc);
 // axi 读信号
 wire rx_r_valid_i, rx_r_ready_o;
@@ -72,9 +77,16 @@ wire rx_data_valid, rx_data_ready;
 wire rx_w_valid_i, rx_w_ready_o;
 wire [63:0] rx_data_write_i;
 wire [63:0] rx_w_addr_i;
-wire [7:0] rx_w_size_i;
-axi_rw rx_axi(clk, rst, rx_r_valid_i, rx_r_ready_o, rx_data_read_o, rx_r_addr_i, rx_r_size_i, rx_data_valid, rx_data_ready,
-rx_w_valid_i, rx_w_ready_o, rx_data_write_i, rx_w_addr_i, rx_w_size_i,
+wire [7:0] rx_w_mask_i;
+wire rx_w_ready_i, rx_w_valid_o;
+
+ysyx_22041207_axi_switch rx_axi_switch (clk, 
+if_r_valid_i, if_r_ready_o, if_data_read_o, if_r_addr_i, if_r_size_i, if_data_valid, if_data_ready,
+mem_r_valid_i, mem_r_ready_o, mem_data_read_o, mem_r_addr_i, mem_r_size_i, mem_data_valid, mem_data_ready,
+rx_r_valid_i, rx_r_ready_o, rx_data_read_o, rx_r_addr_i, rx_r_size_i, rx_data_valid, rx_data_ready
+);
+axi_rw rx_axi(clk, rst, if_r_valid_i, if_r_ready_o, if_data_read_o, if_r_addr_i, if_r_size_i, if_data_valid, if_data_ready,
+rx_w_valid_i, rx_w_ready_o, rx_data_write_i, rx_w_addr_i, rx_w_mask_i, rx_w_valid_o, rx_w_ready_i, 
  axi_aw_ready_i,axi_aw_valid_o,axi_aw_addr_o,axi_aw_prot_o,axi_aw_id_o,axi_aw_user_o,axi_aw_len_o,axi_aw_size_o,axi_aw_burst_o,axi_aw_lock_o,axi_aw_cache_o,axi_aw_qos_o,axi_aw_region_o,
 axi_w_ready_i,axi_w_valid_o,axi_w_data_o,axi_w_strb_o,axi_w_last_o,axi_w_user_o,axi_b_ready_o,axi_b_valid_i,axi_b_resp_i,axi_b_id_i,axi_b_user_i,
 axi_ar_ready_i,axi_ar_valid_o,axi_ar_addr_o,axi_ar_prot_o,axi_ar_id_o,axi_ar_user_o,axi_ar_len_o,axi_ar_size_o,axi_ar_burst_o,axi_ar_lock_o,axi_ar_cache_o,axi_ar_qos_o,axi_ar_region_o,axi_r_ready_o,axi_r_valid_i,axi_r_resp_i,axi_r_data_i,axi_r_last_i,axi_r_id_i,axi_r_user_i);
@@ -145,7 +157,7 @@ ysyx_22041207_alu ex_alu(
     ex_aluRes
 );
 // bubble决定下次是否需要重新计算
-ysyx_22041207_Bubble rx_bubble (clk, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, bubble);
+ysyx_22041207_Bubble rx_bubble (clk, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, me_wait_for_axi, bubble);
 wire [63:0] me_csrValue;
 wire [63:0] me_writeBackData;
 ysyx_22041207_WB me_builtin_wb(me_aluRes, me_pc, me_memoryReadData, me_imm, me_csrValue, me_writeBackDataSelect, me_writeBackData);
@@ -159,6 +171,7 @@ wire [7:0] me_memoryWriteMask;
 wire [63:0] me_memoryReadData;
 wire [4:0] me_rwaddr;
 ysyx_22041207_EX_ME rxEX_ME(clk, 
+    me_wait_for_axi,
     flush,
     bubble,
     ex_aluRes,
@@ -197,10 +210,23 @@ ysyx_22041207_EX_ME rxEX_ME(clk,
 wire me_jal, me_jalr, me_dbranch, me_csrWen;
 wire [4:0] wb_rwaddr;
 ysyx_22041207_flush rx_flush (clk, me_jal, me_jalr, ex_pc_panic, me_dbranch, me_aluRes, flush);
-ysyx_22041207_Memory mem(clk, me_memoryReadWen, me_aluRes, me_r2data, me_memoryWriteMask, me_sext, me_readNum, me_memoryReadData);
+wire me_wait_for_axi;
+// mem的axi读信号
+wire mem_r_valid_i, mem_r_ready_o;
+wire [63:0] mem_data_read_o;
+wire [63:0] mem_r_addr_i;
+wire [7:0] mem_r_size_i;
+wire mem_data_valid, mem_data_ready;
+
+ysyx_22041207_Memory mem(clk, me_memoryReadWen, me_aluRes, me_r2data, me_memoryWriteMask, me_sext, me_readNum, me_memoryReadData,
+// axi接口
+rx_w_valid_i, rx_w_ready_o, rx_data_write_i, rx_w_addr_i, rx_w_mask_i, rx_w_valid_o, rx_w_ready_i,
+mem_r_valid_i, mem_r_ready_o, mem_data_read_o, mem_r_addr_i, mem_r_size_i, mem_data_valid, mem_data_ready,
+me_wait_for_axi
+);
 ysyx_22041207_ME_WB me_wb(clk,
  me_aluRes   ,me_pc      ,me_memoryReadData ,me_imm     ,//csrValue,
- 0, me_writeBackDataSelect  , me_writeRD , me_rwaddr, me_csrWen,
+ 0, me_writeBackDataSelect  , me_writeRD , me_rwaddr, me_csrWen, me_wait_for_axi,
 wb_aluRes   , wb_pc      , wb_memoryReadData , wb_imm     ,
 wb_csrValue,
  wb_writeBackDataSelect  ,wb_writeRD , wb_rwaddr, wb_csrWen

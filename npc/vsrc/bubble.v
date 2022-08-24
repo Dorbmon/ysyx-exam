@@ -4,6 +4,7 @@ module ysyx_22041207_Bubble (
     input [4:0] ex_r2,
     input [4:0] me_rd,
     input [3:0] me_readNum,
+    input waitForAXI,
     output reg bubble
 );
 always @(*) begin

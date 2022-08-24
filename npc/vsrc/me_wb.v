@@ -9,6 +9,7 @@ module ysyx_22041207_ME_WB (
     input           writeRD ,
     input   [4:0]   rwddr   ,
     input           csrWen,
+    input           me_wait_for_axi,
     output reg  [63:0]  alu_c_o   ,
     output reg  [63:0]  pc_o      ,
     output reg  [63:0]  ramdout_o ,
@@ -20,14 +21,27 @@ module ysyx_22041207_ME_WB (
     output reg          csrWen_o
 );
 always @(negedge clk) begin
-    alu_c_o   <= alu_c;
-    pc_o      <= pc;
-    ramdout_o <= ramdout;
-    imm_o     <= imm;
-    csrValue_o<= csrValue;
-    wd_sel_o  <= wd_sel;
-    writeRD_o <= writeRD;
-    rwddr_o <= rwddr;
-    csrWen_o <= csrWen;
+    if (me_wait_for_axi) begin  // mem模块还在读取，需要等待
+        alu_c_o   <= 0;
+        pc_o      <= 0;
+        ramdout_o <= 0;
+        imm_o     <= 0;
+        csrValue_o<= 0;
+        wd_sel_o  <= 0;
+        writeRD_o <= 0;
+        rwddr_o <= 0;
+        csrWen_o <= 0;
+    end else begin
+        alu_c_o   <= alu_c;
+        pc_o      <= pc;
+        ramdout_o <= ramdout;
+        imm_o     <= imm;
+        csrValue_o<= csrValue;
+        wd_sel_o  <= wd_sel;
+        writeRD_o <= writeRD;
+        rwddr_o <= rwddr;
+        csrWen_o <= csrWen;
+    end
+    
 end
 endmodule

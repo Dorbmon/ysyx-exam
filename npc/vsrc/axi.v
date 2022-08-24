@@ -67,11 +67,12 @@ module axi_rw # (
     input                               r_data_ready,   // 是否读取完成
 
     input                               w_valid_i,         //IF&MEM输入信号
-	output                              w_ready_o,         //IF&MEM输入信号
-    input [RW_DATA_WIDTH-1:0]      w_data_i,        //IF&MEM输入信号
+	output  reg                            w_ready_o,         //IF&MEM输入信号
+    input [RW_DATA_WIDTH-1:0]           w_data_i,        //IF&MEM输入信号
     input  [RW_ADDR_WIDTH-1:0]          w_addr_i,          //IF&MEM输入信号
     input  [7:0]                        w_mask_i,          //IF&MEM输入信号
-
+    output                              w_valid_o,
+    input                               w_ready_i,
     // Advanced eXtensible Interface
     input                               axi_aw_ready_i,              
     output                              axi_aw_valid_o,
@@ -126,7 +127,38 @@ module axi_rw # (
     // ------------------State Machine------------------TODO
     
     // 写通道状态切换
+    initial begin
+        w_ready_o = 0;
+        w_state_write = 0;
+        w_state_resp = 0;
+    end
     reg w_state_addr, w_state_write, w_state_resp;
+    always @(posedge clock) begin
+        if (w_valid_i && ~w_ready_o) begin    // 外部模块要求写入数据
+            w_ready_o <= 1;
+            w_state_addr <= 1;
+            w_state_write <= 1;
+        end
+        if (w_valid_i && w_ready_o) begin    // 外部模块要求写入数据
+            w_ready_o <= 0;
+        end
+        if (w_state_addr && axi_aw_ready_i) begin   // 已经收到了地址
+            w_state_addr <= 0;
+        end
+        if (w_state_write && axi_aw_ready_i) begin   // 已经收到了地址
+            w_state_write <= 0;
+        end
+        if (axi_b_valid_i && ~w_state_resp) begin    // 收到了响应，完成写入
+            w_state_resp <= 1;
+            w_valid_o <= 1;
+        end
+        if (w_valid_o && w_ready_i) begin
+            w_valid_o <= 0;
+        end
+        if (axi_b_valid_i && w_state_resp) begin    // 收到了响应，完成写入
+            w_state_resp <= 0;
+        end
+    end
 
     // 读通道状态切换
     reg r_state_addr, r_state_read;

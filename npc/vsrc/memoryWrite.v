@@ -8,41 +8,116 @@ module ysyx_22041207_Memory (
     input [7:0]  wmask,
     input sext,
     input [3:0] readNum,
-    output reg [63:0] dout
+    output reg [63:0] dout,
+    // axi 写
+    output reg                  w_valid_i,
+	  input                       w_ready_o,
+    output reg [63:0]           w_data_i,
+    output  reg [63:0]          w_addr_i,
+    output reg [7:0]            w_mask_i,
+    input  wire                 w_valid_o,
+    output  wire                 w_ready_i,
+    // axi 读
+    output reg rx_r_valid_i,
+    input      rx_r_ready_o,
+    input [63:0] rx_data_read_o,
+    output reg [63:0] rx_r_addr_i,
+    output [7:0] rx_r_size_i,
+    input rx_data_valid,
+    output reg rx_data_ready,
+
+    output reg                  me_wait_for_axi
 );
 import "DPI-C" function void pmem_write(
   input longint waddr, input longint wdata, input byte wmask);
 wire [3:0] num = 4'b1000 - addr [2:0]; // 在第一个8字节内写入的数量
 reg [63:0] readData;
-
+initial begin
+  me_wait_for_axi = 0;
+end
+wire [63:0] readData = (addr[2:0] == 3'h0) ? rx_data_read_o :
+((addr[2:0] == 3'h1) ? rx_data_read_o >> 8 :
+((addr[2:0] == 3'h2) ? rx_data_read_o >> 16:
+((addr[2:0] == 3'h4) ? rx_data_read_o >> 32
+:0)));
 ysyx_22041207_read_mem read(addr, (wmask == 8'b0 && readWen), readData);
 always @(posedge clk) begin
-  if (wmask == 8'b0) begin
-    // 读取操作
-    dout = readData;
+  if (wmask != 8'b0) begin  // 说明要进入数据写入，可以开始卡住流水线了
+    w_valid_i <= 1;
+    w_addr_i <= addr;
+    case (addr[2:0])
+    default: w_mask_i <= 0;
+    3'h0: w_mask_i <= wmask;
+    3'h1: w_mask_i <= w_mask_i<<1;
+    3'h2: w_mask_i <= w_mask_i<<2;
+    3'h4: w_mask_i <= w_mask_i<<4;
+    endcase
+    case (addr[2:0])
+    default: w_data_i <= 0;
+    3'h0: w_data_i <= rs2;
+    3'h1: w_data_i <= rs2<<8;
+    3'h2: w_data_i <= rs2<<16;
+    3'h4: w_data_i <= rs2<<32;
+    endcase
+    me_wait_for_axi <= 1;
+  end
+  if (w_valid_i && w_ready_o) begin
+    w_valid_i <= 0; // axi模块已经收到写入请求
+  end
+  if (w_valid_o && ~w_ready_i) begin  // 已经完成写入
+    w_ready_i <= 1;
+  end
+  if (w_valid_o && w_ready_i) begin  // 已经完成写入
+    w_ready_i <= 0;
+    me_wait_for_axi <= 0;
+  end
+
+  // 然后是读取操作
+  if (readWen) begin  // 读取
+    rx_r_valid_i <= 1;
+    rx_r_addr_i <= addr;
+    me_wait_for_axi <= 1;
+  end
+  if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经收到读取请求
+    rx_r_valid_i <= 0;
+    rx_data_ready <= 1;
+  end
+  if (rx_data_valid && rx_data_ready) begin  // 收到axi模块返回的数据
+    rx_data_ready <= 0;
     if (sext) begin
       // 需要做符号扩展
-      dout = (readNum == 1) ? `SEXT(readData, 64, 8)
+      dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
       : ((readNum == 2) ? `SEXT(readData, 64, 16)
       : ((readNum == 4) ? `SEXT(readData, 64, 32)
       : ((readNum == 8) ? `SEXT(readData, 64, 64) : 0
       )));
     end
     else begin
-      dout = (readNum == 1) ? `NSEXT(readData, 64, 8)
+      dout <= (readNum == 1) ? `NSEXT(readData, 64, 8)
       : ((readNum == 2) ? `NSEXT(readData, 64, 16)
       : ((readNum == 4) ? `NSEXT(readData, 64, 32)
       : ((readNum == 8) ? `NSEXT(readData, 64, 64) : 0
       )));
     end
+    me_wait_for_axi <= 0;
   end
-  else begin
-    //$display("write %x %x", addr, rs2);
-    pmem_write(addr, rs2 << (addr [2:0] * 8'b1000), wmask << addr [2:0]);
-    if (addr[2:0] != 3'b0) begin
-      pmem_write(addr + 64'b1000, rs2 >> (num * 8'b1000), wmask >> num);
+  if (wmask == 8'b0) begin
+    // 读取操作
+    if (sext) begin
+      // 需要做符号扩展
+      dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
+      : ((readNum == 2) ? `SEXT(readData, 64, 16)
+      : ((readNum == 4) ? `SEXT(readData, 64, 32)
+      : ((readNum == 8) ? `SEXT(readData, 64, 64) : 0
+      )));
     end
-    dout = 64'b0;
+    else begin
+      dout <= (readNum == 1) ? `NSEXT(readData, 64, 8)
+      : ((readNum == 2) ? `NSEXT(readData, 64, 16)
+      : ((readNum == 4) ? `NSEXT(readData, 64, 32)
+      : ((readNum == 8) ? `NSEXT(readData, 64, 64) : 0
+      )));
+    end
   end
   
 end
