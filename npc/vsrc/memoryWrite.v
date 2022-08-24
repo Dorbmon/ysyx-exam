@@ -58,6 +58,7 @@ always @(posedge clk) begin
     me_wait_for_axi <= 1;
   end
   if (w_valid_i && w_ready_o) begin
+    $display("axi recieve write");
     w_valid_i <= 0; // axi模块已经收到写入请求
   end
   if (w_valid_o && ~w_ready_i) begin  // 已经完成写入
