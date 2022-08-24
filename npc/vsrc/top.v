@@ -81,8 +81,8 @@ wire [7:0] rx_w_mask_i;
 wire rx_w_ready_i, rx_w_valid_o;
 
 ysyx_22041207_axi_switch rx_axi_switch (clk, 
-if_r_valid_i, if_r_ready_o, if_data_read_o, if_r_addr_i, if_r_size_i, if_data_valid, if_data_ready,
 mem_r_valid_i, mem_r_ready_o, mem_data_read_o, mem_r_addr_i, mem_r_size_i, mem_data_valid, mem_data_ready,
+if_r_valid_i, if_r_ready_o, if_data_read_o, if_r_addr_i, if_r_size_i, if_data_valid, if_data_ready,
 rx_r_valid_i, rx_r_ready_o, rx_data_read_o, rx_r_addr_i, rx_r_size_i, rx_data_valid, rx_data_ready
 );
 axi_rw rx_axi(clk, rst, if_r_valid_i, if_r_ready_o, if_data_read_o, if_r_addr_i, if_r_size_i, if_data_valid, if_data_ready,
