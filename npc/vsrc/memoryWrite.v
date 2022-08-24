@@ -40,6 +40,7 @@ reg tSext;
 always @(posedge clk) begin
   // 写入
   if (wmask != 8'b0) begin  // 说明要进入数据写入，可以开始卡住流水线了
+    $display("catch write");
     w_valid_i <= 1;
     w_addr_i <= addr;
     case (addr[2:0])
