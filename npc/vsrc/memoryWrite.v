@@ -40,7 +40,6 @@ wire [63:0] readData = (addr[2:0] == 3'h0) ? rx_data_read_o :
 ((addr[2:0] == 3'h2) ? rx_data_read_o >> 16:
 ((addr[2:0] == 3'h4) ? rx_data_read_o >> 32
 :0)));
-ysyx_22041207_read_mem read(addr, (wmask == 8'b0 && readWen), readData);
 always @(posedge clk) begin
   if (wmask != 8'b0) begin  // 说明要进入数据写入，可以开始卡住流水线了
     w_valid_i <= 1;
@@ -100,24 +99,6 @@ always @(posedge clk) begin
       )));
     end
     me_wait_for_axi <= 0;
-  end
-  if (wmask == 8'b0) begin
-    // 读取操作
-    if (sext) begin
-      // 需要做符号扩展
-      dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
-      : ((readNum == 2) ? `SEXT(readData, 64, 16)
-      : ((readNum == 4) ? `SEXT(readData, 64, 32)
-      : ((readNum == 8) ? `SEXT(readData, 64, 64) : 0
-      )));
-    end
-    else begin
-      dout <= (readNum == 1) ? `NSEXT(readData, 64, 8)
-      : ((readNum == 2) ? `NSEXT(readData, 64, 16)
-      : ((readNum == 4) ? `NSEXT(readData, 64, 32)
-      : ((readNum == 8) ? `NSEXT(readData, 64, 64) : 0
-      )));
-    end
   end
   
 end
