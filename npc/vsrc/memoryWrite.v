@@ -25,7 +25,6 @@ module ysyx_22041207_Memory (
     output [7:0] rx_r_size_i,
     input rx_data_valid,
     output reg rx_data_ready,
-
     output reg                  me_wait_for_axi
 );
 initial begin
@@ -67,10 +66,10 @@ always @(posedge clk) begin
   end
   if (w_valid_o && ~w_ready_i) begin  // 已经完成写入
     w_ready_i <= 1;
-    me_wait_for_axi <= 0;
   end
   if (w_valid_o && w_ready_i) begin  // 已经完成写入
     w_ready_i <= 0;
+    me_wait_for_axi <= 0;
   end
   // 然后是读取操作
   if (readWen) begin  // 读取
