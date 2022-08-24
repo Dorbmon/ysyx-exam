@@ -42,6 +42,7 @@ reg busy;
 always @(posedge clk) begin
   // 写入
   if (wmask != 8'b0 && ~busy) begin  // 说明要进入数据写入，可以开始卡住流水线了
+    $display("write");
     busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= addr;
