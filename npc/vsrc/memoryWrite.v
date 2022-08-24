@@ -38,6 +38,7 @@ wire [63:0] readData = (addr[2:0] == 3'h0) ? rx_data_read_o :
 :0)));
 always @(posedge clk) begin
   if (wmask != 8'b0) begin  // 说明要进入数据写入，可以开始卡住流水线了
+    $display("gsahmashna");
     w_valid_i <= 1;
     w_addr_i <= addr;
     case (addr[2:0])
