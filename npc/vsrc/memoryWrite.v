@@ -67,7 +67,6 @@ always @(posedge clk) begin
     me_wait_for_axi <= 0;
   end
 
-
   // 读取
   if (readWen) begin
     rx_r_valid_i <= 1;
