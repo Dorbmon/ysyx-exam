@@ -60,7 +60,7 @@ always @(posedge clk) begin
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-always @(negedge clk) begin
+always @(posedge clk) begin
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal.. %x", me_pc + me_imm);
             //$display("catch jal...");
