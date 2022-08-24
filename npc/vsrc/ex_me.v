@@ -37,7 +37,7 @@ module ysyx_22041207_EX_ME(
     output reg csrWen_o
 );
 always @(negedge clk) begin
-    if ((bubble && ~me_wait_for_axi) || flush) begin
+    if (bubble || flush) begin
         aluRes_o <= 0;
         memoryReadWen_o <= 0;
         readNum_o <= 0;
@@ -55,24 +55,7 @@ always @(negedge clk) begin
         branch_o <= 0;
         csrWen_o <= 0;
     end
-    else if (me_wait_for_axi) begin
-        aluRes_o <= aluRes_o;
-        memoryReadWen_o <= memoryReadWen_o;
-        readNum_o <= readNum_o;
-        pc_o <= pc_o;
-        imm_o <= imm_o;
-        wd_sel_o <= wd_sel_o;
-        rs1_o <= rs1_o;
-        rs2_o <= rs2_o;
-        memoryWriteMask_o <= memoryWriteMask_o;
-        sext_o <= sext_o;
-        writeRD_o <= writeRD_o;
-        rwaddr_o <= rwaddr_o;
-        jal_o <= jal_o;
-        jalr_o <= jalr_o;
-        branch_o <= branch_o;
-        csrWen_o <= csrWen_o;
-    end else begin
+    else begin
         aluRes_o <= aluRes;
         memoryReadWen_o <= memoryReadWen;
         readNum_o <= readNum;
@@ -90,6 +73,25 @@ always @(negedge clk) begin
         branch_o <= branch;
         csrWen_o <= csrWen;
     end
-    
+    /*
+ if (me_wait_for_axi) begin
+        aluRes_o <= aluRes_o;
+        memoryReadWen_o <= memoryReadWen_o;
+        readNum_o <= readNum_o;
+        pc_o <= pc_o;
+        imm_o <= imm_o;
+        wd_sel_o <= wd_sel_o;
+        rs1_o <= rs1_o;
+        rs2_o <= rs2_o;
+        memoryWriteMask_o <= memoryWriteMask_o;
+        sext_o <= sext_o;
+        writeRD_o <= writeRD_o;
+        rwaddr_o <= rwaddr_o;
+        jal_o <= jal_o;
+        jalr_o <= jalr_o;
+        branch_o <= branch_o;
+        csrWen_o <= csrWen_o;
+    end
+    */
 end
 endmodule

@@ -31,11 +31,13 @@ module ysyx_22041207_Memory (
 initial begin
   me_wait_for_axi = 0;
 end
-wire [63:0] readData = (addr[2:0] == 3'h0) ? rx_data_read_o :
-((addr[2:0] == 3'h1) ? rx_data_read_o >> 8 :
-((addr[2:0] == 3'h2) ? rx_data_read_o >> 16:
-((addr[2:0] == 3'h4) ? rx_data_read_o >> 32
+wire [63:0] readData = (rx_r_addr_i[2:0] == 3'h0) ? rx_data_read_o :
+((rx_r_addr_i[2:0] == 3'h1) ? rx_data_read_o >> 8 :
+((rx_r_addr_i[2:0] == 3'h2) ? rx_data_read_o >> 16:
+((rx_r_addr_i[2:0] == 3'h4) ? rx_data_read_o >> 32
 :0)));
+reg [3:0] treadNum;
+reg tSext;
 always @(posedge clk) begin
   if (wmask != 8'b0) begin  // 说明要进入数据写入，可以开始卡住流水线了
     $display("gsahmashna %x", addr);
@@ -56,6 +58,8 @@ always @(posedge clk) begin
     3'h4: w_data_i <= rs2<<32;
     endcase
     me_wait_for_axi <= 1;
+    treadNum <= readNum;
+    tSext <= sext;
   end
   if (w_valid_i && w_ready_o) begin
     $display("axi recieve write");
@@ -80,19 +84,19 @@ always @(posedge clk) begin
   end
   if (rx_data_valid && rx_data_ready) begin  // 收到axi模块返回的数据
     rx_data_ready <= 0;
-    if (sext) begin
+    if (tSext) begin
       // 需要做符号扩展
-      dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
-      : ((readNum == 2) ? `SEXT(readData, 64, 16)
-      : ((readNum == 4) ? `SEXT(readData, 64, 32)
-      : ((readNum == 8) ? `SEXT(readData, 64, 64) : 0
+      dout <= (treadNum == 1) ? `SEXT(readData, 64, 8)
+      : ((treadNum == 2) ? `SEXT(readData, 64, 16)
+      : ((treadNum == 4) ? `SEXT(readData, 64, 32)
+      : ((treadNum == 8) ? `SEXT(readData, 64, 64) : 0
       )));
     end
     else begin
-      dout <= (readNum == 1) ? `NSEXT(readData, 64, 8)
-      : ((readNum == 2) ? `NSEXT(readData, 64, 16)
-      : ((readNum == 4) ? `NSEXT(readData, 64, 32)
-      : ((readNum == 8) ? `NSEXT(readData, 64, 64) : 0
+      dout <= (treadNum == 1) ? `NSEXT(readData, 64, 8)
+      : ((treadNum == 2) ? `NSEXT(readData, 64, 16)
+      : ((treadNum == 4) ? `NSEXT(readData, 64, 32)
+      : ((treadNum == 8) ? `NSEXT(readData, 64, 64) : 0
       )));
     end
     me_wait_for_axi <= 0;
