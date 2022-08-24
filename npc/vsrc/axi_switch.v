@@ -46,13 +46,13 @@ always @(posedge clk) begin
         busy <= 1;
     end else if (if_r_valid_i && ~busy) begin   // if抢占
         //$display("if get axi");
+        memUsing  <= 0;
         busy <= 1;
     end
     // 已经完成了使用
     if (s_r_data_valid && ( memUsing ? mem_r_data_ready : if_r_data_ready)) begin
         //$display("using...");
         busy <= 0;
-        memUsing <= 0;
     end
 end
 assign s_r_valid_i = memUsing ? mem_r_valid_i : if_r_valid_i;
