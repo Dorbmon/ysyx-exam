@@ -29,8 +29,8 @@ always @(negedge clk) begin
         csrValue_o<= 0;
         wd_sel_o  <= 0;
         writeRD_o <= 0;
-        rwddr_o <= 0;
-        csrWen_o <= 0;
+        rwddr_o <=   0;
+        csrWen_o <=  0;
     end else begin
         alu_c_o   <= alu_c;
         pc_o      <= pc;
