@@ -38,7 +38,7 @@ initial begin
 end
 
 reg memUsing, busy;
-always @(negedge clk) begin
+always @(posedge clk) begin
     // mem模块优先级更高，如果mem模块有信号，那就给mem模块，否则给if模块
     if (mem_r_valid_i && ~busy) begin    // mem抢占了
         memUsing <= 1;
