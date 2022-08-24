@@ -44,9 +44,6 @@ always @(posedge clk) begin
     end
 end
 always @(posedge clk) begin
-    if (rx_data_valid && ~rx_data_ready) begin    // 数据读取完毕
-        rx_data_ready <= 1;
-    end
     if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 数据读取完毕
         //$display("netxt %x", pc);
         rx_data_ready <= 0;
@@ -54,8 +51,9 @@ always @(posedge clk) begin
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
     end
-    if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了数据
+    if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
         rx_r_valid_i <= 0;
+        rx_data_ready <= 1;
     end
 end
 wire [63:0] addRes;
