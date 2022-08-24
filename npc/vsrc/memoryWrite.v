@@ -28,10 +28,6 @@ module ysyx_22041207_Memory (
 
     output reg                  me_wait_for_axi
 );
-import "DPI-C" function void pmem_write(
-  input longint waddr, input longint wdata, input byte wmask);
-wire [3:0] num = 4'b1000 - addr [2:0]; // 在第一个8字节内写入的数量
-reg [63:0] readData;
 initial begin
   me_wait_for_axi = 0;
 end
