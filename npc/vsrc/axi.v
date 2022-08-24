@@ -219,7 +219,7 @@ module axi_rw # (
     assign axi_w_valid_o    = w_state_write;
     assign axi_w_data_o     = w_data_i ;
     assign axi_w_strb_o     = w_mask_i;
-    assign axi_w_last_o     = 1'b0;
+    assign axi_w_last_o     = 1'b1;
     assign axi_w_user_o     = axi_user;                                                                         //初始化信号即可
 
     // 写应答通道
