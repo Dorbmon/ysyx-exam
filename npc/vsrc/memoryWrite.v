@@ -25,24 +25,21 @@ module ysyx_22041207_Memory (
     output [7:0] rx_r_size_i,
     input rx_data_valid,
     output reg rx_data_ready,
-    output reg                  me_wait_for_axi
+    output reg me_wait_for_axi
 );
 initial begin
   me_wait_for_axi = 0;
   busy = 0;
 end
-wire [63:0] readData = (rx_r_addr_i[2:0] == 3'h0) ? rx_data_read_o :
-((rx_r_addr_i[2:0] == 3'h1) ? rx_data_read_o >> 8 :
-((rx_r_addr_i[2:0] == 3'h2) ? rx_data_read_o >> 16:
-((rx_r_addr_i[2:0] == 3'h4) ? rx_data_read_o >> 32
+wire [63:0] readData = (addr[2:0] == 3'h0) ? rx_data_read_o :
+((addr[2:0] == 3'h1) ? rx_data_read_o >> 8 :
+((addr[2:0] == 3'h2) ? rx_data_read_o >> 16:
+((addr[2:0] == 3'h4) ? rx_data_read_o >> 32
 :0)));
-reg [3:0] treadNum;
-reg tSext;
 reg busy;
 always @(posedge clk) begin
   // 写入
   if (wmask != 8'b0 && ~busy) begin  // 说明要进入数据写入，可以开始卡住流水线了
-    $display("write");
     busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= addr;
@@ -77,8 +74,6 @@ always @(posedge clk) begin
     rx_r_valid_i <= 1;
     rx_r_addr_i <= addr;
     me_wait_for_axi <= 1;
-    treadNum <= readNum;
-    tSext <= sext;
     busy <= 1;
   end
   if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经收到读取请求
@@ -88,19 +83,19 @@ always @(posedge clk) begin
   if (rx_data_valid && rx_data_ready) begin  // 收到axi模块返回的数据
     rx_data_ready <= 0;
     busy <= 0;
-    if (tSext) begin
+    if (sext) begin
       // 需要做符号扩展
-      dout <= (treadNum == 1) ? `SEXT(readData, 64, 8)
-      : ((treadNum == 2) ? `SEXT(readData, 64, 16)
-      : ((treadNum == 4) ? `SEXT(readData, 64, 32)
-      : ((treadNum == 8) ? `SEXT(readData, 64, 64) : 0
+      dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
+      : ((readNum == 2) ? `SEXT(readData, 64, 16)
+      : ((readNum == 4) ? `SEXT(readData, 64, 32)
+      : ((readNum == 8) ? `SEXT(readData, 64, 64) : 0
       )));
     end
     else begin
-      dout <= (treadNum == 1) ? `NSEXT(readData, 64, 8)
-      : ((treadNum == 2) ? `NSEXT(readData, 64, 16)
-      : ((treadNum == 4) ? `NSEXT(readData, 64, 32)
-      : ((treadNum == 8) ? `NSEXT(readData, 64, 64) : 0
+      dout <= (readNum == 1) ? `NSEXT(readData, 64, 8)
+      : ((readNum == 2) ? `NSEXT(readData, 64, 16)
+      : ((readNum == 4) ? `NSEXT(readData, 64, 32)
+      : ((readNum == 8) ? `NSEXT(readData, 64, 64) : 0
       )));
     end
     me_wait_for_axi <= 0;
