@@ -147,7 +147,13 @@ module axi_rw # (
             r_state_read <= 1;
         end
         if (axi_r_valid_i) begin    // 从机数据读取完成
-            data_read_o <= (axi_r_data_i >> (r_addr_i[2:0] * 8 ));
+            case (r_addr_i[2:0])
+            default: data_read_o <= 0;
+            3'h1: data_read_o <= axi_r_data_i >> 8;
+            3'h2: data_read_o <= axi_r_data_i >> 16;
+            3'h4: data_read_o <= axi_r_data_i >> 32;
+            3'h0: data_read_o <= axi_r_data_i;
+            endcase
             //$display("read.. %x", axi_r_data_i);
             r_state_read <= 0;
             r_data_valid <= 1;  // 告诉外部模块，数据已经读取完成
