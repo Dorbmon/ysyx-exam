@@ -66,6 +66,7 @@ always @(posedge clk) begin
   if (w_valid_o && w_ready_i) begin  // 已经完成写入
     w_ready_i <= 0;
     me_wait_for_axi <= 0;
+    $display("finish read");
     busy <= 0;
   end
 
