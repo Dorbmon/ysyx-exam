@@ -34,7 +34,7 @@ assign rx_r_size_i = 8'b00001111;
 // assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令
-    if (rx_r_addr_i == pc && rx_data_valid && ~rx_data_ready) begin
+    if (rx_r_addr_i == pc && rx_data_valid && rx_data_ready) begin
         // 当前pc的指令已经取完了 并且读的是当前应该读的pc(因为中途可能发生了跳转)
         //inst_o <= rawData[31:0];
         $display("%x %x", rx_r_addr_i, rx_data_read_o[31:0]);
@@ -57,7 +57,6 @@ always @(posedge clk) begin
     end
     
     if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
-        $display("ready...");
         rx_r_valid_i <= 0;
         rx_data_ready <= 1;
     end
