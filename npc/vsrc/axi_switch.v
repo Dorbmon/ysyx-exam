@@ -54,14 +54,14 @@ always @(posedge clk) begin
         busy <= 0;
     end
 end
-assign s_r_valid_i = memUsing ? mem_r_valid_i : if_r_valid_i;
-    assign mem_r_ready_o = memUsing ? s_r_ready_o : 0; assign if_r_ready_o = memUsing ? 0 : s_r_ready_o; 
-    assign  s_r_addr_i = memUsing ? mem_r_addr_i : if_r_addr_i;
-    assign  s_r_size_i = memUsing ? mem_r_size_i : if_r_size_i;
-    assign  mem_r_data_valid = memUsing ? s_r_data_valid : 0;assign  if_r_data_valid = memUsing ? 0 : s_r_data_valid;
-    assign  s_r_data_ready = memUsing ? mem_r_data_ready : if_r_data_ready;
-    assign  mem_data_read_o = s_data_read_o;
-    assign  if_data_read_o = s_data_read_o;
+assign s_r_valid_i = busy ? (memUsing ? mem_r_valid_i : if_r_valid_i) : 0;
+    assign mem_r_ready_o = busy ? (memUsing ? s_r_ready_o : 0) : 0; assign if_r_ready_o =  busy ? (memUsing ? 0 : s_r_ready_o) : 0; 
+    assign  s_r_addr_i =  busy ? (memUsing ? mem_r_addr_i : if_r_addr_i) : 0;
+    assign  s_r_size_i =  busy ? (memUsing ? mem_r_size_i : if_r_size_i) : 0;
+    assign  mem_r_data_valid =  busy ? (memUsing ? s_r_data_valid : 0) : 0;assign  if_r_data_valid =  busy ? (memUsing ? 0 : s_r_data_valid):0;
+    assign  s_r_data_ready =  busy ? (memUsing ? mem_r_data_ready : if_r_data_ready) : 0;
+    assign  mem_data_read_o = busy ? (s_data_read_o) : 0;
+    assign  if_data_read_o =  busy ? s_data_read_o : 0;
 // always @(negedge clk) begin
 //     s_r_valid_i <= memUsing ? mem_r_valid_i : if_r_valid_i;
 //     mem_r_ready_o <= memUsing ? s_r_ready_o : 0; if_r_ready_o <= memUsing ? 0 : s_r_ready_o; 
