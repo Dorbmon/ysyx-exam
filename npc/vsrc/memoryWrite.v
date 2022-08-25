@@ -84,6 +84,7 @@ always @(posedge clk) begin
   if (rx_data_valid && rx_data_ready) begin  // 收到axi模块返回的数据
     rx_data_ready <= 0;
     busy <= 0;
+    me_wait_for_axi <= 0;
     if (sext) begin
       // 需要做符号扩展
       dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
@@ -99,7 +100,6 @@ always @(posedge clk) begin
       : ((readNum == 8) ? `NSEXT(readData, 64, 64) : 0
       )));
     end
-    me_wait_for_axi <= 0;
   end
   
 end
