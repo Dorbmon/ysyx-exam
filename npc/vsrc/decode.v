@@ -369,7 +369,6 @@ begin
     end
     7'b1100111: // I型指令 jalr
     begin
-        $display("jalr...");
         writeRD = 1'b1;
         pc_sel = 1'b1;
         jalr = 1'b1;
