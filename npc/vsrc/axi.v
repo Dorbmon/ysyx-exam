@@ -144,19 +144,18 @@ module axi_rw # (
         end
         if (w_state_addr && axi_aw_ready_i) begin   // 已经收到了写入地址
             w_state_addr <= 0;
+            w_state_resp <= 1;
         end
         if (w_state_write && axi_w_ready_i) begin   // 已经收到了写入数据
             w_state_write <= 0;
-        end
-        if (axi_b_valid_i && ~w_state_resp) begin    // 收到了响应，完成写入
             w_state_resp <= 1;
+        end
+        if (axi_b_valid_i && w_state_resp) begin    // 收到了响应，完成写入
+            w_state_resp <= 0;
             w_valid_o <= 1;
         end
         if (w_valid_o && w_ready_i) begin
             w_valid_o <= 0;
-        end
-        if (axi_b_valid_i && w_state_resp) begin    // 收到了响应，完成写入
-            w_state_resp <= 0;
         end
     end
 
