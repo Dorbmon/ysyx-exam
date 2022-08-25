@@ -123,7 +123,7 @@ always @(negedge clk) begin
         csr_order_o <= 0;
         mcause_o <= 0;
     end
-    else  begin
+    else begin
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;

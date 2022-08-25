@@ -44,7 +44,6 @@ always @(posedge clk) begin
         memUsing <= 1;
         busy <= 1;
     end else if (if_r_valid_i && ~busy) begin   // if抢占
-        //$display("if get axi");
         memUsing  <= 0;
         busy <= 1;
     end
