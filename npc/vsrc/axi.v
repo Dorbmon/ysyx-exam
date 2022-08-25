@@ -142,10 +142,10 @@ module axi_rw # (
         if (w_valid_i && w_ready_o) begin    // 外部模块要求写入数据
             w_ready_o <= 0;
         end
-        if (w_state_addr && axi_aw_ready_i) begin   // 已经收到了地址
+        if (w_state_addr && axi_aw_ready_i) begin   // 已经收到了写入地址
             w_state_addr <= 0;
         end
-        if (w_state_write && axi_aw_ready_i) begin   // 已经收到了地址
+        if (w_state_write && axi_w_ready_i) begin   // 已经收到了写入数据
             w_state_write <= 0;
         end
         if (axi_b_valid_i && ~w_state_resp) begin    // 收到了响应，完成写入
