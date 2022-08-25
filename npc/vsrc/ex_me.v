@@ -74,9 +74,9 @@ always @(negedge clk) begin
         csrWen_o <= csrWen_o;
     end
     else begin
-        if (jalr) begin
-            $display("ex_me jalr..");
-        end
+        // if (jalr) begin
+        //     $display("ex_me jalr..");
+        // end
         aluRes_o <= aluRes;
         memoryReadWen_o <= memoryReadWen;
         readNum_o <= readNum;
