@@ -50,7 +50,6 @@ always @(posedge clk) begin
         rx_data_ready <= 0;
     end
     if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 读取下一个pc
-        $display("netxt %x", pc);
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
     end
