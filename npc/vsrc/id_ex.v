@@ -124,9 +124,6 @@ always @(negedge clk) begin
         mcause_o <= 0;
     end
     else  begin
-        if (jalr) begin
-            $display("pass jalr");
-        end
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;
