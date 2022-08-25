@@ -85,7 +85,8 @@ mem_r_valid_i, mem_r_ready_o, mem_data_read_o, mem_r_addr_i, mem_r_size_i, mem_d
 if_r_valid_i, if_r_ready_o, if_data_read_o, if_r_addr_i, if_r_size_i, if_data_valid, if_data_ready,
 rx_r_valid_i, rx_r_ready_o, rx_data_read_o, rx_r_addr_i, rx_r_size_i, rx_data_valid, rx_data_ready
 );
-axi_rw rx_axi(clk, rst, rx_r_valid_i, rx_r_ready_o, rx_data_read_o, rx_r_addr_i, rx_r_size_i, rx_data_valid, rx_data_ready,
+axi_rw rx_axi(clk, 
+rst, rx_r_valid_i, rx_r_ready_o, rx_data_read_o, rx_r_addr_i, rx_r_size_i, rx_data_valid, rx_data_ready,
 rx_w_valid_i, rx_w_ready_o, rx_data_write_i, rx_w_addr_i, rx_w_mask_i, rx_w_valid_o, rx_w_ready_i, 
  axi_aw_ready_i,axi_aw_valid_o,axi_aw_addr_o,axi_aw_prot_o,axi_aw_id_o,axi_aw_user_o,axi_aw_len_o,axi_aw_size_o,axi_aw_burst_o,axi_aw_lock_o,axi_aw_cache_o,axi_aw_qos_o,axi_aw_region_o,
 axi_w_ready_i,axi_w_valid_o,axi_w_data_o,axi_w_strb_o,axi_w_last_o,axi_w_user_o,axi_b_ready_o,axi_b_valid_i,axi_b_resp_i,axi_b_id_i,axi_b_user_i,

@@ -45,7 +45,8 @@ always @(posedge clk) begin
         memUsing <= 1;
         busy <= 1;
     end else if (if_r_valid_i && ~busy) begin   // if抢占
-        memUsing  <= 0;
+        $display("if using...");
+        memUsing <= 0;
         busy <= 1;
     end
     // 已经完成了使用
@@ -55,10 +56,10 @@ always @(posedge clk) begin
     end
 end
 assign s_r_valid_i = busy ? (memUsing ? mem_r_valid_i : if_r_valid_i) : 0;
-    assign mem_r_ready_o = busy ? (memUsing ? s_r_ready_o : 0) : 0; assign if_r_ready_o =  busy ? (memUsing ? 0 : s_r_ready_o) : 0; 
+    assign mem_r_ready_o = busy ? (memUsing ? s_r_ready_o : 0) : 0; assign if_r_ready_o = busy ? (memUsing ? 0 : s_r_ready_o) : 0; 
     assign  s_r_addr_i =  busy ? (memUsing ? mem_r_addr_i : if_r_addr_i) : 0;
     assign  s_r_size_i =  busy ? (memUsing ? mem_r_size_i : if_r_size_i) : 0;
-    assign  mem_r_data_valid =  busy ? (memUsing ? s_r_data_valid : 0) : 0;assign  if_r_data_valid =  busy ? (memUsing ? 0 : s_r_data_valid):0;
+    assign  mem_r_data_valid =  busy ? (memUsing ? s_r_data_valid : 0) : 0;assign  if_r_data_valid = busy ? (memUsing ? 0 : s_r_data_valid):0;
     assign  s_r_data_ready =  busy ? (memUsing ? mem_r_data_ready : if_r_data_ready) : 0;
     assign  mem_data_read_o = busy ? (s_data_read_o) : 0;
     assign  if_data_read_o =  busy ? s_data_read_o : 0;
