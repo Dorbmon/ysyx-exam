@@ -49,11 +49,10 @@ always @(posedge clk) begin
     if ((rx_data_valid && rx_data_ready)) begin    // 数据读取完毕
         rx_data_ready <= 0;
     end
-    if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 数据读取完毕
+    if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 读取下一个pc
         $display("netxt %x", pc);
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
-        // 可以开始读取下一个pc了
     end
     
     if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
