@@ -22,6 +22,7 @@ module ysyx_22041207_ME_WB (
 );
 always @(negedge clk) begin
     if (me_wait_for_axi) begin  // mem模块还在读取，需要等待
+        $display("wait for axi...");
         alu_c_o   <= 0;
         pc_o      <= 0;
         ramdout_o <= 0;
