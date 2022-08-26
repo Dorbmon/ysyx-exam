@@ -68,7 +68,7 @@ always @(posedge clk) begin
         else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
             //$display("catch jalr...");
-            $display("jalr %x", {addRes[63:1], 1'b0});
+            //$display("jalr %x", {addRes[63:1], 1'b0});
             pc <= {addRes[63:1], 1'b0};
         end
         else if (pc_panic) begin
