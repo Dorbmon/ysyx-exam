@@ -127,7 +127,7 @@ module axi_rw # (
     // ------------------State Machine------------------TODO
     wire cache_hit;
     reg cache_update_en, cache_wupdate_en;
-    assign cache_update_data = data_read_o; // 读缓存更新
+    assign cache_update_data = axi_r_data_i; // 读缓存更新
     assign cache_update_address = r_addr_i;
     assign cache_wupdate_address = w_addr_i;
     assign cache_wupdate_data = w_data_i;
