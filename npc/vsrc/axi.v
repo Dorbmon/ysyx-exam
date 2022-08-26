@@ -129,6 +129,8 @@ module axi_rw # (
     reg cache_update_en, cache_wupdate_en;
     assign cache_update_data = data_read_o; // 读缓存更新
     assign cache_update_address = r_addr_i;
+    assign cache_wupdate_address = w_addr_i;
+    assign cache_wupdate_data = w_data_i;
     wire [63:0] cache_data, cache_update_address, cache_update_data, cache_wupdate_address, cache_wupdate_data;
     ysyx_22041207_cache rx_cache(clock, reset, r_addr_i, cache_hit, cache_data, cache_wupdate_en, cache_wupdate_address, cache_wupdate_data, w_mask_i, cache_update_en, cache_update_address, cache_update_data);
     // 写通道状态切换
@@ -143,6 +145,10 @@ module axi_rw # (
             w_ready_o <= 1;
             w_state_addr <= 1;
             w_state_write <= 1;
+            cache_wupdate_en <= 1;
+        end
+        if (cache_wupdate_en) begin
+            cache_wupdate_en <= 0;
         end
         if (w_valid_i && w_ready_o) begin    // 外部模块要求写入数据
             w_ready_o <= 0;
