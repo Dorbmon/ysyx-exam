@@ -37,7 +37,7 @@ always @(posedge clk) begin
     if (rx_r_addr_i == pc && rx_data_valid && rx_data_ready) begin
         // 当前pc的指令已经取完了 并且读的是当前应该读的pc(因为中途可能发生了跳转)
         //inst_o <= rawData[31:0];
-        //$display("%x %x", rx_r_addr_i, rx_data_read_o[31:0]);
+        $display("%x %x", rx_r_addr_i, rx_data_read_o[31:0]);
         inst_o <= rx_data_read_o[31:0];
         pc_o <= rx_r_addr_i;
     end else begin
@@ -62,7 +62,7 @@ wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
         if (me_jal || (me_branch && me_aluRes == 0)) begin
-            $display("catch jal... %x", me_pc + me_imm);
+            //$display("catch jal... %x", me_pc + me_imm);
             pc <= me_pc + me_imm;
         end
         else if (me_jalr) begin // jalr要求最后一位置0
