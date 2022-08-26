@@ -49,8 +49,7 @@ always @(posedge clk) begin
         busy <= 1;
     end
     // 已经完成了使用
-    $display("%x %x", s_r_data_valid,busy);
-    if (s_r_data_valid && ( memUsing ? ~mem_r_data_ready : ~if_r_data_ready) && busy) begin
+    if (s_r_data_valid && ( memUsing ? mem_r_data_ready : if_r_data_ready) && busy) begin
         $display("using...");
         busy <= 0;
     end
