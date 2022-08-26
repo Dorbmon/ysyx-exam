@@ -81,6 +81,7 @@ always @(posedge clk) begin
     busy <= 0;
     me_wait_for_axi <= 0;
     if (sext) begin
+      $display("sext");
       // 需要做符号扩展
       dout <= (readNum == 1) ? `SEXT(rx_data_read_o, 64, 8)
       : ((readNum == 2) ? `SEXT(rx_data_read_o, 64, 16)
