@@ -24,7 +24,8 @@ wire avaible0 = (valid0[index] && (tag0[index] == tag));
 wire [63:0] read1 = way1[index];
 wire avaible1 = (valid1[index] && (tag1[index] == tag));
 
-assign readHit = (avaible0 || avaible1);
+//assign readHit = (avaible0 || avaible1);
+assign readHit = 0;
 assign readData = avaible0 ? read0 : (avaible1 ? read1 : 0);
 
 wire [58:0] wtag = updateAddress [63:5];
