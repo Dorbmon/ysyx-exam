@@ -72,6 +72,7 @@ static int simulate(char *args) {
       printf("HIT GOOD TRAP.\n");
     } else {
       printf("HIT BAD TRAP. code is %lx\n", cpu.gpr [10]);
+      exit(cpu.gpr [10]);
       return cpu.gpr [10];
     }
   }
