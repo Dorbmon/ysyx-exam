@@ -61,9 +61,9 @@ end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
-        $display("%x %x", pc, rx_r_addr_i);
+        //$display("%x %x", pc, rx_r_addr_i);
         if (me_jal || (me_branch && me_aluRes == 0)) begin
-            //$display("catch jal.. %x", me_pc + me_imm);
+            $display("catch jal.. %x", me_pc + me_imm);
             //$display("catch jal...");
             pc <= me_pc + me_imm;
         end
