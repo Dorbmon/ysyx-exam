@@ -24,8 +24,7 @@ wire avaible0 = (valid0[index] && (tag0[index] == tag));
 wire [63:0] read1 = way1[index];
 wire avaible1 = (valid1[index] && (tag1[index] == tag));
 
-//assign readHit = (avaible0 || avaible1);
-assign readHit = 0;
+assign readHit = (avaible0 || avaible1);
 assign readData = avaible0 ? read0 : (avaible1 ? read1 : 0);
 
 wire [58:0] wtag = updateAddress [63:5];
@@ -44,7 +43,6 @@ always @(posedge clk) begin
     end
     else begin
         if (updateData) begin
-        // 先去填写0
             if (lastWrite[windex]) begin
                 // 那就写0
                 way0 [windex] = actualData;
@@ -73,7 +71,6 @@ always @(posedge clk) begin
                 way0[wwindex][55: 0] = wMask[6] ? wActualData [55: 0] : way0 [wwindex][55: 0];
                 way0[wwindex][63: 0] = wMask[7] ? wActualData [63: 0] : way0 [wwindex][63: 0];
             end else begin
-                way1 [wwindex] = wActualData;
                 tag1 [wwindex] = wwtag;
                 valid1 [wwindex] = 1;
                 way1[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way1 [wwindex][7: 0];
