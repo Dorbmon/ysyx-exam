@@ -173,6 +173,7 @@ module axi_rw # (
     always @(posedge clock) begin
         if (r_valid_i && ~r_ready_o) begin  // 收到外部模块读请求
             if (cache_hit) begin    // 缓存击中，那就直接读缓存
+                $display("cache hit...");
                 case (r_addr_i[2:0])
                 default: data_read_o <= 0;
                 3'h1: data_read_o <= cache_data >> 8;
