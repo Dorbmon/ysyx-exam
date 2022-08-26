@@ -58,6 +58,7 @@ always @(posedge clk) begin
             lastWrite [windex] = ~lastWrite [windex];
         end
         if (wUpdateData) begin
+            $display("w update.");
             if (lastWrite[wwindex]) begin
                 // 那就写0
                 // [wwindex] <= wActualData;
