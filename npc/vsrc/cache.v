@@ -43,6 +43,7 @@ always @(posedge clk) begin
     end
     else begin
         if (updateData) begin
+        $display("updateData");
         // 先去填写0
             if (lastWrite[windex]) begin
                 // 那就写0
