@@ -40,17 +40,14 @@ reg memUsing, busy;
 always @(posedge clk) begin
     // mem模块优先级更高，如果mem模块有信号，那就给mem模块，否则给if模块
     if (mem_r_valid_i && ~busy) begin    // mem抢占了
-        $display("mem using...");
         memUsing <= 1;
         busy <= 1;
     end else if (if_r_valid_i && ~busy) begin   // if抢占
-        $display("if using...");
         memUsing <= 0;
         busy <= 1;
     end
     // 已经完成了使用
     if (s_r_data_valid && ( memUsing ? mem_r_data_ready : if_r_data_ready) && busy) begin
-        $display("using...");
         busy <= 0;
     end
 end
