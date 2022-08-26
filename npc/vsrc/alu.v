@@ -24,7 +24,10 @@ always @(posedge clk) begin
             res = a + b;
             //$display("add %x %x %x", a, b, a + b);
         end
-        `ALU_SUB: res = a - b;
+        `ALU_SUB: begin 
+            res = a - b;
+            $display("sub %x %x", a, b);
+        end
         `ALU_RETURN_A: res = a;
         `ALU_RETURN_B: res = b;
         `ALU_XOR: res = a ^ b;
@@ -33,7 +36,6 @@ always @(posedge clk) begin
         `ALU_SLL: res = a << b [5:0];
         `ALU_SRL: res = a >> b [5:0];
         `ALU_SLT: begin
-            $display("slt:%x %x", $signed(a), $signed(b));
             res = $signed(a) < $signed(b) ? 64'b1 : 64'b0;
         end
         `ALU_SLTU: res = a < b ? 64'b1 : 64'b0;
