@@ -78,6 +78,7 @@ always @(posedge clk) begin
             pc <= csr_mtvec;
         end else if (~pc_delay && (rx_data_valid && rx_data_ready) && (pc == rx_r_addr_i)) begin
             // 第二个条件表示当前pc已经处理完成
+            $display("update pc");
             pc <= pc + 4;
         end else begin
             pc <= pc;
