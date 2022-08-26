@@ -31,7 +31,14 @@ wire [58:0] wtag = updateAddress [63:5];
 wire [1:0]  windex = updateAddress [4:3];
 wire [58:0] wwtag = wUpdateAddress [63:5];
 wire [1:0]  wwindex = wUpdateAddress [4:3];
-
+initial begin
+    integer i;
+    for (i = 0;i < 4;i ++) begin
+            valid0 [i] = 0;
+            valid1 [i] = 0;
+            lastWrite [i] = 0;
+        end
+end
 always @(posedge clk) begin
     if (rst) begin
         integer i;
