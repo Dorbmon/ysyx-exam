@@ -26,7 +26,6 @@ always @(posedge clk) begin
         end
         `ALU_SUB: begin 
             res = a - b;
-            $display("sub %x %x", a, b);
         end
         `ALU_RETURN_A: res = a;
         `ALU_RETURN_B: res = b;
