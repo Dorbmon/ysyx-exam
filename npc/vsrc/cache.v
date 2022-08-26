@@ -12,17 +12,17 @@ module ysyx_22041207_cache (
     input [63:0] updateAddress,
     input [63:0] actualData // 更新的数据 (地址也是readAddress)
 );
-reg [63:0] way0[0:2], way1[0:2];
-reg [58:0] tag0[0:2], tag1[0:2];
-reg lastWrite [0:2];
+reg [63:0] way0[3:0], way1[3:0];
+reg [58:0] tag0[3:0], tag1[3:0];
+reg lastWrite [3:0];
 wire [1:0] index = readAddress[4:3];
-reg  valid0[0:2], valid1[0:2];
+reg  valid0[3:0], valid1[3:0];
 wire [58:0] tag = readAddress[63:5];
 wire [63:0] read0 = way0[index];
 wire avaible0 = (valid0[index] && (tag0[index] == tag));
 
 wire [63:0] read1 = way1[index];
-wire avaible1 = valid1[index] && (tag1[index] == tag);
+wire avaible1 = (valid1[index] && (tag1[index] == tag));
 
 assign readHit = (avaible0 || avaible1);
 assign readData = avaible0 ? read0 : (avaible1 ? read1 : 0);
@@ -35,7 +35,7 @@ wire [1:0]  wwindex = wUpdateAddress [4:3];
 always @(posedge clk) begin
     if (rst) begin
         integer i;
-        for (i = 0;i < 2;i ++) begin
+        for (i = 0;i < 4;i ++) begin
             valid0 [i] <= 0;
             valid1 [i] <= 0;
             lastWrite [i] <= 0;
