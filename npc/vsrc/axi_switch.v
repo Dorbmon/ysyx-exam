@@ -33,7 +33,6 @@ module ysyx_22041207_axi_switch# (
     output                              s_r_data_ready   // 是否读取完成
 );
 initial begin
-    memUsing = 0;
     busy = 0;
 end
 
