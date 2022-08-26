@@ -43,7 +43,7 @@ always @(posedge clk) begin
     busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= addr;
-    $display("write %x %x", w_addr_i, rs2);
+    
     case (addr[2:0])
     default: w_mask_i <= 0;
     3'h0: w_mask_i <= wmask;
@@ -65,6 +65,7 @@ always @(posedge clk) begin
     w_ready_i <= 1;
   end
   if (w_valid_o && w_ready_i) begin  // 已经完成写入
+    $display("write %x %x", w_addr_i, w_data_i);
     w_ready_i <= 0;
     me_wait_for_axi <= 0;
     busy <= 0;
