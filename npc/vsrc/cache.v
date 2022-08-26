@@ -33,7 +33,7 @@ wire [58:0] wwtag = wUpdateAddress [63:5];
 wire [1:0]  wwindex = wUpdateAddress [4:3];
 
 always @(posedge clk) begin
-    if (rst) begin
+    if (~rst) begin
         integer i;
         for (i = 0;i < 2;i ++) begin
             valid0 [i] <= 0;
