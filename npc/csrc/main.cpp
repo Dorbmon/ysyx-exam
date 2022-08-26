@@ -42,12 +42,11 @@ static void runN(uint64_t n) {
     cpu.pc = top->pc;
     for (int i = 0;i < 10;++ i) {
       top->clk = ~top->clk;
-      top->rst = 0;
       //printf("h1\n");
       if (top->clk) {
         updateMemoryBeforeEval();
       }
-      
+      top->rst = 0;
       top->eval();
       if (top->clk) {
         updateMemoryAfterEval();

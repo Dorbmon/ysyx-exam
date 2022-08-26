@@ -179,8 +179,8 @@ module axi_rw # (
     always @(posedge clock) begin
         if (r_valid_i && ~r_ready_o) begin  // 收到外部模块读请求
             if (cache_hit) begin    // 缓存击中，那就直接读缓存
+                r_ready_o <= 1; // 告诉外部模块，已经读取到请求
                 r_state_addr <= 0;  // 那就不读了
-                r_ready_o <= 1;
             end else begin
                 r_ready_o <= 1; // 告诉外部模块，已经读取到请求
                 r_state_addr <= 1;  // 告知从机地址已准备就绪
