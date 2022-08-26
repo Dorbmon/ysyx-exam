@@ -68,6 +68,7 @@ always @(posedge clk) begin
     w_ready_i <= 0;
     me_wait_for_axi <= 0;
     busy <= 0;
+    $display("finish write");
   end
 
   // 读取
