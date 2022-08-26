@@ -61,7 +61,7 @@ end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
 always @(posedge clk) begin
-        //$display("%x %x", pc, rx_r_addr_i);
+        $display("%x %x", pc_delay, rx_r_addr_i);
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal...");
             pc <= me_pc + me_imm;
@@ -77,7 +77,7 @@ always @(posedge clk) begin
             pc <= csr_mtvec;
         end else if (~pc_delay && (rx_data_valid && rx_data_ready) && (pc == rx_r_addr_i)) begin
             // 第二个条件表示当前pc已经处理完成
-            $display("pc");
+            //$display("pc");
             pc <= pc + 4;
         end else begin
             pc <= pc;
