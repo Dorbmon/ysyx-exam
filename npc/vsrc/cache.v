@@ -19,13 +19,13 @@ wire [1:0] index = readAddress[4:3];
 reg  valid0[0:3], valid1[0:3];
 wire [58:0] tag = readAddress[63:5];
 wire [63:0] read0 = way0[index];
-wire avaible0 = (valid0[index] && (tag0[index] == tag));
+wire available0 = (valid0[index] && (tag0[index] == tag));
 
 wire [63:0] read1 = way1[index];
-wire avaible1 = (valid1[index] && (tag1[index] == tag));
+wire available1 = (valid1[index] && (tag1[index] == tag));
 
-assign readHit = (avaible0 || avaible1);
-assign readData = avaible0 ? read0 : (avaible1 ? read1 : 0);
+assign readHit = (available0 || available1);
+assign readData = available0 ? read0 : (available1 ? read1 : 0);
 
 wire [58:0] wtag = updateAddress [63:5];
 wire [1:0]  windex = updateAddress [4:3];
@@ -49,21 +49,21 @@ always @(posedge clk) begin
         end
     end
     else begin
-        // if (updateData) begin   //读更新
-        //     if (lastWrite[windex]) begin
-        //         // 那就写0
-        //         way0 [windex] = actualData;
-        //         tag0 [windex] = wtag;
-        //         valid0 [windex] = 1;
-        //     end else begin
-        //         way1 [windex] = actualData;
-        //         tag1 [windex] = wtag;
-        //         valid1 [windex] = 1;
-        //     end
-        //     lastWrite [windex] = ~lastWrite [windex];
-        // end
+        if (updateData) begin   //读更新
+            if (lastWrite[windex] || tag0 [windex] == wtag) begin
+                // 那就写0
+                way0 [windex] = actualData;
+                tag0 [windex] = wtag;
+                valid0 [windex] = 1;
+            end else begin
+                way1 [windex] = actualData;
+                tag1 [windex] = wtag;
+                valid1 [windex] = 1;
+            end
+            lastWrite [windex] = ~lastWrite [windex];
+        end
         if (wUpdateData) begin
-            if (lastWrite[wwindex]) begin
+            if (lastWrite[wwindex] || tag0 [windex] == wtag) begin
                 // 那就写0
                 // [wwindex] = wActualData;
                 tag0 [wwindex] = wwtag;
