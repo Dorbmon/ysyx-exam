@@ -63,7 +63,7 @@ always @(posedge clk) begin
             lastWrite [windex] = ~lastWrite [windex];
         end
         if (wUpdateData) begin
-            if (lastWrite[wwindex] || tag0 [windex] == wtag) begin
+            if (lastWrite[wwindex] || tag0 [wwindex] == wwtag) begin
                 // 那就写0
                 // [wwindex] = wActualData;
                 tag0 [wwindex] = wwtag;
