@@ -85,6 +85,7 @@ always @(posedge clk) begin
     rx_data_ready <= 0;
     busy <= 0;
     me_wait_for_axi <= 0;
+    $display("read %x %x", rx_r_addr_i, readData);
     if (sext) begin
       // 需要做符号扩展
       dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
