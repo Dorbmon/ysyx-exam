@@ -210,7 +210,6 @@ module axi_rw # (
             3'h0: data_read_o <= axi_r_data_i;
             endcase
             // 告知缓存更新
-            $display("for cache...");
             cache_update_en <= 1;
             //$display("read.. %x", axi_r_data_i);
             r_state_read <= 0;
