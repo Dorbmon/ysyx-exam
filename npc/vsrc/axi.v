@@ -173,6 +173,15 @@ module axi_rw # (
     always @(posedge clock) begin
         if (r_valid_i && ~r_ready_o) begin  // 收到外部模块读请求
             if (cache_hit) begin    // 缓存击中，那就直接读缓存
+                r_state_addr <= 0;  // 那就不读了
+                r_ready_o <= 1;
+            end else begin
+                r_ready_o <= 1; // 告诉外部模块，已经读取到请求
+                r_state_addr <= 1;  // 告知从机地址已准备就绪
+            end
+        end
+        if (r_valid_i && r_ready_o) begin
+            if (cache_hit) begin
                 case (r_addr_i[2:0])
                 default: data_read_o <= 0;
                 3'h1: data_read_o <= cache_data >> 8;
@@ -184,13 +193,8 @@ module axi_rw # (
                 3'h7: data_read_o <= cache_data >> 56;
                 3'h0: data_read_o <= cache_data;
                 endcase
-                r_data_valid <= 1;  // 告诉外部模块，数据已经读取完成
-            end else begin
-                r_ready_o <= 1; // 告诉外部模块，已经读取到请求
-                r_state_addr <= 1;  // 告知从机地址已准备就绪
+                r_data_valid <= 1;
             end
-        end
-        if (r_valid_i && r_ready_o) begin
             r_ready_o <= 0;
         end
         if (axi_ar_ready_i && r_state_addr) begin   // 从机已经接收到地址了
