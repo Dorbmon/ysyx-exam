@@ -50,6 +50,7 @@ always @(posedge clk) begin
         rx_data_ready <= 0;
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
+        $display("start to read pc:%x", pc);
     end
     
     if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
