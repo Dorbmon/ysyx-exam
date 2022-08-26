@@ -48,7 +48,7 @@ always @(posedge clk) begin
     3'h4: w_data_i <= rs2<<32;
     3'h5: w_data_i <= rs2<<40;
     3'h6: w_data_i <= rs2<<48;
-    3'h7: w_data_i <= rs2<<54;
+    3'h7: w_data_i <= rs2<<56;
     endcase
     me_wait_for_axi <= 1;
   end
