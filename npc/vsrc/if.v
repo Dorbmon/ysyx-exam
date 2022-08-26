@@ -46,10 +46,8 @@ always @(posedge clk) begin
     end
 end
 always @(posedge clk) begin
-    if ((rx_data_valid && rx_data_ready)) begin    // 数据读取完毕
-        rx_data_ready <= 0;
-    end
     if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 读取下一个pc
+        rx_data_ready <= 0;
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
     end
@@ -78,7 +76,6 @@ always @(posedge clk) begin
             pc <= csr_mtvec;
         end else if (~pc_delay && (rx_data_valid && rx_data_ready) && (pc == rx_r_addr_i)) begin
             // 第二个条件表示当前pc已经处理完成
-            $display("update pc");
             pc <= pc + 4;
         end else begin
             pc <= pc;
