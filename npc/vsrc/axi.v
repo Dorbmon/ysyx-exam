@@ -125,7 +125,12 @@ module axi_rw # (
 );
     
     // ------------------State Machine------------------TODO
-    
+    wire cache_hit;
+    reg cache_update_en, cache_wupdate_en;
+    assign cache_update_data = data_read_o; // 读缓存更新
+    assign cache_update_address = r_addr_i;
+    wire [63:0] cache_data, cache_update_address, cache_update_data, cache_wupdate_address, cache_wupdate_data;
+    ysyx_22041207_cache rx_cache(clock, reset, r_addr_i, cache_hit, cache_data, cache_wupdate_en, cache_wupdate_address, cache_wupdate_data, w_mask_i, cache_update_en, cache_update_address, cache_update_data);
     // 写通道状态切换
     initial begin
         w_ready_o = 0;
@@ -166,9 +171,24 @@ module axi_rw # (
         r_state_read = 0;
     end
     always @(posedge clock) begin
-        if (r_valid_i && ~r_ready_o) begin
-            r_ready_o <= 1; // 告诉外部模块，已经读取到请求
-            r_state_addr <= 1;  // 告知从机地址已准备就绪
+        if (r_valid_i && ~r_ready_o) begin  // 收到外部模块读请求
+            if (cache_hit) begin    // 缓存击中，那就直接读缓存
+                case (r_addr_i[2:0])
+                default: data_read_o <= 0;
+                3'h1: data_read_o <= cache_data >> 8;
+                3'h2: data_read_o <= cache_data >> 16;
+                3'h3: data_read_o <= cache_data >> 24;
+                3'h4: data_read_o <= cache_data >> 32;
+                3'h5: data_read_o <= cache_data >> 40;
+                3'h6: data_read_o <= cache_data >> 48;
+                3'h7: data_read_o <= cache_data >> 56;
+                3'h0: data_read_o <= cache_data;
+                endcase
+                r_data_valid <= 1;  // 告诉外部模块，数据已经读取完成
+            end else begin
+                r_ready_o <= 1; // 告诉外部模块，已经读取到请求
+                r_state_addr <= 1;  // 告知从机地址已准备就绪
+            end
         end
         if (r_valid_i && r_ready_o) begin
             r_ready_o <= 0;
@@ -189,9 +209,14 @@ module axi_rw # (
             3'h7: data_read_o <= axi_r_data_i >> 56;
             3'h0: data_read_o <= axi_r_data_i;
             endcase
+            // 告知缓存更新
+            cache_update_en <= 1;
             //$display("read.. %x", axi_r_data_i);
             r_state_read <= 0;
             r_data_valid <= 1;  // 告诉外部模块，数据已经读取完成
+        end
+        if (cache_update_en) begin
+            cache_update_en <= 0;
         end
         if (r_data_valid && r_data_ready) begin
             r_data_valid <= 0;
