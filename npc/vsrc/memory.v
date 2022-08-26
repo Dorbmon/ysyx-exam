@@ -31,11 +31,6 @@ initial begin
   me_wait_for_axi = 0;
   busy = 0;
 end
-wire [63:0] readData = (addr[2:0] == 3'h0) ? rx_data_read_o :
-((addr[2:0] == 3'h1) ? rx_data_read_o >> 8 :
-((addr[2:0] == 3'h2) ? rx_data_read_o >> 16:
-((addr[2:0] == 3'h4) ? rx_data_read_o >> 32
-:0)));
 reg busy;
 always @(posedge clk) begin
   // 写入
@@ -43,7 +38,6 @@ always @(posedge clk) begin
     busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= addr;
-    
     case (addr[2:0])
     default: w_mask_i <= 0;
     3'h0: w_mask_i <= wmask;
@@ -86,7 +80,6 @@ always @(posedge clk) begin
     rx_data_ready <= 0;
     busy <= 0;
     me_wait_for_axi <= 0;
-    $display("read %x %x", rx_r_addr_i, rx_data_read_o);
     if (sext) begin
       // 需要做符号扩展
       dout <= (readNum == 1) ? `SEXT(rx_data_read_o, 64, 8)
