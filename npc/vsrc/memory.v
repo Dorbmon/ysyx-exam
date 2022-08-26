@@ -65,7 +65,7 @@ always @(posedge clk) begin
     w_ready_i <= 1;
   end
   if (w_valid_o && w_ready_i) begin  // 已经完成写入
-    $display("write %x %x %b", w_addr_i, w_data_i, w_mask_i);
+    //$display("write %x %x %b", w_addr_i, w_data_i, w_mask_i);
     w_ready_i <= 0;
     me_wait_for_axi <= 0;
     busy <= 0;
@@ -89,17 +89,17 @@ always @(posedge clk) begin
     $display("read %x %x", rx_r_addr_i, rx_data_read_o);
     if (sext) begin
       // 需要做符号扩展
-      dout <= (readNum == 1) ? `SEXT(readData, 64, 8)
-      : ((readNum == 2) ? `SEXT(readData, 64, 16)
-      : ((readNum == 4) ? `SEXT(readData, 64, 32)
-      : ((readNum == 8) ? `SEXT(readData, 64, 64) : 0
+      dout <= (readNum == 1) ? `SEXT(rx_data_read_o, 64, 8)
+      : ((readNum == 2) ? `SEXT(rx_data_read_o, 64, 16)
+      : ((readNum == 4) ? `SEXT(rx_data_read_o, 64, 32)
+      : ((readNum == 8) ? `SEXT(rx_data_read_o, 64, 64) : 0
       )));
     end
     else begin
-      dout <= (readNum == 1) ? `NSEXT(readData, 64, 8)
-      : ((readNum == 2) ? `NSEXT(readData, 64, 16)
-      : ((readNum == 4) ? `NSEXT(readData, 64, 32)
-      : ((readNum == 8) ? `NSEXT(readData, 64, 64) : 0
+      dout <= (readNum == 1) ? `NSEXT(rx_data_read_o, 64, 8)
+      : ((readNum == 2) ? `NSEXT(rx_data_read_o, 64, 16)
+      : ((readNum == 4) ? `NSEXT(rx_data_read_o, 64, 32)
+      : ((readNum == 8) ? `NSEXT(rx_data_read_o, 64, 64) : 0
       )));
     end
   end
