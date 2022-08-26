@@ -43,6 +43,7 @@ always @(posedge clk) begin
     busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= addr;
+    $display("write %x %x", w_addr_i, rs2);
     case (addr[2:0])
     default: w_mask_i <= 0;
     3'h0: w_mask_i <= wmask;
