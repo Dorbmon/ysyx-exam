@@ -38,19 +38,17 @@ always @(posedge clk) begin
     busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= addr;
-    case (addr[2:0])
-    default: w_mask_i <= 0;
-    3'h0: w_mask_i <= wmask;
-    3'h1: w_mask_i <= wmask<<1;
-    3'h2: w_mask_i <= wmask<<2;
-    3'h4: w_mask_i <= wmask<<4;
-    endcase
+    w_mask_i <= wmask << addr[2:0];
     case (addr[2:0])
     default: w_data_i <= 0;
     3'h0: w_data_i <= rs2;
     3'h1: w_data_i <= rs2<<8;
     3'h2: w_data_i <= rs2<<16;
+    3'h3: w_data_i <= rs2<<24;
     3'h4: w_data_i <= rs2<<32;
+    3'h5: w_data_i <= rs2<<40;
+    3'h6: w_data_i <= rs2<<48;
+    3'h7: w_data_i <= rs2<<54;
     endcase
     me_wait_for_axi <= 1;
   end
