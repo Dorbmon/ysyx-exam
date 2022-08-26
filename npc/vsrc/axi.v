@@ -182,7 +182,10 @@ module axi_rw # (
             default: data_read_o <= 0;
             3'h1: data_read_o <= axi_r_data_i >> 8;
             3'h2: data_read_o <= axi_r_data_i >> 16;
+            3'h3: data_read_o <= axi_r_data_i >> 24;
             3'h4: data_read_o <= axi_r_data_i >> 32;
+            3'h5: data_read_o <= axi_r_data_i >> 40;
+            3'h6: data_read_o <= axi_r_data_i >> 48;
             3'h0: data_read_o <= axi_r_data_i;
             endcase
             //$display("read.. %x", axi_r_data_i);
