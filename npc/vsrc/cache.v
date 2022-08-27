@@ -51,9 +51,9 @@ always @(posedge clk) begin
         end
     end
     else begin
-        $display("first");
+        //$display("first");
         if (updateData) begin   //读更新
-            $display("r");
+            //$display("r");
             if (lastWrite[windex] || tag0 [windex] == wtag) begin
                 // 那就写0
                 way0 [windex] = actualData;
