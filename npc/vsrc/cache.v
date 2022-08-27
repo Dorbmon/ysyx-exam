@@ -51,24 +51,24 @@ always @(posedge clk) begin
         end
     end
     else begin
-        if (updateData) begin   //读更新
-            //$display("r");
-            if (lastWrite[windex] || tag0 [windex] == wtag) begin
-                // 那就写0
-                way0 [windex] <= actualData;
-                tag0 [windex] <= wtag;
-                valid0 [windex] <= 1;
-            end else begin
-                way1 [windex] <= actualData;
-                tag1 [windex] <= wtag;
-                valid1 [windex] <= 1;
-            end
-            lastWrite [windex] <= ~lastWrite [windex];
-        end
+        // if (updateData) begin   //读更新
+        //     //$display("r");
+        //     if (lastWrite[windex] || tag0 [windex] == wtag) begin
+        //         // 那就写0
+        //         way0 [windex] <= actualData;
+        //         tag0 [windex] <= wtag;
+        //         valid0 [windex] <= 1;
+        //     end else begin
+        //         way1 [windex] <= actualData;
+        //         tag1 [windex] <= wtag;
+        //         valid1 [windex] <= 1;
+        //     end
+        //     lastWrite [windex] <= ~lastWrite [windex];
+        // end
         if (wUpdateData) begin
             //$display("ee");
-            //valid0 [wwindex] <= 0;
-            //valid1 [wwindex] <= 0;
+            valid0 [wwindex] <= 0;
+            valid1 [wwindex] <= 0;
         //     if (lastWrite[wwindex] || tag0 [wwindex] == wwtag) begin
         //         // 那就写0
         //         // [wwindex] = wActualData;
