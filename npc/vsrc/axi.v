@@ -224,7 +224,7 @@ module axi_rw # (
             // 告知缓存更新
             cache_update_en <= 1;
             if (cache_hit) begin
-                $display("%x %x", cache_data, axi_r_data_i);
+                //$display("%x %x", cache_data, axi_r_data_i);
             end
             //$display("read.. %x", axi_r_data_i);
             r_state_read <= 0;
