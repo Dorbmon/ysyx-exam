@@ -26,7 +26,7 @@ wire available1 = (valid1[index] && (tag1[index] == tag));
 
 //assign readHit = (available0 | available1);
 //assign readData = available0 ? read0 : (available1 ? read1 : 0);
-assign readHit = (tag0[index] == tag);
+assign readHit = (tag0[index] == tag && valid0[index]);
 assign readData = read0;
 
 
