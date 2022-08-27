@@ -146,7 +146,7 @@ module axi_rw # (
             w_ready_o <= 1;
             w_state_addr <= 1;
             w_state_write <= 1;
-            
+            $display("write cache");
         end
         if (w_valid_i && w_ready_o) begin    // 外部模块要求写入数据
             w_ready_o <= 0;
@@ -162,7 +162,6 @@ module axi_rw # (
         if (axi_b_valid_i && w_state_resp) begin    // 收到了响应，完成写入
             w_state_resp <= 0;
             w_valid_o <= 1;
-            $display("write cache");
             cache_wupdate_en <= 1;
         end
         if (cache_wupdate_en) begin
