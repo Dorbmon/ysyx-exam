@@ -143,6 +143,7 @@ module axi_rw # (
     reg w_state_addr, w_state_write, w_state_resp;
     always @(posedge clock) begin
         if (w_valid_i && ~w_ready_o) begin    // 外部模块要求写入数据
+            $display("m:%b", w_mask_i);
             w_ready_o <= 1;
             w_state_addr <= 1;
             w_state_write <= 1;
