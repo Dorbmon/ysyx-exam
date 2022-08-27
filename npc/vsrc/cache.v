@@ -68,6 +68,7 @@ always @(posedge clk) begin
             if ((lastWrite[wwindex] || tag0 [wwindex] == wwtag) && tag1 [wwindex] != wwtag) begin
                 // 那就写0
                 tag0 [wwindex] <= wwtag;
+                $display("update w %x %b", wUpdateAddress, wMask);
                 way0[wwindex][7: 0] <= wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
                 way0[wwindex][15: 8] <= wMask[1] ? wActualData [15: 8] : way0 [wwindex][15: 8];
                 way0[wwindex][23: 16] <= wMask[2] ? wActualData [23: 16] : way0 [wwindex][23: 16];
