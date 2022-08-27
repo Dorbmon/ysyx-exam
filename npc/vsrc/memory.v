@@ -32,6 +32,16 @@ initial begin
   busy = 0;
 end
 reg busy;
+wire [63:0] trueData = 
+(addr[2:0] == 3'h0) ? rx_data_read_o :
+((addr[2:0] == 3'h1) ? (rx_data_read_o << 8) : 
+((addr [2:0] == 3'h2) ? (rx_data_read_o << 16) : 
+((addr[2:0] == 3'h3) ? (rx_data_read_o << 24) : 
+((addr[2:0] == 3'h4) ? (rx_data_read_o << 32):
+((addr[2:0] == 3'h5) ? (rx_data_read_o << 40):
+((addr[2:0] == 3'h6) ? (rx_data_read_o << 48):
+((addr[2:0] == 3'h7) ? (rx_data_read_o << 56):0
+)))))));
 always @(posedge clk) begin
   // 写入
   if (wmask != 8'b0 && ~busy) begin  // 说明要进入数据写入，可以开始卡住流水线了
