@@ -132,7 +132,8 @@ module axi_rw # (
     assign cache_wupdate_address = w_addr_i;
     assign cache_wupdate_data = w_data_i;
     wire [63:0] cache_data, cache_update_address, cache_update_data, cache_wupdate_address, cache_wupdate_data;
-    ysyx_22041207_cache rx_cache(clock, reset, r_addr_i, cache_hit, cache_data, cache_wupdate_en, cache_wupdate_address, cache_wupdate_data, w_mask_i, cache_update_en, cache_update_address, cache_update_data);
+    ysyx_22041207_cache rx_cache(clock, reset, r_addr_i, cache_hit, cache_data, 
+    cache_wupdate_en, cache_wupdate_address, cache_wupdate_data, w_mask_i, cache_update_en, cache_update_address, cache_update_data);
     // 写通道状态切换
     initial begin
         w_ready_o = 0;
@@ -156,9 +157,9 @@ module axi_rw # (
         if (w_state_write && axi_w_ready_i) begin   // 已经收到了写入数据
             w_state_write <= 0;
             w_state_resp <= 1;
+            cache_wupdate_en <= 1;
         end
         if (axi_b_valid_i && w_state_resp) begin    // 收到了响应，完成写入
-            cache_wupdate_en <= 1;
             w_state_resp <= 0;
             w_valid_o <= 1;
         end

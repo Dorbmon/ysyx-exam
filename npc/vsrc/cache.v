@@ -73,7 +73,6 @@ always @(posedge clk) begin
         //         // 那就写0
         //         // [wwindex] = wActualData;
         //         tag0 [wwindex] = wwtag;
-        //         //valid0 [wwindex] = 1;
         //         way0[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
         //         way0[wwindex][15: 0] = wMask[1] ? wActualData [15: 0] : way0 [wwindex][15: 0];
         //         way0[wwindex][23: 0] = wMask[2] ? wActualData [23: 0] : way0 [wwindex][23: 0];
@@ -84,7 +83,6 @@ always @(posedge clk) begin
         //         way0[wwindex][63: 0] = wMask[7] ? wActualData [63: 0] : way0 [wwindex][63: 0];
         //     end else begin
         //         tag1 [wwindex] = wwtag;
-        //         //valid1 [wwindex] = 1;
         //         way1[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way1 [wwindex][7: 0];
         //         way1[wwindex][15: 0] = wMask[1] ? wActualData [15: 0] : way1 [wwindex][15: 0];
         //         way1[wwindex][23: 0] = wMask[2] ? wActualData [23: 0] : way1 [wwindex][23: 0];
