@@ -65,7 +65,7 @@ always @(posedge clk) begin
         end
         if (wUpdateData) begin
             valid0 [wwindex] <= 0;
-            valid1 [wwindex] <= 1;
+            valid1 [wwindex] <= 0;
             // if ((lastWrite[wwindex] || tag0 [wwindex] == wwtag) && tag1 [wwindex] != wwtag) begin
             //     // 那就写0
             //     tag0 [wwindex] <= wwtag;
