@@ -56,12 +56,14 @@ always @(posedge clk) begin
                 // 那就写0
                 way0 [windex] = actualData;
                 tag0 [windex] = wtag;
-                //valid0 [windex] = 1;
+                valid0 [windex] = 1;
             end else begin
                 way1 [windex] = actualData;
                 tag1 [windex] = wtag;
-                //valid1 [windex] = 1;
+                valid1 [windex] = 1;
             end
+            valid1 [windex] = 0;
+            valid0 [windex] = 1;
             lastWrite [windex] = ~lastWrite [windex];
         end
         if (wUpdateData) begin
