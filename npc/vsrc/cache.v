@@ -40,8 +40,6 @@ initial begin
     end
 end
 always @(posedge clk) begin
-    if (available1 && available0)
-    $display("%x %x", available0, available1);
     if (rst) begin
         integer i;
         for (i = 0;i < 4;i ++) begin
@@ -80,7 +78,7 @@ always @(posedge clk) begin
                 way0[wwindex][55: 0] <= wMask[6] ? wActualData [55: 0] : way0 [wwindex][55: 0];
                 way0[wwindex][63: 0] <= wMask[7] ? wActualData [63: 0] : way0 [wwindex][63: 0];
             end else begin
-                tag1 [wwindex] = wwtag;
+                tag1 [wwindex] <= wwtag;
                 way1[wwindex][7: 0] <= wMask[0] ? wActualData [7: 0] : way1 [wwindex][7: 0];
                 way1[wwindex][15: 0] <= wMask[1] ? wActualData [15: 0] : way1 [wwindex][15: 0];
                 way1[wwindex][23: 0] <= wMask[2] ? wActualData [23: 0] : way1 [wwindex][23: 0];
