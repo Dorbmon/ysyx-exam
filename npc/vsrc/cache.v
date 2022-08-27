@@ -64,7 +64,7 @@ always @(posedge clk) begin
             lastWrite [windex] <= ~lastWrite [windex];
         end
         if (wUpdateData) begin
-            //$display("ee");
+            $display("ee");
             if ((lastWrite[wwindex] || tag0 [wwindex] == wwtag) && tag1 [wwindex] != wwtag) begin
                 // 那就写0
                 tag0 [wwindex] <= wwtag;
