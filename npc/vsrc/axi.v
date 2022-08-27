@@ -209,7 +209,7 @@ module axi_rw # (
             r_state_addr <= 0;
             r_state_read <= 1;
         end
-        if (axi_r_valid_i) begin    // 从机数据读取完成
+        if (axi_r_valid_i && r_state_read) begin    // 从机数据读取完成
             case (r_addr_i[2:0])
             default: data_read_o <= 0;
             3'h1: data_read_o <= axi_r_data_i >> 8;
