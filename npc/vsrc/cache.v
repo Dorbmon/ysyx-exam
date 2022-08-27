@@ -40,6 +40,7 @@ initial begin
     end
 end
 always @(posedge clk) begin
+    if (available1 && available0)
     $display("%x %x", available0, available1);
     if (rst) begin
         integer i;
