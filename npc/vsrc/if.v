@@ -85,8 +85,5 @@ always @(posedge clk) begin
         end else begin
             pc <= pc;
         end
-        // 准备取pc
-
-    //$display("npc:%x", pc);
 end
 endmodule
