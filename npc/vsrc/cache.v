@@ -68,7 +68,6 @@ always @(posedge clk) begin
                 // [wwindex] = wActualData;
                 tag0 [wwindex] = wwtag;
                 //valid0 [wwindex] = 1;
-                //integer i;
                 way0[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
                 way0[wwindex][15: 0] = wMask[1] ? wActualData [15: 0] : way0 [wwindex][15: 0];
                 way0[wwindex][23: 0] = wMask[2] ? wActualData [23: 0] : way0 [wwindex][23: 0];
