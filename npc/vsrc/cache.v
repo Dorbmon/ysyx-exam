@@ -65,32 +65,34 @@ always @(posedge clk) begin
             lastWrite [windex] = ~lastWrite [windex];
         end
         if (wUpdateData) begin
-            if (lastWrite[wwindex] || tag0 [wwindex] == wwtag) begin
-                // 那就写0
-                // [wwindex] = wActualData;
-                tag0 [wwindex] = wwtag;
-                //valid0 [wwindex] = 1;
-                way0[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
-                way0[wwindex][15: 0] = wMask[1] ? wActualData [15: 0] : way0 [wwindex][15: 0];
-                way0[wwindex][23: 0] = wMask[2] ? wActualData [23: 0] : way0 [wwindex][23: 0];
-                way0[wwindex][31: 0] = wMask[3] ? wActualData [31: 0] : way0 [wwindex][31: 0];
-                way0[wwindex][39: 0] = wMask[4] ? wActualData [39: 0] : way0 [wwindex][39: 0];
-                way0[wwindex][47: 0] = wMask[5] ? wActualData [47: 0] : way0 [wwindex][47: 0];
-                way0[wwindex][55: 0] = wMask[6] ? wActualData [55: 0] : way0 [wwindex][55: 0];
-                way0[wwindex][63: 0] = wMask[7] ? wActualData [63: 0] : way0 [wwindex][63: 0];
-            end else begin
-                tag1 [wwindex] = wwtag;
-                //valid1 [wwindex] = 1;
-                way1[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way1 [wwindex][7: 0];
-                way1[wwindex][15: 0] = wMask[1] ? wActualData [15: 0] : way1 [wwindex][15: 0];
-                way1[wwindex][23: 0] = wMask[2] ? wActualData [23: 0] : way1 [wwindex][23: 0];
-                way1[wwindex][31: 0] = wMask[3] ? wActualData [31: 0] : way1 [wwindex][31: 0];
-                way1[wwindex][39: 0] = wMask[4] ? wActualData [39: 0] : way1 [wwindex][39: 0];
-                way1[wwindex][47: 0] = wMask[5] ? wActualData [47: 0] : way1 [wwindex][47: 0];
-                way1[wwindex][55: 0] = wMask[6] ? wActualData [55: 0] : way1 [wwindex][55: 0];
-                way1[wwindex][63: 0] = wMask[7] ? wActualData [63: 0] : way1 [wwindex][63: 0];
-            end
-            lastWrite [wwindex] = ~lastWrite [wwindex];
+            valid0 [wwindex] = 0;
+            valid1 [wwindex] = 0;
+        //     if (lastWrite[wwindex] || tag0 [wwindex] == wwtag) begin
+        //         // 那就写0
+        //         // [wwindex] = wActualData;
+        //         tag0 [wwindex] = wwtag;
+        //         //valid0 [wwindex] = 1;
+        //         way0[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
+        //         way0[wwindex][15: 0] = wMask[1] ? wActualData [15: 0] : way0 [wwindex][15: 0];
+        //         way0[wwindex][23: 0] = wMask[2] ? wActualData [23: 0] : way0 [wwindex][23: 0];
+        //         way0[wwindex][31: 0] = wMask[3] ? wActualData [31: 0] : way0 [wwindex][31: 0];
+        //         way0[wwindex][39: 0] = wMask[4] ? wActualData [39: 0] : way0 [wwindex][39: 0];
+        //         way0[wwindex][47: 0] = wMask[5] ? wActualData [47: 0] : way0 [wwindex][47: 0];
+        //         way0[wwindex][55: 0] = wMask[6] ? wActualData [55: 0] : way0 [wwindex][55: 0];
+        //         way0[wwindex][63: 0] = wMask[7] ? wActualData [63: 0] : way0 [wwindex][63: 0];
+        //     end else begin
+        //         tag1 [wwindex] = wwtag;
+        //         //valid1 [wwindex] = 1;
+        //         way1[wwindex][7: 0] = wMask[0] ? wActualData [7: 0] : way1 [wwindex][7: 0];
+        //         way1[wwindex][15: 0] = wMask[1] ? wActualData [15: 0] : way1 [wwindex][15: 0];
+        //         way1[wwindex][23: 0] = wMask[2] ? wActualData [23: 0] : way1 [wwindex][23: 0];
+        //         way1[wwindex][31: 0] = wMask[3] ? wActualData [31: 0] : way1 [wwindex][31: 0];
+        //         way1[wwindex][39: 0] = wMask[4] ? wActualData [39: 0] : way1 [wwindex][39: 0];
+        //         way1[wwindex][47: 0] = wMask[5] ? wActualData [47: 0] : way1 [wwindex][47: 0];
+        //         way1[wwindex][55: 0] = wMask[6] ? wActualData [55: 0] : way1 [wwindex][55: 0];
+        //         way1[wwindex][63: 0] = wMask[7] ? wActualData [63: 0] : way1 [wwindex][63: 0];
+        //     end
+        //     lastWrite [wwindex] = ~lastWrite [wwindex];
         end
     end
 end
