@@ -37,7 +37,7 @@ always @(posedge clk) begin
   if (wmask != 8'b0 && ~busy) begin  // 说明要进入数据写入，可以开始卡住流水线了
     busy <= 1;
     w_valid_i <= 1;
-    w_addr_i <= addr;
+    w_addr_i <= {addr[63:3], 3'b0};
     w_mask_i <= wmask << addr[2:0];
     case (addr[2:0])
     default: w_data_i <= 0;
