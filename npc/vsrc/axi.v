@@ -162,6 +162,7 @@ module axi_rw # (
         if (axi_b_valid_i && w_state_resp) begin    // 收到了响应，完成写入
             w_state_resp <= 0;
             w_valid_o <= 1;
+            $display("write cache");
             cache_wupdate_en <= 1;
         end
         if (cache_wupdate_en) begin
