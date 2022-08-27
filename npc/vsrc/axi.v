@@ -275,7 +275,7 @@ module axi_rw # (
 
     // Read address channel signals
     assign axi_ar_valid_o   = r_state_addr;
-    assign axi_ar_addr_o    = r_addr_i;
+    assign axi_ar_addr_o    = {r_addr_i[63:3], 3'b0};
     assign axi_ar_prot_o    = `AXI_PROT_UNPRIVILEGED_ACCESS | `AXI_PROT_SECURE_ACCESS | `AXI_PROT_DATA_ACCESS;  //初始化信号即可
     assign axi_ar_id_o      = axi_id;                                                                           //初始化信号即可                        
     assign axi_ar_user_o    = axi_user;                                                                         //初始化信号即可
