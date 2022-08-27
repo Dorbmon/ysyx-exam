@@ -248,7 +248,7 @@ module axi_rw # (
     wire [2:0] axi_size     = AXI_SIZE[2:0];
     // 写地址通道  以下没有备注初始化信号的都可能是你需要产生和用到的
     assign axi_aw_valid_o   = w_state_addr;
-    assign axi_aw_addr_o    = w_addr_i;
+    assign axi_aw_addr_o    = {w_addr_i[63:3], 3'b0};
     assign axi_aw_prot_o    = `AXI_PROT_UNPRIVILEGED_ACCESS | `AXI_PROT_SECURE_ACCESS | `AXI_PROT_DATA_ACCESS;  //初始化信号即可
     assign axi_aw_id_o      = axi_id;                                                                           //初始化信号即可
     assign axi_aw_user_o    = axi_user;                                                                         //初始化信号即可
