@@ -34,9 +34,9 @@ end
 reg busy;
 wire [63:0] trueData = 
 (addr[2:0] == 3'h0) ? rx_data_read_o :
-((addr[2:0] == 3'h1) ? (rx_data_read_o <<  8) : 
-((addr[2:0] == 3'h2) ? (rx_data_read_o << 16) : 
-((addr[2:0] == 3'h3) ? (rx_data_read_o << 24) : 
+((addr[2:0] == 3'h1) ? (rx_data_read_o <<  8): 
+((addr[2:0] == 3'h2) ? (rx_data_read_o << 16):
+((addr[2:0] == 3'h3) ? (rx_data_read_o << 24):
 ((addr[2:0] == 3'h4) ? (rx_data_read_o << 32):
 ((addr[2:0] == 3'h5) ? (rx_data_read_o << 40):
 ((addr[2:0] == 3'h6) ? (rx_data_read_o << 48):
@@ -49,9 +49,8 @@ always @(posedge clk) begin
     busy <= 1;
     w_valid_i <= 1;
     w_addr_i <= {addr[63:3], 3'b0};
-    w_mask_i <= wmask << addr[2:0];
+    w_mask_i <= (wmask << addr[2:0]);
     case (addr[2:0])
-    default: w_data_i <= 0;
     3'h0: w_data_i <= rs2;
     3'h1: w_data_i <= rs2<<8;
     3'h2: w_data_i <= rs2<<16;
