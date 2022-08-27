@@ -224,10 +224,10 @@ module axi_rw # (
             // 告知缓存更新
             cache_update_en <= 1;
             if (cache_hit) begin
-                $display("read %x %x %x", r_addr_i, cache_data, axi_r_data_i);
+                //$display("read %x %x %x", r_addr_i, cache_data, axi_r_data_i);
             end else begin
                 //{r_addr_i[63:3], 3'b0}
-                $display("update %x %x %b", r_addr_i, axi_r_data_i, w_mask_i);
+                //$display("update %x %x %b", r_addr_i, axi_r_data_i, w_mask_i);
             end
             //$display("read.. %x", axi_r_data_i);
             r_state_read <= 0;
