@@ -145,6 +145,7 @@ module axi_rw # (
         if (w_valid_i && ~w_ready_o) begin    // 外部模块要求写入数据
             w_ready_o <= 1;
             w_state_addr <= 1;
+            w_state_write <= 1;
         end
         if (w_valid_i && w_ready_o) begin    // 外部模块要求写入数据
             w_ready_o <= 0;
@@ -161,7 +162,6 @@ module axi_rw # (
             w_state_resp <= 0;
             w_valid_o <= 1;
             cache_wupdate_en <= 1;
-            w_state_write <= 1;
         end
         if (cache_wupdate_en) begin
             cache_wupdate_en <= 0;
