@@ -90,17 +90,17 @@ always @(posedge clk) begin
     me_wait_for_axi <= 0;
     if (sext) begin
       // 需要做符号扩展
-      dout <= (readNum == 1) ? `SEXT(rx_data_read_o, 64, 8)
-      : ((readNum == 2) ? `SEXT(rx_data_read_o, 64, 16)
-      : ((readNum == 4) ? `SEXT(rx_data_read_o, 64, 32)
-      : ((readNum == 8) ? `SEXT(rx_data_read_o, 64, 64) : 0
+      dout <= (readNum == 1) ? `SEXT(trueData, 64, 8)
+      : ((readNum == 2) ? `SEXT(trueData, 64, 16)
+      : ((readNum == 4) ? `SEXT(trueData, 64, 32)
+      : ((readNum == 8) ? `SEXT(trueData, 64, 64) : 0
       )));
     end
     else begin
-      dout <= (readNum == 1) ? `NSEXT(rx_data_read_o, 64, 8)
-      : ((readNum == 2) ? `NSEXT(rx_data_read_o, 64, 16)
-      : ((readNum == 4) ? `NSEXT(rx_data_read_o, 64, 32)
-      : ((readNum == 8) ? `NSEXT(rx_data_read_o, 64, 64) : 0
+      dout <= (readNum == 1) ? `NSEXT(trueData, 64, 8)
+      : ((readNum == 2) ? `NSEXT(trueData, 64, 16)
+      : ((readNum == 4) ? `NSEXT(trueData, 64, 32)
+      : ((readNum == 8) ? `NSEXT(trueData, 64, 64) : 0
       )));
     end
   end
