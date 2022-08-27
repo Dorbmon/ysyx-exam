@@ -63,6 +63,8 @@ always @(posedge clk) begin
                 valid1 [windex] = 1;
             end
             lastWrite [windex] = ~lastWrite [windex];
+            valid0 [wwindex] = 0;
+            valid1 [wwindex] = 0;
         end
         if (wUpdateData) begin
             valid0 [wwindex] = 0;
