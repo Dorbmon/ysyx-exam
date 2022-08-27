@@ -182,7 +182,7 @@ module axi_rw # (
             if (cache_hit) begin    // 缓存击中，那就直接读缓存
                 //$display("cache hit");
                 r_ready_o <= 1; // 告诉外部模块，已经读取到请求
-                r_state_addr <= 0;  // 那就不读了
+                r_state_addr <= 1;  // 那就不读了
             end else begin
                 r_ready_o <= 1; // 告诉外部模块，已经读取到请求
                 r_state_addr <= 1;  // 告知从机地址已准备就绪
@@ -191,17 +191,6 @@ module axi_rw # (
         if (r_valid_i && r_ready_o) begin
             if (cache_hit) begin
                 data_read_o <= cache_data;
-                // case (r_addr_i[2:0])
-                // default: data_read_o <= 0;
-                // 3'h1: data_read_o <= cache_data >> 8;
-                // 3'h2: data_read_o <= cache_data >> 16;
-                // 3'h3: data_read_o <= cache_data >> 24;
-                // 3'h4: data_read_o <= cache_data >> 32;
-                // 3'h5: data_read_o <= cache_data >> 40;
-                // 3'h6: data_read_o <= cache_data >> 48;
-                // 3'h7: data_read_o <= cache_data >> 56;
-                // 3'h0: data_read_o <= cache_data;
-                // endcase
                 r_data_valid <= 1;
             end
             r_ready_o <= 0;
@@ -211,17 +200,6 @@ module axi_rw # (
             r_state_read <= 1;
         end
         if (axi_r_valid_i && r_state_read) begin    // 从机数据读取完成
-            // case (r_addr_i[2:0])
-            // default: data_read_o <= 0;
-            // 3'h1: data_read_o <= axi_r_data_i >> 8;
-            // 3'h2: data_read_o <= axi_r_data_i >> 16;
-            // 3'h3: data_read_o <= axi_r_data_i >> 24;
-            // 3'h4: data_read_o <= axi_r_data_i >> 32;
-            // 3'h5: data_read_o <= axi_r_data_i >> 40;
-            // 3'h6: data_read_o <= axi_r_data_i >> 48;
-            // 3'h7: data_read_o <= axi_r_data_i >> 56;
-            // 3'h0: data_read_o <= axi_r_data_i;
-            // endcase
             data_read_o <= axi_r_data_i;
             // 告知缓存更新
             cache_update_en <= 1;
