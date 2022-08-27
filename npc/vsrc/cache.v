@@ -67,7 +67,6 @@ always @(posedge clk) begin
             //$display("ee");
             if ((lastWrite[wwindex] || tag0 [wwindex] == wwtag) && tag1 [wwindex] != wwtag) begin
                 // 那就写0
-                // [wwindex] = wActualData;
                 tag0 [wwindex] <= wwtag;
                 way0[wwindex][7: 0] <= wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
                 way0[wwindex][15: 8] <= wMask[1] ? wActualData [15: 8] : way0 [wwindex][15: 8];
