@@ -55,7 +55,7 @@ always @(posedge clk) begin
         if (updateData) begin
             tag0 [windex] <= wtag;
             way0 [windex] <= actualData;
-            //valid0 [windex] <= 1;
+            valid0 [windex] <= 1;
         end
         if (wUpdateData) begin
             valid0 [wwindex] <= 0;
