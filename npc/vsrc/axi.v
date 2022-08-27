@@ -226,7 +226,7 @@ module axi_rw # (
             if (cache_hit) begin
                 $display("read %x %x %x",{r_addr_i[63:3], 3'b0}, cache_data, axi_r_data_i);
             end else begin
-                $display("update %x %x", {r_addr_i[63:3], 3'b0}, axi_r_data_i);
+                $display("update %x %x %b", {r_addr_i[63:3], 3'b0}, axi_r_data_i, w_mask_i);
             end
             //$display("read.. %x", axi_r_data_i);
             r_state_read <= 0;
