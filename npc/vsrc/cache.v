@@ -51,7 +51,9 @@ always @(posedge clk) begin
         end
     end
     else begin
+        $display("first");
         if (updateData) begin   //读更新
+            $display("r");
             if (lastWrite[windex] || tag0 [windex] == wtag) begin
                 // 那就写0
                 way0 [windex] = actualData;
@@ -62,11 +64,10 @@ always @(posedge clk) begin
                 tag1 [windex] = wtag;
                 valid1 [windex] = 1;
             end
-            valid1 [windex] = 0;
-            valid0 [windex] = 1;
             lastWrite [windex] = ~lastWrite [windex];
         end
         if (wUpdateData) begin
+            $display("ee");
             valid0 [wwindex] = 0;
             valid1 [wwindex] = 0;
         //     if (lastWrite[wwindex] || tag0 [wwindex] == wwtag) begin
