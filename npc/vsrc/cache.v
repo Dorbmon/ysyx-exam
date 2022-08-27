@@ -64,31 +64,29 @@ always @(posedge clk) begin
             lastWrite [windex] <= ~lastWrite [windex];
         end
         if (wUpdateData) begin
-            valid0 [wwindex] <= 0;
-            valid1 [wwindex] <= 0;
-            // if ((lastWrite[wwindex] || tag0 [wwindex] == wwtag) && tag1 [wwindex] != wwtag) begin
-            //     // 那就写0
-            //     tag0 [wwindex] <= wwtag;
-            //     way0[wwindex][7: 0] <= wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
-            //     way0[wwindex][15: 8] <= wMask[1] ? wActualData [15: 8] : way0 [wwindex][15: 8];
-            //     way0[wwindex][23: 16] <= wMask[2] ? wActualData [23: 16] : way0 [wwindex][23: 16];
-            //     way0[wwindex][31: 24] <= wMask[3] ? wActualData [31: 24] : way0 [wwindex][31: 24];
-            //     way0[wwindex][39: 32] <= wMask[4] ? wActualData [39: 32] : way0 [wwindex][39: 32];
-            //     way0[wwindex][47: 40] <= wMask[5] ? wActualData [47: 40] : way0 [wwindex][47: 40];
-            //     way0[wwindex][55: 48] <= wMask[6] ? wActualData [55: 48] : way0 [wwindex][55: 48];
-            //     way0[wwindex][63: 56] <= wMask[7] ? wActualData [63: 56] : way0 [wwindex][63: 56];
-            // end else begin
-            //     tag1 [wwindex] <= wwtag;
-            //     way1[wwindex][7: 0] <= wMask[0] ? wActualData [7: 0] : way1 [wwindex][7: 0];
-            //     way1[wwindex][15: 8] <= wMask[1] ? wActualData [15: 8] : way1 [wwindex][15: 8];
-            //     way1[wwindex][23: 16] <= wMask[2] ? wActualData [23: 16] : way1 [wwindex][23: 16];
-            //     way1[wwindex][31: 24] <= wMask[3] ? wActualData [31: 24] : way1 [wwindex][31: 24];
-            //     way1[wwindex][39: 32] <= wMask[4] ? wActualData [39: 32] : way1 [wwindex][39: 32];
-            //     way1[wwindex][47: 40] <= wMask[5] ? wActualData [47: 40] : way1 [wwindex][47: 40];
-            //     way1[wwindex][55: 48] <= wMask[6] ? wActualData [55: 48] : way1 [wwindex][55: 48];
-            //     way1[wwindex][63: 56] <= wMask[7] ? wActualData [63: 56] : way1 [wwindex][63: 56];
-            // end
-            // lastWrite [wwindex] <= ~lastWrite [wwindex];
+            if ((lastWrite[wwindex] || tag0 [wwindex] == wwtag) && tag1 [wwindex] != wwtag) begin
+                // 那就写0
+                tag0 [wwindex] <= wwtag;
+                way0[wwindex][7: 0] <= wMask[0] ? wActualData [7: 0] : way0 [wwindex][7: 0];
+                way0[wwindex][15: 8] <= wMask[1] ? wActualData [15: 8] : way0 [wwindex][15: 8];
+                way0[wwindex][23: 16] <= wMask[2] ? wActualData [23: 16] : way0 [wwindex][23: 16];
+                way0[wwindex][31: 24] <= wMask[3] ? wActualData [31: 24] : way0 [wwindex][31: 24];
+                way0[wwindex][39: 32] <= wMask[4] ? wActualData [39: 32] : way0 [wwindex][39: 32];
+                way0[wwindex][47: 40] <= wMask[5] ? wActualData [47: 40] : way0 [wwindex][47: 40];
+                way0[wwindex][55: 48] <= wMask[6] ? wActualData [55: 48] : way0 [wwindex][55: 48];
+                way0[wwindex][63: 56] <= wMask[7] ? wActualData [63: 56] : way0 [wwindex][63: 56];
+            end else begin
+                tag1 [wwindex] <= wwtag;
+                way1[wwindex][7: 0] <= wMask[0] ? wActualData [7: 0] : way1 [wwindex][7: 0];
+                way1[wwindex][15: 8] <= wMask[1] ? wActualData [15: 8] : way1 [wwindex][15: 8];
+                way1[wwindex][23: 16] <= wMask[2] ? wActualData [23: 16] : way1 [wwindex][23: 16];
+                way1[wwindex][31: 24] <= wMask[3] ? wActualData [31: 24] : way1 [wwindex][31: 24];
+                way1[wwindex][39: 32] <= wMask[4] ? wActualData [39: 32] : way1 [wwindex][39: 32];
+                way1[wwindex][47: 40] <= wMask[5] ? wActualData [47: 40] : way1 [wwindex][47: 40];
+                way1[wwindex][55: 48] <= wMask[6] ? wActualData [55: 48] : way1 [wwindex][55: 48];
+                way1[wwindex][63: 56] <= wMask[7] ? wActualData [63: 56] : way1 [wwindex][63: 56];
+            end
+            lastWrite [wwindex] <= ~lastWrite [wwindex];
         end
     end
 end
