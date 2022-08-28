@@ -124,7 +124,6 @@ always @(negedge clk) begin
         mcause_o <= mcause_o;
     end
     else begin
-        $display("con");
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;
