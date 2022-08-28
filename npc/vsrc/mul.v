@@ -39,6 +39,7 @@ always @(posedge clk) begin
             positive <= multiplier [63];
             count <= 0;
             mul_ready <= 0;
+            $display("recieve");
         end
         if (~flush && mul_busy && count != 6'h1F) begin   // 如果已经进行了31次，那最后一次就要根据符号判断如何计算
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
