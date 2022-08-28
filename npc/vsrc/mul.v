@@ -37,7 +37,7 @@ always @(posedge clk) begin
             mul_res <= 0;
             
         end
-        if (~flush && ~mul_ready && count != 7'h3F) begin   // 如果已经进行了63次，那最后一次就要根据符号判断如何计算
+        if (~flush && ~mul_ready && count != 7'h3F) begin
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             l_multiplicand <= l_multiplicand << 1;
             l_multiplier <= l_multiplier >> 1;
