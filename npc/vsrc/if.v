@@ -79,6 +79,7 @@ always @(posedge clk) begin
             $display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
         end else if (~pc_delay && (rx_data_valid && rx_data_ready) && (pc == rx_r_addr_i)) begin
+            $display("update");
             // 第二个条件表示当前pc已经处理完成
             //$display("pc");
             pc <= pc + 4;

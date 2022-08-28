@@ -17,7 +17,6 @@ always @(negedge clk) begin
         pc_o <= pc_o;
         //$display("npc:%x", pc_o);
     end  else begin
-        $display("rr: %x", pc);
         inst_o <= inst;
         pc_o <= pc;
        // $display("npc:%x", pc);
