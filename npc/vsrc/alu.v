@@ -69,7 +69,7 @@ always @(posedge clk) begin
                 alu_wait <= 0;
                 res <= {mul_hi, mul_lo};
             end
-            res <= a * b;
+            //res <= a * b;
         end
         `ALU_REM: res <= $signed(a) % $signed(b);
         `ALU_DIVU: res <= a / b;
