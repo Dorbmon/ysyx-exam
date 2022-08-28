@@ -77,6 +77,7 @@ always @(negedge clk) begin
         // if (jalr) begin
         //     $display("ex_me jalr..");
         // end
+        $display("continue %x", pc);
         aluRes_o <= aluRes;
         memoryReadWen_o <= memoryReadWen;
         readNum_o <= readNum;
