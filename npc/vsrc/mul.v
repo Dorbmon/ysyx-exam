@@ -53,7 +53,7 @@ always @(posedge clk) begin
                 mul_res <= $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0);
             end
             count <= count + 1;
-            //out_valid <= 1;
+            out_valid <= 1;
             //$display("finish");
         end
         if (out_valid) begin
