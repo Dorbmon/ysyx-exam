@@ -53,6 +53,7 @@ reg axi_finished;
 always @(negedge clk) begin
     // 此时pc地址已经确定，可以向axi模块发送地址了
     if (axi_finished || (rx_r_addr_i == 0)) begin    // axi 模块
+        $display("start to read");
         rx_data_ready <= 0;
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
