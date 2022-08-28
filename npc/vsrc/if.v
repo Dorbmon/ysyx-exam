@@ -66,6 +66,7 @@ always @(negedge clk) begin
         $display("recieve address");
     end
     if ((rx_data_valid && rx_data_ready)) begin
+        rx_data_ready <= 0;
         $display("finish read...");
         axi_finished <= 1;
     end
