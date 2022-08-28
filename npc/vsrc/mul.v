@@ -35,13 +35,13 @@ always @(posedge clk) begin
             mul_ready <= 0;
             mul_res <= 0;
         end
-        if (~flush && ~mul_ready && count != 7'h3E) begin
+        if (~flush && ~mul_ready && count != 7'h3F) begin
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             l_multiplicand <= l_multiplicand << 1;
             l_multiplier <= l_multiplier >> 1;
             count <= count + 1;
         end
-        if (~flush && ~mul_ready && count == 7'h3E && ~out_valid) begin
+        if (~flush && ~mul_ready && count == 7'h3F && ~out_valid) begin
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             //$display("mul %x %x %x", multiplicand, multiplier, mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
             out_valid <= 1;
