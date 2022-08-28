@@ -46,10 +46,10 @@ always @(posedge clk) begin
             mul_res <= multiplicand * multiplier;
             //$display("mul %x %x %x", multiplicand, multiplier, mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
             out_valid <= 1;
+            mul_ready <= 1;
         end
         if (out_valid) begin
             out_valid <= 0;
-            mul_ready <= 1;
         end
     end
 end
