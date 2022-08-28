@@ -65,7 +65,7 @@ always @(posedge clk) begin
             //     alu_wait <= 1;
             //     $display("mul %x %x", a, b);
             // end
-            if (alu_wait) begin
+            if (mul_out_valid) begin
                 alu_wait <= 0;
                 res <= a * b;
             end
