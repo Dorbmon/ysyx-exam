@@ -15,6 +15,7 @@ reg mul_busy;
 initial begin
     mul_busy = 0;
     mul_res = 0;
+    mul_ready = 1;
 end
 reg [63:0] l_multiplicand, l_multiplier;
 reg [63:0] mul_res;
@@ -29,6 +30,7 @@ always @(posedge clk) begin
         mul_busy <= 0;
         mul_res <= 0;
         count <= 0;
+        mul_ready <= 1;
     end else begin
         if (mul_valid && (~mul_busy || flush)) begin
             mul_busy <= 1;
@@ -36,6 +38,7 @@ always @(posedge clk) begin
             l_multiplier <= multiplier;
             positive <= multiplier [63];
             count <= 0;
+            mul_ready <= 0;
         end
         if (~flush && mul_busy && count != 6'h1F) begin   // 如果已经进行了31次，那最后一次就要根据符号判断如何计算
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
@@ -55,6 +58,7 @@ always @(posedge clk) begin
         if (out_valid) begin
             out_valid <= 0;
             mul_busy <= 0;
+            mul_ready <= 1;
         end
     end
 end
