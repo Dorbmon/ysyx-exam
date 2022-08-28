@@ -24,7 +24,7 @@ wire [63:0] rawData;
 wire [31:0] inst;
 reg [63:0] pc;
 initial begin
-    pc = 64'h80000000 - 64'h4;
+    pc = 64'h80000000;
     rx_r_addr_i = 64'h00000000;
     rx_data_ready = 0;
     rx_r_valid_i = 0;
