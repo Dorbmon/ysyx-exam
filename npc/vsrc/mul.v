@@ -21,8 +21,6 @@ reg [6:0] count;
 wire op1sign, op2sign;
 assign result_hi = mul_res [63:32];
 assign result_lo = mul_res [31:0];
-always @(negedge clk) begin   // 重置数据
-end
 always @(posedge clk) begin
     if (rst) begin
         mul_res <= 0;
