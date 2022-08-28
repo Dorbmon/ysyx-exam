@@ -30,7 +30,7 @@ ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_va
 // 第二个操作数为imm或者rs2
 always @(posedge clk) begin
     if (operate != `ALU_MUL) begin
-        alu_wait <= 0;
+        //alu_wait <= 0;
     end
     case(operate)
         `ALU_ADD: begin
