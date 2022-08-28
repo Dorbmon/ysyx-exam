@@ -54,6 +54,7 @@ always @(posedge clk) begin
                 alu_wait <= 1;   // 卡住alu
                 mul_valid <= 1;
                 waitNum <= 0;
+                $display("start");
             end
             
             if (mul_valid) begin
@@ -61,6 +62,7 @@ always @(posedge clk) begin
             end
             if (mul_out_valid) begin
                 alu_wait <= 0;
+                $display("end");
                 res <= {mul_hi, mul_lo};
                 $display ("finish %d %d %d %d", a, b, {mul_hi, mul_lo}, a*b);
             end
