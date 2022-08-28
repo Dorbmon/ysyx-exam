@@ -66,6 +66,7 @@ always @(posedge clk) begin
                 mul_valid <= 0;
             end
             if (ccc == 32'd33 && alu_wait) begin
+                $display("finish");
                 alu_wait <= 0;
                 //res <= a * b;
                 res <= a * b;
