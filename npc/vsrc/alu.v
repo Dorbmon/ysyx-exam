@@ -68,7 +68,7 @@ always @(posedge clk) begin
             //     alu_wait <= 1;
             //     $display("mul %x %x", a, b);
             // end
-            if (waitNum == 32'h10 && alu_wait) begin
+            if (waitNum == 32'h31 && alu_wait) begin
                 alu_wait <= 0;
                 res <= a * b;
                 waitNum <= 0;
