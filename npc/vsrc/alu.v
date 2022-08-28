@@ -60,21 +60,14 @@ always @(posedge clk) begin
                 mul_valid <= 0;
             end
             if (mul_out_valid) begin
-                //alu_wait <= 0;
-                //res <= {mul_hi, mul_lo};
+                alu_wait <= 0;
+                res <= {mul_hi, mul_lo};
                 $display ("finish %d %d %d %d", a, b, {mul_hi, mul_lo}, a*b);
             end
             // if (~alu_wait) begin
             //     alu_wait <= 1;
             //     $display("mul %x %x", a, b);
             // end
-            if (waitNum == 32'h31 && alu_wait) begin
-                alu_wait <= 0;
-                res <= a * b;
-                waitNum <= 0;
-            end else begin
-                waitNum <= waitNum + 1;
-            end
             
         end
         `ALU_REM: res <= $signed(a) % $signed(b);
