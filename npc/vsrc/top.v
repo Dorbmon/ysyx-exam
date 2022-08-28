@@ -142,10 +142,13 @@ ysyx_22041207_dataforward data_forward(ex_r1addr, ex_r2addr, ex_r1data, ex_r2dat
  wb_writeRD, wb_rwaddr, wb_writeBackData, ex_forward_rs1, ex_forward_rs2
 );
 wire ex_csrWen;
+wire ex_alu_wait;
 ysyx_22041207_csrOrder rex_csrOrder(clk, ex_csrOrder);
 
 ysyx_22041207_alu ex_alu(
     clk,
+    rst,
+    flush,
     ex_pc,
     ex_aluOperate,
     ex_forward_rs1,
@@ -155,10 +158,11 @@ ysyx_22041207_alu ex_alu(
     ex_sel_a,
     ex_sel_b,
     ex_rs1to32,  // rs1 转换为32bit
-    ex_aluRes
+    ex_aluRes,
+    ex_alu_wait
 );
 // bubble决定下次是否需要重新计算
-ysyx_22041207_Bubble rx_bubble (clk, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, me_wait_for_axi, bubble);
+ysyx_22041207_Bubble rx_bubble (clk, ex_alu_wait, ex_r1addr, ex_r2addr, me_rwaddr, me_readNum, me_wait_for_axi, bubble);
 wire [63:0] me_csrValue;
 wire [63:0] me_writeBackData;
 ysyx_22041207_WB me_builtin_wb(me_aluRes, me_pc, me_memoryReadData, me_imm, me_csrValue, me_writeBackDataSelect, me_writeBackData);
