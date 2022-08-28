@@ -48,7 +48,7 @@ always @(posedge clk) begin
             l_multiplier <= l_multiplier >> 1;
             count <= count + 1;
         end
-        if (~flush && mul_busy && count == 7'h3F) begin
+        if (~flush && mul_busy && count == 7'h3F && ~out_valid) begin
             if (positive) begin
                 mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
                 $display("finish %d",  mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
@@ -58,7 +58,6 @@ always @(posedge clk) begin
             end
             count <= count + 1;
             out_valid <= 1;
-            
         end
         if (out_valid) begin
             out_valid <= 0;
