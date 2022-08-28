@@ -36,6 +36,7 @@ always @(posedge clk) begin
             count <= 0;
             mul_ready <= 0;
             mul_res <= 0;
+            out_valid <= 0;
         end
         if (~flush && ~mul_ready && count != 8'h3F) begin
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
