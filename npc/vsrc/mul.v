@@ -42,7 +42,7 @@ always @(posedge clk) begin
             count <= count + 1;
         end
         if (~flush && ~mul_ready && count == 8'h3F && ~out_valid) begin
-            mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
+            //mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             //$display("mul %x %x %x", multiplicand, multiplier, mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
             out_valid <= 1;
         end
