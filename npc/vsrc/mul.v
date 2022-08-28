@@ -39,8 +39,9 @@ always @(posedge clk) begin
             positive <= multiplier [63];
             count <= 0;
             mul_ready <= 0;
+            $display("mul %d %d", multiplicand, multiplier);
         end
-        if (~flush && mul_busy && count != 7'h3F) begin   // 如果已经进行了31次，那最后一次就要根据符号判断如何计算
+        if (~flush && mul_busy && count != 7'h3F) begin   // 如果已经进行了63次，那最后一次就要根据符号判断如何计算
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             l_multiplicand <= l_multiplicand << 1;
             l_multiplier <= l_multiplier >> 1;
@@ -49,12 +50,14 @@ always @(posedge clk) begin
         if (~flush && mul_busy && count == 7'h3F) begin
             if (positive) begin
                 mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
+                $display("finish %d",  mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
             end else begin
                 mul_res <= $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0);
+                $display("finish %d", $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0));
             end
             count <= count + 1;
             out_valid <= 1;
-            //$display("finish");
+            
         end
         if (out_valid) begin
             out_valid <= 0;
