@@ -93,8 +93,7 @@ always @(negedge clk) begin
         csr_order_o <= csr_order_o;
         mcause_o <= mcause_o;
     end
-    else
-    if (flush | clear_afterID) begin
+    else if (flush | clear_afterID) begin
         $display("flush");
         aluOperate_o <= 0;
         sel_a_o <= 0;
@@ -126,6 +125,7 @@ always @(negedge clk) begin
         mcause_o <= 0;
     end
     else begin
+        $display("con");
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;
