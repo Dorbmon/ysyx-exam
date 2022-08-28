@@ -17,8 +17,10 @@ initial begin
 end
 reg [63:0] l_multiplicand, l_multiplier;
 reg [63:0] mul_res;
-reg positive;   // 乘数是否为正数
 reg [6:0] count;
+wire op1sign, op2sign;
+assign op1sign = multiplicand[63];
+assign op2sign = multiplier  [63];
 assign result_hi = mul_res [63:32];
 assign result_lo = mul_res [31:0];
 always @(negedge clk) begin   // 重置数据
@@ -30,9 +32,8 @@ always @(posedge clk) begin
         mul_ready <= 1;
     end else begin
         if (mul_valid && (mul_ready || flush)) begin
-            l_multiplicand <= multiplicand;
-            l_multiplier <= multiplier;
-            positive <= multiplier [63];
+            l_multiplicand <= op1sign ? (~multiplicand + 1) : multiplicand;
+            l_multiplier <= op2sign? (~multiplier + 1) : multiplier;
             count <= 0;
             mul_ready <= 0;
             mul_res <= 0;
@@ -45,12 +46,10 @@ always @(posedge clk) begin
             count <= count + 1;
         end
         if (~flush && ~mul_ready && count == 7'h3F && ~out_valid) begin
-            if (positive) begin
-                mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
-                $display("finish %d",  mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
+            if (op1sign != op2sign) begin
+                mul_res <= ~(mul_res + ((l_multiplier[0]) ? l_multiplicand : 0)) + 1;
             end else begin
-                mul_res <= $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0);
-                $display("finish %d", $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0));
+                mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             end
             out_valid <= 1;
         end
