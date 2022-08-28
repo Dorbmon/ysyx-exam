@@ -123,6 +123,7 @@ always @(negedge clk) begin
         mcause_o <= mcause_o;
     end
     else begin
+        $display("%x %d", pc, aluOperate);
         aluOperate_o <= aluOperate;
         sel_a_o <= sel_a;
         sel_b_o <= sel_b;
