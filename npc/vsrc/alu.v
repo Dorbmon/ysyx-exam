@@ -55,7 +55,7 @@ always @(posedge clk) begin
         `ALU_MUL: begin
             if (~alu_wait) begin
                 alu_wait <= 1;   // 卡住alu
-                mul_valid <= 1;
+                //mul_valid <= 1;
                 $display("start");
                 ccc <= 0;
             end else begin
@@ -67,8 +67,8 @@ always @(posedge clk) begin
             end
             if (ccc == 32'd66 && alu_wait) begin
                 alu_wait <= 0;
-                //res <= a * b;
-                res <= mul_res;
+                res <= a * b;
+                //res <= mul_res;
                 $display ("%x finish %d %d %d %d", pc, a, b, mul_res, a*b);
             end
             // if (alu_wait) begin
