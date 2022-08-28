@@ -95,6 +95,7 @@ always @(negedge clk) begin
     end
     else
     if (flush | clear_afterID) begin
+        $display("flush");
         aluOperate_o <= 0;
         sel_a_o <= 0;
         sel_b_o <= 0;
