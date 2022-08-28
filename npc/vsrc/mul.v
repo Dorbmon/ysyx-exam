@@ -20,7 +20,7 @@ end
 reg [63:0] l_multiplicand, l_multiplier;
 reg [63:0] mul_res;
 reg positive;   // 乘数是否为正数
-reg [5:0] count;
+reg [6:0] count;
 assign result_hi = mul_res [63:32];
 assign result_lo = mul_res [31:0];
 always @(negedge clk) begin   // 重置数据
@@ -40,20 +40,20 @@ always @(posedge clk) begin
             count <= 0;
             mul_ready <= 0;
         end
-        if (~flush && mul_busy && count != 6'h1F) begin   // 如果已经进行了31次，那最后一次就要根据符号判断如何计算
+        if (~flush && mul_busy && count != 7'h3F) begin   // 如果已经进行了31次，那最后一次就要根据符号判断如何计算
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             l_multiplicand <= l_multiplicand << 1;
             l_multiplier <= l_multiplier >> 1;
             count <= count + 1;
         end
-        if (~flush && mul_busy && count == 6'h1F) begin
+        if (~flush && mul_busy && count == 7'h3F) begin
             if (positive) begin
                 mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             end else begin
                 mul_res <= $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0);
             end
             count <= count + 1;
-            out_valid <= 1;
+            //out_valid <= 1;
             $display("finish");
         end
         if (out_valid) begin
