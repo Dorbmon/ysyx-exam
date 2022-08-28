@@ -39,6 +39,7 @@ always @(posedge clk) begin
             positive <= multiplier [63];
             count <= 0;
             mul_ready <= 0;
+            mul_res <= 0;
             $display("mul %d %d", multiplicand, multiplier);
         end
         if (~flush && mul_busy && count != 7'h3F) begin   // 如果已经进行了63次，那最后一次就要根据符号判断如何计算
