@@ -54,7 +54,7 @@ always @(posedge clk) begin
                 $display("finish %d",  mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
             end else begin
                 mul_res <= $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0);
-                //$display("finish %d", $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0));
+                $display("finish %d", $signed(mul_res) - ((l_multiplier[0]) ? $signed(l_multiplicand) : 0));
             end
             out_valid <= 1;
         end
