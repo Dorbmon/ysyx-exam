@@ -64,6 +64,7 @@ always @(negedge clk) begin
         rx_data_ready <= 1;
     end
     if ((rx_data_valid && rx_data_ready)) begin
+        $display("finish read...");
         axi_finished <= 1;
     end
 end
@@ -93,7 +94,5 @@ always @(posedge clk) begin
         end else begin
             pc <= pc;
         end
-
-
 end
 endmodule
