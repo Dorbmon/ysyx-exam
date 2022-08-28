@@ -23,7 +23,7 @@ reg mul_valid;
 wire mul_ready, mul_out_valid;
 wire [31:0] mul_hi, mul_lo;
 initial begin
-    alu_wait = 0;
+    alu_wait = 1;
 end
 ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_valid, mul_hi, mul_lo);
 // ALU的第一个操作数是pc或者rs1
