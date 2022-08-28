@@ -63,7 +63,7 @@ module ysyx_22041207_ID_EX (
 always @(negedge clk) begin
     //$display("pc:%x jal:%d", pc, jal);
     if (bubble) begin
-        $display("bubble");
+        $display("bubble %d", aluOperate_o);
         aluOperate_o <= aluOperate_o;
         sel_a_o <= sel_a_o;
         sel_b_o <= sel_b_o;
