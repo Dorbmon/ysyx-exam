@@ -26,6 +26,7 @@ assign result_lo = mul_res [31:0];
 always @(negedge clk) begin   // 重置数据
 end
 always @(posedge clk) begin
+    $display("mul clk..");
     if (rst) begin
         mul_busy <= 0;
         mul_res <= 0;
