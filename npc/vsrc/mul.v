@@ -13,6 +13,7 @@ module ysyx_22041207_mul (
 initial begin
     mul_res = 0;
     mul_ready = 1;
+    out_valid = 0;
 end
 reg [63:0] l_multiplicand, l_multiplier;
 reg [63:0] mul_res;
