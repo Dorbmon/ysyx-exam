@@ -14,6 +14,7 @@ initial begin
     mul_res = 0;
     mul_ready = 1;
     out_valid = 0;
+    count = 0;
 end
 reg [63:0] l_multiplicand, l_multiplier;
 reg [63:0] mul_res;
@@ -26,6 +27,7 @@ always @(posedge clk) begin
         mul_res <= 0;
         count <= 0;
         mul_ready <= 1;
+        out_valid <= 0;
     end else begin
         if (mul_valid && (mul_ready || flush)) begin
             //$display("mul %x %x", multiplicand, multiplier);
