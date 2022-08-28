@@ -29,7 +29,7 @@ ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_va
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
 always @(posedge clk) begin
-    //$display("alu... %d %d", operate, `ALU_MUL);
+    $display("alu... %d %d", operate, `ALU_MUL);
     case(operate)
         `ALU_ADD: begin
             res <= a + b;
