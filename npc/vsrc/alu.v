@@ -50,22 +50,22 @@ always @(posedge clk) begin
         end
         `ALU_SLTU: res <= a < b ? 64'b1 : 64'b0;
         `ALU_MUL: begin
-            // $display("waiting...");
-            // if (~alu_wait) begin
-            //     alu_wait <= 1;   // 卡住alu
-            //     // 开始计算
-            //     if (mul_ready) begin
-            //         mul_valid <= 1;
-            //     end
-            // end
-            // if (mul_valid) begin
-            //     mul_valid <= 0;
-            // end
-            // if (mul_out_valid) begin
-            //     //alu_wait <= 0;
-            //     res <= {mul_hi, mul_lo};
-            // end
-            res <= a * b;
+            $display("waiting...");
+            if (~alu_wait) begin
+                alu_wait <= 1;   // 卡住alu
+                // 开始计算
+                if (mul_ready) begin
+                    mul_valid <= 1;
+                end
+            end
+            if (mul_valid) begin
+                mul_valid <= 0;
+            end
+            if (mul_out_valid) begin
+                alu_wait <= 0;
+                res <= {mul_hi, mul_lo};
+            end
+            //res <= a * b;
         end
         `ALU_REM: res <= $signed(a) % $signed(b);
         `ALU_DIVU: res <= a / b;
