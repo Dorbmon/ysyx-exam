@@ -8,7 +8,7 @@ module ysyx_22041207_Bubble (
     input waitForAXI,
     output reg bubble
 );
-always @(*) begin
+always @(posedge clk) begin
     if (me_readNum == 4'b0) begin
         bubble = ex_alu_wait | waitForAXI;
     end else begin
