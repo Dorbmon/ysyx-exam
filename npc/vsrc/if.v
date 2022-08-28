@@ -49,28 +49,30 @@ always @(posedge clk) begin
         pc_o <= 0;
     end
 end
-always @(posedge clk) begin
-    if (((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0) || axi_finished) && (rx_r_addr_i != pc)) begin    // 读取下一个pc
+reg axi_finished;
+always @(negedge clk) begin
+    // 此时pc地址已经确定，可以向axi模块发送地址了
+    if (axi_finished || (rx_r_addr_i == 0)) begin    // axi 模块
         rx_data_ready <= 0;
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
         axi_finished <= 0;
         //$display("start to read pc:%x", pc);
     end
-    
     if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
         rx_r_valid_i <= 0;
         rx_data_ready <= 1;
     end
+    if ((rx_data_valid && rx_data_ready)) begin
+        axi_finished <= 1;
+    end
+end
+always @(posedge clk) begin
+    
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-reg axi_finished;
 always @(posedge clk) begin
-        if (rx_data_valid && rx_data_ready) begin   // 当前pc已经处理完成
-            axi_finished <= 1;
-        end
-
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal... %x", me_pc + me_imm);
             pc <= me_pc + me_imm;
