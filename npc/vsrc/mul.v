@@ -11,9 +11,7 @@ module ysyx_22041207_mul (
     output [31:0] result_hi,
     output [31:0] result_lo
 );
-reg mul_busy;
 initial begin
-    mul_busy = 0;
     mul_res = 0;
     mul_ready = 1;
 end
@@ -27,13 +25,11 @@ always @(negedge clk) begin   // 重置数据
 end
 always @(posedge clk) begin
     if (rst) begin
-        mul_busy <= 0;
         mul_res <= 0;
         count <= 0;
         mul_ready <= 1;
     end else begin
-        if (mul_valid && (~mul_busy || flush)) begin
-            mul_busy <= 1;
+        if (mul_valid && (mul_ready || flush)) begin
             l_multiplicand <= multiplicand;
             l_multiplier <= multiplier;
             positive <= multiplier [63];
@@ -42,13 +38,13 @@ always @(posedge clk) begin
             mul_res <= 0;
             $display("mul %d %d", multiplicand, multiplier);
         end
-        if (~flush && mul_busy && count != 7'h3F) begin   // 如果已经进行了63次，那最后一次就要根据符号判断如何计算
+        if (~flush && ~mul_ready && count != 7'h3F) begin   // 如果已经进行了63次，那最后一次就要根据符号判断如何计算
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             l_multiplicand <= l_multiplicand << 1;
             l_multiplier <= l_multiplier >> 1;
             count <= count + 1;
         end
-        if (~flush && mul_busy && count == 7'h3F && ~out_valid) begin
+        if (~flush && ~mul_ready && count == 7'h3F && ~out_valid) begin
             if (positive) begin
                 mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
                 $display("finish %d",  mul_res + ((l_multiplier[0]) ? l_multiplicand : 0));
@@ -60,7 +56,6 @@ always @(posedge clk) begin
         end
         if (out_valid) begin
             out_valid <= 0;
-            mul_busy <= 0;
             mul_ready <= 1;
         end
     end
