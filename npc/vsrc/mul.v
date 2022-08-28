@@ -28,7 +28,7 @@ always @(posedge clk) begin
         mul_ready <= 1;
     end else begin
         if (mul_valid && (mul_ready || flush)) begin
-            $display("mul %x %x", multiplicand, multiplier);
+            //$display("mul %x %x", multiplicand, multiplier);
             l_multiplicand <= multiplicand;
             l_multiplier <= multiplier;
             count <= 0;
