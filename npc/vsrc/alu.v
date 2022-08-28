@@ -49,7 +49,6 @@ always @(posedge clk) begin
         end
         `ALU_SLTU: res <= a < b ? 64'b1 : 64'b0;
         `ALU_MUL: begin
-            $display("here");
             if (~alu_wait) begin
                 alu_wait <= 1;   // 卡住alu
                 // 开始计算
@@ -61,6 +60,7 @@ always @(posedge clk) begin
                 mul_valid <= 0;
             end
             if (mul_out_valid) begin
+                $display("mul out valid");
                 alu_wait <= 0;
                 res <= {mul_hi, mul_lo};
             end
