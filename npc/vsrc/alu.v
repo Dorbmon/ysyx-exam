@@ -53,10 +53,10 @@ always @(posedge clk) begin
                 alu_wait <= 1;   // 卡住alu
                 mul_valid <= 1;
             end
-            if (mul_valid) begin
+            else if (mul_valid) begin
                 mul_valid <= 0;
             end
-            if (mul_out_valid) begin
+            else if (mul_out_valid) begin
                 alu_wait <= 0;
                 res <= {mul_hi, mul_lo};
                 $display ("finish %d %d %d %d", a, b, {mul_hi, mul_lo}, a*b);
