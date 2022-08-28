@@ -3,7 +3,6 @@ module ysyx_22041207_mul (
     input rst,
     input mul_valid,
     input flush,
-    //input [1:0] mul_signed,
     input [63:0] multiplicand,  // 被乘数
     input [63:0] multiplier,    // 乘数
     output reg mul_ready,
