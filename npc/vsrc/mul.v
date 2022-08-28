@@ -49,7 +49,6 @@ always @(posedge clk) begin
             //$display("mul %x %x %x", multiplicand, multiplier, mul_res);
             out_valid <= 1;
             count <= 0;
-            mul_ready <= 1;
         end
         if (out_valid) begin
             mul_ready <= 1;

@@ -60,7 +60,7 @@ always @(posedge clk) begin
             if (mul_valid) begin
                 mul_valid <= 0;
             end
-            if (mul_out_valid) begin
+            if (mul_out_valid && alu_wait) begin
                 alu_wait <= 0;
                 res <= {mul_hi, mul_lo};
                 $display ("finish %d %d %d %d", a, b, {mul_hi, mul_lo}, a*b);
