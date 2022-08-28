@@ -7,8 +7,7 @@ module ysyx_22041207_mul (
     input [63:0] multiplier,    // 乘数
     output reg mul_ready,
     output reg out_valid,
-    output [31:0] result_hi,
-    output [31:0] result_lo
+    output reg [63:0] mul_res_o
 );
 initial begin
     mul_res = 0;
@@ -20,8 +19,6 @@ reg [63:0] l_multiplicand, l_multiplier;
 reg [63:0] mul_res;
 reg [7:0] count;
 wire op1sign, op2sign;
-assign result_hi = mul_res [63:32];
-assign result_lo = mul_res [31:0];
 always @(posedge clk) begin
     if (rst) begin
         mul_res <= 0;
@@ -36,7 +33,6 @@ always @(posedge clk) begin
             count <= 0;
             mul_ready <= 0;
             mul_res <= 0;
-            out_valid <= 0;
         end
         if (~flush && ~mul_ready && count != 8'h3F) begin
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
@@ -50,6 +46,7 @@ always @(posedge clk) begin
             //$display("mul %x %x %x", multiplicand, multiplier, mul_res);
             out_valid <= 1;
             count <= 0;
+            mul_res_o <= mul_res;
         end
         if (out_valid) begin
             mul_ready <= 1;

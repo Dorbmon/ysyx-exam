@@ -21,11 +21,11 @@ assign a = (sel_a == 2'b1) ? (rs1to32 ? {32'b0, rs1 [31:0]} : rs1) : pc;
 assign b = (sel_b == 2'b1) ? rs2 : ((sel_b == 2'h2) ? csr : imm);
 reg mul_valid;
 wire mul_ready, mul_out_valid;
-wire [31:0] mul_hi, mul_lo;
+wire [63:0] mul_res;
 initial begin
     alu_wait = 0;
 end
-ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_valid, mul_hi, mul_lo);
+ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_valid, mul_res);
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
 always @(posedge clk) begin
@@ -59,8 +59,8 @@ always @(posedge clk) begin
             end
             if (mul_out_valid && alu_wait) begin
                 alu_wait <= 0;
-                res <= {mul_hi, mul_lo};
-                $display ("finish %d %d %d %d", a, b, {mul_hi, mul_lo}, a*b);
+                res <= mul_res;
+                $display ("finish %d %d %d %d", a, b, mul_res, a*b);
             end
             // if (~alu_wait) begin
             //     alu_wait <= 1;
