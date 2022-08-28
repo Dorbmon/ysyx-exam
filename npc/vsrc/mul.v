@@ -54,6 +54,7 @@ always @(posedge clk) begin
             end
             count <= count + 1;
             out_valid <= 1;
+            $display("finish");
         end
         if (out_valid) begin
             out_valid <= 0;
