@@ -10,7 +10,7 @@ module ysyx_22041207_Bubble (
 );
 always @(*) begin
     if (me_readNum == 4'b0) begin
-        bubble = 1'b0;
+        bubble = ex_alu_wait | waitForAXI;
     end else begin
         bubble = (ex_alu_wait | waitForAXI | ((me_rd == ex_r1 || me_rd == ex_r2) && me_rd != 0)) ? 1'b1 : 1'b0;
     end
