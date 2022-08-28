@@ -50,7 +50,7 @@ always @(posedge clk) begin
         end
         `ALU_SLTU: res <= a < b ? 64'b1 : 64'b0;
         `ALU_MUL: begin
-            $display("waiting...");
+            // $display("waiting...");
             // if (~alu_wait) begin
             //     alu_wait <= 1;   // 卡住alu
             //     // 开始计算
