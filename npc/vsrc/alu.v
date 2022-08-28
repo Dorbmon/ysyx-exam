@@ -28,6 +28,7 @@ end
 ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_valid, mul_hi, mul_lo);
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
+reg [31:0] waitNum;
 always @(posedge clk) begin
     case(operate)
         `ALU_ADD: begin
@@ -52,7 +53,9 @@ always @(posedge clk) begin
             if (~alu_wait) begin
                 alu_wait <= 1;   // 卡住alu
                 mul_valid <= 1;
+                waitNum <= 0;
             end
+            
             if (mul_valid) begin
                 mul_valid <= 0;
             end
@@ -65,9 +68,12 @@ always @(posedge clk) begin
             //     alu_wait <= 1;
             //     $display("mul %x %x", a, b);
             // end
-            if (mul_out_valid && alu_wait) begin
+            if (waitNum == 32'h10 && alu_wait) begin
                 alu_wait <= 0;
                 res <= a * b;
+                waitNum <= 0;
+            end else begin
+                waitNum <= waitNum + 1;
             end
             
         end
