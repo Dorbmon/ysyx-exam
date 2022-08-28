@@ -28,7 +28,6 @@ initial begin
     rx_r_addr_i = 64'h00000000;
     rx_data_ready = 0;
     rx_r_valid_i = 0;
-    nowPcTransfered = 0;
 end
 assign rx_r_size_i = 8'b00001111;
 // ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
@@ -55,6 +54,7 @@ always @(posedge clk) begin
         rx_data_ready <= 0;
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
+        axi_finished <= 0;
         //$display("start to read pc:%x", pc);
     end
     
@@ -65,34 +65,27 @@ always @(posedge clk) begin
 end
 wire [63:0] addRes;
 assign addRes = me_r1data + me_imm;
-reg nowPcTransfered;    // 当前PC有没有被使用完
-always @(negedge clk) begin
-    
-end
+reg axi_finished;
 always @(posedge clk) begin
-    if (~pc_delay) begin
-        nowPcTransfered <= 1;   // 当前pc已经读取完了，且成功传递了，没有卡在中间
-    end
+        if (rx_data_valid && rx_data_ready) begin
+            axi_finished <= 1;
+        end
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal... %x", me_pc + me_imm);
             pc <= me_pc + me_imm;
-            nowPcTransfered <= 0;
         end
         else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
             //$display("catch jalr...");
             //$display("jalr %x", {addRes[63:1], 1'b0});
             pc <= {addRes[63:1], 1'b0};
-            nowPcTransfered <= 0;
         end
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
-            nowPcTransfered <= 0;
-        end else if (nowPcTransfered && (rx_data_valid && rx_data_ready) && (pc == rx_r_addr_i)) begin
+        end else if (~pc_delay && (axi_finished || (rx_data_valid && rx_data_ready)) && (pc == rx_r_addr_i)) begin
             // 第二个条件表示当前pc已经处理完成
             pc <= pc + 4;
-            nowPcTransfered <= 0;
         end else begin
             pc <= pc;
         end
