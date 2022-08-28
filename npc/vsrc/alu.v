@@ -60,7 +60,6 @@ always @(posedge clk) begin
                 mul_valid <= 0;
             end
             if (mul_out_valid) begin
-                $display("recieve");
                 alu_wait <= 0;
                 res <= {mul_hi, mul_lo};
             end
