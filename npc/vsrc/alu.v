@@ -67,7 +67,8 @@ always @(posedge clk) begin
             end
             if (ccc == 32'h63 && alu_wait) begin
                 alu_wait <= 0;
-                res <= a * b;
+                //res <= a * b;
+                res <= mul_res;
                 $display ("%x finish %d %d %d %d", pc, a, b, mul_res, a*b);
             end
             // if (alu_wait) begin
