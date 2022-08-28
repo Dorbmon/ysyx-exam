@@ -53,7 +53,7 @@ always @(posedge clk) begin
                 alu_wait <= 1;   // 卡住alu
                 // 开始计算
                 if (mul_ready) begin
-                    $display("start %d %d %x", a, b, pc);
+                    $display("start %d %d %x", a, b, operate);
                     mul_valid <= 1;
                 end
             end
