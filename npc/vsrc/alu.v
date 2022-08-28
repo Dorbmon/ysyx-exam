@@ -57,6 +57,9 @@ always @(posedge clk) begin
                 alu_wait <= 1;   // 卡住alu
                 //mul_valid <= 1;
                 $display("start");
+                ccc <= 0;
+            end else begin
+                ccc <= ccc + 1;
             end
 
             if (mul_valid) begin
