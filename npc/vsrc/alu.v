@@ -65,7 +65,7 @@ always @(posedge clk) begin
             if (mul_valid) begin
                 mul_valid <= 0;
             end
-            if (ccc == 32'h63 && alu_wait) begin
+            if (ccc == 32'o63 && alu_wait) begin
                 alu_wait <= 0;
                 //res <= a * b;
                 res <= mul_res;
