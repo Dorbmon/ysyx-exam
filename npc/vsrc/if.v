@@ -50,7 +50,7 @@ always @(posedge clk) begin
     end
 end
 always @(posedge clk) begin
-    if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin    // 读取下一个pc
+    if (((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0) || axi_finished) && (rx_r_addr_i != pc)) begin    // 读取下一个pc
         rx_data_ready <= 0;
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
@@ -70,25 +70,22 @@ always @(posedge clk) begin
         if (rx_data_valid && rx_data_ready) begin   // 当前pc已经处理完成
             axi_finished <= 1;
         end
+
         if (me_jal || (me_branch && me_aluRes == 0)) begin
             //$display("catch jal... %x", me_pc + me_imm);
-            axi_finished <= 0;
             pc <= me_pc + me_imm;
         end
         else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
             //$display("catch jalr...");
             //$display("jalr %x", {addRes[63:1], 1'b0});
-            axi_finished <= 0;
             pc <= {addRes[63:1], 1'b0};
         end
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
-            axi_finished <= 0;
             pc <= csr_mtvec;
         end else if (~pc_delay && (axi_finished || (rx_data_valid && rx_data_ready)) && (pc == rx_r_addr_i)) begin
             $display("update %x", pc + 4);
-            axi_finished <= 0;
             // 第二个条件表示当前pc已经处理完成
             pc <= pc + 4;
         end else begin
