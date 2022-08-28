@@ -23,7 +23,7 @@ reg mul_valid;
 wire mul_ready, mul_out_valid;
 wire [31:0] mul_hi, mul_lo;
 initial begin
-    alu_wait = 1;
+    alu_wait = 0;
 end
 ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_valid, mul_hi, mul_lo);
 // ALU的第一个操作数是pc或者rs1
@@ -51,21 +51,22 @@ always @(posedge clk) begin
         `ALU_SLTU: res <= a < b ? 64'b1 : 64'b0;
         `ALU_MUL: begin
             $display("waiting...");
-            if (~alu_wait) begin
-                alu_wait <= 1;   // 卡住alu
-                // 开始计算
-                if (mul_ready) begin
-                    $display("start");
-                    mul_valid <= 1;
-                end
-            end
-            if (mul_valid) begin
-                mul_valid <= 0;
-            end
-            if (mul_out_valid) begin
-                //alu_wait <= 0;
-                res <= {mul_hi, mul_lo};
-            end
+            // if (~alu_wait) begin
+            //     alu_wait <= 1;   // 卡住alu
+            //     // 开始计算
+            //     if (mul_ready) begin
+            //         $display("start");
+            //         mul_valid <= 1;
+            //     end
+            // end
+            // if (mul_valid) begin
+            //     mul_valid <= 0;
+            // end
+            // if (mul_out_valid) begin
+            //     //alu_wait <= 0;
+            //     res <= {mul_hi, mul_lo};
+            // end
+            res <= a * b;
         end
         `ALU_REM: res <= $signed(a) % $signed(b);
         `ALU_DIVU: res <= a / b;
