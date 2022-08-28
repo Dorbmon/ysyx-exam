@@ -58,8 +58,10 @@ always @(posedge clk) begin
                 //mul_valid <= 1;
                 $display("start");
                 ccc <= 0;
+            end else begin
+                ccc <= ccc + 1;
             end
-            ccc <= ccc + 1;
+            
             if (mul_valid) begin
                 mul_valid <= 0;
             end
