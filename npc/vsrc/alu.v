@@ -57,7 +57,6 @@ always @(posedge clk) begin
             if (mul_valid) begin
                 mul_valid <= 0;
             end
-            $display("%d", mul_out_valid);
             if (mul_out_valid && alu_wait) begin
                 alu_wait <= 0;
                 res <= a * b;
