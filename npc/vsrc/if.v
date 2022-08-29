@@ -50,7 +50,7 @@ always @(posedge clk) begin
     end
 end
 reg axi_finished;
-
+wire [63:0] pcPlus4 = pc + 4;
 always @(posedge clk) begin
     if (axi_finished || (rx_r_addr_i == 0)) begin
         // 有两种情况
@@ -58,10 +58,10 @@ always @(posedge clk) begin
         // 2:发生跳转
         if (~pc_delay) begin
             if (pc == rx_r_addr_i) begin
-                rx_r_addr_i <= rx_r_addr_i + 4;
-                pc <= pc + 4;
+                rx_r_addr_i <= pcPlus4;
+                pc <= pcPlus4;
             end 
-            else begin  // 那就发生了跳转
+            else begin  // 那就发生了跳转，之前读取的作废，需要读新的pc
                 rx_r_addr_i <= pc;
                 pc <= pc;
             end
