@@ -37,10 +37,12 @@ assign rx_r_size_i = 8'b00001111;
 reg forceUpdate;
 reg recievedUpdate;
 always @(negedge clk) begin
-    if (~pc_delay && ~recievedUpdate) begin    // 说明当前pc被运送下去了，必须得读下一个了
+    if (~pc_delay) begin    // 说明当前pc被运送下去了，必须得读下一个了
         forceUpdate <= 1;
-    end else begin
+    end else if (recievedUpdate) begin
         forceUpdate <= 0;
+    end else begin
+        forceUpdate <= forceUpdate;
     end
 end
 always @(posedge clk) begin
