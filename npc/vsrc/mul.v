@@ -34,13 +34,13 @@ always @(posedge clk) begin
             mul_ready <= 0;
             mul_res <= 0;
         end
-        if (~flush && ~mul_ready && count != 8'h3F) begin
+        if (~flush && ~mul_ready && count != 8'h40) begin
             mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             l_multiplicand <= l_multiplicand << 1;
             l_multiplier <= l_multiplier >> 1;
             count <= count + 1;
         end
-        if (~flush && ~mul_ready && count == 8'h3F && ~out_valid) begin
+        if (~flush && ~mul_ready && count == 8'h40 && ~out_valid) begin
             //mul_res <= mul_res + ((l_multiplier[0]) ? l_multiplicand : 0);
             //mul_res <= multiplicand * multiplier;
             //$display("mul %x %x %x", multiplicand, multiplier, mul_res);
