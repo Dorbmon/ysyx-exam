@@ -29,11 +29,13 @@ initial begin
     rx_data_ready = 0;
     rx_r_valid_i = 0;
     forceUpdate = 0;
+    axi_free = 1;
 end
 assign rx_r_size_i = 8'b00001111;
 // ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 // assign inst = rawData [31:0];  // 这里可能有BUG
 reg forceUpdate;
+reg axi_free;
 always @(negedge clk) begin
     if (rx_r_valid_i) begin   // 已经开始读取新的pc了，新的pc肯定是没有运送下去的
         forceUpdate <= 0;
@@ -61,7 +63,7 @@ end
 reg axi_finished;
 wire [63:0] pcPlus4 = pc + 64'h4;
 always @(posedge clk) begin
-    if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin   // 已经完成读取
+    if (axi_free) begin   // 已经完成读取
         // 有两种情况
         // 1:当前pc没有发生跳转，那就正常+4
         // 2:发生跳转
@@ -81,6 +83,7 @@ always @(posedge clk) begin
             pc <= pc;
             rx_r_addr_i <= rx_r_addr_i;
         end
+        axi_free <= 0;
         rx_r_valid_i <= 1;
     end
     if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
@@ -90,6 +93,7 @@ always @(posedge clk) begin
     end
     if (rx_data_valid && rx_data_ready) begin   // 接收到了数据
         rx_data_ready <= 0;
+        axi_free <= 1;
     end
 end
 wire [63:0] addRes;
