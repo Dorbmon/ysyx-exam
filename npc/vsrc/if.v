@@ -50,7 +50,7 @@ always @(posedge clk) begin
     end
 end
 reg axi_finished;
-wire [63:0] pcPlus4 = pc + 4;
+wire [63:0] pcPlus4 = pc + 64'h4;
 always @(posedge clk) begin
     if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin
         // 有两种情况
