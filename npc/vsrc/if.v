@@ -35,11 +35,11 @@ assign rx_r_size_i = 8'b00001111;
 // assign inst = rawData [31:0];  // 这里可能有BUG
 reg forceUpdate;
 always @(negedge clk) begin
-    if (~pc_delay) begin    // 说明当前pc被运送下去了，必须得读下一个了
-        forceUpdate <= 1;
-    end
+    
     if (rx_r_valid_i) begin   // 已经开始读取新的pc了，新的pc肯定是没有运送下去的
-        //forceUpdate <= 0;
+        forceUpdate <= 0;
+    end else if (~pc_delay) begin    // 说明当前pc被运送下去了，必须得读下一个了
+        forceUpdate <= 1;
     end
 end
 always @(posedge clk) begin
