@@ -34,7 +34,7 @@ assign rx_r_size_i = 8'b00001111;
 // assign inst = rawData [31:0];  // 这里可能有BUG
 always @(posedge clk) begin
     // 开始读入指令
-    if (rx_r_addr_i == pc && rx_data_valid && rx_data_ready) begin
+    if (rx_data_valid && rx_data_ready) begin
         // 当前pc的指令已经取完了 并且读的是当前应该读的pc(因为中途可能发生了跳转)
         //inst_o <= rawData[31:0];
         //$display("%x %x", rx_r_addr_i, rx_data_read_o[31:0]);
@@ -54,7 +54,6 @@ always @(negedge clk) begin
     // 此时pc地址已经确定，可以向axi模块发送地址了
     if (axi_finished || (rx_r_addr_i == 0)) begin    // axi 模块
         $display("start to read %x", pc);
-        rx_data_ready <= 0;
         rx_r_addr_i <= pc;
         rx_r_valid_i <= 1;
         axi_finished <= 0;
@@ -90,7 +89,7 @@ always @(posedge clk) begin
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
-        end else if (~pc_delay  && (pc == rx_r_addr_i)) begin
+        end else if (~pc_delay && (pc == rx_r_addr_i)) begin
             $display("update %x", pc + 4);
             // 第二个条件表示当前pc已经处理完成
             pc <= pc + 4;
