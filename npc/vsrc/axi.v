@@ -183,7 +183,7 @@ module axi_rw # (
                 //$display("cache hit");
                 r_ready_o <= 1; // 告诉外部模块，已经读取到请求
                 r_state_addr <= 0;  // 那就不读了
-                //$display("cache hit %x", r_addr_i);
+                $display("cache hit %x", r_addr_i);
             end else begin
                 r_ready_o <= 1; // 告诉外部模块，已经读取到请求
                 r_state_addr <= 1;  // 告知从机地址已准备就绪
