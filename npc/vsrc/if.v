@@ -29,13 +29,15 @@ initial begin
     rx_data_ready = 0;
     rx_r_valid_i = 0;
     forceUpdate = 0;
+    recievedUpdate = 0;
 end
 assign rx_r_size_i = 8'b00001111;
 // ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 // assign inst = rawData [31:0];  // 这里可能有BUG
 reg forceUpdate;
+reg recievedUpdate;
 always @(negedge clk) begin
-    if (~pc_delay) begin    // 说明当前pc被运送下去了，必须得读下一个了
+    if (~pc_delay && ~recievedUpdate) begin    // 说明当前pc被运送下去了，必须得读下一个了
         forceUpdate <= 1;
     end else begin
         forceUpdate <= 0;
@@ -66,6 +68,7 @@ always @(posedge clk) begin
         // 1:当前pc没有发生跳转，那就正常+4
         // 2:发生跳转
         if (forceUpdate) begin
+            recievedUpdate <= 1;
             if (pc == rx_r_addr_i) begin
                 rx_r_addr_i <= pcPlus4;
                 pc <= pcPlus4;
@@ -78,6 +81,7 @@ always @(posedge clk) begin
             end
         end else begin
             $display("delay");
+            recievedUpdate <= 0;
             pc <= pc;
             rx_r_addr_i <= rx_r_addr_i;
         end
