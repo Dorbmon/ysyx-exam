@@ -52,7 +52,7 @@ end
 reg axi_finished;
 wire [63:0] pcPlus4 = pc + 4;
 always @(posedge clk) begin
-    if (axi_finished || (rx_r_addr_i == 0)) begin
+    if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin
         // 有两种情况
         // 1:当前pc没有发生跳转，那就正常+4
         // 2:发生跳转
@@ -67,7 +67,6 @@ always @(posedge clk) begin
             end
         end
         rx_r_valid_i <= 1;
-        axi_finished <= 0;
     end
     if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
         rx_r_valid_i <= 0;
@@ -76,8 +75,6 @@ always @(posedge clk) begin
     end
     if ((rx_data_valid && rx_data_ready)) begin
         rx_data_ready <= 0;
-        //$display("finish read...");
-        axi_finished <= 1;
     end
 end
 wire [63:0] addRes;
