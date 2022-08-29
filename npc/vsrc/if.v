@@ -65,6 +65,7 @@ always @(posedge clk) begin
             else begin  // 那就发生了跳转，之前读取的作废，需要读新的pc
                 rx_r_addr_i <= pc;
                 pc <= pc;
+                $display("keep");
             end
         end
         rx_r_valid_i <= 1;
