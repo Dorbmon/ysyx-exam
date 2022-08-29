@@ -186,7 +186,7 @@ module axi_rw # (
             end else begin
                 r_ready_o <= 1; // 告诉外部模块，已经读取到请求
                 r_state_addr <= 1;  // 告知从机地址已准备就绪
-                $display("recieve read:%x", r_addr_i);
+                $display("axi read:%x", r_addr_i);
             end
         end
         if (r_valid_i && r_ready_o) begin
