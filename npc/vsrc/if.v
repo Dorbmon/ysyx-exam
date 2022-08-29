@@ -28,10 +28,19 @@ initial begin
     rx_r_addr_i = 64'h00000000;
     rx_data_ready = 0;
     rx_r_valid_i = 0;
+    forceUpdate = 0;
 end
 assign rx_r_size_i = 8'b00001111;
 // ysyx_22041207_read_mem readInst(pc, 1'b1, rawData);
 // assign inst = rawData [31:0];  // 这里可能有BUG
+reg forceUpdate;
+always @(negedge clk) begin
+    if (~pc_delay) begin    // 说明当前pc被运送下去了，必须得读下一个了
+        forceUpdate <= 1;
+    end else begin
+        forceUpdate <= 0;
+    end
+end
 always @(posedge clk) begin
     // 开始读入指令
     if (rx_data_valid && rx_data_ready && rx_r_addr_i == pc) begin
@@ -56,7 +65,7 @@ always @(posedge clk) begin
         // 有两种情况
         // 1:当前pc没有发生跳转，那就正常+4
         // 2:发生跳转
-        if (~pc_delay) begin
+        if (~pc_delay || forceUpdate) begin
             if (pc == rx_r_addr_i) begin
                 rx_r_addr_i <= pcPlus4;
                 pc <= pcPlus4;
