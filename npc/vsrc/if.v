@@ -39,10 +39,9 @@ reg recievedUpdate;
 always @(negedge clk) begin
     if (~pc_delay) begin    // 说明当前pc被运送下去了，必须得读下一个了
         forceUpdate <= 1;
-    end else if (recievedUpdate) begin
+    end
+    if (rx_r_valid_i) begin   // 已经开始读取新的pc了，新的pc肯定是没有运送下去的
         forceUpdate <= 0;
-    end else begin
-        forceUpdate <= forceUpdate;
     end
 end
 always @(posedge clk) begin
@@ -65,11 +64,11 @@ end
 reg axi_finished;
 wire [63:0] pcPlus4 = pc + 64'h4;
 always @(posedge clk) begin
-    if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin
+    if ((rx_data_valid && rx_data_ready) || (rx_r_addr_i == 0)) begin   // 已经完成读取
         // 有两种情况
         // 1:当前pc没有发生跳转，那就正常+4
         // 2:发生跳转
-        if (forceUpdate) begin
+        if (forceUpdate) begin  // 当前pc已经输送到了下一级了，需要更新pc
             recievedUpdate <= 1;
             if (pc == rx_r_addr_i) begin
                 rx_r_addr_i <= pcPlus4;
