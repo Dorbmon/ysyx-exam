@@ -85,7 +85,7 @@ always @(posedge clk) begin
                 res <= div_out;
                 alu_wait <= 0;
             end
-            $display("%x %x %x %x", a, b, a / b, div_out);
+            $display("div %x %x %x %x", a, b, a / b, div_out);
         end
         `ALU_REMU: res <= a % b;
         `ALU_DIV: res <= $signed(a) / $signed(b);
