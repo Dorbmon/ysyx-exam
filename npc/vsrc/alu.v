@@ -25,7 +25,12 @@ wire [63:0] mul_res;
 initial begin
     alu_wait = 0;
 end
+reg div_valid;
+wire div_ready, div_out_valid;
+reg div_sign;
+wire [63:0] div_out, remain_out;
 ysyx_22041207_mul rx_mul(clk, rst, mul_valid, flush, a, b, mul_ready, mul_out_valid, mul_res);
+ysyx_22041207_div rx_div(clk, rst, div_valid, flush, a, b, div_sign, div_ready, div_out_valid, div_out, remain_out);
 // ALU的第一个操作数是pc或者rs1
 // 第二个操作数为imm或者rs2
 reg [31:0] ccc;
@@ -65,21 +70,23 @@ always @(posedge clk) begin
                 res <= mul_res;
                 alu_wait <= 0;
             end
-            // if (ccc == 32'd33 && alu_wait) begin
-            //     alu_wait <= 0;
-            //     //res <= a * b;
-            //     res <= a * b;
-            //     $display ("%x finish %d %d %d %d", pc, a, b, mul_res, a*b);
-            // end
-            // if (alu_wait) begin
-            //     alu_wait <= 0;
-            //     //$display("mul %x %x", a, b);
-            //     res <= a * b;
-            // end
-            
         end
         `ALU_REM: res <= $signed(a) % $signed(b);
-        `ALU_DIVU: res <= a / b;
+        `ALU_DIVU: begin 
+            if (~alu_wait) begin
+                alu_wait <= 1;   // 卡住alu
+                div_valid <= 1;
+            end
+
+            if (div_valid) begin
+                div_valid <= 0;
+            end
+            if (div_out_valid) begin
+                res <= div_out;
+                alu_wait <= 0;
+            end
+            $display("%x %x %x %x", a, b, a / b, div_out);
+        end
         `ALU_REMU: res <= a % b;
         `ALU_DIV: res <= $signed(a) / $signed(b);
         `ALU_SRA: res <= rs1to32 ? {32'b0, ($signed(a [31:0]) >>> b [5:0])} : ($signed(a) >>> b [5:0]);
