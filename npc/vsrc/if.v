@@ -72,11 +72,11 @@ always @(posedge clk) begin
     if (rx_r_valid_i && rx_r_ready_o) begin // axi模块已经接收到了地址
         rx_r_valid_i <= 0;
         rx_data_ready <= 1; // 准备好接收数据
-        $display("recieve address");
+        //$display("recieve address");
     end
     if ((rx_data_valid && rx_data_ready)) begin
         rx_data_ready <= 0;
-        $display("finish read...");
+        //$display("finish read...");
         axi_finished <= 1;
     end
 end
