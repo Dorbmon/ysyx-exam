@@ -98,8 +98,6 @@ always @(posedge clk) begin
         else if (pc_panic) begin
             $display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
-        end else begin
-            pc <= pc;
         end
 end
 endmodule
