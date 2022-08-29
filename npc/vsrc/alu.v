@@ -73,6 +73,7 @@ always @(posedge clk) begin
         end
         `ALU_REM: res <= $signed(a) % $signed(b);
         `ALU_DIVU: begin 
+            div_sign <= 0;
             if (~alu_wait) begin
                 alu_wait <= 1;   // 卡住alu
                 div_valid <= 1;
@@ -88,7 +89,23 @@ always @(posedge clk) begin
             $display("div %x %x %x %x", a, b, a / b, div_out);
         end
         `ALU_REMU: res <= a % b;
-        `ALU_DIV: res <= $signed(a) / $signed(b);
+        `ALU_DIV:begin
+             //res <= $signed(a) / $signed(b);
+             div_sign <= 1;
+            if (~alu_wait) begin
+                alu_wait <= 1;   // 卡住alu
+                div_valid <= 1;
+            end
+
+            if (div_valid) begin
+                div_valid <= 0;
+            end
+            if (div_out_valid) begin
+                res <= div_out;
+                alu_wait <= 0;
+            end
+            $display("div %x %x %x %x", a, b, a / b, div_out);
+        end
         `ALU_SRA: res <= rs1to32 ? {32'b0, ($signed(a [31:0]) >>> b [5:0])} : ($signed(a) >>> b [5:0]);
         `ALU_EQ:  res <= (a == b) ? 1 : 0;
         `ALU_LOE: res <= ($signed(a) >= $signed(b))?1:0;
