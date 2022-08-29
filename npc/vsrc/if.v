@@ -67,6 +67,9 @@ always @(posedge clk) begin
                 pc <= pc;
                 $display("keep");
             end
+        end else begin
+            pc <= pc;
+            rx_r_addr_i <= rx_r_addr_i;
         end
         rx_r_valid_i <= 1;
     end
@@ -75,7 +78,7 @@ always @(posedge clk) begin
         rx_data_ready <= 1; // 准备好接收数据
         //$display("recieve address");
     end
-    if (rx_data_valid && rx_data_ready) begin
+    if (rx_data_valid && rx_data_ready) begin   // 接收到了数据
         rx_data_ready <= 0;
     end
 end
