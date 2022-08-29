@@ -65,7 +65,7 @@ always @(posedge clk) begin
         // 有两种情况
         // 1:当前pc没有发生跳转，那就正常+4
         // 2:发生跳转
-        if (~pc_delay || forceUpdate) begin
+        if (forceUpdate) begin
             if (pc == rx_r_addr_i) begin
                 rx_r_addr_i <= pcPlus4;
                 pc <= pcPlus4;
