@@ -68,6 +68,7 @@ always @(posedge clk) begin
                 $display("keep");
             end
         end else begin
+            $display("delay");
             pc <= pc;
             rx_r_addr_i <= rx_r_addr_i;
         end
