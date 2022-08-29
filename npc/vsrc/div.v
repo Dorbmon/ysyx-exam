@@ -52,7 +52,7 @@ always @(posedge clk) begin
             out_valid <= 1;
             count <= 0;
             if (sign && sign_div) begin
-                div_res_o <= (~div_res) & (1 << 63);
+                div_res_o <= (~div_res) | (1 << 63);
                 remain_o <= remain_o;
             end else begin
                 div_res_o <= div_res;
