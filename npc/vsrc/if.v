@@ -37,7 +37,7 @@ always @(posedge clk) begin
     if (rx_data_valid && rx_data_ready && rx_r_addr_i == pc) begin
         // 当前pc的指令已经取完了 并且读的是当前应该读的pc(因为中途可能发生了跳转)
         //inst_o <= rawData[31:0];
-        //$display("%x %x", rx_r_addr_i, rx_data_read_o[31:0]);
+        $display("%x %x", rx_r_addr_i, rx_data_read_o[31:0]);
         if (rx_r_addr_i[2:0] == 3'b0) begin
             inst_o <= rx_data_read_o[31:0];
         end else begin
