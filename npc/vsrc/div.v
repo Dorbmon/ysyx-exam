@@ -20,8 +20,8 @@ reg [127:0] l_dividend, l_divisor;
 reg [7:0] count;
 wire op1sign, op2sign;
 reg sign;
-wire [63:0] div_res = l_dividend[63:0];
-wire [63:0] remain = l_dividend[127:64];
+wire [63:0] remain = l_dividend[63:0];
+wire [63:0] div_res = l_dividend[127:64];
 always @(posedge clk) begin
     if (rst) begin
         count <= 0;
