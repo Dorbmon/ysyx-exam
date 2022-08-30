@@ -36,7 +36,7 @@ always @(posedge clk) begin
             count <= 0;
             div_ready <= 0;
         end
-        if (~flush && ~div_ready && count != 8'h41) begin
+        if (~flush && ~div_ready && count != 8'h40) begin
            //div_res <= div_res + 
            //l_dividend <= l_dividend << 1;
            if ((l_dividend<<1) >= l_divisor) begin
@@ -46,7 +46,7 @@ always @(posedge clk) begin
            end
            count <= count + 1;
         end
-        if (~flush && ~div_ready && count == 8'h41 && ~out_valid) begin
+        if (~flush && ~div_ready && count == 8'h40 && ~out_valid) begin
             //div_res <= div_res + ((l_divtiplier[0]) ? l_divtiplicand : 0);
             //div_res <= divtiplicand * divtiplier;
             //$display("div %x %x %x", divtiplicand, divtiplier, div_res);
