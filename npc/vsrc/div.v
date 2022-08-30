@@ -44,6 +44,7 @@ always @(posedge clk) begin
            end else begin
                 l_dividend <= l_dividend<<1;
            end
+           count <= count + 1;
         end
         if (~flush && ~div_ready && count == 8'h41 && ~out_valid) begin
             //div_res <= div_res + ((l_divtiplier[0]) ? l_divtiplicand : 0);

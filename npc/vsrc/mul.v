@@ -10,7 +10,6 @@ module ysyx_22041207_mul (
     output reg [63:0] mul_res_o
 );
 initial begin
-    mul_res = 0;
     mul_ready = 1;
     out_valid = 0;
     count = 0;
