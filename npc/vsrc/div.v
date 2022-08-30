@@ -39,7 +39,7 @@ always @(posedge clk) begin
         if (~flush && ~div_ready && count != 8'h40) begin
            //div_res <= div_res + 
            //l_dividend <= l_dividend << 1;
-           if (l_dividend >= l_divisor) begin
+           if ((l_dividend<<1) >= l_divisor) begin
                 l_dividend <= (l_dividend<<1) - l_divisor + 1'b1;
            end else begin
                 l_dividend <= l_dividend<<1;
