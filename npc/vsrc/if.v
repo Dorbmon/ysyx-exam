@@ -103,11 +103,11 @@ always @(posedge clk) begin
         else if (me_jalr) begin // jalr要求最后一位置0
             //(ex_r1data + ex_imm)
             //$display("catch jalr...");
-            $display("jalr %x", {addRes[63:1], 1'b0});
+            //$display("jalr %x", {addRes[63:1], 1'b0});
             pc <= {addRes[63:1], 1'b0};
         end
         else if (pc_panic) begin
-            $display("pc_panic %x", csr_mtvec);
+            //$display("pc_panic %x", csr_mtvec);
             pc <= csr_mtvec;
         end
 end
