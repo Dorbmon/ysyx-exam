@@ -45,7 +45,7 @@ always @(posedge clk) begin
                 l_dividend <= l_dividend<<1;
            end
         end
-        if (~flush && ~div_ready && count == 8'h40 && ~out_valid) begin
+        if (~flush && ~div_ready && count == 8'h41 && ~out_valid) begin
             //div_res <= div_res + ((l_divtiplier[0]) ? l_divtiplicand : 0);
             //div_res <= divtiplicand * divtiplier;
             //$display("div %x %x %x", divtiplicand, divtiplier, div_res);
