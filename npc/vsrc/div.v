@@ -54,10 +54,10 @@ always @(posedge clk) begin
             count <= 0;
             if (sign && sign_div) begin
                 div_res_o <= (~div_res) | (1 << 63);
-                remain_o <= remain_o;
+                remain_o <= remain;
             end else begin
                 div_res_o <= div_res;
-                remain_o <= remain_o;
+                remain_o <= remain;
             end
         end
         if (out_valid) begin
