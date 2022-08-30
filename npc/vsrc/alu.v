@@ -82,7 +82,7 @@ always @(posedge clk) begin
             if (div_out_valid) begin
                 res <= remain_out;
                 alu_wait <= 0;
-                $display("div %x %x %x %x", a, b, a % b, remain_out);
+                //$display("div %x %x %x %x", a, b, a % b, remain_out);
             end
         end
         `ALU_DIVU: begin 
@@ -98,7 +98,7 @@ always @(posedge clk) begin
             if (div_out_valid) begin
                 res <= div_out;
                 alu_wait <= 0;
-                $display("div %x %x %x %x", a, b, a / b, div_out);
+                //$display("div %x %x %x %x", a, b, a / b, div_out);
             end
         end
         `ALU_REMU: res <= a % b;
@@ -115,7 +115,7 @@ always @(posedge clk) begin
             if (div_out_valid) begin
                 res <= div_out;
                 alu_wait <= 0;
-                $display("div %x %x %x %x", a, b, a / b, div_out);
+                //$display("div %x %x %x %x", a, b, a / b, div_out);
             end
         end
         `ALU_SRA: res <= rs1to32 ? {32'b0, ($signed(a [31:0]) >>> b [5:0])} : ($signed(a) >>> b [5:0]);
