@@ -82,7 +82,7 @@ always @(posedge clk) begin
             if (div_out_valid) begin
                 res <= remain_out;
                 alu_wait <= 0;
-                $display("div %x %x %x %x", a, b, a / b, div_out);
+                $display("div %x %x %x %x", a, b, a % b, remain_out);
             end
         end
         `ALU_DIVU: begin 
