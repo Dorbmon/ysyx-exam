@@ -29,7 +29,7 @@ always @(posedge clk) begin
         out_valid <= 0;
     end else begin
         if (div_valid && (div_ready || flush)) begin
-            $display("div %x %x", (dividend[63]&&sign_div)?(~dividend + 1):dividend, (divisor[63]&&sign_div)?(~divisor + 1):divisor);
+            //$display("div %x %x", (dividend[63]&&sign_div)?(~dividend + 1):dividend, (divisor[63]&&sign_div)?(~divisor + 1):divisor);
             sign <= (dividend[63] != divisor[63]);
             l_dividend <= {64'b0, (dividend[63]&&sign_div)?(~dividend + 1):dividend};
             l_divisor <= {(divisor[63]&&sign_div)?(~divisor + 1):divisor, 64'b0};
