@@ -85,7 +85,6 @@ always @(posedge clk) begin
                 alu_wait <= 0;
                 $display("div %x %x %x %x", a, b, a / b, div_out);
             end
-            
         end
         `ALU_REMU: res <= a % b;
         `ALU_DIV:begin
