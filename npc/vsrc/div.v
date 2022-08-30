@@ -52,7 +52,6 @@ always @(posedge clk) begin
             //$display("div %x %x %x", divtiplicand, divtiplier, div_res);
             out_valid <= 1;
             count <= 0;
-            $display("res: %b", l_dividend);
             if (sign && sign_div) begin
                 div_res_o <= (~div_res) | (1 << 63);
                 remain_o <= remain_o;

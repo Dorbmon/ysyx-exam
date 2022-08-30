@@ -68,9 +68,10 @@ always @(posedge clk) begin
                 alu_wait <= 0;
             end
         end
-        `ALU_REM: res <= $signed(a) % $signed(b);
+        `ALU_REM: begin
+            res <= $signed(a) % $signed(b);
+        end
         `ALU_DIVU: begin 
-            
             if (~alu_wait) begin
                 div_sign <= 0;
                 alu_wait <= 1;   // 卡住alu
