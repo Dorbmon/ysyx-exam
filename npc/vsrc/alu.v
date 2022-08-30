@@ -35,9 +35,6 @@ ysyx_22041207_div rx_div(clk, rst, div_valid, flush, a, b, div_sign, div_ready, 
 // 第二个操作数为imm或者rs2
 reg [31:0] ccc;
 always @(posedge clk) begin
-    if (operate != `ALU_MUL) begin
-        alu_wait <= 0;
-    end
     case(operate)
         `ALU_ADD: begin
             res <= a + b;
@@ -73,8 +70,9 @@ always @(posedge clk) begin
         end
         `ALU_REM: res <= $signed(a) % $signed(b);
         `ALU_DIVU: begin 
-            div_sign <= 0;
+            
             if (~alu_wait) begin
+                div_sign <= 0;
                 alu_wait <= 1;   // 卡住alu
                 div_valid <= 1;
             end
@@ -92,12 +90,11 @@ always @(posedge clk) begin
         `ALU_REMU: res <= a % b;
         `ALU_DIV:begin
              //res <= $signed(a) / $signed(b);
-            div_sign <= 1;
             if (~alu_wait) begin
+                div_sign <= 1;
                 alu_wait <= 1;   // 卡住alu
                 div_valid <= 1;
             end
-
             if (div_valid) begin
                 div_valid <= 0;
             end
