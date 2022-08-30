@@ -70,7 +70,20 @@ always @(posedge clk) begin
         end
         `ALU_REM: begin
             //res <= $signed(a) % $signed(b);
-            res <= 0;
+            if (~alu_wait) begin
+                div_sign <= 0;
+                alu_wait <= 1;   // 卡住alu
+                div_valid <= 1;
+            end
+
+            if (div_valid) begin
+                div_valid <= 0;
+            end
+            if (div_out_valid) begin
+                res <= remain_out;
+                alu_wait <= 0;
+                $display("div %x %x %x %x", a, b, a / b, div_out);
+            end
         end
         `ALU_DIVU: begin 
             if (~alu_wait) begin
