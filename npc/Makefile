@@ -6,7 +6,7 @@ DIFFTEST ?=
 RUN_ARGS ?=
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
-				-O2 --x-assign fast --x-initial fast --noassert --trace
+				-O3 --x-assign fast --x-initial fast --noassert --trace
 BUILD_DIR = ./build
 OBJ_DIR = $(BUILD_DIR)/obj_dir
 BIN = $(BUILD_DIR)/$(TOPNAME)
@@ -24,7 +24,7 @@ CSRCS += $(SRC_AUTO_BIND)
 include ${NVBOARD_HOME}/scripts/nvboard.mk
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
-CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" $(shell llvm-config --cxxflags) -fPIE -g -O0
+CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\"" $(shell llvm-config --cxxflags) -fPIE
 LDFLAGS += -lSDL2 -lSDL2_image -lreadline $(shell llvm-config --libs) -ldl
 $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 	@rm -rf $(OBJ_DIR)

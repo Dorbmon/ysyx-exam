@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <getopt.h>
-#include "axi4_mem.hpp"
+
 #define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 double sc_time_stamp() { return 0; }
 const std::unique_ptr<VerilatedContext> contextp = std::make_unique<VerilatedContext>();
@@ -32,31 +32,22 @@ extern "C" void set_gpr_ptr(const svOpenArrayHandle r) {
   cpu.gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
 }
 static void runN(uint64_t n) {
+  static uint64_t count = 0;
   n <<= 1;
-  size_t count = 0;
-  while (!contextp->gotFinish() && !sebreak) {
+  while (!contextp->gotFinish() && !sebreak && count < n) {
+    count ++;
+    
+    top->clk = ~top->clk;
     uint32_t bpc = top->pc;
-    //printf("pc:%lx\n", top->pc);
-    //pBin(pmem_read(top->pc, 4));
-    //loadINST(pmem_read(top->pc, 4), top->pc);
-    cpu.pc = top->pc;
-    for (int i = 0;i < 10;++ i) {
-      top->clk = ~top->clk;
-      //printf("h1\n");
-      if (top->clk) {
-        updateMemoryBeforeEval();
-      }
-      top->rst = 0;
-      top->eval();
-      if (top->clk) {
-        updateMemoryAfterEval();
-      }
-      //printf("pc:%lx\n", top->pc);
-      count ++;
+    if (count & 1) {
+      printf("pc:%lx\n", top->pc);
+      //pBin(pmem_read(top->pc, 4));
+      loadINST(pmem_read(top->pc, 4), top->pc);
     }
+    cpu.pc = top->pc;
+    top->eval();
     if (top->clk) { //上升沿才会计算 如果top->clk = true 说明刚刚是一个上升沿，已经完成了一次计算
-      //printf("difftest pc:%lx\n", bpc);
-      //difftest_step(bpc, top->pc);
+      difftest_step(bpc, top->pc);
     }
   }
 }
@@ -71,7 +62,6 @@ static int simulate(char *args) {
       printf("HIT GOOD TRAP.\n");
     } else {
       printf("HIT BAD TRAP. code is %lx\n", cpu.gpr [10]);
-      exit(cpu.gpr [10]);
       return cpu.gpr [10];
     }
   }
@@ -150,7 +140,7 @@ int main(int argc, char **argv, char **env) {
   init_regex();
   init_disasm("riscv64");
   initMemory(img_file); // 会自动加载程序
-  //init_elf();
+  init_elf();
   initDiffset();
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);

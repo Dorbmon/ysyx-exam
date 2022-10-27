@@ -127,41 +127,35 @@ typedef	__uint128_t fixedptud;
 
 /* Multiplies a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_muli(fixedpt A, int B) {
-	return A * B;
+	return 0;
 }
 
-
+/* Divides a fixedpt number with an integer, returns the result. */
+static inline fixedpt fixedpt_divi(fixedpt A, int B) {
+	return 0;
+}
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return (((fixedptd)A * (fixedptd)B) >> FIXEDPT_FBITS);
+	return 0;
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
-	return (((fixedptd)A << FIXEDPT_FBITS) / (fixedptd)B);
+	return 0;
 }
 
-/* Divides a fixedpt number with an integer, returns the result. */
-static inline fixedpt fixedpt_divi(fixedpt A, int B) {
-	return fixedpt_div(A, (B << FIXEDPT_FBITS));
-}
 static inline fixedpt fixedpt_abs(fixedpt A) {
-	//return 0;
-	if (A < 0) {
-		A = -A;
-	}
-	return A;
+	return 0;
 }
-static const fixedpt mask = (1 << FIXEDPT_FBITS) - 1;
+
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	return A & (~mask);
+	return 0;
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-	if ((A & mask) == 0) return A;	// 没有小数
-	return (A & (~mask)) + (1 << FIXEDPT_FBITS);
+	return 0;
 }
 
 /*

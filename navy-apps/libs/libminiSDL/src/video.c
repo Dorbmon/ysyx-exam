@@ -3,63 +3,16 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <fixedptc.h>
-int min(int a,int b) {
-  return (a < b)?a:b;
-}
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-  SDL_Rect full = {0, 0, src->w, src->h};
-  
-  if (srcrect == NULL) srcrect = &full;
-  if (dstrect == NULL) dstrect = &full;
-  for (int i = 0;i < srcrect->h;++ i) {
-    for (int j = 0;j < srcrect->w;++ j) {
-      if (dst->format->BitsPerPixel == 8) {
-        *((uint8_t*)dst->pixels + (i + dstrect->y) * dst->w + j + dstrect->x) = *((uint8_t*)src->pixels + (i + srcrect->y) * src->w + j + srcrect->x);
-      } else {
-        *((uint32_t*)dst->pixels + (i + dstrect->y) * dst->w + j + dstrect->x) = *((uint32_t*)src->pixels + (i + srcrect->y) * src->w + j + srcrect->x);
-      }
-    }
-  }
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  SDL_Rect full = {0, 0, dst->w, dst->h};
-  if (dstrect == NULL) dstrect = &full;
-  for (int i = dstrect->y;i < dstrect->y + dstrect->h;++ i) {
-    for (int j = dstrect->x;j < dstrect->x + dstrect->w;++ j) {
-      if (dst->format->BitsPerPixel == 8) {
-        *((uint8_t*)dst->pixels + i * dst->w + j) = color;
-      } else {
-        *((uint32_t*)dst->pixels + i * dst->w + j) = color;
-      }
-    }
-  }
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-  if (w == 0 && h == 0 && x == 0 && y == 0) {
-    w = s->w; h = s->h; // 更新全部
-  }
-  // 开始读取像素
-  uint32_t pixels[1000000];
-  int index = 0;
-  for (int i = y;i < y + h;++ i) {
-    for (int j = x;j < x + w;++ j) {
-      if (s->format->BitsPerPixel == 8) {
-        pixels[index++] = s->format->palette->colors[*((uint8_t*)s->pixels + i * s->w + j)].val;
-      } else {
-        pixels[index++] = *((uint32_t*)s->pixels + i * s->w + j);
-      }
-    }
-    //NDL_DrawRect(pixels, x, i, w, 1);
-    //index = 0;
-  }
-  NDL_DrawRect(pixels, x, y, w, h);
 }
 
 // APIs below are already implemented.
@@ -152,32 +105,21 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int y = (srcrect == NULL ? 0 : srcrect->y);
   int w = (srcrect == NULL ? src->w : srcrect->w);
   int h = (srcrect == NULL ? src->h : srcrect->h);
+
   assert(dstrect);
-  SDL_Rect rect;
-  rect.x = x;
-  rect.y = y;
-  rect.w = w;
-  rect.h = h;
-  srcrect = &rect;
   if(w == dstrect->w && h == dstrect->h) {
     /* The source rectangle and the destination rectangle
      * are of the same size. If that is the case, there
      * is no need to stretch, just copy. */
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
     SDL_BlitSurface(src, &rect, dst, dstrect);
   }
   else {
-    for (int i = 0;i < dstrect->h;++ i) {
-      int scaleY = fixedpt_toint(fixedpt_muli(fixedpt_div(fixedpt_fromint(i), fixedpt_fromint(dstrect->h)), srcrect->h));
-      for (int j = 0;j < dstrect->w;++ j) {
-        //printf("called \n");
-        int scaleX = fixedpt_toint(fixedpt_muli(fixedpt_div(fixedpt_fromint(j), fixedpt_fromint(dstrect->w)), srcrect->w));
-        if (src->format->BitsPerPixel == 8) {
-          dst->pixels [(i + dstrect->y) * dst->w + dstrect->x + j] = src->pixels[(scaleY + srcrect->y) * src->w + srcrect->x + scaleX];
-        } else {
-          ((uint32_t*)dst->pixels) [(i + dstrect->y) * dst->w + dstrect->x + j] = ((uint32_t*)src->pixels)[(scaleY + srcrect->y) * src->w + srcrect->x + scaleX];
-        }
-      }
-    }
+    assert(0);
   }
 }
 

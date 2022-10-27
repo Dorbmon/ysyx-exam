@@ -16,9 +16,7 @@ static void restart() {
   cpu.pc = RESET_VECTOR;
   /* The zero register is always 0. */
   cpu.gpr[0] = 0;
-  extern word_t csrM[];
-  //1010 0000 0000 0000 0000 0001 1000 0000 0000
-  csrM [0x300] = 0xa00001800;
+  cpu.csrM [0x305] = 0xa00001800;
 }
 
 void init_isa() {

@@ -38,12 +38,7 @@ void difftest_exec(uint64_t n) {
 }
 
 void difftest_raise_intr(word_t NO) {
-  //assert(0)
-  // 启动异常
-  extern word_t csrM[];
-  csrM [0x341] = cpu.pc;
-  csrM [0x342] = NO;
-  cpu.pc = csrM [0x305];
+  assert(0);
 }
 
 void difftest_init(int port) {

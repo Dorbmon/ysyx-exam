@@ -10,6 +10,5 @@ Test test;
 
 int main() {
   printf("%s,%d: Hello world!\n", __func__, __LINE__);
-  while (1);
   return 0;
 }

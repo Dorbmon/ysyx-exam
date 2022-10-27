@@ -1,25 +1,13 @@
 #include <common.h>
-#include "syscall.h"
-void do_syscall(Context *c, Context** ret);
-void sys_yield(Context* c, Context** ret);
+
 static Context* do_event(Event e, Context* c) {
-  Context* ret = c;
-  if (e.event == EVENT_IRQ_TIMER) {
-    //panic("recieve ev...");
-    Log("get timer...");
-  }
+  printf("rrr:%d\n", EVENT_YIELD);
   switch (e.event) {
-    case EVENT_SYSCALL: do_syscall(c, &ret); break;
-    case EVENT_YIELD: sys_yield(c, &ret); break;
-    case EVENT_IRQ_TIMER: {
-      c->GPR1 = SYS_yield;
-      do_syscall(c, &ret);
-      break;
-    }
+    case EVENT_YIELD: printf("catched yield...\n"); break;
     default: panic("Unhandled event ID = %d", e.event);
   }
-  ret->mepc += 4;
-  return ret;
+
+  return c;
 }
 
 void init_irq(void) {

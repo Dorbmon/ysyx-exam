@@ -4,7 +4,7 @@
 #include <common.h>
 #include <memory.h>
 
-#define STACK_SIZE (8 * PGSIZE) // 32kb 的栈
+#define STACK_SIZE (8 * PGSIZE)
 
 typedef union {
   uint8_t stack[STACK_SIZE] PG_ALIGN;
@@ -15,7 +15,7 @@ typedef union {
     uintptr_t max_brk;
   };
 } PCB;
-Context* schedule(Context *prev);
+
 extern PCB *current;
 
 #endif

@@ -1,82 +1,22 @@
 #include <proc.h>
 #include <elf.h>
-#include <fs.h>
-#include <am.h>
-#include <memory.h>
-size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
-uintptr_t loader(PCB *pcb, const char *filename) {
-  Elf64_Ehdr elf_head;
-	int a;
-	//a = ramdisk_read(&elf_head, 0, sizeof(Elf64_Ehdr)); 
-  int fd = fs_open(filename, 0, 0);
-  a = fs_read(fd, &elf_head, sizeof(Elf64_Ehdr));
-  if (0 == a) {
-		printf("fail to read head\n");
-		assert(0);
-	}
+#ifdef __LP64__
+# define Elf_Ehdr Elf64_Ehdr
+# define Elf_Phdr Elf64_Phdr
+#else
+# define Elf_Ehdr Elf32_Ehdr
+# define Elf_Phdr Elf32_Phdr
+#endif
 
-	// 判断elf文件类型
-	if (elf_head.e_ident[0] != 0x7F ||
-		elf_head.e_ident[1] != 'E' ||
-		elf_head.e_ident[2] != 'L' ||
-		elf_head.e_ident[3] != 'F') {
-		printf("Not a ELF file\n");
-		assert(0);
-	}
-  //roffset = elf_head.e_phoff;
-  Log("enter loader");
-  fs_lseek(fd, elf_head.e_phoff, SEEK_SET);
-  for (int i = 0;i < elf_head.e_phnum;++ i) {
-    Elf64_Phdr tmp;
-    fs_read(fd, &tmp, sizeof(Elf64_Phdr));
-    if (tmp.p_type == PT_LOAD) {
-      int cur = fs_lseek(fd, 0, SEEK_CUR);
-      fs_lseek(fd, tmp.p_offset, SEEK_SET);
-      Log("address:%x, fileSize: %x,memSize:%x", tmp.p_vaddr,tmp.p_filesz, tmp.p_memsz);
-      
-      //memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
-      #ifdef HAS_VME
-      size_t pgAll = 0;
-      intptr_t offset = tmp.p_vaddr - ((tmp.p_vaddr >> 12) << 12);
-      Log("pvaddr %x, sub:%x", tmp.p_vaddr - offset, ((tmp.p_vaddr >> 12) << 12));
-      for (;pgAll * PGSIZE < tmp.p_memsz + offset;++ pgAll) {
-        void* pg = new_page(1);
-        memset(pg, 0, PGSIZE);
-        intptr_t pgAddr = tmp.p_vaddr + pgAll * PGSIZE - offset;
-        map(&pcb->as, (void*)(pgAddr), pg, 0);
-        //Log("link paddr:%x", tmp.p_vaddr + pgAll * PGSIZE - offset);
-        if (pgAll == 0) {
-          // 第一页有偏移
-          fs_read(fd, (uint8_t*)(pg + offset), PGSIZE - offset);
-        } else
-        if (pgAll * PGSIZE - offset < tmp.p_filesz) {
-          size_t restSz = tmp.p_filesz - pgAll * PGSIZE + offset;
-          if (restSz > PGSIZE) restSz = PGSIZE;
-          fs_read(fd, (uint8_t*)pg, restSz);
-        }
-        if (pgAddr > pcb->max_brk) {
-          pcb->max_brk = pgAddr;
-        }
-      }
-      Log("Pg All: %x, memSz: %x", pgAll * PGSIZE - offset, tmp.p_memsz);
-      
-      #else
-      fs_read(fd, (uint8_t*)tmp.p_vaddr , tmp.p_filesz);
-      memset((uint8_t*)tmp.p_vaddr + tmp.p_filesz, 0, tmp.p_memsz - tmp.p_filesz);
-      #endif
-      fs_lseek(fd, cur, SEEK_SET);
-    }
-  }
-  Log("finish load\n");
-  //printf("entry:%x\n", elf_head.e_entry);
-  return elf_head.e_entry;
+static uintptr_t loader(PCB *pcb, const char *filename) {
+  TODO();
+  return 0;
 }
-
 
 void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
-  //Log("Jump to entry = %d\n", entry);
+  Log("Jump to entry = %p", entry);
   ((void(*)())entry) ();
 }
 

@@ -60,52 +60,19 @@ void itoa(unsigned int n, char *buf) {
   buf[i] = (n % 10) + '0';
   buf[i + 1] = '\0';
 }
-void litoa(long n, char *buf) {
-  int i;
-  if (n < 10) {
-    buf[0] = n + '0';
-    buf[1] = '\0';
-    return;
-  }
-  itoa(n / 10, buf);
-  for (i = 0; buf[i] != '\0'; i++)
-    ;
-  buf[i] = (n % 10) + '0';
-  buf[i + 1] = '\0';
-}
 int vsprintf(char *str, const char *fmt, va_list ap) {
   int count = 0;
   char c;
   char *s;
   int n;
-  static char buf[52];
-  static char digit[16];
+  char buf[65];
+  char digit[16];
   memset(buf, 0, sizeof(buf));
   memset(digit, 0, sizeof(digit));
   while (*fmt != '\0') {
     if (*fmt == '%') {
       fmt++;
       switch (*fmt) {
-      case 'l':
-      {
-        fmt++;
-        switch (*fmt) {
-          case 'd': { //ld
-            long n = va_arg(ap, int);
-            if (n < 0) {
-              *str = '-';
-              str++;
-              n = -n;
-            }
-            litoa(n, buf);
-            memcpy(str, buf, strlen(buf));
-            str += strlen(buf);
-            ++ count;
-            break;
-          }
-        }
-        break;
-      }
       case 'd': /*整型*/
       {
         n = va_arg(ap, int);
@@ -155,7 +122,6 @@ int vsprintf(char *str, const char *fmt, va_list ap) {
     }
     fmt++;
   }
-  (*str) = '\0';
   return count;
 }
 
@@ -170,6 +136,7 @@ int sprintf(char *str, const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   int ret = vsprintf(str, fmt, ap);
+  *str = '\0';
   va_end(ap);
   return ret;
 }

@@ -12,7 +12,7 @@
 //   gg - first page
 
 // number of slides
-const int N = 2;
+const int N = 10;
 // slides path pattern (starts from 0)
 const char *path = "/share/slides/slides-%d.bmp";
 
@@ -55,7 +55,7 @@ int main() {
   while (1) {
     SDL_Event e;
     SDL_WaitEvent(&e);
-    //printf("got\n");
+
     if (e.type == SDL_KEYDOWN) {
       switch(e.key.keysym.sym) {
         case SDLK_0: rep = rep * 10 + 0; break;
@@ -74,7 +74,7 @@ int main() {
         case SDLK_UP: prev(rep); rep = 0; g = 0; break;
         case SDLK_G:
           g ++;
-          if (g > 2) {
+          if (g > 1) {
             prev(100000);
             rep = 0; g = 0;
           }

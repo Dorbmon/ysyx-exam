@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-static int real_w, real_y;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -1,45 +1,22 @@
 #include <NDL.h>
 #include <SDL.h>
-#include <sdl-event.h>
-#include <stdlib.h>
-#include <string.h>
+
 #define keyname(k) #k,
-#define ARRLEN(x) sizeof(x)/sizeof(x[0])
+
 static const char *keyname[] = {
   "NONE",
   _KEYS(keyname)
 };
-static uint8_t keyState[ARRLEN(keyname)];
+
 int SDL_PushEvent(SDL_Event *ev) {
   return 0;
 }
-int keyToIndex(char* key) {
-  for (int i = 0;i < sizeof(keyname) / sizeof(char*);++ i) {
-    if (strcmp(key, keyname[i]) == 0) return i;
-  }
-  return 0;
-}
+
 int SDL_PollEvent(SDL_Event *ev) {
-  static char buf[64];
-  if (NDL_PollEvent(buf, sizeof(buf))) {
-    buf [strlen(buf) - 1] = '\0'; //去掉最后的空格
-    if (buf [1] == 'd') { //kd
-      ev->key.type = SDL_KEYDOWN;
-      ev->key.keysym.sym = keyToIndex(buf + 3);
-      keyState [ev->key.keysym.sym] = 1;
-    } else {
-      ev->key.type = SDL_KEYUP;
-      ev->key.keysym.sym = keyToIndex(buf + 3);
-      keyState [ev->key.keysym.sym] = 0;
-    }
-    return 1;
-  } else {
-    return 0;
-  }
+  return 0;
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
-  while (SDL_PollEvent(event) == 0) ;
   return 1;
 }
 
@@ -48,5 +25,5 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 }
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
-  return keyState;
+  return NULL;
 }

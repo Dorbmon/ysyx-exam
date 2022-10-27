@@ -1,7 +1,7 @@
 #include <NDL.h>
 #include <sdl-timer.h>
 #include <stdio.h>
-#include <sys/time.h>
+
 SDL_TimerID SDL_AddTimer(uint32_t interval, SDL_NewTimerCallback callback, void *param) {
   return NULL;
 }
@@ -11,10 +11,7 @@ int SDL_RemoveTimer(SDL_TimerID id) {
 }
 
 uint32_t SDL_GetTicks() {
-  struct timeval tv;
-  struct timezone tz;
-  gettimeofday(&tv, &tz);
-  return tv.tv_usec;
+  return 0;
 }
 
 void SDL_Delay(uint32_t ms) {

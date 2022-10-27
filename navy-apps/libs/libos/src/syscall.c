@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <time.h>
 #include "syscall.h"
-#include <stdio.h>
+
 // helper macros
 #define _concat(x, y) x ## y
 #define concat(x, y) _concat(x, y)
@@ -56,50 +56,42 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  //_exit(SYS_open);
-  return _syscall_(SYS_open, (intptr_t)path, flags, mode);
+  _exit(SYS_open);
+  return 0;
 }
 
 int _write(int fd, void *buf, size_t count) {
-  //_exit(SYS_write);
-  return _syscall_(SYS_write, fd, (intptr_t)buf, count);
+  _exit(SYS_write);
+  return 0;
 }
-extern char end;
+
 void *_sbrk(intptr_t increment) {
-  static intptr_t programBreak = 0;
-  if (programBreak == 0) {
-    programBreak = (intptr_t)&end;
-  }
-  intptr_t res = _syscall_(SYS_brk, programBreak + increment, 0, 0);
-  if (res == 0) {
-    intptr_t ret = programBreak;
-    programBreak += increment;
-    return (void *)ret;
-  }
   return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
-  //_exit(SYS_read);
-  return _syscall_(SYS_read, fd, (intptr_t)buf, count);
+  _exit(SYS_read);
+  return 0;
 }
 
 int _close(int fd) {
-  return _syscall_(SYS_close, fd, 0, 0);
+  _exit(SYS_close);
+  return 0;
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  //_exit(SYS_lseek);
-  return _syscall_(SYS_lseek, fd, offset, whence);
+  _exit(SYS_lseek);
+  return 0;
 }
 
 int _gettimeofday(struct timeval *tv, struct timezone *tz) {
-  return _syscall_(SYS_gettimeofday, (intptr_t)tv, (intptr_t)tz, 0);
+  _exit(SYS_gettimeofday);
+  return 0;
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
-  //_exit(SYS_execve);
-  return _syscall_(SYS_execve, (intptr_t)fname, (intptr_t)argv, (intptr_t)envp);
+  _exit(SYS_execve);
+  return 0;
 }
 
 // Syscalls below are not used in Nanos-lite.

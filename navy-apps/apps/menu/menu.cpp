@@ -78,6 +78,7 @@ int main(int argc, char *argv[], char *envp[]) {
 
   while (1) {
     display_menu(i_max);
+
     SDL_Event e;
     do {
       SDL_WaitEvent(&e);
